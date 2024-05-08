@@ -24,7 +24,7 @@ public final class SimpleFileType extends LanguageFileType {
     @NotNull
     @Override
     public String getDescription() {
-        return "Simple language file";
+        return "Itasca Fish Script";
     }
 
     @NotNull
