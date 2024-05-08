@@ -21,7 +21,7 @@ WHITE_SPACE=[\ \n\t\f]
 FIRST_VALUE_CHARACTER=[^ \n\f\\] | "\\"{CRLF} | "\\".
 VALUE_CHARACTER=[^\n\f\\] | "\\"{CRLF} | "\\".
 END_OF_LINE_COMMENT=";"[^\r\n]*
-SEPARATOR=[:=]
+SEPARATOR=[-:=+*/%<>#!@]
 DIGIT=[0-9]
 NUMBER=[-0-9.]+
 LINE_TERMINATOR=\r|\n|\r\n
@@ -56,7 +56,11 @@ KEYWORD=(
     "orphan"|"construct"|"spread"|"endcommand"|"fractures"|"stage"|"liexi"|"remove"|"center"|"inheritance"|"cmat"|
     "type"|"fishcall"|"platen"|"generate"|"internal"|"mean"|"height"|"callback"|"centers"|"circumferential"|"event"|
     "list"|"point"|"sphere"|"result"|"section"|"when"|"displacement"|"system"|"obtained"|"automatic"|"on"|"domain"|
-    "inside"|"stiffness"|"else"|"assembled"|"tensile"|"cut"|"achieved"|"gm"|"all"|"broken"|"log-file"
+    "inside"|"stiffness"|"else"|"assembled"|"tensile"|"cut"|"achieved"|"gm"|"all"|"broken"|"log-file"|"system.error"|
+    "io.out"|"end_if"|
+
+    "method"|"expand"|"obtained"|"clock"|"type"|"wall"|"stage"|"frozen"|"reload"|"radius"|"cracks"|"physical"|"base"|"state"|"in"|"event"|"group"|"loop"|"pebbles"|"domain"|"save"|"echo"|"energy"|"log"|"export"|"friction"|"desired"|"confinement"|"mech.age"|"celiangdingyi"|"project"|"cap"|"residual"|"pipes"|"fix"|"multiply"|"contact.list.all"|"polydisperse"|"and"|"linear"|"a"|"fracture"|"array"|"endcase"|"calm"|"pause"|"off"|"ks"|"inj.log"|"grains"|"jj"|"displacement"|"xcen"|"update"|"when"|"model"|"unbonded"|"until"|"dims"|"global.cycle"|"radial"|"thus"|"on"|"destroy"|"id"|"an"|"types"|"xdisplacement"|"aratio"|"are"|"during"|"cmat"|"suppress"|"timestep"|"median"|"effective"|"chusikuan"|"free"|"fish"|"walls"|"direction"|"restore"|"false"|"import"|"application"|"porosity"|"stressxx"|"kn"|"contactmodelmechanical"|"spread"|"compression"|"dir"|"within"|"tol"|"breaks"|"interval"|"nd"|"scale"|"exit"|"assembled"|"number"|"height"|"auto"|"fishcall"|"rblock.num"|"kratio"|"filename"|"measure"|"equilibrium"|"make"|"caseof"|"flatjoint"|"cycles"|"remove"|"add"|"their"|"continue"|"hist"|"always"|"been"|"ball"|"orphaned"|"default"|"automatic"|"end"|"clump"|"modulus"|"active"|"bond"|"activate"|"fully"|"point"|"microstructural"|"range"|"register"|"stop"|"pressure"|"package"|"deform"|"the"|"center"|"foreach"|"linearpbond"|"rs"|"extent"|"vp"|"displayed"|"updated"|"def"|"seating"|"with"|"gm"|"clear"|"stress"|"maximum"|"last"|"bin"|"call"|"np"|"rot"|"from"|"outside"|"called"|"..."|"static"|"stressyy"|"union"|"fishhalt"|"damp"|"dom.fis"|"pebcalculate"|"mechanical"|"box"|"position"|"tensile"|"for"|"vmax"|"clone"|"coordination"|"rc"|"strengths"|"result"|"distribution"|"view"|"construct"|"at"|"history"|"outer"|"was"|"timeout"|"no"|"slot"|"delete"|"then"|"press.fis"|"velocity"|"fractures"|"region"|"spin"|"localdir"|"successful"|"tolerance"|"clump.list"|"throughgoing"|"strength"|"erode"|"deformability"|"circumferential"|"truncate"|"xuanzuan"|"start"|"material"|"rotation"|"origin"|"breakage"|"via"|"restraint"|"proximity"|"file"|"platen"|"euler"|"title"|"failure"|"centers"|"occurred"|"endif"|"ball.num"|"density"|"mean"|"not"|"positive"|"mech"|"list"|"y"|"angle"|"contactmoment"|"if"|"yforce"|"callback"|"rb"|"fragment"|"bitmap"|"cycle"|"resolution"|"crack"|"rotational"|"else"|"zero"|"compute"|"ctr"|"xforce"|"strain"|"axis"|"near"|"nl"|"segments"|"orphan"|"table"|"internal"|"stiffness"|"fractured"|"setting"|"phase"|"rblock"|"nnn"|"new"|"endloop"|"define"|"distribute"|"shape"|"ydisplacement"|"prox"|"attribute"|"step"|"set"|"b"|"middle"|"age"|"is"|"rgap"|"while"|"true"|"gravity"|"dry"|"performing"|"or"|"into"|"ball.list"|"of"|"inside"|"return"|"tl"|"condition"|"unbond"|"local"|"polygon"|"diameter"|"frac"|"clean"|"normal"|"w.r.t."|"rotate"|"circle"|"grain"|"ratio"|"plot"|"liexi"|"cylinder"|"vertices"|"coef."|"shear"|"assemble"|"purge"|"sphere"|"max"|"case"|"clump.num"|"contact.list"|"achieved"|"endsection"|"hill"|"deforming"|"broken"|"geometry"|"program"|"inheritance"|"initially"|"aligned"|"cubic"|"brick"|"all"|"endcommand"|"solve"|"rblock.list"|"cut"|"property"|"removed"|"has"|"section"|"contactforce"|"sdev"|"standard"|"which"|"system"|"to"|"cpco"|"function"|"periodic"|"load"|"pct"|"generate"|"create"|"random"|"template"|"."|"servo"|"logfile"|"null"|"by"|"relative"|"command"|"plane"
+
 )
 
 %state WAITING_VALUE
