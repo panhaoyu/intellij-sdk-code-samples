@@ -30,7 +30,7 @@ public final class SimpleFileType extends LanguageFileType {
     @NotNull
     @Override
     public String getDefaultExtension() {
-        return "simple";
+        return "fis";
     }
 
     @Override
