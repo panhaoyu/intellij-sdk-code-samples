@@ -56,12 +56,17 @@ KEYWORD=(
     "orphan"|"construct"|"spread"|"endcommand"|"fractures"|"stage"|"liexi"|"remove"|"center"|"inheritance"|"cmat"|
     "type"|"fishcall"|"platen"|"generate"|"internal"|"mean"|"height"|"callback"|"centers"|"circumferential"|"event"|
     "list"|"point"|"sphere"|"result"|"section"|"when"|"displacement"|"system"|"obtained"|"automatic"|"on"|"domain"|
-    "inside"|"stiffness"|"else"|"assembled"|"tensile"|"cut"|"achieved"|"gm"|"all"|"broken"
+    "inside"|"stiffness"|"else"|"assembled"|"tensile"|"cut"|"achieved"|"gm"|"all"|"broken"|"log-file"
 )
 
 %state WAITING_VALUE
 
 %%
+
+<YYINITIAL>"([^\"]|(\.))*"   { yybegin(YYINITIAL); return SimpleTypes.VALUE; }
+
+<YYINITIAL>'([^\']|(\.))*'   { yybegin(YYINITIAL); return SimpleTypes.VALUE; }
+
 
 <YYINITIAL> {END_OF_LINE_COMMENT}                           { yybegin(YYINITIAL); return SimpleTypes.COMMENT; }
 
