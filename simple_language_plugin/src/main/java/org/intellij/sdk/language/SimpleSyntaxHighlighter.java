@@ -19,7 +19,7 @@ public class SimpleSyntaxHighlighter extends SyntaxHighlighterBase {
   public static final TextAttributesKey SEPARATOR =
       createTextAttributesKey("SIMPLE_SEPARATOR", DefaultLanguageHighlighterColors.OPERATION_SIGN);
   public static final TextAttributesKey KEY =
-      createTextAttributesKey("SIMPLE_KEY", DefaultLanguageHighlighterColors.KEYWORD);
+      createTextAttributesKey("end", DefaultLanguageHighlighterColors.KEYWORD);
   public static final TextAttributesKey VALUE =
       createTextAttributesKey("SIMPLE_VALUE", DefaultLanguageHighlighterColors.STRING);
   public static final TextAttributesKey COMMENT =

@@ -9,7 +9,7 @@ public class SimpleLanguage extends Language {
   public static final SimpleLanguage INSTANCE = new SimpleLanguage();
 
   private SimpleLanguage() {
-    super("Simple");
+    super("Itasca Fish");
   }
 
 }
