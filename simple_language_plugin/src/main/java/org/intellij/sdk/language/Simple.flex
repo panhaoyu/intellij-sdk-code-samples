@@ -22,7 +22,8 @@ FIRST_VALUE_CHARACTER=[^ \n\f\\] | "\\"{CRLF} | "\\".
 VALUE_CHARACTER=[^\n\f\\] | "\\"{CRLF} | "\\".
 END_OF_LINE_COMMENT=";"[^\r\n]*
 SEPARATOR=[:=]
-KEY_CHARACTER=[^:=\ \n\t\f\\] | "\\ "
+//KEY_CHARACTER=[^:=\ \n\t\f\\] | "\\ "
+KEYWORD=("global"|"fish"|"program"|"call"|"project"|"new"|"log"|"on"|"off"|"history"|"purge")
 
 %state WAITING_VALUE
 
@@ -30,7 +31,7 @@ KEY_CHARACTER=[^:=\ \n\t\f\\] | "\\ "
 
 <YYINITIAL> {END_OF_LINE_COMMENT}                           { yybegin(YYINITIAL); return SimpleTypes.COMMENT; }
 
-<YYINITIAL> {KEY_CHARACTER}+                                { yybegin(YYINITIAL); return SimpleTypes.KEY; }
+<YYINITIAL> {KEYWORD}                                       { yybegin(YYINITIAL); return SimpleTypes.KEY; }
 
 <YYINITIAL> {SEPARATOR}                                     { yybegin(WAITING_VALUE); return SimpleTypes.SEPARATOR; }
 
