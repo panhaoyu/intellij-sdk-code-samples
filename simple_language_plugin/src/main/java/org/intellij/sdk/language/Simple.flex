@@ -22,6 +22,10 @@ FIRST_VALUE_CHARACTER=[^ \n\f\\] | "\\"{CRLF} | "\\".
 VALUE_CHARACTER=[^\n\f\\] | "\\"{CRLF} | "\\".
 END_OF_LINE_COMMENT=";"[^\r\n]*
 SEPARATOR=[:=]
+DIGIT=[0-9]
+NUMBER=[-0-9.]+
+LINE_TERMINATOR=\r|\n|\r\n
+
 //KEY_CHARACTER=[^:=\ \n\t\f\\] | "\\ "
 KEYWORD=(
     "log"|"throughgoing"|"jj"|"extent"|"unbonded"|"delete"|"angle"|"distribute"|"set"|"resolution"|"to"|"expand"|
@@ -61,7 +65,11 @@ KEYWORD=(
 
 <YYINITIAL> {END_OF_LINE_COMMENT}                           { yybegin(YYINITIAL); return SimpleTypes.COMMENT; }
 
+<YYINITIAL> {WHITE_SPACE}                                       { yybegin(YYINITIAL); return TokenType.WHITE_SPACE; }
+
 <YYINITIAL> {KEYWORD}                                       { yybegin(YYINITIAL); return SimpleTypes.KEY; }
+
+<YYINITIAL> {NUMBER}                                       { yybegin(YYINITIAL); return SimpleTypes.VALUE; }
 
 <YYINITIAL> {SEPARATOR}                                     { yybegin(WAITING_VALUE); return SimpleTypes.SEPARATOR; }
 
