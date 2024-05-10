@@ -19,16 +19,16 @@
 
 simpleFile ::= command_scope*
 
-private command_scope ::= (command_scope_inline_fish_statement|function_define|comment_block|crlf|command_statement)
+private command_scope ::= (command_scope_inline_fish_statement|function_define|comment_statement|crlf|command_statement)
 private command_scope_inline_fish_statement ::= command_scope_inline_fish_expression
 
 function_define ::= function_define_header  (left_parenthesis function_parameter_list right_parenthesis)?  multi_statement end
 private function_define_header ::= fish define identifier function_parameter_list
 private function_parameter_list ::= (identifier (comma_operator identifier)* )?
 
-multi_statement ::=  single_statement*
+multi_statement ::=  (if_statement | loop_statement | case_statement  | assignment_statement | comment_statement)+
 
-single_statement ::=  if_statement | loop_statement | case_statement  | assignment_statement | function_call_statement | comment_block | var_declare_statement | command_statement | identifier
+single_statement ::= function_call_statement  | var_declare_statement | command_statement | identifier
 
 
 if_statement ::= if expression then multi_statement else_if_statement* else_statement? endif
@@ -67,7 +67,7 @@ private binary_expression ::= value binary_operator expression
 private unary_expression ::= unary_operator expression
 
 
-private comment_block ::= end_of_line_comment
+private comment_statement ::= end_of_line_comment
 value ::= identifier | literal
 literal ::= string_literal |number_literal
 
