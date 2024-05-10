@@ -93,6 +93,7 @@ StringB = \' [^\']* \'
 String = {StringA} | {StringB}
 
 Keywords = (
+    "fish" |
     "caseof" | "case_of" | "case of" |
     "case" |
     "endcase" | "end_case" | "end case" |
