@@ -239,9 +239,9 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // COMMENT
-  static boolean comment(PsiBuilder b, int l) {
-    return consumeToken(b, COMMENT);
+  // end_of_line_comment
+  static boolean comment_block(PsiBuilder b, int l) {
+    return end_of_line_comment(b, l + 1);
   }
 
   /* ********************************************************** */
@@ -329,6 +329,12 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   // END
   static boolean end(PsiBuilder b, int l) {
     return consumeToken(b, END);
+  }
+
+  /* ********************************************************** */
+  // COMMENT
+  static boolean end_of_line_comment(PsiBuilder b, int l) {
+    return consumeToken(b, COMMENT);
   }
 
   /* ********************************************************** */
@@ -678,12 +684,6 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // comment
-  static boolean multilineComment(PsiBuilder b, int l) {
-    return comment(b, l + 1);
-  }
-
-  /* ********************************************************** */
   // identifier | literal
   static boolean name_or_value(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "name_or_value")) return false;
@@ -694,13 +694,13 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // outer_fish|function_define|multilineComment|crlf|command_statement
+  // outer_fish|function_define|comment_block|crlf|command_statement
   static boolean outerItem(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "outerItem")) return false;
     boolean r;
     r = outer_fish(b, l + 1);
     if (!r) r = function_define(b, l + 1);
-    if (!r) r = multilineComment(b, l + 1);
+    if (!r) r = comment_block(b, l + 1);
     if (!r) r = crlf(b, l + 1);
     if (!r) r = command_statement(b, l + 1);
     return r;
@@ -841,14 +841,14 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // control_flow | assignment_statement | function_call_statement | multilineComment | var_declare_statement | command_statement | identifier
+  // control_flow | assignment_statement | function_call_statement | comment_block | var_declare_statement | command_statement | identifier
   static boolean single_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "single_statement")) return false;
     boolean r;
     r = control_flow(b, l + 1);
     if (!r) r = assignment_statement(b, l + 1);
     if (!r) r = function_call_statement(b, l + 1);
-    if (!r) r = multilineComment(b, l + 1);
+    if (!r) r = comment_block(b, l + 1);
     if (!r) r = var_declare_statement(b, l + 1);
     if (!r) r = command_statement(b, l + 1);
     if (!r) r = identifier(b, l + 1);

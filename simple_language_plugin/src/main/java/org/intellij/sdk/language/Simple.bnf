@@ -48,7 +48,7 @@ private command_body ::= any_in_command+
 
 private assignment_statement ::= identifier assignment_operator expression
 private function_call_statement ::= identifier left_parenthesis argument_list right_parenthesis
-private argument_list ::= (identifier (comma_operator identifier)* )?
+private argument_list ::= (expression (comma_operator expression)* )?
 
 private local_var_declare_statement ::= local identifier (comma_operator identifier)* (assignment_operator expression)?
 private global_var_declare_statement ::= global identifier (comma_operator identifier)* (assignment_operator expression)?
