@@ -59,7 +59,6 @@ private keywords_in_command_block ::= (fish | case_of | case | end_case | define
     elseif | else | endif | local | lock | loop | endloop | continue | return | section | end_section | struct )
 
 fish_statement ::= (array_assignment_statement | function_call_statement  | var_declare_statement |  assignment_statement | expression)
-//todo 需要区分单行语句与多行语句
 
 function_call_statement ::= function_call_expression
 
