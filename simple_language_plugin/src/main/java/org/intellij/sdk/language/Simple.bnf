@@ -59,11 +59,11 @@ private binary_expression ::= name_or_value binary_operator name_or_value
 private unary_expression ::= binary_operator expression | name_or_value
 
 
-private comment_block ::= comment
+private comment_block ::= end_of_line_comment
 private  name_or_value ::= identifier | literal
 
 private literal ::= STRING_LITERAL | NUMBER_LITERAL
-private comment ::= COMMENT
+private end_of_line_comment ::= COMMENT
 private binary_operator ::= BINARY_OPERATOR
 private unary_operator ::= UNARY_OPERATOR
 private assignment_operator ::= ASSIGNMENT_OPERATOR
