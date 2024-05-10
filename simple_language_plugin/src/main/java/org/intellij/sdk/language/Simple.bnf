@@ -29,10 +29,10 @@ private parameter ::= identifier
 private control_structure ::= statement_block
 private statement_block ::=  statement*
 
-private statement ::= controlFlow | assignment_statement | function_call_statement | multilineComment | var_declare_statement | command_statement
+private statement ::= control_flow | assignment_statement | function_call_statement | multilineComment | var_declare_statement | command_statement
 private outer_fish ::=  left_square_bracket statement right_square_bracket
 
-private controlFlow ::= if_statement | loop_statement | case_statement
+private control_flow ::= if_statement | loop_statement | case_statement
 
 private if_statement ::= if expression then statement_block else_if_statement* else_statement? endif
 private else_if_statement ::= elseif expression then statement_block
