@@ -22,9 +22,9 @@ import com.intellij.psi.TokenType;
 %}
 
 
-LineTerminator = \r|\n|\r\n
+LineTerminator = \r|\n|(\r\n)
 InputCharacter = [^\r\n]
-WhiteSpace     = {LineTerminator} | [ \t\f]
+WhiteSpace     = [ \t\f]
 
 Comment = {EndOfLineComment}
 
@@ -131,7 +131,7 @@ String = {StringA} | {StringB}
 
     {WhiteSpace}+ {return TokenType.WHITE_SPACE;}
 
-    {LineTerminator} {return SimpleTypes.CRLF;}
+    {LineTerminator}+ {return SimpleTypes.CRLF;}
 
     // Comments
     {Comment} {return SimpleTypes.COMMENT;}
