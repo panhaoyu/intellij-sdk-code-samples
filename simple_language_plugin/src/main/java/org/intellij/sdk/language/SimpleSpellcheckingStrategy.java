@@ -55,7 +55,7 @@ final class SimpleSpellcheckingStrategy extends SpellcheckingStrategy {
 
     public void tokenize(@NotNull SimpleProperty element, @NotNull TokenConsumer consumer) {
       //Spell check the keys and values of properties with different splitters
-      final ASTNode key = element.getNode().findChildByType(SimpleTypes.KEYWORD);
+      final ASTNode key = element.getNode().findChildByType(SimpleTypes.IF);
       if (key != null && key.getTextLength() > 0) {
         final PsiElement keyPsi = key.getPsi();
         final String text = key.getText();
