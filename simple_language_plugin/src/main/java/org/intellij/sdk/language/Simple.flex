@@ -89,7 +89,7 @@ Keyword=(
 //Identifiers
 <YYINITIAL>{
     //Identifiers
-    {Identifier} {return SimpleTypes.PROPERTY;}
+    {Identifier} {return SimpleTypes.VALUE;}
 
     //Literals
     {Number} {return SimpleTypes.VALUE;}
