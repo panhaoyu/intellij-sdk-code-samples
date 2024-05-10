@@ -44,7 +44,7 @@ private caseClause ::= case expression statementBlock
 
 private commandStatement ::= command commandBlock* endcommand
 private anyInCommand ::= (identifier | left_square_bracket | right_square_bracket |
- unary_operator | binary_operator| dot_operator|function_call_operator | literal | '...')
+ unary_operator | binary_operator| dot_operator|function_call_operator | literal | ellipsis)
 private commandBlock ::= anyInCommand+
 
 private assignment ::= identifier assignment_operator expression
@@ -71,18 +71,17 @@ private crlf ::= CRLF
 //noinspection BnfUnusedRule
 private keyword ::= KEYWORD
 
-private function_call_operator ::= Function_Call_Operator
-private comma_operator ::= Comma_Operator
-private dot_operator ::= Dot_Operator
+private function_call_operator ::= FUNCTION_CALL_OPERATOR
+private comma_operator ::= COMMA_OPERATOR
+private dot_operator ::= DOT_OPERATOR
 
 // Bracket Operators
-private left_parenthesis ::= Left_Parenthesis
-private right_parenthesis ::=  Right_Parenthesis
-private left_square_bracket ::= Left_Square_Bracket
-private right_square_bracket::= Right_Square_Bracket
-private left_curly_bracket ::= Left_Curly_Bracket
-private right_curly_bracket ::= Right_Curly_Bracket
-
+private left_parenthesis ::= LEFT_PARENTHESIS
+private right_parenthesis ::= RIGHT_PARENTHESIS
+private left_square_bracket ::= LEFT_SQUARE_BRACKET
+private right_square_bracket ::= RIGHT_SQUARE_BRACKET
+private left_curly_bracket ::= LEFT_CURLY_BRACKET
+private right_curly_bracket ::= RIGHT_CURLY_BRACKET
 private  identifier ::= IDENTIFIER
 
 
@@ -123,3 +122,4 @@ private section ::= SECTION
 private endsection ::= ENDSECTION
 private exitsection ::= EXITSECTION
 private struct ::= STRUCT
+private ellipsis ::=  ELLIPSIS

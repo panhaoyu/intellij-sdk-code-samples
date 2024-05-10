@@ -124,6 +124,7 @@ String = {StringA} | {StringB}
     "exitsection" | "exit_section"  { return SimpleTypes.EXITSECTION; }
     "struct" | "structure" { return SimpleTypes.STRUCT; }
     "then"  { return SimpleTypes.THEN; }
+    "..." {return SimpleTypes.ELLIPSIS; }
 }
 
 //Identifiers
@@ -158,6 +159,7 @@ String = {StringA} | {StringB}
     {FunctionCallOperator} {return SimpleTypes.FUNCTION_CALL_OPERATOR; }
     {DotOperator} {return SimpleTypes.DOT_OPERATOR; }
     {CommaOperator} {return SimpleTypes.COMMA_OPERATOR; }
+
 }
 
 /* error fallback */

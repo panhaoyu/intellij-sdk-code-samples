@@ -37,7 +37,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // identifier | left_square_bracket | right_square_bracket |
-  //  unary_operator | binary_operator| dot_operator|function_call_operator | literal | '...'
+  //  unary_operator | binary_operator| dot_operator|function_call_operator | literal | ELLIPSIS
   static boolean anyInCommand(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "anyInCommand")) return false;
     boolean r;
@@ -49,7 +49,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     if (!r) r = dot_operator(b, l + 1);
     if (!r) r = function_call_operator(b, l + 1);
     if (!r) r = literal(b, l + 1);
-    if (!r) r = consumeToken(b, "...");
+    if (!r) r = consumeToken(b, ELLIPSIS);
     return r;
   }
 

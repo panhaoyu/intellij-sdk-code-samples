@@ -21,6 +21,7 @@ public interface SimpleTypes {
   IElementType CRLF = new SimpleTokenType("CRLF");
   IElementType DEFINE = new SimpleTokenType("DEFINE");
   IElementType DOT_OPERATOR = new SimpleTokenType("Dot_Operator");
+  IElementType ELLIPSIS = new SimpleTokenType("ELLIPSIS");
   IElementType ELSE = new SimpleTokenType("ELSE");
   IElementType ELSEIF = new SimpleTokenType("ELSEIF");
   IElementType END = new SimpleTokenType("END");
