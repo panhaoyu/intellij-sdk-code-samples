@@ -59,8 +59,8 @@ private var_declare_statement ::= local_var_declare_statement | global_var_decla
 private expression ::=  binary_expression | unary_expression | name_or_value | function_call_expression
 
 private function_call_statement ::= function_call_expression
-private function_call_expression ::= identifier left_parenthesis argument_list right_parenthesis
-private argument_list ::= (expression (comma_operator expression)* )?
+private function_call_expression ::= identifier argument_list?
+private argument_list ::= left_parenthesis expression (comma_operator expression)* right_parenthesis
 
 private binary_expression ::= name_or_value binary_operator name_or_value
 private unary_expression ::= binary_operator expression | name_or_value
