@@ -19,7 +19,7 @@
 
 simpleFile ::= outerItem*
 
-private outerItem ::= (outer_fish|function_define|multilineComment|crlf|commandStatement)
+private outerItem ::= (outer_fish|function_define|multilineComment|crlf|command_statement)
 
 private function_define ::= fish define functionName (left_parenthesis parameterList right_parenthesis)? control_structure
 private functionName ::= identifier
@@ -29,7 +29,7 @@ private parameter ::= identifier
 private control_structure ::= statement_block
 private statement_block ::=  statement*
 
-private statement ::= controlFlow | assignment_statement | function_call_statement | multilineComment | var_declare_statement | commandStatement
+private statement ::= controlFlow | assignment_statement | function_call_statement | multilineComment | var_declare_statement | command_statement
 private outer_fish ::=  left_square_bracket statement right_square_bracket
 
 private controlFlow ::= if_statement | loop_statement | case_statement
@@ -42,10 +42,10 @@ private loop_statement ::= loop statement_block endloop
 private case_statement ::= caseof expression case_clause* endcase
 private case_clause ::= case expression statement_block
 
-private commandStatement ::= command command_block* endcommand
+private command_statement ::= command command_body* endcommand
 private any_in_command ::= (identifier | left_square_bracket | right_square_bracket |
  unary_operator | binary_operator| dot_operator|function_call_operator | literal | ellipsis)
-private command_block ::= any_in_command+
+private command_body ::= any_in_command+
 
 private assignment_statement ::= identifier assignment_operator expression
 private function_call_statement ::= identifier left_parenthesis argument_list right_parenthesis
