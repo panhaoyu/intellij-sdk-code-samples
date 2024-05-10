@@ -16,7 +16,7 @@ import java.util.Map;
 final class SimpleColorSettingsPage implements ColorSettingsPage {
 
   private static final AttributesDescriptor[] DESCRIPTORS = new AttributesDescriptor[]{
-      new AttributesDescriptor("Key", SimpleSyntaxHighlighter.KEY),
+      new AttributesDescriptor("Key", SimpleSyntaxHighlighter.KEYWORD),
       new AttributesDescriptor("Separator", SimpleSyntaxHighlighter.SEPARATOR),
       new AttributesDescriptor("Value", SimpleSyntaxHighlighter.VALUE),
       new AttributesDescriptor("Bad value", SimpleSyntaxHighlighter.BAD_CHARACTER)
