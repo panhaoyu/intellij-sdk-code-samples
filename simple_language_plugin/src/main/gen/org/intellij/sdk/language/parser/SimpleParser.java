@@ -248,6 +248,60 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // 'global' IDENTIFIER (',' IDENTIFIER)* ('=' expression)?
+  static boolean globalVariableDeclaration(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "globalVariableDeclaration")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, "global");
+    r = r && consumeToken(b, IDENTIFIER);
+    r = r && globalVariableDeclaration_2(b, l + 1);
+    r = r && globalVariableDeclaration_3(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // (',' IDENTIFIER)*
+  private static boolean globalVariableDeclaration_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "globalVariableDeclaration_2")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!globalVariableDeclaration_2_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "globalVariableDeclaration_2", c)) break;
+    }
+    return true;
+  }
+
+  // ',' IDENTIFIER
+  private static boolean globalVariableDeclaration_2_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "globalVariableDeclaration_2_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, ",");
+    r = r && consumeToken(b, IDENTIFIER);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // ('=' expression)?
+  private static boolean globalVariableDeclaration_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "globalVariableDeclaration_3")) return false;
+    globalVariableDeclaration_3_0(b, l + 1);
+    return true;
+  }
+
+  // '=' expression
+  private static boolean globalVariableDeclaration_3_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "globalVariableDeclaration_3_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, "=");
+    r = r && expression(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
   // 'if' expression 'then' statementBlock elseIfStatement* elseStatement? 'end_if'
   static boolean ifStatement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ifStatement")) return false;
@@ -283,13 +337,13 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // statement|functionDefinition|comment|separator|crlf
+  // outerScopeStatement|functionDefinition|multilineComment|separator|crlf
   static boolean item_(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "item_")) return false;
     boolean r;
-    r = statement(b, l + 1);
+    r = outerScopeStatement(b, l + 1);
     if (!r) r = functionDefinition(b, l + 1);
-    if (!r) r = comment(b, l + 1);
+    if (!r) r = multilineComment(b, l + 1);
     if (!r) r = separator(b, l + 1);
     if (!r) r = crlf(b, l + 1);
     return r;
@@ -313,6 +367,60 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // 'local' IDENTIFIER (',' IDENTIFIER)* ('=' expression)?
+  static boolean localVariableDeclaration(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "localVariableDeclaration")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, "local");
+    r = r && consumeToken(b, IDENTIFIER);
+    r = r && localVariableDeclaration_2(b, l + 1);
+    r = r && localVariableDeclaration_3(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // (',' IDENTIFIER)*
+  private static boolean localVariableDeclaration_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "localVariableDeclaration_2")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!localVariableDeclaration_2_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "localVariableDeclaration_2", c)) break;
+    }
+    return true;
+  }
+
+  // ',' IDENTIFIER
+  private static boolean localVariableDeclaration_2_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "localVariableDeclaration_2_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, ",");
+    r = r && consumeToken(b, IDENTIFIER);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // ('=' expression)?
+  private static boolean localVariableDeclaration_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "localVariableDeclaration_3")) return false;
+    localVariableDeclaration_3_0(b, l + 1);
+    return true;
+  }
+
+  // '=' expression
+  private static boolean localVariableDeclaration_3_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "localVariableDeclaration_3_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, "=");
+    r = r && expression(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
   // 'loop' statementBlock 'end_loop'
   static boolean loopStatement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "loopStatement")) return false;
@@ -326,9 +434,39 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // comment+
+  static boolean multilineComment(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "multilineComment")) return false;
+    if (!nextTokenIs(b, COMMENT)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = comment(b, l + 1);
+    while (r) {
+      int c = current_position_(b);
+      if (!comment(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "multilineComment", c)) break;
+    }
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
   // OPERATOR
   static boolean operator(PsiBuilder b, int l) {
     return consumeToken(b, OPERATOR);
+  }
+
+  /* ********************************************************** */
+  // '[' statement ']'
+  static boolean outerScopeStatement(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "outerScopeStatement")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, "[");
+    r = r && statement(b, l + 1);
+    r = r && consumeToken(b, "]");
+    exit_section_(b, m, null, r);
+    return r;
   }
 
   /* ********************************************************** */
@@ -429,38 +567,27 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // controlFlow | assignment | functionCall | comment | variableDeclaration
+  // controlFlow | assignment | functionCall | multilineComment | localVariableDeclaration | globalVariableDeclaration
   static boolean statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "statement")) return false;
     boolean r;
     r = controlFlow(b, l + 1);
     if (!r) r = assignment(b, l + 1);
     if (!r) r = functionCall(b, l + 1);
-    if (!r) r = comment(b, l + 1);
-    if (!r) r = variableDeclaration(b, l + 1);
+    if (!r) r = multilineComment(b, l + 1);
+    if (!r) r = localVariableDeclaration(b, l + 1);
+    if (!r) r = globalVariableDeclaration(b, l + 1);
     return r;
   }
 
   /* ********************************************************** */
-  // '{' statement* '}'
+  // statement*
   static boolean statementBlock(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "statementBlock")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, "{");
-    r = r && statementBlock_1(b, l + 1);
-    r = r && consumeToken(b, "}");
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // statement*
-  private static boolean statementBlock_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "statementBlock_1")) return false;
     while (true) {
       int c = current_position_(b);
       if (!statement(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "statementBlock_1", c)) break;
+      if (!empty_element_parsed_guard_(b, "statementBlock", c)) break;
     }
     return true;
   }
@@ -473,37 +600,6 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     boolean r;
     Marker m = enter_section_(b);
     r = operator(b, l + 1);
-    r = r && expression(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // 'local' IDENTIFIER ('=' expression)?
-  static boolean variableDeclaration(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "variableDeclaration")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, "local");
-    r = r && consumeToken(b, IDENTIFIER);
-    r = r && variableDeclaration_2(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // ('=' expression)?
-  private static boolean variableDeclaration_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "variableDeclaration_2")) return false;
-    variableDeclaration_2_0(b, l + 1);
-    return true;
-  }
-
-  // '=' expression
-  private static boolean variableDeclaration_2_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "variableDeclaration_2_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, "=");
     r = r && expression(b, l + 1);
     exit_section_(b, m, null, r);
     return r;

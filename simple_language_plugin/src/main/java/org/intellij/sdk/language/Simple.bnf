@@ -19,7 +19,7 @@
 
 simpleFile ::= item_*
 
-private item_ ::= (outerScopeStatement|functionDefinition|comment|separator|crlf)
+private item_ ::= (outerScopeStatement|functionDefinition|multilineComment|separator|crlf)
 
 private functionDefinition ::= 'fish' 'define' functionName '(' parameterList ')' controlStructure
 private functionName ::= IDENTIFIER
@@ -29,8 +29,8 @@ private parameter ::= IDENTIFIER
 private controlStructure ::= statementBlock
 private statementBlock ::=  statement*
 
-private statement ::= controlFlow | assignment | functionCall | comment | localVariableDeclaration | globalVariableDeclaration
-private outerScopeStatement ::=  "[" statement "]"
+private statement ::= controlFlow | assignment | functionCall | multilineComment | localVariableDeclaration | globalVariableDeclaration
+private outerScopeStatement ::=  '[' statement ']'
 
 private controlFlow ::= ifStatement | loopStatement | caseStatement
 
@@ -46,17 +46,19 @@ private assignment ::= IDENTIFIER '=' expression
 private functionCall ::= IDENTIFIER '(' argumentList ')'
 private argumentList ::= (expression (',' expression)* )?
 
-private localVariableDeclaration ::= 'local' IDENTIFIER ('=' expression)?
-private globalVariableDeclaration ::= 'global' IDENTIFIER ('=' expression)?
+private localVariableDeclaration ::= 'local' IDENTIFIER (',' IDENTIFIER)* ('=' expression)?
+private globalVariableDeclaration ::= 'global' IDENTIFIER (',' IDENTIFIER)* ('=' expression)?
 
 private expression ::= binaryExpression | unaryExpression | literal | IDENTIFIER
 private binaryExpression ::= expression operator expression
 private unaryExpression ::= operator expression
+
+
+private multilineComment ::= comment+
+
 private literal ::= STRING_LITERAL | NUMBER_LITERAL
-
-private operator ::= OPERATOR
-
 private comment ::= COMMENT
+private operator ::= OPERATOR
 private separator ::= SEPARATOR
 private crlf ::= CRLF
 //noinspection BnfUnusedRule
