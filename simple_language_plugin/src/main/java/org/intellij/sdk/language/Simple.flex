@@ -30,7 +30,7 @@ Comment = {EndOfLineComment}
 
 EndOfLineComment     = ";" {InputCharacter}* {LineTerminator}?
 
-Identifier = [:jletter:] ([:jletterdigit:]*|".")
+Identifier = [:jletter:] ([:jletterdigit:]|".")*
 
 Number=[0-9][0-9.]*([eE]-?[0-9]+)?
 
