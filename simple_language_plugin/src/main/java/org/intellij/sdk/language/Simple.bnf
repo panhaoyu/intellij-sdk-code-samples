@@ -19,14 +19,15 @@
 
 simpleFile ::= command_scope*
 
-private command_scope ::= (command_scope_inline_fish_statement|function_define|comment_block|command_block)
+//private command_scope ::= (command_scope_inline_fish_statement|function_define|comment_block|command_block)
+private command_scope ::= command_scope_inline_fish_statement
 private command_scope_inline_fish_statement ::= command_scope_inline_fish_expression
 
 function_define ::= function_define_header  (left_parenthesis function_parameter_list right_parenthesis)?  fish_block end
 private function_define_header ::= fish define identifier function_parameter_list
 private function_parameter_list ::= (identifier (comma_operator identifier)* )?
 
-fish_block ::=  (if_block | loop_block | case_block   | comment_block | command_block)+
+fish_block ::=  (if_block | loop_block | case_block | comment_block | command_block)+
 
 
 
