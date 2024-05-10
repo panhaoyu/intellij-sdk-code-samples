@@ -17,9 +17,9 @@
   psiImplUtilClass="org.intellij.sdk.language.psi.impl.SimplePsiImplUtil"
 }
 
-simpleFile ::= outerItem*
+simpleFile ::= command_scope*
 
-private outerItem ::= (outer_fish|function_define|comment_block|crlf|command_statement)
+private command_scope ::= (outer_fish|function_define|comment_block|crlf|command_statement)
 
 private outer_fish ::=  left_square_bracket single_statement right_square_bracket
 
