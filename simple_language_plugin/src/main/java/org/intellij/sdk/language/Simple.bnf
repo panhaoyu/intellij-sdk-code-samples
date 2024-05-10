@@ -26,11 +26,11 @@ simpleFile ::= command_scope*
 private command_scope ::= (command_scope_inline_fish_statement|function_define|comment_block|command_block)
 private command_scope_inline_fish_statement ::= command_scope_inline_fish_expression
 
-function_define ::= function_define_header  (left_parenthesis function_parameter_list right_parenthesis)?  fish_block end
+function_define ::= function_define_header fish_block? end
 private function_define_header ::= fish define identifier function_parameter_list
-private function_parameter_list ::= (identifier (comma_operator identifier)* )?
+private function_parameter_list ::= (left_parenthesis identifier (comma_operator identifier)* right_parenthesis)?
 
-fish_block ::=  (if_block | loop_block | case_block | comment_block | command_block)+
+fish_block ::=  (if_block | loop_block | case_block | comment_block | command_block | fish_statement)+
 
 
 
@@ -62,10 +62,9 @@ private local_var_declare_statement ::= local identifier (comma_operator identif
 private global_var_declare_statement ::= global identifier (comma_operator identifier)* (assignment_operator expression)?
 
 
-private expression ::= parenthesis_expression |function_call_expression | unary_expression |binary_expression | value
+private expression ::= function_call_expression | unary_expression |binary_expression | value | parenthesis_expression
 private parenthesis_expression ::= left_parenthesis expression right_parenthesis
-private function_call_expression ::= identifier function_argument_list
-private function_argument_list ::= left_parenthesis value right_parenthesis
+private function_call_expression ::= identifier left_parenthesis value right_parenthesis
 private command_scope_inline_fish_expression ::= left_square_bracket fish_statement right_square_bracket
 
 private binary_expression ::= value binary_operator expression
@@ -111,27 +110,37 @@ private  identifier ::= IDENTIFIER
 
 //keywords
 private fish ::= FISH
+private define ::= DEFINE
+private end ::= END
+
 private case_of ::= CASEOF
 private case ::= CASE
 private end_case ::= ENDCASE
+
 private command ::= COMMAND
 private end_command ::= ENDCOMMAND
-private define ::= DEFINE
-private end ::= END
+
 private exit ::= EXIT
+private ellipsis ::=  ELLIPSIS
+
 private global ::= GLOBAL
+private local ::= LOCAL
+
 private if ::= IF
 private then ::= THEN
 private elseif ::= ELSEIF
 private else ::= ELSE
 private endif ::= ENDIF
-private local ::= LOCAL
+
 private lock ::= LOCK
+
 private loop ::= LOOP
 private endloop ::= ENDLOOP
 private continue ::= CONTINUE
+
 private return ::= RETURN
+
 private section ::= SECTION
 private end_section ::= ENDSECTION
+
 private struct ::= STRUCT
-private ellipsis ::=  ELLIPSIS
