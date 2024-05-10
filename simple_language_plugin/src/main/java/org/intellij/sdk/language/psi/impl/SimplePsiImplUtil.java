@@ -16,7 +16,7 @@ import javax.swing.*;
 public class SimplePsiImplUtil {
 
     public static String getKey(SimpleProperty element) {
-        ASTNode keyNode = element.getNode().findChildByType(SimpleTypes.KEYWORD);
+        ASTNode keyNode = element.getNode().findChildByType(SimpleTypes.IF);
         if (keyNode != null) {
             // IMPORTANT: Convert embedded escaped spaces to simple spaces
             return keyNode.getText().replaceAll("\\\\ ", " ");
