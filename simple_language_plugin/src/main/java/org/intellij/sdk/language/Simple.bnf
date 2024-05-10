@@ -46,7 +46,7 @@ loop_block ::= loop (newline fish_block)? newline endloop
 case_block ::= case_of expression (newline case_clause)* newline end_case
 private case_clause ::= case expression (newline fish_block)?
 
-command_block ::= command command_body? newline end_command
+command_block ::= command (newline command_body)? newline end_command
 private command_body ::= command_line (newline command_line)*
 private command_line ::= any_in_command+
 private any_in_command ::= (
