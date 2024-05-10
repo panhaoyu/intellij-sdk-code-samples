@@ -99,30 +99,31 @@ String = {StringA} | {StringB}
 //Keywords
 <YYINITIAL> {
     "fish" { return SimpleTypes.FISH; }
-    "caseof" | "case_of" | "case of" { return SimpleTypes.CASEOF; }
+    "caseof" | "case_of"  { return SimpleTypes.CASEOF; }
     "case" { return SimpleTypes.CASE; }
-    "endcase" | "end_case" | "end case" { return SimpleTypes.ENDCASE; }
+    "endcase" | "end_case" { return SimpleTypes.ENDCASE; }
     "command" { return SimpleTypes.COMMAND; }
-    "endcommand" | "end_command" | "end command" { return SimpleTypes.ENDCOMMAND; }
+    "endcommand" | "end_command"  { return SimpleTypes.ENDCOMMAND; }
     "define" { return SimpleTypes.DEFINE; }
     "end" { return SimpleTypes.END; }
     "exit" { return SimpleTypes.EXIT; }
     "global" { return SimpleTypes.GLOBAL; }
     "if" { return SimpleTypes.IF; }
-    "elseif" | "else_if" | "else if" { return SimpleTypes.ELSEIF; }
+    "elseif" | "else_if"  { return SimpleTypes.ELSEIF; }
     "else" { return SimpleTypes.ELSE; }
-    "endif" | "end_if" | "end if" { return SimpleTypes.ENDIF; }
+    "endif" | "end_if"  { return SimpleTypes.ENDIF; }
     "local" { return SimpleTypes.LOCAL; }
     "lock" { return SimpleTypes.LOCK; }
     "loop" { return SimpleTypes.LOOP; }
-    "endloop" | "end_loop" | "end loop" { return SimpleTypes.ENDLOOP; }
-    "exitloop" | "exit_loop" | "exit loop" { return SimpleTypes.EXITLOOP; }
+    "endloop" | "end_loop"  { return SimpleTypes.ENDLOOP; }
+    "exitloop" | "exit_loop" { return SimpleTypes.EXITLOOP; }
     "continue" { return SimpleTypes.CONTINUE; }
     "return" { return SimpleTypes.RETURN; }
     "section" { return SimpleTypes.SECTION; }
-    "endsection" | "end_section" | "end section" { return SimpleTypes.ENDSECTION; }
-    "exitsection" | "exit_section" | "exit section" { return SimpleTypes.EXITSECTION; }
+    "endsection" | "end_section" { return SimpleTypes.ENDSECTION; }
+    "exitsection" | "exit_section"  { return SimpleTypes.EXITSECTION; }
     "struct" | "structure" { return SimpleTypes.STRUCT; }
+    "then"  { return SimpleTypes.THEN; }
 }
 
 //Identifiers

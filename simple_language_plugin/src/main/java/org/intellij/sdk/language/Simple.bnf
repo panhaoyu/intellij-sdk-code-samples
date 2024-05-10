@@ -19,9 +19,9 @@
 
 simpleFile ::= outerItem*
 
-private outerItem ::= (outerScopeStatement|functionDefinition|multilineComment|separator|crlf|commandStatement)
+private outerItem ::= (outerScopeStatement|functionDefinition|multilineComment|crlf|commandStatement)
 
-private functionDefinition ::= 'fish' 'define' functionName (left_parenthesis parameterList right_parenthesis)? controlStructure
+private functionDefinition ::= fish define functionName (left_parenthesis parameterList right_parenthesis)? controlStructure
 private functionName ::= identifier
 private parameterList ::= (parameter (comma_operator parameter)* )?
 private parameter ::= identifier
@@ -34,32 +34,33 @@ private outerScopeStatement ::=  left_square_bracket statement right_square_brac
 
 private controlFlow ::= ifStatement | loopStatement | caseStatement
 
-private ifStatement ::= 'if' expression 'then' statementBlock elseIfStatement* elseStatement? 'end_if'
-private elseIfStatement ::= 'else' 'if' expression 'then' statementBlock
-private elseStatement ::=  'else' statementBlock
+private ifStatement ::= if expression then statementBlock elseIfStatement* elseStatement? endif
+private elseIfStatement ::= elseif expression then statementBlock
+private elseStatement ::=  else statementBlock
 
-private loopStatement ::= 'loop' statementBlock 'end_loop'
-private caseStatement ::= 'case_of' expression caseClause* 'end_case'
-private caseClause ::= 'case' expression statementBlock
+private loopStatement ::= loop statementBlock endloop
+private caseStatement ::= caseof expression caseClause* endcase
+private caseClause ::= case expression statementBlock
 
-private commandStatement ::= 'command' commandBlock* 'endcommand'
-private anyInCommand ::= identifier | left_square_bracket | right_square_bracket | unary_operator | binary_operator| dot_operator|function_call_operator | literal | '-' | '...'
+private commandStatement ::= command commandBlock* endcommand
+private anyInCommand ::= (identifier | left_square_bracket | right_square_bracket |
+ unary_operator | binary_operator| dot_operator|function_call_operator | literal | '...')
 private commandBlock ::= anyInCommand+
 
-private assignment ::= identifier '=' expression
-private functionCall ::= identifier '(' argumentList ')'
-private argumentList ::= (expression (',' expression)* )?
+private assignment ::= identifier assignment_operator expression
+private functionCall ::= identifier left_parenthesis argumentList right_parenthesis
+private argumentList ::= (expression (comma_operator expression)* )?
 
-private localVariableDeclaration ::= 'local' identifier (',' identifier)* ('=' expression)?
-private globalVariableDeclaration ::= 'global' identifier (',' identifier)* ('=' expression)?
+private localVariableDeclaration ::= local identifier (comma_operator identifier)* (assignment_operator expression)?
+private globalVariableDeclaration ::= global identifier (comma_operator identifier)* (assignment_operator expression)?
 private  variableDeclaration ::= localVariableDeclaration | globalVariableDeclaration
 
-private expression ::= binaryExpression | unaryExpression | literal | identifier
-private binaryExpression ::= expression binary_operator expression
+private expression ::=  expression_binary_suffix | unaryExpression | literal | identifier
+private expression_binary_suffix ::= expression binary_operator expression
 private unaryExpression ::= binary_operator expression | variableDeclaration
 
 
-private multilineComment ::= comment (crlf* comment)*
+private multilineComment ::= comment
 
 private literal ::= STRING_LITERAL | NUMBER_LITERAL
 private comment ::= COMMENT
@@ -96,29 +97,29 @@ private recover_property ::= !(IDENTIFIER|COMMENT)
 
 
 
-private FISH ::= FISH
-private CASEOF ::= CASEOF
-private CASE ::= CASE
-private ENDCASE ::= ENDCASE
-private COMMAND ::= COMMAND
-private ENDCOMMAND ::= ENDCOMMAND
-private DEFINE ::= DEFINE
-private END ::= END
-private EXIT ::= EXIT
-private GLOBAL ::= GLOBAL
-private IF ::= IF
-private ELSEIF ::= ELSEIF
-private ELSE ::= ELSE
-private ENDIF ::= ENDIF
-private LOCAL ::= LOCAL
-private LOCK ::= LOCK
-private LOOP ::= LOOP
-private ENDLOOP ::= ENDLOOP
-private EXITLOOP ::= EXITLOOP
-private CONTINUE ::= CONTINUE
-private RETURN ::= RETURN
-private SECTION ::= SECTION
-private ENDSECTION ::= ENDSECTION
-private EXITSECTION ::= EXITSECTION
-private STRUCT ::= STRUCT
-
+private fish ::= FISH
+private caseof ::= CASEOF
+private case ::= CASE
+private endcase ::= ENDCASE
+private command ::= COMMAND
+private endcommand ::= ENDCOMMAND
+private define ::= DEFINE
+private end ::= END
+private exit ::= EXIT
+private global ::= GLOBAL
+private if ::= IF
+private then ::= THEN
+private elseif ::= ELSEIF
+private else ::= ELSE
+private endif ::= ENDIF
+private local ::= LOCAL
+private lock ::= LOCK
+private loop ::= LOOP
+private endloop ::= ENDLOOP
+private exitloop ::= EXITLOOP
+private continue ::= CONTINUE
+private return ::= RETURN
+private section ::= SECTION
+private endsection ::= ENDSECTION
+private exitsection ::= EXITSECTION
+private struct ::= STRUCT
