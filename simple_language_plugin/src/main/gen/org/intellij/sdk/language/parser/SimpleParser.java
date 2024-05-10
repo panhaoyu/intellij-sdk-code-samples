@@ -36,7 +36,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // identifier | left_square_bracket | right_curly_bracket | unary_operator | literal | '-'
+  // identifier | left_square_bracket | right_curly_bracket | unary_operator | binary_operator| dot_operator|function_call_operator | literal | '-'
   static boolean anyInCommand(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "anyInCommand")) return false;
     boolean r;
@@ -44,6 +44,9 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     if (!r) r = left_square_bracket(b, l + 1);
     if (!r) r = right_curly_bracket(b, l + 1);
     if (!r) r = unary_operator(b, l + 1);
+    if (!r) r = binary_operator(b, l + 1);
+    if (!r) r = dot_operator(b, l + 1);
+    if (!r) r = function_call_operator(b, l + 1);
     if (!r) r = literal(b, l + 1);
     if (!r) r = consumeToken(b, "-");
     return r;
@@ -444,20 +447,6 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // outerScopeStatement|functionDefinition|multilineComment|separator|crlf|commandStatement
-  static boolean item_(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "item_")) return false;
-    boolean r;
-    r = outerScopeStatement(b, l + 1);
-    if (!r) r = functionDefinition(b, l + 1);
-    if (!r) r = multilineComment(b, l + 1);
-    if (!r) r = consumeToken(b, SEPARATOR);
-    if (!r) r = crlf(b, l + 1);
-    if (!r) r = commandStatement(b, l + 1);
-    return r;
-  }
-
-  /* ********************************************************** */
   // KEYWORD
   static boolean keyword(PsiBuilder b, int l) {
     return consumeToken(b, KEYWORD);
@@ -606,6 +595,20 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // outerScopeStatement|functionDefinition|multilineComment|separator|crlf|commandStatement
+  static boolean outerItem(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "outerItem")) return false;
+    boolean r;
+    r = outerScopeStatement(b, l + 1);
+    if (!r) r = functionDefinition(b, l + 1);
+    if (!r) r = multilineComment(b, l + 1);
+    if (!r) r = consumeToken(b, SEPARATOR);
+    if (!r) r = crlf(b, l + 1);
+    if (!r) r = commandStatement(b, l + 1);
+    return r;
+  }
+
+  /* ********************************************************** */
   // '[' statement ']'
   static boolean outerScopeStatement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "outerScopeStatement")) return false;
@@ -716,12 +719,12 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // item_*
+  // outerItem*
   static boolean simpleFile(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "simpleFile")) return false;
     while (true) {
       int c = current_position_(b);
-      if (!item_(b, l + 1)) break;
+      if (!outerItem(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "simpleFile", c)) break;
     }
     return true;

@@ -43,7 +43,7 @@ private caseStatement ::= 'case_of' expression caseClause* 'end_case'
 private caseClause ::= 'case' expression statementBlock
 
 private commandStatement ::= 'command' commandBlock* 'endcommand'
-private anyInCommand ::= identifier | left_square_bracket | right_curly_bracket | unary_operator | literal | '-'
+private anyInCommand ::= identifier | left_square_bracket | right_curly_bracket | unary_operator | binary_operator| dot_operator|function_call_operator | literal | '-'
 private commandBlock ::= anyInCommand+
 
 private assignment ::= identifier '=' expression
