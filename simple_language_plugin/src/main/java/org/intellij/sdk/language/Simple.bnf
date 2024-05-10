@@ -58,21 +58,21 @@ private local_var_declare_statement ::= local identifier (comma_operator identif
 private global_var_declare_statement ::= global identifier (comma_operator identifier)* (assignment_operator expression)?
 private var_declare_statement ::= local_var_declare_statement | global_var_declare_statement
 
-private expression ::=  binary_expression | unary_expression | name_or_value | function_call_expression
+private expression ::=  binary_expression | unary_expression | value | function_call_expression
 
 private function_call_statement ::= function_call_expression
 private function_call_expression ::= identifier argument_list?
 private argument_list ::= left_parenthesis argument_expression (comma_operator argument_expression)* right_parenthesis
-private argument_expression ::= function_call_expression | name_or_value
+private argument_expression ::= function_call_expression | value
 
-private binary_expression ::= name_or_value binary_operator name_or_value
-private unary_expression ::= binary_operator expression | name_or_value
+private binary_expression ::= value binary_operator value
+private unary_expression ::= binary_operator expression | value
 
 
 private comment_block ::= end_of_line_comment
-private  name_or_value ::= identifier | literal
+value ::= identifier | literal
 
-private literal ::= STRING_LITERAL | NUMBER_LITERAL
+literal ::= STRING_LITERAL | NUMBER_LITERAL
 private end_of_line_comment ::= COMMENT
 private binary_operator ::= BINARY_OPERATOR
 private unary_operator ::= UNARY_OPERATOR

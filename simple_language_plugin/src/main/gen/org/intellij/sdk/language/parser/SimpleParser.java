@@ -55,12 +55,12 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // function_call_expression | name_or_value
+  // function_call_expression | value
   static boolean argument_expression(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "argument_expression")) return false;
     boolean r;
     r = function_call_expression(b, l + 1);
-    if (!r) r = name_or_value(b, l + 1);
+    if (!r) r = value(b, l + 1);
     return r;
   }
 
@@ -131,14 +131,14 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // name_or_value binary_operator name_or_value
+  // value binary_operator value
   static boolean binary_expression(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "binary_expression")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = name_or_value(b, l + 1);
+    r = value(b, l + 1);
     r = r && binary_operator(b, l + 1);
-    r = r && name_or_value(b, l + 1);
+    r = r && value(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
@@ -390,13 +390,13 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // binary_expression | unary_expression | name_or_value | function_call_expression
+  // binary_expression | unary_expression | value | function_call_expression
   static boolean expression(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "expression")) return false;
     boolean r;
     r = binary_expression(b, l + 1);
     if (!r) r = unary_expression(b, l + 1);
-    if (!r) r = name_or_value(b, l + 1);
+    if (!r) r = value(b, l + 1);
     if (!r) r = function_call_expression(b, l + 1);
     return r;
   }
@@ -709,12 +709,14 @@ public class SimpleParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // STRING_LITERAL | NUMBER_LITERAL
-  static boolean literal(PsiBuilder b, int l) {
+  public static boolean literal(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "literal")) return false;
-    if (!nextTokenIs(b, "", NUMBER_LITERAL, STRING_LITERAL)) return false;
+    if (!nextTokenIs(b, "<literal>", NUMBER_LITERAL, STRING_LITERAL)) return false;
     boolean r;
+    Marker m = enter_section_(b, l, _NONE_, LITERAL, "<literal>");
     r = consumeToken(b, STRING_LITERAL);
     if (!r) r = consumeToken(b, NUMBER_LITERAL);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
@@ -802,16 +804,6 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     r = r && statement_block(b, l + 1);
     r = r && endloop(b, l + 1);
     exit_section_(b, m, null, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // identifier | literal
-  static boolean name_or_value(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "name_or_value")) return false;
-    boolean r;
-    r = identifier(b, l + 1);
-    if (!r) r = literal(b, l + 1);
     return r;
   }
 
@@ -961,13 +953,13 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // binary_operator expression | name_or_value
+  // binary_operator expression | value
   static boolean unary_expression(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "unary_expression")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = unary_expression_0(b, l + 1);
-    if (!r) r = name_or_value(b, l + 1);
+    if (!r) r = value(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
@@ -987,6 +979,18 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   // UNARY_OPERATOR
   static boolean unary_operator(PsiBuilder b, int l) {
     return consumeToken(b, UNARY_OPERATOR);
+  }
+
+  /* ********************************************************** */
+  // identifier | literal
+  public static boolean value(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "value")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, VALUE, "<value>");
+    r = identifier(b, l + 1);
+    if (!r) r = literal(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
   }
 
   /* ********************************************************** */

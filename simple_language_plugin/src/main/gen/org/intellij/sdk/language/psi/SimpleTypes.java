@@ -10,9 +10,11 @@ public interface SimpleTypes {
 
   IElementType FUNCTION_DEFINE = new SimpleElementType("FUNCTION_DEFINE");
   IElementType FUNCTION_DEFINE_HEADER = new SimpleElementType("FUNCTION_DEFINE_HEADER");
+  IElementType LITERAL = new SimpleElementType("LITERAL");
   IElementType PROPERTY = new SimpleElementType("PROPERTY");
   IElementType SINGLE_STATEMENT = new SimpleElementType("SINGLE_STATEMENT");
   IElementType STATEMENT_BLOCK = new SimpleElementType("STATEMENT_BLOCK");
+  IElementType VALUE = new SimpleElementType("VALUE");
 
   IElementType ASSIGNMENT_OPERATOR = new SimpleTokenType("ASSIGNMENT_OPERATOR");
   IElementType BINARY_OPERATOR = new SimpleTokenType("BINARY_OPERATOR");
@@ -68,6 +70,9 @@ public interface SimpleTypes {
       else if (type == FUNCTION_DEFINE_HEADER) {
         return new SimpleFunctionDefineHeaderImpl(node);
       }
+      else if (type == LITERAL) {
+        return new SimpleLiteralImpl(node);
+      }
       else if (type == PROPERTY) {
         return new SimplePropertyImpl(node);
       }
@@ -76,6 +81,9 @@ public interface SimpleTypes {
       }
       else if (type == STATEMENT_BLOCK) {
         return new SimpleStatementBlockImpl(node);
+      }
+      else if (type == VALUE) {
+        return new SimpleValueImpl(node);
       }
       throw new AssertionError("Unknown element type: " + type);
     }

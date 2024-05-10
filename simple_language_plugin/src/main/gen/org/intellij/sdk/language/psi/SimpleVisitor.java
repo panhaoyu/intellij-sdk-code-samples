@@ -15,6 +15,10 @@ public class SimpleVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitLiteral(@NotNull SimpleLiteral o) {
+    visitPsiElement(o);
+  }
+
   public void visitProperty(@NotNull SimpleProperty o) {
     visitNamedElement(o);
   }
@@ -24,6 +28,10 @@ public class SimpleVisitor extends PsiElementVisitor {
   }
 
   public void visitStatementBlock(@NotNull SimpleStatementBlock o) {
+    visitPsiElement(o);
+  }
+
+  public void visitValue(@NotNull SimpleValue o) {
     visitPsiElement(o);
   }
 
