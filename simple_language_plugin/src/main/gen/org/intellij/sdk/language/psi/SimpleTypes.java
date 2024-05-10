@@ -8,7 +8,11 @@ import org.intellij.sdk.language.psi.impl.*;
 
 public interface SimpleTypes {
 
+  IElementType FUNCTION_DEFINE = new SimpleElementType("FUNCTION_DEFINE");
+  IElementType FUNCTION_DEFINE_HEADER = new SimpleElementType("FUNCTION_DEFINE_HEADER");
   IElementType PROPERTY = new SimpleElementType("PROPERTY");
+  IElementType SINGLE_STATEMENT = new SimpleElementType("SINGLE_STATEMENT");
+  IElementType STATEMENT_BLOCK = new SimpleElementType("STATEMENT_BLOCK");
 
   IElementType ASSIGNMENT_OPERATOR = new SimpleTokenType("ASSIGNMENT_OPERATOR");
   IElementType BINARY_OPERATOR = new SimpleTokenType("BINARY_OPERATOR");
@@ -58,8 +62,20 @@ public interface SimpleTypes {
   class Factory {
     public static PsiElement createElement(ASTNode node) {
       IElementType type = node.getElementType();
-      if (type == PROPERTY) {
+      if (type == FUNCTION_DEFINE) {
+        return new SimpleFunctionDefineImpl(node);
+      }
+      else if (type == FUNCTION_DEFINE_HEADER) {
+        return new SimpleFunctionDefineHeaderImpl(node);
+      }
+      else if (type == PROPERTY) {
         return new SimplePropertyImpl(node);
+      }
+      else if (type == SINGLE_STATEMENT) {
+        return new SimpleSingleStatementImpl(node);
+      }
+      else if (type == STATEMENT_BLOCK) {
+        return new SimpleStatementBlockImpl(node);
       }
       throw new AssertionError("Unknown element type: " + type);
     }
