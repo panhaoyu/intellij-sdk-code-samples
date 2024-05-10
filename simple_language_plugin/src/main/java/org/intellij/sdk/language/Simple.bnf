@@ -19,7 +19,7 @@
 
 simpleFile ::= item_*
 
-private item_ ::= (statement|functionDefinition|comment|separator|crlf)
+private item_ ::= (outerScopeStatement|functionDefinition|comment|separator|crlf)
 
 private functionDefinition ::= 'fish' 'define' functionName '(' parameterList ')' controlStructure
 private functionName ::= IDENTIFIER
@@ -30,6 +30,7 @@ private controlStructure ::= statementBlock
 private statementBlock ::=  statement*
 
 private statement ::= controlFlow | assignment | functionCall | comment | localVariableDeclaration | globalVariableDeclaration
+private outerScopeStatement ::=  "[" statement "]"
 
 private controlFlow ::= ifStatement | loopStatement | caseStatement
 
