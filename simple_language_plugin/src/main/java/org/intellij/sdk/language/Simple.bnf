@@ -17,9 +17,9 @@
   psiImplUtilClass="org.intellij.sdk.language.psi.impl.SimplePsiImplUtil"
 }
 
-simpleFile ::= item_*
+simpleFile ::= outerItem*
 
-private item_ ::= (outerScopeStatement|functionDefinition|multilineComment|separator|crlf|commandStatement)
+private outerItem ::= (outerScopeStatement|functionDefinition|multilineComment|separator|crlf|commandStatement)
 
 private functionDefinition ::= 'fish' 'define' functionName ('(' parameterList ')')? controlStructure
 private functionName ::= identifier
