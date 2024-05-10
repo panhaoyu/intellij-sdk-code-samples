@@ -36,7 +36,8 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // identifier | left_square_bracket | right_square_bracket | left_parenthesis | right_parenthesis |
+  // identifier | left_square_bracket | right_square_bracket | left_parenthesis | right_parenthesis | comma_operator |
+  //     assignment_operator| 
   //     unary_operator | binary_operator| dot_operator|at_operator | literal | ellipsis | keywords_in_command_block
   static boolean any_in_command(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "any_in_command")) return false;
@@ -46,6 +47,8 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     if (!r) r = right_square_bracket(b, l + 1);
     if (!r) r = left_parenthesis(b, l + 1);
     if (!r) r = right_parenthesis(b, l + 1);
+    if (!r) r = comma_operator(b, l + 1);
+    if (!r) r = assignment_operator(b, l + 1);
     if (!r) r = unary_operator(b, l + 1);
     if (!r) r = binary_operator(b, l + 1);
     if (!r) r = dot_operator(b, l + 1);

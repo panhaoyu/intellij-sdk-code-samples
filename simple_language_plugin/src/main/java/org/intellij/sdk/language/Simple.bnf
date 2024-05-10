@@ -44,7 +44,8 @@ private case_clause ::= case expression fish_block
 
 command_block ::= command command_body* end_command
 private any_in_command ::= (
-    identifier | left_square_bracket | right_square_bracket | left_parenthesis | right_parenthesis |
+    identifier | left_square_bracket | right_square_bracket | left_parenthesis | right_parenthesis | comma_operator |
+    assignment_operator|
     unary_operator | binary_operator| dot_operator|at_operator | literal | ellipsis | keywords_in_command_block
  )
 private command_body ::= any_in_command+
