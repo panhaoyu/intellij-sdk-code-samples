@@ -21,16 +21,16 @@ simpleFile ::= outerItem*
 
 private outerItem ::= (outerScopeStatement|functionDefinition|multilineComment|separator|crlf|commandStatement)
 
-private functionDefinition ::= 'fish' 'define' functionName ('(' parameterList ')')? controlStructure
+private functionDefinition ::= 'fish' 'define' functionName (left_parenthesis parameterList right_parenthesis)? controlStructure
 private functionName ::= identifier
-private parameterList ::= (parameter (',' parameter)* )?
+private parameterList ::= (parameter (comma_operator parameter)* )?
 private parameter ::= identifier
 
 private controlStructure ::= statementBlock
 private statementBlock ::=  statement*
 
 private statement ::= controlFlow | assignment | functionCall | multilineComment | variableDeclaration | commandStatement
-private outerScopeStatement ::=  '[' statement ']'
+private outerScopeStatement ::=  left_square_bracket statement right_square_bracket
 
 private controlFlow ::= ifStatement | loopStatement | caseStatement
 
