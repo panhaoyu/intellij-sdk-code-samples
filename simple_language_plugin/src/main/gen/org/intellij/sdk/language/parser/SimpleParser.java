@@ -390,14 +390,26 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // binary_expression | unary_expression | value | function_call_expression
+  // (left_parenthesis inner_expression right_parenthesis) | inner_expression
   static boolean expression(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "expression")) return false;
     boolean r;
-    r = binary_expression(b, l + 1);
-    if (!r) r = unary_expression(b, l + 1);
-    if (!r) r = value(b, l + 1);
-    if (!r) r = function_call_expression(b, l + 1);
+    Marker m = enter_section_(b);
+    r = expression_0(b, l + 1);
+    if (!r) r = inner_expression(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // left_parenthesis inner_expression right_parenthesis
+  private static boolean expression_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "expression_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = left_parenthesis(b, l + 1);
+    r = r && inner_expression(b, l + 1);
+    r = r && right_parenthesis(b, l + 1);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -647,6 +659,18 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     if (!recursion_guard_(b, l, "if_statement_5")) return false;
     else_statement(b, l + 1);
     return true;
+  }
+
+  /* ********************************************************** */
+  // binary_expression | unary_expression | value | function_call_expression
+  static boolean inner_expression(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "inner_expression")) return false;
+    boolean r;
+    r = binary_expression(b, l + 1);
+    if (!r) r = unary_expression(b, l + 1);
+    if (!r) r = value(b, l + 1);
+    if (!r) r = function_call_expression(b, l + 1);
+    return r;
   }
 
   /* ********************************************************** */
@@ -953,20 +977,10 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // binary_operator expression | value
+  // binary_operator expression
   static boolean unary_expression(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "unary_expression")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = unary_expression_0(b, l + 1);
-    if (!r) r = value(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // binary_operator expression
-  private static boolean unary_expression_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "unary_expression_0")) return false;
+    if (!nextTokenIs(b, BINARY_OPERATOR)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = binary_operator(b, l + 1);
