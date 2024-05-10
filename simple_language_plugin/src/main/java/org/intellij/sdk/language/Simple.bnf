@@ -19,7 +19,7 @@
 
 simpleFile ::= command_scope*
 
-private command_scope ::= (command_scope_inline_fish_statement|function_define|comment_block|crlf|command_block)
+private command_scope ::= (command_scope_inline_fish_statement|function_define|comment_block|command_block)
 private command_scope_inline_fish_statement ::= command_scope_inline_fish_expression
 
 function_define ::= function_define_header  (left_parenthesis function_parameter_list right_parenthesis)?  fish_block end
