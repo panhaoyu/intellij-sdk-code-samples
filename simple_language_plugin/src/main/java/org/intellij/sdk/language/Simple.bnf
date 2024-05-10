@@ -27,7 +27,7 @@ private parameterList ::= (parameter (',' parameter)* )?
 private parameter ::= IDENTIFIER
 
 private controlStructure ::= statementBlock
-private statementBlock ::= '{' statement* '}'
+private statementBlock ::=  statement*
 
 private statement ::= controlFlow | assignment | functionCall | comment | localVariableDeclaration | globalVariableDeclaration
 
