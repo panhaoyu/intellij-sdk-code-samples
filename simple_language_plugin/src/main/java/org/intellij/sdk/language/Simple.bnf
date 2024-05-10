@@ -19,9 +19,9 @@
 
 simpleFile ::= command_scope*
 
-private command_scope ::= (outer_fish|function_define|comment_block|crlf|command_statement)
+private command_scope ::= (command_scope_inline_fish_statement|function_define|comment_block|crlf|command_statement)
 
-private outer_fish ::=  left_square_bracket single_statement right_square_bracket
+private command_scope_inline_fish_statement ::= command_scope_inline_fish_expression
 
 function_define ::= function_define_header  (left_parenthesis function_parameter_list right_parenthesis)?  statement_block end
 function_define_header ::= fish define function_name
@@ -64,6 +64,7 @@ private expression ::=  binary_expression | unary_expression | value | function_
 private parenthesis_expression ::= left_parenthesis expression right_parenthesis
 private function_call_expression ::= identifier function_argument_list?
 private function_argument_list ::= left_parenthesis value right_parenthesis
+private command_scope_inline_fish_expression ::= left_square_bracket single_statement right_square_bracket
 
 private binary_expression ::= value binary_operator expression
 private unary_expression ::= unary_operator expression
