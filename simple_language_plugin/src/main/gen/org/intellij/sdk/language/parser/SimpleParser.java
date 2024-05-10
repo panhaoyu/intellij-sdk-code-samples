@@ -375,13 +375,14 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // binary_expression | unary_expression | name_or_value
+  // binary_expression | unary_expression | name_or_value | function_call_expression
   static boolean expression(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "expression")) return false;
     boolean r;
     r = binary_expression(b, l + 1);
     if (!r) r = unary_expression(b, l + 1);
     if (!r) r = name_or_value(b, l + 1);
+    if (!r) r = function_call_expression(b, l + 1);
     return r;
   }
 
@@ -398,15 +399,9 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // FUNCTION_CALL_OPERATOR
-  static boolean function_call_operator(PsiBuilder b, int l) {
-    return consumeToken(b, FUNCTION_CALL_OPERATOR);
-  }
-
-  /* ********************************************************** */
   // identifier left_parenthesis argument_list right_parenthesis
-  static boolean function_call_statement(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "function_call_statement")) return false;
+  static boolean function_call_expression(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "function_call_expression")) return false;
     if (!nextTokenIs(b, IDENTIFIER)) return false;
     boolean r;
     Marker m = enter_section_(b);
@@ -416,6 +411,18 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     r = r && right_parenthesis(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
+  }
+
+  /* ********************************************************** */
+  // FUNCTION_CALL_OPERATOR
+  static boolean function_call_operator(PsiBuilder b, int l) {
+    return consumeToken(b, FUNCTION_CALL_OPERATOR);
+  }
+
+  /* ********************************************************** */
+  // function_call_expression
+  static boolean function_call_statement(PsiBuilder b, int l) {
+    return function_call_expression(b, l + 1);
   }
 
   /* ********************************************************** */
