@@ -55,38 +55,34 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (expression (comma_operator expression)* )?
+  // left_parenthesis expression (comma_operator expression)* right_parenthesis
   static boolean argument_list(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "argument_list")) return false;
-    argument_list_0(b, l + 1);
-    return true;
-  }
-
-  // expression (comma_operator expression)*
-  private static boolean argument_list_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "argument_list_0")) return false;
+    if (!nextTokenIs(b, LEFT_PARENTHESIS)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = expression(b, l + 1);
-    r = r && argument_list_0_1(b, l + 1);
+    r = left_parenthesis(b, l + 1);
+    r = r && expression(b, l + 1);
+    r = r && argument_list_2(b, l + 1);
+    r = r && right_parenthesis(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
 
   // (comma_operator expression)*
-  private static boolean argument_list_0_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "argument_list_0_1")) return false;
+  private static boolean argument_list_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "argument_list_2")) return false;
     while (true) {
       int c = current_position_(b);
-      if (!argument_list_0_1_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "argument_list_0_1", c)) break;
+      if (!argument_list_2_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "argument_list_2", c)) break;
     }
     return true;
   }
 
   // comma_operator expression
-  private static boolean argument_list_0_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "argument_list_0_1_0")) return false;
+  private static boolean argument_list_2_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "argument_list_2_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = comma_operator(b, l + 1);
@@ -102,7 +98,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // identifier assignment_operator expression
+  // identifier assignment_operator (expression | function_call_expression)
   static boolean assignment_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "assignment_statement")) return false;
     if (!nextTokenIs(b, IDENTIFIER)) return false;
@@ -110,8 +106,17 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b);
     r = identifier(b, l + 1);
     r = r && assignment_operator(b, l + 1);
-    r = r && expression(b, l + 1);
+    r = r && assignment_statement_2(b, l + 1);
     exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // expression | function_call_expression
+  private static boolean assignment_statement_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "assignment_statement_2")) return false;
+    boolean r;
+    r = expression(b, l + 1);
+    if (!r) r = function_call_expression(b, l + 1);
     return r;
   }
 
@@ -399,18 +404,23 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // identifier left_parenthesis argument_list right_parenthesis
+  // identifier argument_list?
   static boolean function_call_expression(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "function_call_expression")) return false;
     if (!nextTokenIs(b, IDENTIFIER)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = identifier(b, l + 1);
-    r = r && left_parenthesis(b, l + 1);
-    r = r && argument_list(b, l + 1);
-    r = r && right_parenthesis(b, l + 1);
+    r = r && function_call_expression_1(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
+  }
+
+  // argument_list?
+  private static boolean function_call_expression_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "function_call_expression_1")) return false;
+    argument_list(b, l + 1);
+    return true;
   }
 
   /* ********************************************************** */

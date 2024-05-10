@@ -147,12 +147,12 @@ String = {StringA} | {StringB}
     // Comments
     {Comment} {return SimpleTypes.COMMENT;}
 
-    {LeftCurlyBracket} {return SimpleTypes.LEFT_CURLY_BRACKET; }
-    {RightCurlyBracket} {return SimpleTypes.RIGHT_CURLY_BRACKET; }
-    {LeftParenthesis} {return SimpleTypes.LEFT_PARENTHESIS; }
-    {RightParenthesis} {return SimpleTypes.RIGHT_PARENTHESIS; }
-    {LeftSquareBracket} {return SimpleTypes.LEFT_SQUARE_BRACKET; }
-    {RightSquareBracket} {return SimpleTypes.RIGHT_SQUARE_BRACKET; }
+    "}" {return SimpleTypes.LEFT_CURLY_BRACKET; }
+    "{" {return SimpleTypes.RIGHT_CURLY_BRACKET; }
+    "(" {return SimpleTypes.LEFT_PARENTHESIS; }
+    ")" {return SimpleTypes.RIGHT_PARENTHESIS; }
+    "[" {return SimpleTypes.LEFT_SQUARE_BRACKET; }
+    "]" {return SimpleTypes.RIGHT_SQUARE_BRACKET; }
 
     {FunctionCallOperator} {return SimpleTypes.FUNCTION_CALL_OPERATOR; }
     {DotOperator} {return SimpleTypes.DOT_OPERATOR; }
