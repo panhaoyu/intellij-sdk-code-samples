@@ -37,7 +37,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // identifier | left_square_bracket | right_square_bracket | left_parenthesis | right_parenthesis | comma_operator |
-  //     assignment_operator| 
+  //     assignment_operator|
   //     unary_operator | binary_operator| dot_operator|at_operator | literal | ellipsis | keywords_in_command_block
   static boolean any_in_command(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "any_in_command")) return false;
@@ -358,7 +358,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   // elseif expression then fish_block
   static boolean else_if_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "else_if_statement")) return false;
-    if (!nextTokenIs(b, ELSEIF)) return false;
+    if (!nextTokenIs(b, "", ELSE, ELSEIF)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = elseif(b, l + 1);
@@ -383,9 +383,27 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // ELSEIF
+  // ELSEIF | (else if)
   static boolean elseif(PsiBuilder b, int l) {
-    return consumeToken(b, ELSEIF);
+    if (!recursion_guard_(b, l, "elseif")) return false;
+    if (!nextTokenIs(b, "", ELSE, ELSEIF)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, ELSEIF);
+    if (!r) r = elseif_1(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // else if
+  private static boolean elseif_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "elseif_1")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = else_$(b, l + 1);
+    r = r && if_$(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
   }
 
   /* ********************************************************** */

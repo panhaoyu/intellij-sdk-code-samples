@@ -133,7 +133,7 @@ private local ::= LOCAL
 
 private if ::= IF
 private then ::= THEN
-private elseif ::= ELSEIF
+private elseif ::= ELSEIF | (else if)
 private else ::= ELSE
 private endif ::= ENDIF
 
