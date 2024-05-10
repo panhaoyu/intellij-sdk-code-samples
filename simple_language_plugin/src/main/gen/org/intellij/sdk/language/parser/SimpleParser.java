@@ -434,20 +434,49 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // comment+
+  // comment (crlf* comment)*
   static boolean multilineComment(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "multilineComment")) return false;
     if (!nextTokenIs(b, COMMENT)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = comment(b, l + 1);
-    while (r) {
-      int c = current_position_(b);
-      if (!comment(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "multilineComment", c)) break;
-    }
+    r = r && multilineComment_1(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
+  }
+
+  // (crlf* comment)*
+  private static boolean multilineComment_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "multilineComment_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!multilineComment_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "multilineComment_1", c)) break;
+    }
+    return true;
+  }
+
+  // crlf* comment
+  private static boolean multilineComment_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "multilineComment_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = multilineComment_1_0_0(b, l + 1);
+    r = r && comment(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // crlf*
+  private static boolean multilineComment_1_0_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "multilineComment_1_0_0")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!crlf(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "multilineComment_1_0_0", c)) break;
+    }
+    return true;
   }
 
   /* ********************************************************** */

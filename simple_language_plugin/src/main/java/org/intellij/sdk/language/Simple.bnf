@@ -29,7 +29,7 @@ private parameter ::= IDENTIFIER
 private controlStructure ::= statementBlock
 private statementBlock ::=  statement*
 
-private statement ::= controlFlow | assignment | functionCall | multilineComment | localVariableDeclaration | globalVariableDeclaration
+private statement ::= controlFlow | assignment | functionCall | multilineComment | variableDeclaration
 private outerScopeStatement ::=  '[' statement ']'
 
 private controlFlow ::= ifStatement | loopStatement | caseStatement
@@ -48,13 +48,14 @@ private argumentList ::= (expression (',' expression)* )?
 
 private localVariableDeclaration ::= 'local' IDENTIFIER (',' IDENTIFIER)* ('=' expression)?
 private globalVariableDeclaration ::= 'global' IDENTIFIER (',' IDENTIFIER)* ('=' expression)?
+private  variableDeclaration ::= localVariableDeclaration | globalVariableDeclaration
 
 private expression ::= binaryExpression | unaryExpression | literal | IDENTIFIER
 private binaryExpression ::= expression operator expression
-private unaryExpression ::= operator expression
+private unaryExpression ::= operator expression | variableDeclaration
 
 
-private multilineComment ::= comment+
+private multilineComment ::= comment (crlf* comment)*
 
 private literal ::= STRING_LITERAL | NUMBER_LITERAL
 private comment ::= COMMENT
