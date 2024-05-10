@@ -42,9 +42,13 @@ private case_statement ::= caseof expression case_clause* endcase
 private case_clause ::= case expression statement_block
 
 private command_statement ::= command command_body* endcommand
-private any_in_command ::= (identifier | left_square_bracket | right_square_bracket |
- unary_operator | binary_operator| dot_operator|function_call_operator | literal | ellipsis)
+private any_in_command ::= (
+    identifier | left_square_bracket | right_square_bracket |
+    unary_operator | binary_operator| dot_operator|function_call_operator | literal | ellipsis | keywords_in_command_block
+ )
 private command_body ::= any_in_command+
+private keywords_in_command_block ::= (fish | caseof | case | endcase | define | end | exit | global | if | then |
+    elseif | else | endif | local | lock | loop | endloop | continue | return | section | endsection | struct  |)
 
 private assignment_statement ::= identifier assignment_operator expression
 private function_call_statement ::= identifier left_parenthesis argument_list right_parenthesis
@@ -95,7 +99,7 @@ property ::= (identifier) {
 private recover_property ::= !(IDENTIFIER|COMMENT)
 
 
-
+//keywords
 private fish ::= FISH
 private caseof ::= CASEOF
 private case ::= CASE

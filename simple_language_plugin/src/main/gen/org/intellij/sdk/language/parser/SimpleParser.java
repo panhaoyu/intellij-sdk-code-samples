@@ -54,25 +54,25 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (identifier (comma_operator identifier)* )?
+  // (expression (comma_operator expression)* )?
   static boolean argument_list(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "argument_list")) return false;
     argument_list_0(b, l + 1);
     return true;
   }
 
-  // identifier (comma_operator identifier)*
+  // expression (comma_operator expression)*
   private static boolean argument_list_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "argument_list_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = identifier(b, l + 1);
+    r = expression(b, l + 1);
     r = r && argument_list_0_1(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
 
-  // (comma_operator identifier)*
+  // (comma_operator expression)*
   private static boolean argument_list_0_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "argument_list_0_1")) return false;
     while (true) {
@@ -83,13 +83,13 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // comma_operator identifier
+  // comma_operator expression
   private static boolean argument_list_0_1_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "argument_list_0_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = comma_operator(b, l + 1);
-    r = r && identifier(b, l + 1);
+    r = r && expression(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
