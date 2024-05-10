@@ -23,8 +23,7 @@ private command_scope ::= (command_scope_inline_fish_statement|function_define|c
 private command_scope_inline_fish_statement ::= command_scope_inline_fish_expression
 
 function_define ::= function_define_header  (left_parenthesis function_parameter_list right_parenthesis)?  statement_block end
-private function_define_header ::= fish define function_name
-private function_name ::= identifier
+private function_define_header ::= fish define identifier
 private function_parameter_list ::= (function_parameter (comma_operator function_parameter)* )?
 private function_parameter ::= identifier
 
