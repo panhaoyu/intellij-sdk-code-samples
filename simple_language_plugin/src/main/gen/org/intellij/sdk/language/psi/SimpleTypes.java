@@ -37,6 +37,7 @@ public interface SimpleTypes {
   IElementType IDENTIFIER = new SimpleTokenType("IDENTIFIER");
   IElementType IF = new SimpleTokenType("IF");
   IElementType KEYWORD = new SimpleTokenType("KEYWORD");
+  IElementType KEYWORDS_IN_COMMAND_BLOCK_22_0 = new SimpleTokenType("keywords_in_command_block_22_0");
   IElementType LEFT_CURLY_BRACKET = new SimpleTokenType("LEFT_CURLY_BRACKET");
   IElementType LEFT_PARENTHESIS = new SimpleTokenType("LEFT_PARENTHESIS");
   IElementType LEFT_SQUARE_BRACKET = new SimpleTokenType("LEFT_SQUARE_BRACKET");

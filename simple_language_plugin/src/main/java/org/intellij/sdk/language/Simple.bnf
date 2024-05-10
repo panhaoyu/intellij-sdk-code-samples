@@ -21,7 +21,7 @@ simpleFile ::= outerItem*
 
 private outerItem ::= (outer_fish|function_define|comment_block|crlf|command_statement)
 
-private function_define ::= fish define functionName (left_parenthesis parameterList right_parenthesis)? statement_block
+private function_define ::= fish define functionName (left_parenthesis parameterList right_parenthesis)? statement_block end
 private functionName ::= identifier
 private parameterList ::= (parameter (comma_operator parameter)* )?
 private parameter ::= identifier

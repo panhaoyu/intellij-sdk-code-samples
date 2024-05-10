@@ -37,7 +37,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // identifier | left_square_bracket | right_square_bracket |
-  //  unary_operator | binary_operator| dot_operator|function_call_operator | literal | ellipsis
+  //     unary_operator | binary_operator| dot_operator|function_call_operator | literal | ellipsis | keywords_in_command_block
   static boolean any_in_command(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "any_in_command")) return false;
     boolean r;
@@ -50,6 +50,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     if (!r) r = function_call_operator(b, l + 1);
     if (!r) r = literal(b, l + 1);
     if (!r) r = ellipsis(b, l + 1);
+    if (!r) r = keywords_in_command_block(b, l + 1);
     return r;
   }
 
@@ -418,7 +419,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // fish define functionName (left_parenthesis parameterList right_parenthesis)? statement_block
+  // fish define functionName (left_parenthesis parameterList right_parenthesis)? statement_block end
   static boolean function_define(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "function_define")) return false;
     if (!nextTokenIs(b, FISH)) return false;
@@ -429,6 +430,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     r = r && functionName(b, l + 1);
     r = r && function_define_3(b, l + 1);
     r = r && statement_block(b, l + 1);
+    r = r && end(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
@@ -565,6 +567,40 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   // KEYWORD
   static boolean keyword(PsiBuilder b, int l) {
     return consumeToken(b, KEYWORD);
+  }
+
+  /* ********************************************************** */
+  // fish | caseof | case | endcase | define | end | exit | global | if | then |
+  //     elseif | else | endif | local | lock | loop | endloop | continue | return | section | endsection | struct  |
+  static boolean keywords_in_command_block(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "keywords_in_command_block")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = fish(b, l + 1);
+    if (!r) r = caseof(b, l + 1);
+    if (!r) r = case_$(b, l + 1);
+    if (!r) r = endcase(b, l + 1);
+    if (!r) r = define(b, l + 1);
+    if (!r) r = end(b, l + 1);
+    if (!r) r = exit(b, l + 1);
+    if (!r) r = global(b, l + 1);
+    if (!r) r = if_$(b, l + 1);
+    if (!r) r = then(b, l + 1);
+    if (!r) r = elseif(b, l + 1);
+    if (!r) r = else_$(b, l + 1);
+    if (!r) r = endif(b, l + 1);
+    if (!r) r = local(b, l + 1);
+    if (!r) r = lock(b, l + 1);
+    if (!r) r = loop(b, l + 1);
+    if (!r) r = endloop(b, l + 1);
+    if (!r) r = continue_$(b, l + 1);
+    if (!r) r = return_$(b, l + 1);
+    if (!r) r = section(b, l + 1);
+    if (!r) r = endsection(b, l + 1);
+    if (!r) r = struct(b, l + 1);
+    if (!r) r = consumeToken(b, KEYWORDS_IN_COMMAND_BLOCK_22_0);
+    exit_section_(b, m, null, r);
+    return r;
   }
 
   /* ********************************************************** */
