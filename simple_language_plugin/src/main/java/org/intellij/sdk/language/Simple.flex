@@ -73,17 +73,6 @@ ModulusAssignmentOperator = "%="
 
 MemberAccessOperator = "->"
 
-FunctionCallOperator    =     "@"
-CommaOperator = ","
-DotOperator = "."
-
-// Bracket Operators
-LeftParenthesis         = "("
-RightParenthesis        = ")"
-LeftSquareBracket       = "["
-RightSquareBracket      = "]"
-LeftCurlyBracket        = "{"
-RightCurlyBracket       = "}"
 
 StringA = \" [^\"]* \"
 
@@ -154,9 +143,9 @@ String = {StringA} | {StringB}
     "[" {return SimpleTypes.LEFT_SQUARE_BRACKET; }
     "]" {return SimpleTypes.RIGHT_SQUARE_BRACKET; }
 
-    {FunctionCallOperator} {return SimpleTypes.FUNCTION_CALL_OPERATOR; }
-    {DotOperator} {return SimpleTypes.DOT_OPERATOR; }
-    {CommaOperator} {return SimpleTypes.COMMA_OPERATOR; }
+    "@" {return SimpleTypes.FUNCTION_CALL_OPERATOR; }
+    "." {return SimpleTypes.DOT_OPERATOR; }
+    "," {return SimpleTypes.COMMA_OPERATOR; }
 
 }
 
