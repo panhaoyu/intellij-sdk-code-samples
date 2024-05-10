@@ -23,13 +23,13 @@ private outerItem ::= (outer_fish|function_define|comment_block|crlf|command_sta
 
 private outer_fish ::=  left_square_bracket single_statement right_square_bracket
 
-function_define ::= function_define_header  (left_parenthesis function_parameter_list right_parenthesis)? crlf+ statement_block crlf+ end
+function_define ::= function_define_header  (left_parenthesis function_parameter_list right_parenthesis)?  statement_block end
 function_define_header ::= fish define function_name
 private function_name ::= identifier
 private function_parameter_list ::= (function_parameter (comma_operator function_parameter)* )?
 private function_parameter ::= identifier
 
-statement_block ::=  single_statement (crlf+ single_statement)*
+statement_block ::=  single_statement*
 
 single_statement ::= control_flow | assignment_statement | function_call_statement | comment_block | var_declare_statement | command_statement | identifier
 
