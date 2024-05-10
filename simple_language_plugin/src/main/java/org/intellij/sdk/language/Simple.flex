@@ -1941,7 +1941,7 @@ FishFuntion=(
     // Operators
     {Operators} {return SimpleTypes.OPERATOR;}
 
-    {WhiteSpace}+ {return SimpleTypes.SEPARATOR;}
+    {WhiteSpace}+ {return SimpleTypes.OPERATOR;}
 
     // Comments
     {Comment} {return SimpleTypes.COMMENT;}

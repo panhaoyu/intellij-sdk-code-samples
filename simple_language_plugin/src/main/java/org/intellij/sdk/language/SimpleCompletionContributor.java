@@ -1812,7 +1812,7 @@ final class SimpleCompletionContributor extends CompletionContributor {
     };
 
     SimpleCompletionContributor() {
-        extend(CompletionType.BASIC, PlatformPatterns.psiElement(SimpleTypes.COMMENT),
+        extend(CompletionType.BASIC, PlatformPatterns.psiElement(SimpleTypes.FISH_FUNCTION),
                 new CompletionProvider<>() {
                     public void addCompletions(@NotNull CompletionParameters parameters,
                                                @NotNull ProcessingContext context,

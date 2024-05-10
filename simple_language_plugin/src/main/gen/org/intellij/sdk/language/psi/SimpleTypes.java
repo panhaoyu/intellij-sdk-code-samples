@@ -12,9 +12,12 @@ public interface SimpleTypes {
 
   IElementType COMMENT = new SimpleTokenType("COMMENT");
   IElementType CRLF = new SimpleTokenType("CRLF");
-  IElementType KEY = new SimpleTokenType("KEY");
-  IElementType SEPARATOR = new SimpleTokenType("SEPARATOR");
-  IElementType VALUE = new SimpleTokenType("VALUE");
+  IElementType FISH_FUNCTION = new SimpleTokenType("FISH_FUNCTION");
+  IElementType IDENTIFIER = new SimpleTokenType("IDENTIFIER");
+  IElementType KEYWORD = new SimpleTokenType("KEYWORD");
+  IElementType NUMBER_LITERAL = new SimpleTokenType("NUMBER_LITERAL");
+  IElementType OPERATOR = new SimpleTokenType("OPERATOR");
+  IElementType STRING_LITERAL = new SimpleTokenType("STRING_LITERAL");
 
   class Factory {
     public static PsiElement createElement(ASTNode node) {

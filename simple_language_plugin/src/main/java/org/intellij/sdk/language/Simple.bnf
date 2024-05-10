@@ -1,6 +1,7 @@
 // Copyright 2000-2022 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
 {
   parserClass="org.intellij.sdk.language.parser.SimpleParser"
+  parserUtilClass="org.intellij.sdk.language.parser.SimpleParserUtil"
 
   extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
 
@@ -18,7 +19,7 @@
 
 simpleFile ::= item_*
 
-private item_ ::= (KEY|VALUE|SEPARATOR|COMMENT|CRLF)
+private item_ ::= (SEPARATOR|COMMENT|CRLF|FISH_FUNCTION|KEYWORD|IDENTIFIER|NUMBER_LITERAL|STRING_LITERAL|OPERATOR)
 
 property ::= (KEY) {
 //  pin=3
