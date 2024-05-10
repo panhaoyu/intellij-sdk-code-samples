@@ -36,9 +36,8 @@ Number=[0-9][0-9.]*([eE]-?[0-9]+)?
 
 BinaryOperator = { ArithmeticOperator } | { ComparisonOperator } | { EqualityOperator } | { LogicalOperator } | {MemberAccessOperator}
 
-ArithmeticOperator = { PlusOperator } | { MinusOperator } | { MultiplyOperator } | { DivideOperator } | { FloorDivideOperator } | { ModulusOperator } | { ExponentOperator }
+ArithmeticOperator = { PlusOperator } | { MultiplyOperator } | { DivideOperator } | { FloorDivideOperator } | { ModulusOperator } | { ExponentOperator }
 PlusOperator = "+"
-MinusOperator = "-"
 MultiplyOperator = "*"
 DivideOperator = "/"
 FloorDivideOperator = "//"
@@ -59,8 +58,7 @@ LogicalOperator = { AndOperator } | { OrOperator }
 AndOperator = "&"
 OrOperator = "|"
 
-UnaryOperator = { NegationOperator } | { LogicalNotOperator }
-NegationOperator = "-"
+UnaryOperator = { LogicalNotOperator }
 LogicalNotOperator = "~"
 
 AssignmentOperator = { DirectAssignmentOperator } | { AddAssignmentOperator } | { SubtractAssignmentOperator } | { MultiplyAssignmentOperator } | { DivideAssignmentOperator } | { ModulusAssignmentOperator }
@@ -146,6 +144,7 @@ String = {StringA} | {StringB}
     \@ {return SimpleTypes.FUNCTION_CALL_OPERATOR; }
     \. {return SimpleTypes.DOT_OPERATOR; }
     \, {return SimpleTypes.COMMA_OPERATOR; }
+    \- {return SimpleTypes.MINUS_OPERATOR;}
 
 }
 

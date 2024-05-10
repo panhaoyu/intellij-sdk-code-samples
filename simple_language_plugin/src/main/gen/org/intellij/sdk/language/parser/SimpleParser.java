@@ -120,9 +120,14 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // BINARY_OPERATOR
+  // BINARY_OPERATOR | MINUS_OPERATOR
   static boolean binary_operator(PsiBuilder b, int l) {
-    return consumeToken(b, BINARY_OPERATOR);
+    if (!recursion_guard_(b, l, "binary_operator")) return false;
+    if (!nextTokenIs(b, "", BINARY_OPERATOR, MINUS_OPERATOR)) return false;
+    boolean r;
+    r = consumeToken(b, BINARY_OPERATOR);
+    if (!r) r = consumeToken(b, MINUS_OPERATOR);
+    return r;
   }
 
   /* ********************************************************** */
@@ -258,8 +263,14 @@ public class SimpleParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // command_scope_inline_fish_expression
-  static boolean command_scope_inline_fish_statement(PsiBuilder b, int l) {
-    return command_scope_inline_fish_expression(b, l + 1);
+  public static boolean command_scope_inline_fish_statement(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "command_scope_inline_fish_statement")) return false;
+    if (!nextTokenIs(b, LEFT_SQUARE_BRACKET)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = command_scope_inline_fish_expression(b, l + 1);
+    exit_section_(b, m, COMMAND_SCOPE_INLINE_FISH_STATEMENT, r);
+    return r;
   }
 
   /* ********************************************************** */
@@ -978,7 +989,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   // unary_operator expression
   static boolean unary_expression(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "unary_expression")) return false;
-    if (!nextTokenIs(b, UNARY_OPERATOR)) return false;
+    if (!nextTokenIs(b, "", MINUS_OPERATOR, UNARY_OPERATOR)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = unary_operator(b, l + 1);
@@ -988,9 +999,14 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // UNARY_OPERATOR
+  // UNARY_OPERATOR | MINUS_OPERATOR
   static boolean unary_operator(PsiBuilder b, int l) {
-    return consumeToken(b, UNARY_OPERATOR);
+    if (!recursion_guard_(b, l, "unary_operator")) return false;
+    if (!nextTokenIs(b, "", MINUS_OPERATOR, UNARY_OPERATOR)) return false;
+    boolean r;
+    r = consumeToken(b, UNARY_OPERATOR);
+    if (!r) r = consumeToken(b, MINUS_OPERATOR);
+    return r;
   }
 
   /* ********************************************************** */
