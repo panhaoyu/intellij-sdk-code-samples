@@ -1812,17 +1812,17 @@ final class SimpleCompletionContributor extends CompletionContributor {
     };
 
     SimpleCompletionContributor() {
-        extend(CompletionType.BASIC, PlatformPatterns.psiElement(SimpleTypes.FISH_FUNCTION),
-                new CompletionProvider<>() {
-                    public void addCompletions(@NotNull CompletionParameters parameters,
-                                               @NotNull ProcessingContext context,
-                                               @NotNull CompletionResultSet resultSet) {
-                        for (String name : NAMES) {
-                            resultSet.addElement(LookupElementBuilder.create(name));
-                        }
-                    }
+        CompletionProvider<CompletionParameters> completionProvider = new CompletionProvider<>() {
+            public void addCompletions(@NotNull CompletionParameters parameters,
+                                       @NotNull ProcessingContext context,
+                                       @NotNull CompletionResultSet resultSet) {
+                for (String name : NAMES) {
+                    resultSet.addElement(LookupElementBuilder.create(name));
                 }
-        );
+            }
+        };
+        extend(CompletionType.BASIC, PlatformPatterns.psiElement(SimpleTypes.FISH_FUNCTION), completionProvider);
+        extend(CompletionType.BASIC, PlatformPatterns.psiElement(SimpleTypes.IDENTIFIER), completionProvider);
     }
 
 }
