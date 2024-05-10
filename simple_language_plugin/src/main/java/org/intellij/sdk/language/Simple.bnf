@@ -19,14 +19,43 @@
 
 simpleFile ::= item_*
 
-private item_ ::= (SEPARATOR|COMMENT|CRLF|KEYWORD|IDENTIFIER|NUMBER_LITERAL|STRING_LITERAL|OPERATOR)
+private item_ ::= (statement|functionDefinition|comment|separator|crlf)
 
-property ::= (KEY) {
-//  pin=3
-  recoverWhile="recover_property"
-  mixin="org.intellij.sdk.language.psi.impl.SimpleNamedElementImpl"
-  implements="org.intellij.sdk.language.psi.SimpleNamedElement"
-  methods=[getKey getValue getName setName getNameIdentifier getPresentation]
-}
+private functionDefinition ::= 'fish' 'define' functionName '(' parameterList ')' controlStructure
+private functionName ::= IDENTIFIER
+private parameterList ::= (parameter (',' parameter)* )?
+private parameter ::= IDENTIFIER
 
-private recover_property ::= !(KEY|SEPARATOR|COMMENT)
+private controlStructure ::= statementBlock
+private statementBlock ::= '{' statement* '}'
+
+private statement ::= controlFlow | assignment | functionCall | comment | variableDeclaration
+
+private controlFlow ::= ifStatement | loopStatement | caseStatement
+
+private ifStatement ::= 'if' expression 'then' statementBlock elseIfStatement* elseStatement? 'end_if'
+private elseIfStatement ::= 'else' 'if' expression 'then' statementBlock
+private elseStatement ::=  'else' statementBlock
+
+private loopStatement ::= 'loop' statementBlock 'end_loop'
+private caseStatement ::= 'case_of' expression caseClause* 'end_case'
+private caseClause ::= 'case' expression statementBlock
+
+private assignment ::= IDENTIFIER '=' expression
+private functionCall ::= IDENTIFIER '(' argumentList ')'
+private argumentList ::= (expression (',' expression)* )?
+
+private variableDeclaration ::= 'local' IDENTIFIER ('=' expression)?
+
+private expression ::= binaryExpression | unaryExpression | literal | IDENTIFIER
+private binaryExpression ::= expression operator expression
+private unaryExpression ::= operator expression
+private literal ::= STRING_LITERAL | NUMBER_LITERAL
+
+private operator ::= OPERATOR
+
+private comment ::= COMMENT
+private separator ::= SEPARATOR
+private crlf ::= CRLF
+//noinspection BnfUnusedRule
+private keyword ::= KEYWORD
