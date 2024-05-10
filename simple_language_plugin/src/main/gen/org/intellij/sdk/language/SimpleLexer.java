@@ -4,7 +4,6 @@
 // Copyright 2000-2022 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
 package org.intellij.sdk.language;
 
-import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
 import org.intellij.sdk.language.psi.SimpleTypes;
 import com.intellij.psi.TokenType;
@@ -88,7 +87,7 @@ class SimpleLexer implements FlexLexer {
   private static final String ZZ_CMAP_BLOCKS_PACKED_0 =
     "\11\0\1\1\1\2\1\3\1\1\1\4\16\0\4\3"+
     "\1\1\1\3\1\5\1\6\1\7\1\10\1\6\1\11"+
-    "\2\6\2\10\1\3\1\12\1\13\1\14\12\15\1\3"+
+    "\2\6\2\10\1\6\1\12\1\13\1\14\12\15\1\3"+
     "\1\16\1\10\1\17\1\20\1\3\1\6\4\7\1\21"+
     "\25\7\1\6\1\3\2\6\1\22\1\3\1\23\1\24"+
     "\1\25\1\26\1\27\1\30\1\31\1\32\1\33\1\34"+
