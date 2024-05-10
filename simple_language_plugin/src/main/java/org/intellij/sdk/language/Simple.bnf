@@ -51,22 +51,22 @@ private command_body ::= any_in_command+
 private keywords_in_command_block ::= (fish | case_of | case | end_case | define | end | exit | global | if | then |
     elseif | else | endif | local | lock | loop | endloop | continue | return | section | end_section | struct  |)
 
-assignment_statement ::= identifier assignment_operator (expression | function_call_expression)
+function_call_statement ::= function_call_expression
 
+
+assignment_statement ::= identifier assignment_operator expression
+var_declare_statement ::= local_var_declare_statement | global_var_declare_statement
 private local_var_declare_statement ::= local identifier (comma_operator identifier)* (assignment_operator expression)?
 private global_var_declare_statement ::= global identifier (comma_operator identifier)* (assignment_operator expression)?
-var_declare_statement ::= local_var_declare_statement | global_var_declare_statement
+
 
 private expression ::=  (left_parenthesis inner_expression right_parenthesis) | inner_expression
 private inner_expression ::=  binary_expression | unary_expression | value | function_call_expression
-
-function_call_statement ::= function_call_expression
 private function_call_expression ::= identifier argument_list?
-private argument_list ::= left_parenthesis argument_expression (comma_operator argument_expression)* right_parenthesis
-private argument_expression ::= function_call_expression | value
+private argument_list ::= left_parenthesis expression (comma_operator expression)* right_parenthesis
 
 private binary_expression ::= value binary_operator value
-private unary_expression ::= binary_operator expression
+private unary_expression ::= unary_operator expression
 
 
 private comment_block ::= end_of_line_comment

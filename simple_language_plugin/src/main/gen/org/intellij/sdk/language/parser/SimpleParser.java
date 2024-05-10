@@ -55,31 +55,21 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // function_call_expression | value
-  static boolean argument_expression(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "argument_expression")) return false;
-    boolean r;
-    r = function_call_expression(b, l + 1);
-    if (!r) r = value(b, l + 1);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // left_parenthesis argument_expression (comma_operator argument_expression)* right_parenthesis
+  // left_parenthesis expression (comma_operator expression)* right_parenthesis
   static boolean argument_list(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "argument_list")) return false;
     if (!nextTokenIs(b, LEFT_PARENTHESIS)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = left_parenthesis(b, l + 1);
-    r = r && argument_expression(b, l + 1);
+    r = r && expression(b, l + 1);
     r = r && argument_list_2(b, l + 1);
     r = r && right_parenthesis(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
 
-  // (comma_operator argument_expression)*
+  // (comma_operator expression)*
   private static boolean argument_list_2(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "argument_list_2")) return false;
     while (true) {
@@ -90,13 +80,13 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // comma_operator argument_expression
+  // comma_operator expression
   private static boolean argument_list_2_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "argument_list_2_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = comma_operator(b, l + 1);
-    r = r && argument_expression(b, l + 1);
+    r = r && expression(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
@@ -108,7 +98,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // identifier assignment_operator (expression | function_call_expression)
+  // identifier assignment_operator expression
   public static boolean assignment_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "assignment_statement")) return false;
     if (!nextTokenIs(b, IDENTIFIER)) return false;
@@ -116,17 +106,8 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b);
     r = identifier(b, l + 1);
     r = r && assignment_operator(b, l + 1);
-    r = r && assignment_statement_2(b, l + 1);
+    r = r && expression(b, l + 1);
     exit_section_(b, m, ASSIGNMENT_STATEMENT, r);
-    return r;
-  }
-
-  // expression | function_call_expression
-  private static boolean assignment_statement_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "assignment_statement_2")) return false;
-    boolean r;
-    r = expression(b, l + 1);
-    if (!r) r = function_call_expression(b, l + 1);
     return r;
   }
 
