@@ -57,17 +57,18 @@ function_call_statement ::= function_call_expression
 
 
 assignment_statement ::= identifier assignment_right
-array_assignment_statement ::= identifier (left_parenthesis csv_expression right_parenthesis) assignment_right
+array_assignment_statement ::= identifier parenthesis_csv_expression assignment_right
 var_declare_statement ::= local_var_declare_statement | global_var_declare_statement
 private local_var_declare_statement ::= local identifier (comma_operator identifier)* (assignment_operator expression)?
 private global_var_declare_statement ::= global identifier (comma_operator identifier)* (assignment_operator expression)?
 private assignment_right ::= assignment_operator expression
 
 
-private expression ::= function_call_expression | unary_expression |binary_expression | value | parenthesis_expression
+private expression ::= parenthesis_expression | function_call_expression | unary_expression |binary_expression | value
 private parenthesis_expression ::= left_parenthesis expression right_parenthesis
-private function_call_expression ::= identifier left_parenthesis csv_expression right_parenthesis
+private function_call_expression ::= identifier parenthesis_csv_expression
 private csv_expression ::= expression (comma_operator expression)*
+private parenthesis_csv_expression ::= left_parenthesis csv_expression right_parenthesis
 private command_scope_inline_fish_expression ::= left_square_bracket fish_statement right_square_bracket
 
 private binary_expression ::= value binary_operator expression
