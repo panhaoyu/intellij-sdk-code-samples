@@ -29,7 +29,7 @@ private parameter ::= identifier
 private controlStructure ::= statementBlock
 private statementBlock ::=  statement*
 
-private statement ::= controlFlow | assignment_statement | function_call_statement | multilineComment | variableDeclaration | commandStatement
+private statement ::= controlFlow | assignment_statement | function_call_statement | multilineComment | var_declare | commandStatement
 private outerScopeStatement ::=  left_square_bracket statement right_square_bracket
 
 private controlFlow ::= if_statement | loop_statement | case_statement
@@ -51,13 +51,13 @@ private assignment_statement ::= identifier assignment_operator expression
 private function_call_statement ::= identifier left_parenthesis argument_list right_parenthesis
 private argument_list ::= (identifier (comma_operator identifier)* )?
 
-private localVariableDeclaration ::= local identifier (comma_operator identifier)* (assignment_operator expression)?
-private globalVariableDeclaration ::= global identifier (comma_operator identifier)* (assignment_operator expression)?
-private  variableDeclaration ::= localVariableDeclaration | globalVariableDeclaration
+private local_var_declare ::= local identifier (comma_operator identifier)* (assignment_operator expression)?
+private global_var_declare ::= global identifier (comma_operator identifier)* (assignment_operator expression)?
+private  var_declare ::= local_var_declare | global_var_declare
 
-private expression ::=  binary_expression | unaryExpression | name_or_value
+private expression ::=  binary_expression | unary_expression | name_or_value
 private binary_expression ::= name_or_value binary_operator name_or_value
-private unaryExpression ::= binary_operator expression | name_or_value
+private unary_expression ::= binary_operator expression | name_or_value
 
 
 private multilineComment ::= comment
