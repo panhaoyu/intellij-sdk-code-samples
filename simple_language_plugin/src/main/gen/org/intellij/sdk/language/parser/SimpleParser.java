@@ -115,6 +115,19 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // name_or_value binary_operator name_or_value
+  static boolean binary_expression(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "binary_expression")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = name_or_value(b, l + 1);
+    r = r && binary_operator(b, l + 1);
+    r = r && name_or_value(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
   // BINARY_OPERATOR
   static boolean binary_operator(PsiBuilder b, int l) {
     return consumeToken(b, BINARY_OPERATOR);
@@ -361,27 +374,13 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // expression_binary_suffix | unaryExpression | literal | identifier
+  // binary_expression | unaryExpression | name_or_value
   static boolean expression(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "expression")) return false;
     boolean r;
-    r = expression_binary_suffix(b, l + 1);
+    r = binary_expression(b, l + 1);
     if (!r) r = unaryExpression(b, l + 1);
-    if (!r) r = literal(b, l + 1);
-    if (!r) r = identifier(b, l + 1);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // expression binary_operator expression
-  static boolean expression_binary_suffix(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "expression_binary_suffix")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = expression(b, l + 1);
-    r = r && binary_operator(b, l + 1);
-    r = r && expression(b, l + 1);
-    exit_section_(b, m, null, r);
+    if (!r) r = name_or_value(b, l + 1);
     return r;
   }
 
@@ -691,6 +690,16 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // identifier | literal
+  static boolean name_or_value(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "name_or_value")) return false;
+    boolean r;
+    r = identifier(b, l + 1);
+    if (!r) r = literal(b, l + 1);
+    return r;
+  }
+
+  /* ********************************************************** */
   // outerScopeStatement|functionDefinition|multilineComment|crlf|commandStatement
   static boolean outerItem(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "outerItem")) return false;
@@ -876,13 +885,13 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // binary_operator expression | variableDeclaration
+  // binary_operator expression | name_or_value
   static boolean unaryExpression(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "unaryExpression")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = unaryExpression_0(b, l + 1);
-    if (!r) r = variableDeclaration(b, l + 1);
+    if (!r) r = name_or_value(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }

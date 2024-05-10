@@ -29,38 +29,39 @@ private parameter ::= identifier
 private controlStructure ::= statementBlock
 private statementBlock ::=  statement*
 
-private statement ::= controlFlow | assignment | functionCall | multilineComment | variableDeclaration | commandStatement
+private statement ::= controlFlow | assignment_statement | function_call_statement | multilineComment | variableDeclaration | commandStatement
 private outerScopeStatement ::=  left_square_bracket statement right_square_bracket
 
-private controlFlow ::= ifStatement | loopStatement | caseStatement
+private controlFlow ::= if_statement | loop_statement | case_statement
 
-private ifStatement ::= if expression then statementBlock elseIfStatement* elseStatement? endif
-private elseIfStatement ::= elseif expression then statementBlock
-private elseStatement ::=  else statementBlock
+private if_statement ::= if expression then statementBlock else_if_statement* else_statement? endif
+private else_if_statement ::= elseif expression then statementBlock
+private else_statement ::=  else statementBlock
 
-private loopStatement ::= loop statementBlock endloop
-private caseStatement ::= caseof expression caseClause* endcase
-private caseClause ::= case expression statementBlock
+private loop_statement ::= loop statementBlock endloop
+private case_statement ::= caseof expression case_clause* endcase
+private case_clause ::= case expression statementBlock
 
-private commandStatement ::= command commandBlock* endcommand
-private anyInCommand ::= (identifier | left_square_bracket | right_square_bracket |
+private commandStatement ::= command command_block* endcommand
+private any_in_command ::= (identifier | left_square_bracket | right_square_bracket |
  unary_operator | binary_operator| dot_operator|function_call_operator | literal | ellipsis)
-private commandBlock ::= anyInCommand+
+private command_block ::= any_in_command+
 
-private assignment ::= identifier assignment_operator expression
-private functionCall ::= identifier left_parenthesis argumentList right_parenthesis
-private argumentList ::= (expression (comma_operator expression)* )?
+private assignment_statement ::= identifier assignment_operator expression
+private function_call_statement ::= identifier left_parenthesis argument_list right_parenthesis
+private argument_list ::= (identifier (comma_operator identifier)* )?
 
 private localVariableDeclaration ::= local identifier (comma_operator identifier)* (assignment_operator expression)?
 private globalVariableDeclaration ::= global identifier (comma_operator identifier)* (assignment_operator expression)?
 private  variableDeclaration ::= localVariableDeclaration | globalVariableDeclaration
 
-private expression ::=  expression_binary_suffix | unaryExpression | literal | identifier
-private expression_binary_suffix ::= expression binary_operator expression
-private unaryExpression ::= binary_operator expression | variableDeclaration
+private expression ::=  binary_expression | unaryExpression | name_or_value
+private binary_expression ::= name_or_value binary_operator name_or_value
+private unaryExpression ::= binary_operator expression | name_or_value
 
 
 private multilineComment ::= comment
+private  name_or_value ::= identifier | literal
 
 private literal ::= STRING_LITERAL | NUMBER_LITERAL
 private comment ::= COMMENT
