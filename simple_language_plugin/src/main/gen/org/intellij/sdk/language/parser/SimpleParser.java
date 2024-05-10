@@ -255,6 +255,40 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // expression (comma_operator expression)*
+  static boolean csv_expression(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "csv_expression")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = expression(b, l + 1);
+    r = r && csv_expression_1(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // (comma_operator expression)*
+  private static boolean csv_expression_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "csv_expression_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!csv_expression_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "csv_expression_1", c)) break;
+    }
+    return true;
+  }
+
+  // comma_operator expression
+  private static boolean csv_expression_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "csv_expression_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = comma_operator(b, l + 1);
+    r = r && expression(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
   // DEFINE
   static boolean define(PsiBuilder b, int l) {
     return consumeToken(b, DEFINE);
@@ -423,7 +457,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // identifier left_parenthesis value right_parenthesis
+  // identifier left_parenthesis csv_expression right_parenthesis
   static boolean function_call_expression(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "function_call_expression")) return false;
     if (!nextTokenIs(b, IDENTIFIER)) return false;
@@ -431,7 +465,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b);
     r = identifier(b, l + 1);
     r = r && left_parenthesis(b, l + 1);
-    r = r && value(b, l + 1);
+    r = r && csv_expression(b, l + 1);
     r = r && right_parenthesis(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
@@ -471,7 +505,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // fish define identifier function_parameter_list
+  // fish define identifier function_parameter_list?
   static boolean function_define_header(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "function_define_header")) return false;
     if (!nextTokenIs(b, FISH)) return false;
@@ -480,46 +514,47 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     r = fish(b, l + 1);
     r = r && define(b, l + 1);
     r = r && identifier(b, l + 1);
-    r = r && function_parameter_list(b, l + 1);
+    r = r && function_define_header_3(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
 
-  /* ********************************************************** */
-  // (left_parenthesis identifier (comma_operator identifier)* right_parenthesis)?
-  static boolean function_parameter_list(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "function_parameter_list")) return false;
-    function_parameter_list_0(b, l + 1);
+  // function_parameter_list?
+  private static boolean function_define_header_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "function_define_header_3")) return false;
+    function_parameter_list(b, l + 1);
     return true;
   }
 
+  /* ********************************************************** */
   // left_parenthesis identifier (comma_operator identifier)* right_parenthesis
-  private static boolean function_parameter_list_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "function_parameter_list_0")) return false;
+  static boolean function_parameter_list(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "function_parameter_list")) return false;
+    if (!nextTokenIs(b, LEFT_PARENTHESIS)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = left_parenthesis(b, l + 1);
     r = r && identifier(b, l + 1);
-    r = r && function_parameter_list_0_2(b, l + 1);
+    r = r && function_parameter_list_2(b, l + 1);
     r = r && right_parenthesis(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
 
   // (comma_operator identifier)*
-  private static boolean function_parameter_list_0_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "function_parameter_list_0_2")) return false;
+  private static boolean function_parameter_list_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "function_parameter_list_2")) return false;
     while (true) {
       int c = current_position_(b);
-      if (!function_parameter_list_0_2_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "function_parameter_list_0_2", c)) break;
+      if (!function_parameter_list_2_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "function_parameter_list_2", c)) break;
     }
     return true;
   }
 
   // comma_operator identifier
-  private static boolean function_parameter_list_0_2_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "function_parameter_list_0_2_0")) return false;
+  private static boolean function_parameter_list_2_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "function_parameter_list_2_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = comma_operator(b, l + 1);

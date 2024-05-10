@@ -27,8 +27,8 @@ private command_scope ::= (command_scope_inline_fish_statement|function_define|c
 private command_scope_inline_fish_statement ::= command_scope_inline_fish_expression
 
 function_define ::= function_define_header fish_block? end
-private function_define_header ::= fish define identifier function_parameter_list
-private function_parameter_list ::= (left_parenthesis identifier (comma_operator identifier)* right_parenthesis)?
+private function_define_header ::= fish define identifier function_parameter_list?
+private function_parameter_list ::= (left_parenthesis identifier (comma_operator identifier)* right_parenthesis)
 
 fish_block ::=  (if_block | loop_block | case_block | comment_block | command_block | fish_statement)+
 
@@ -64,7 +64,8 @@ private global_var_declare_statement ::= global identifier (comma_operator ident
 
 private expression ::= function_call_expression | unary_expression |binary_expression | value | parenthesis_expression
 private parenthesis_expression ::= left_parenthesis expression right_parenthesis
-private function_call_expression ::= identifier left_parenthesis value right_parenthesis
+private function_call_expression ::= identifier left_parenthesis csv_expression right_parenthesis
+private csv_expression ::= expression (comma_operator expression)*
 private command_scope_inline_fish_expression ::= left_square_bracket fish_statement right_square_bracket
 
 private binary_expression ::= value binary_operator expression
