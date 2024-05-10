@@ -18,9 +18,9 @@
 
 simpleFile ::= item_*
 
-private item_ ::= (property|COMMENT|CRLF)
+private item_ ::= (KEY|VALUE|SEPARATOR|COMMENT|CRLF|property)
 
-property ::= (KEY? SEPARATOR VALUE?) | KEY {
+property ::= (KEY | SEPARATOR | VALUE) {
   pin=3
   recoverWhile="recover_property"
   mixin="org.intellij.sdk.language.psi.impl.SimpleNamedElementImpl"
