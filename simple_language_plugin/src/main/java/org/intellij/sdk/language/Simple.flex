@@ -36,6 +36,12 @@ Number=[0-9][0-9.]*([eE]-?[0-9]+)?
 
 Operators = [+\-*/!@#$%\^&*()<>=\[\]{}:,/?~`]
 
+StringA = \" [^\"]* \"
+
+StringB = \' [^\']* \'
+
+String = {StringA} | {StringB}
+
 Keyword=(
     "log"|"throughgoing"|"jj"|"extent"|"unbonded"|"delete"|"angle"|"distribute"|"set"|"resolution"|"to"|"expand"|
     "spin"|"attribute"|"range"|"register"|"by"|"walls"|"cycles"|"seating"|"deform"|"yforce"|"fully"|"nd"|"origin"|"at"|
@@ -87,27 +93,14 @@ Keyword=(
 
     //Literals
     {Number} {return SimpleTypes.VALUE;}
-    [\"'] { string.setLength(0); yybegin(STRING); }
+
+    {String} {return SimpleTypes.VALUE;}
 
     // Operators
     ({Operators} | {WhiteSpace})+ {return SimpleTypes.SEPARATOR;}
 
     // Comments
     {Comment} {return SimpleTypes.COMMENT;}
-}
-
-
-<STRING> {
-    \" { yybegin(YYINITIAL); return SimpleTypes.VALUE; }
-    \' { yybegin(YYINITIAL); return SimpleTypes.VALUE; }
-    [\"\']+                   { string.append( yytext() ); }
-    \\t                            { string.append('\t'); }
-    \\n                            { string.append('\n'); }
-
-    \\r                            { string.append('\r'); }
-    \\\"                           { string.append('\"'); }
-    \\\'                           { string.append('\''); }
-    \\                             { string.append('\\'); }
 }
 
 /* error fallback */
