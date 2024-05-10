@@ -16,12 +16,12 @@ import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAtt
 
 public class SimpleSyntaxHighlighter extends SyntaxHighlighterBase {
 
-    //    public static final TextAttributesKey SEPARATOR =
-//            createTextAttributesKey("SIMPLE_SEPARATOR", DefaultLanguageHighlighterColors.OPERATION_SIGN);
     public static final TextAttributesKey OPERATOR =
             createTextAttributesKey("SIMPLE_OPERATOR", DefaultLanguageHighlighterColors.OPERATION_SIGN);
     public static final TextAttributesKey KEYWORD =
             createTextAttributesKey("SIMPLE_KEYWORD", DefaultLanguageHighlighterColors.KEYWORD);
+    public static final TextAttributesKey FISH_FUNCTION =
+            createTextAttributesKey("FISH_FUNCTIONS", DefaultLanguageHighlighterColors.FUNCTION_CALL);
     public static final TextAttributesKey STRING_LITERAL =
             createTextAttributesKey("SIMPLE_VALUE", DefaultLanguageHighlighterColors.STRING);
     public static final TextAttributesKey NUMBER_LITERAL =
@@ -35,12 +35,12 @@ public class SimpleSyntaxHighlighter extends SyntaxHighlighterBase {
 
 
     private static final TextAttributesKey[] BAD_CHARACTER_KEYS = new TextAttributesKey[]{BAD_CHARACTER};
-    //    private static final TextAttributesKey[] SEPARATOR_KEYS = new TextAttributesKey[]{SEPARATOR};
     private static final TextAttributesKey[] OPERATOR_KEYS = new TextAttributesKey[]{OPERATOR};
     private static final TextAttributesKey[] KEYWORD_KEYS = new TextAttributesKey[]{KEYWORD};
     private static final TextAttributesKey[] STRING_LITERAL_KEYS = new TextAttributesKey[]{STRING_LITERAL};
     private static final TextAttributesKey[] NUMBER_LITERAL_KEYS = new TextAttributesKey[]{NUMBER_LITERAL};
     private static final TextAttributesKey[] IDENTIFIER_KEYS = new TextAttributesKey[]{IDENTIFIER};
+    private static final TextAttributesKey[] FISH_FUNCTION_KEYS = new TextAttributesKey[]{FISH_FUNCTION};
     private static final TextAttributesKey[] COMMENT_KEYS = new TextAttributesKey[]{COMMENT};
     private static final TextAttributesKey[] EMPTY_KEYS = new TextAttributesKey[0];
 
@@ -64,10 +64,10 @@ public class SimpleSyntaxHighlighter extends SyntaxHighlighterBase {
             return IDENTIFIER_KEYS;
         } else if (tokenType.equals(SimpleTypes.COMMENT)) {
             return COMMENT_KEYS;
+        } else if (tokenType.equals(SimpleTypes.FISH_FUNCTION)) {
+            return FISH_FUNCTION_KEYS;
         } else if (tokenType.equals(TokenType.BAD_CHARACTER)) {
             return BAD_CHARACTER_KEYS;
-//        } else if (tokenType.equals(SimpleTypes.SEPARATOR)) {
-//            return SEPARATOR_KEYS;
         } else {
             return EMPTY_KEYS;
         }

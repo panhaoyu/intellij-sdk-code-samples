@@ -1,9 +1,7 @@
 // Copyright 2000-2022 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
 package org.intellij.sdk.language;
 
-import com.intellij.formatting.WhiteSpace;import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
-import org.bouncycastle.pqc.jcajce.interfaces.SABERKey;
 import org.intellij.sdk.language.psi.SimpleTypes;
 import com.intellij.psi.TokenType;
 
@@ -92,7 +90,34 @@ StringB = \' [^\']* \'
 
 String = {StringA} | {StringB}
 
-FishFuntions=(
+Keywords = (
+    "caseof" | "case_of" | "case of" |
+    "case" |
+    "endcase" | "end_case" | "end case" |
+    "command" |
+    "endcommand" | "end_command" | "end command" |
+    "define" |
+    "end" |
+    "exit" |
+    "global" |
+    "if" |
+    "elseif" | "else_if" | "else if" |
+    "else" |
+    "endif" | "end_if" | "end if" |
+    "local" |
+    "lock" |
+    "loop" |
+    "endloop" | "end_loop" | "end loop" |
+    "exitloop" | "exit_loop" | "exit loop" |
+    "continue" |
+    "return" |
+    "section" |
+    "endsection" | "end_section" | "end section" |
+    "exitsection" | "exit_section" | "exit section" |
+    "struct" | "structure"
+)
+
+FishFuntion=(
 "array"|
 "list"|
 "string"|
@@ -1897,11 +1922,13 @@ FishFuntions=(
 %%
 
 //Keywords
-<YYINITIAL> {FishFuntions} {return SimpleTypes.KEYWORD;}
+<YYINITIAL> {Keywords} {return SimpleTypes.KEYWORD;}
 
 //Identifiers
 <YYINITIAL>{
     //Identifiers
+    {FishFuntion} {return SimpleTypes.FISH_FUNCTION;}
+
     {Identifier} {return SimpleTypes.IDENTIFIER;}
 
     //Literals

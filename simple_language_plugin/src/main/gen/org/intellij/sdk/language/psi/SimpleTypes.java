@@ -13,6 +13,7 @@ public interface SimpleTypes {
     IElementType COMMENT = new SimpleTokenType("COMMENT");
     IElementType CRLF = new SimpleTokenType("CRLF");
     IElementType KEYWORD = new SimpleTokenType("KEYWORD");
+    IElementType FISH_FUNCTION = new SimpleTokenType("FISH_FUNCTIONS");
     IElementType SEPARATOR = new SimpleTokenType("SEPARATOR");
     IElementType STRING_LITERAL = new SimpleTokenType("STRING_LITERAL");
     IElementType NUMBER_LITERAL = new SimpleTokenType("NUMBER_LITERAL");
