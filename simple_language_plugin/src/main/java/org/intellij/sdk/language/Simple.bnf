@@ -24,7 +24,7 @@
 simpleFile ::= command_scope*
 
 private command_scope ::= (command_scope_inline_fish_statement|function_define|comment_block|command_block)
-private command_scope_inline_fish_statement ::= command_scope_inline_fish_expression
+command_scope_inline_fish_statement ::= command_scope_inline_fish_expression
 
 function_define ::= function_define_header fish_block? end
 private function_define_header ::= fish define identifier function_parameter_list?
