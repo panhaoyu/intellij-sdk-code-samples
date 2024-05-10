@@ -93,3 +93,32 @@ property ::= (identifier) {
   methods=[getKey getValue getName setName getNameIdentifier getPresentation]
 }
 private recover_property ::= !(IDENTIFIER|COMMENT)
+
+
+
+private FISH ::= FISH
+private CASEOF ::= CASEOF
+private CASE ::= CASE
+private ENDCASE ::= ENDCASE
+private COMMAND ::= COMMAND
+private ENDCOMMAND ::= ENDCOMMAND
+private DEFINE ::= DEFINE
+private END ::= END
+private EXIT ::= EXIT
+private GLOBAL ::= GLOBAL
+private IF ::= IF
+private ELSEIF ::= ELSEIF
+private ELSE ::= ELSE
+private ENDIF ::= ENDIF
+private LOCAL ::= LOCAL
+private LOCK ::= LOCK
+private LOOP ::= LOOP
+private ENDLOOP ::= ENDLOOP
+private EXITLOOP ::= EXITLOOP
+private CONTINUE ::= CONTINUE
+private RETURN ::= RETURN
+private SECTION ::= SECTION
+private ENDSECTION ::= ENDSECTION
+private EXITSECTION ::= EXITSECTION
+private STRUCT ::= STRUCT
+
