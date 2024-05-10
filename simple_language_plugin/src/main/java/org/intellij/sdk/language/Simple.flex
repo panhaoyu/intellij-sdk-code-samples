@@ -30,11 +30,11 @@ Comment = {EndOfLineComment}
 
 EndOfLineComment     = ";" {InputCharacter}* {LineTerminator}?
 
-Identifier = [:jletter:] [:jletterdigit:]*
+Identifier = [:jletter:] ([:jletterdigit:]*|".")
 
 Number=[0-9][0-9.]*([eE]-?[0-9]+)?
 
-Operators = {ArithmeticOperator} | {ComparisonOperator} | {EqualityOperator} | {LogicalOperator} | {UnaryOperator} | {AssignmentOperator} | {MemberAccessOperator} | {FunctionCallOperator} | {BracketOperator} | {CommaOperator} | {DotOperator}
+BinaryOperator = { ArithmeticOperator } | { ComparisonOperator } | { EqualityOperator } | { LogicalOperator } | {MemberAccessOperator}
 
 ArithmeticOperator = { PlusOperator } | { MinusOperator } | { MultiplyOperator } | { DivideOperator } | { FloorDivideOperator } | { ModulusOperator } | { ExponentOperator }
 PlusOperator = "+"
@@ -78,7 +78,6 @@ CommaOperator = ","
 DotOperator = "."
 
 // Bracket Operators
-BracketOperator = {LeftParenthesis} | {RightParenthesis} | {LeftSquareBracket} | {RightSquareBracket} | {LeftCurlyBracket} | {RightCurlyBracket}
 LeftParenthesis         = "("
 RightParenthesis        = ")"
 LeftSquareBracket       = "["
@@ -139,12 +138,27 @@ Keywords = (
     {String} {return SimpleTypes.STRING_LITERAL;}
 
     // Operators
-    {Operators} {return SimpleTypes.OPERATOR;}
+    {BinaryOperator} {return SimpleTypes.BINARY_OPERATOR;}
 
-    {WhiteSpace}+ {return SimpleTypes.OPERATOR;}
+    {AssignmentOperator} {return SimpleTypes.ASSIGNMENT_OPERATOR;}
+
+    {UnaryOperator} {return SimpleTypes.UNARY_OPERATOR;}
+
+    {WhiteSpace}+ {return TokenType.WHITE_SPACE;}
 
     // Comments
     {Comment} {return SimpleTypes.COMMENT;}
+
+    {LeftCurlyBracket} {return SimpleTypes.LEFT_CURLY_BRACKET; }
+    {RightCurlyBracket} {return SimpleTypes.RIGHT_CURLY_BRACKET; }
+    {LeftParenthesis} {return SimpleTypes.LEFT_PARENTHESIS; }
+    {RightParenthesis} {return SimpleTypes.RIGHT_PARENTHESIS; }
+    {LeftSquareBracket} {return SimpleTypes.LEFT_SQUARE_BRACKET; }
+    {RightSquareBracket} {return SimpleTypes.RIGHT_SQUARE_BRACKET; }
+
+    {FunctionCallOperator} {return SimpleTypes.FUNCTION_CALL_OPERATOR; }
+    {DotOperator} {return SimpleTypes.DOT_OPERATOR; }
+    {CommaOperator} {return SimpleTypes.COMMA_OPERATOR; }
 }
 
 /* error fallback */

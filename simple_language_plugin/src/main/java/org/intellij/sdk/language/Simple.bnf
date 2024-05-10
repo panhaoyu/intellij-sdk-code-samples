@@ -21,10 +21,10 @@ simpleFile ::= item_*
 
 private item_ ::= (outerScopeStatement|functionDefinition|multilineComment|separator|crlf)
 
-private functionDefinition ::= 'fish' 'define' functionName '(' parameterList ')' controlStructure
-private functionName ::= IDENTIFIER
+private functionDefinition ::= 'fish' 'define' functionName ('(' parameterList ')')? controlStructure
+private functionName ::= identifier
 private parameterList ::= (parameter (',' parameter)* )?
-private parameter ::= IDENTIFIER
+private parameter ::= identifier
 
 private controlStructure ::= statementBlock
 private statementBlock ::=  statement*
@@ -42,28 +42,44 @@ private loopStatement ::= 'loop' statementBlock 'end_loop'
 private caseStatement ::= 'case_of' expression caseClause* 'end_case'
 private caseClause ::= 'case' expression statementBlock
 
-private assignment ::= IDENTIFIER '=' expression
-private functionCall ::= IDENTIFIER '(' argumentList ')'
+private assignment ::= identifier '=' expression
+private functionCall ::= identifier '(' argumentList ')'
 private argumentList ::= (expression (',' expression)* )?
 
-private localVariableDeclaration ::= 'local' IDENTIFIER (',' IDENTIFIER)* ('=' expression)?
-private globalVariableDeclaration ::= 'global' IDENTIFIER (',' IDENTIFIER)* ('=' expression)?
+private localVariableDeclaration ::= 'local' identifier (',' identifier)* ('=' expression)?
+private globalVariableDeclaration ::= 'global' identifier (',' identifier)* ('=' expression)?
 private  variableDeclaration ::= localVariableDeclaration | globalVariableDeclaration
 
-private expression ::= binaryExpression | unaryExpression | literal | IDENTIFIER
-private binaryExpression ::= expression operator expression
-private unaryExpression ::= operator expression | variableDeclaration
+private expression ::= binaryExpression | unaryExpression | literal | identifier
+private binaryExpression ::= expression binary_operator expression
+private unaryExpression ::= binary_operator expression | variableDeclaration
 
 
 private multilineComment ::= comment (crlf* comment)*
 
 private literal ::= STRING_LITERAL | NUMBER_LITERAL
 private comment ::= COMMENT
-private operator ::= OPERATOR
-private separator ::= SEPARATOR
+private binary_operator ::= BINARY_OPERATOR
+private unary_operator ::= UNARY_OPERATOR
+private assignment_operator ::= ASSIGNMENT_OPERATOR
 private crlf ::= CRLF
 //noinspection BnfUnusedRule
 private keyword ::= KEYWORD
+
+private function_call_operator ::= Function_Call_Operator
+private comma_operator ::= Comma_Operator
+private dot_operator ::= Dot_Operator
+
+// Bracket Operators
+private left_parenthesis ::= Left_Parenthesis
+private right_parenthesis ::=  Right_Parenthesis
+private left_square_bracket ::= Left_Square_Bracket
+private right_square_bracket::=Right_Square_Bracket
+private left_curly_bracket ::= Left_Curly_Bracket
+private right_curly_bracket ::= Right_Curly_Bracket
+
+private  identifier ::= IDENTIFIER
+
 
 property ::= (KEY) {
 //  pin=3

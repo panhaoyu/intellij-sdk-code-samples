@@ -77,13 +77,13 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // IDENTIFIER '=' expression
+  // identifier '=' expression
   static boolean assignment(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "assignment")) return false;
     if (!nextTokenIs(b, IDENTIFIER)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeToken(b, IDENTIFIER);
+    r = identifier(b, l + 1);
     r = r && consumeToken(b, "=");
     r = r && expression(b, l + 1);
     exit_section_(b, m, null, r);
@@ -91,16 +91,28 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // expression operator expression
+  // ASSIGNMENT_OPERATOR
+  static boolean assignment_operator(PsiBuilder b, int l) {
+    return consumeToken(b, ASSIGNMENT_OPERATOR);
+  }
+
+  /* ********************************************************** */
+  // expression binary_operator expression
   static boolean binaryExpression(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "binaryExpression")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = expression(b, l + 1);
-    r = r && operator(b, l + 1);
+    r = r && binary_operator(b, l + 1);
     r = r && expression(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
+  }
+
+  /* ********************************************************** */
+  // BINARY_OPERATOR
+  static boolean binary_operator(PsiBuilder b, int l) {
+    return consumeToken(b, BINARY_OPERATOR);
   }
 
   /* ********************************************************** */
@@ -142,6 +154,12 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // Comma_Operator
+  static boolean comma_operator(PsiBuilder b, int l) {
+    return consumeToken(b, COMMA_OPERATOR);
+  }
+
+  /* ********************************************************** */
   // COMMENT
   static boolean comment(PsiBuilder b, int l) {
     return consumeToken(b, COMMENT);
@@ -168,6 +186,12 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   // CRLF
   static boolean crlf(PsiBuilder b, int l) {
     return consumeToken(b, CRLF);
+  }
+
+  /* ********************************************************** */
+  // Dot_Operator
+  static boolean dot_operator(PsiBuilder b, int l) {
+    return consumeToken(b, DOT_OPERATOR);
   }
 
   /* ********************************************************** */
@@ -198,25 +222,25 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // binaryExpression | unaryExpression | literal | IDENTIFIER
+  // binaryExpression | unaryExpression | literal | identifier
   static boolean expression(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "expression")) return false;
     boolean r;
     r = binaryExpression(b, l + 1);
     if (!r) r = unaryExpression(b, l + 1);
     if (!r) r = literal(b, l + 1);
-    if (!r) r = consumeToken(b, IDENTIFIER);
+    if (!r) r = identifier(b, l + 1);
     return r;
   }
 
   /* ********************************************************** */
-  // IDENTIFIER '(' argumentList ')'
+  // identifier '(' argumentList ')'
   static boolean functionCall(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "functionCall")) return false;
     if (!nextTokenIs(b, IDENTIFIER)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeToken(b, IDENTIFIER);
+    r = identifier(b, l + 1);
     r = r && consumeToken(b, "(");
     r = r && argumentList(b, l + 1);
     r = r && consumeToken(b, ")");
@@ -225,7 +249,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // 'fish' 'define' functionName '(' parameterList ')' controlStructure
+  // 'fish' 'define' functionName ('(' parameterList ')')? controlStructure
   static boolean functionDefinition(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "functionDefinition")) return false;
     boolean r;
@@ -233,35 +257,58 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     r = consumeToken(b, "fish");
     r = r && consumeToken(b, "define");
     r = r && functionName(b, l + 1);
-    r = r && consumeToken(b, "(");
-    r = r && parameterList(b, l + 1);
-    r = r && consumeToken(b, ")");
+    r = r && functionDefinition_3(b, l + 1);
     r = r && controlStructure(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
 
-  /* ********************************************************** */
-  // IDENTIFIER
-  static boolean functionName(PsiBuilder b, int l) {
-    return consumeToken(b, IDENTIFIER);
+  // ('(' parameterList ')')?
+  private static boolean functionDefinition_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "functionDefinition_3")) return false;
+    functionDefinition_3_0(b, l + 1);
+    return true;
+  }
+
+  // '(' parameterList ')'
+  private static boolean functionDefinition_3_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "functionDefinition_3_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, "(");
+    r = r && parameterList(b, l + 1);
+    r = r && consumeToken(b, ")");
+    exit_section_(b, m, null, r);
+    return r;
   }
 
   /* ********************************************************** */
-  // 'global' IDENTIFIER (',' IDENTIFIER)* ('=' expression)?
+  // identifier
+  static boolean functionName(PsiBuilder b, int l) {
+    return identifier(b, l + 1);
+  }
+
+  /* ********************************************************** */
+  // Function_Call_Operator
+  static boolean function_call_operator(PsiBuilder b, int l) {
+    return consumeToken(b, FUNCTION_CALL_OPERATOR);
+  }
+
+  /* ********************************************************** */
+  // 'global' identifier (',' identifier)* ('=' expression)?
   static boolean globalVariableDeclaration(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "globalVariableDeclaration")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, "global");
-    r = r && consumeToken(b, IDENTIFIER);
+    r = r && identifier(b, l + 1);
     r = r && globalVariableDeclaration_2(b, l + 1);
     r = r && globalVariableDeclaration_3(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
 
-  // (',' IDENTIFIER)*
+  // (',' identifier)*
   private static boolean globalVariableDeclaration_2(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "globalVariableDeclaration_2")) return false;
     while (true) {
@@ -272,13 +319,13 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // ',' IDENTIFIER
+  // ',' identifier
   private static boolean globalVariableDeclaration_2_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "globalVariableDeclaration_2_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, ",");
-    r = r && consumeToken(b, IDENTIFIER);
+    r = r && identifier(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
@@ -299,6 +346,12 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     r = r && expression(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
+  }
+
+  /* ********************************************************** */
+  // IDENTIFIER
+  static boolean identifier(PsiBuilder b, int l) {
+    return consumeToken(b, IDENTIFIER);
   }
 
   /* ********************************************************** */
@@ -344,7 +397,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     r = outerScopeStatement(b, l + 1);
     if (!r) r = functionDefinition(b, l + 1);
     if (!r) r = multilineComment(b, l + 1);
-    if (!r) r = separator(b, l + 1);
+    if (!r) r = consumeToken(b, SEPARATOR);
     if (!r) r = crlf(b, l + 1);
     return r;
   }
@@ -353,6 +406,24 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   // KEYWORD
   static boolean keyword(PsiBuilder b, int l) {
     return consumeToken(b, KEYWORD);
+  }
+
+  /* ********************************************************** */
+  // Left_Curly_Bracket
+  static boolean left_curly_bracket(PsiBuilder b, int l) {
+    return consumeToken(b, LEFT_CURLY_BRACKET);
+  }
+
+  /* ********************************************************** */
+  // Left_Parenthesis
+  static boolean left_parenthesis(PsiBuilder b, int l) {
+    return consumeToken(b, LEFT_PARENTHESIS);
+  }
+
+  /* ********************************************************** */
+  // Left_Square_Bracket
+  static boolean left_square_bracket(PsiBuilder b, int l) {
+    return consumeToken(b, LEFT_SQUARE_BRACKET);
   }
 
   /* ********************************************************** */
@@ -367,20 +438,20 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // 'local' IDENTIFIER (',' IDENTIFIER)* ('=' expression)?
+  // 'local' identifier (',' identifier)* ('=' expression)?
   static boolean localVariableDeclaration(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "localVariableDeclaration")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, "local");
-    r = r && consumeToken(b, IDENTIFIER);
+    r = r && identifier(b, l + 1);
     r = r && localVariableDeclaration_2(b, l + 1);
     r = r && localVariableDeclaration_3(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
 
-  // (',' IDENTIFIER)*
+  // (',' identifier)*
   private static boolean localVariableDeclaration_2(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "localVariableDeclaration_2")) return false;
     while (true) {
@@ -391,13 +462,13 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // ',' IDENTIFIER
+  // ',' identifier
   private static boolean localVariableDeclaration_2_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "localVariableDeclaration_2_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, ",");
-    r = r && consumeToken(b, IDENTIFIER);
+    r = r && identifier(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
@@ -480,12 +551,6 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // OPERATOR
-  static boolean operator(PsiBuilder b, int l) {
-    return consumeToken(b, OPERATOR);
-  }
-
-  /* ********************************************************** */
   // '[' statement ']'
   static boolean outerScopeStatement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "outerScopeStatement")) return false;
@@ -499,9 +564,9 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // IDENTIFIER
+  // identifier
   static boolean parameter(PsiBuilder b, int l) {
-    return consumeToken(b, IDENTIFIER);
+    return identifier(b, l + 1);
   }
 
   /* ********************************************************** */
@@ -578,9 +643,21 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // SEPARATOR
-  static boolean separator(PsiBuilder b, int l) {
-    return consumeToken(b, SEPARATOR);
+  // Right_Curly_Bracket
+  static boolean right_curly_bracket(PsiBuilder b, int l) {
+    return consumeToken(b, RIGHT_CURLY_BRACKET);
+  }
+
+  /* ********************************************************** */
+  // Right_Parenthesis
+  static boolean right_parenthesis(PsiBuilder b, int l) {
+    return consumeToken(b, RIGHT_PARENTHESIS);
+  }
+
+  /* ********************************************************** */
+  // Right_Square_Bracket
+  static boolean right_square_bracket(PsiBuilder b, int l) {
+    return consumeToken(b, RIGHT_SQUARE_BRACKET);
   }
 
   /* ********************************************************** */
@@ -596,7 +673,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // controlFlow | assignment | functionCall | multilineComment | localVariableDeclaration | globalVariableDeclaration
+  // controlFlow | assignment | functionCall | multilineComment | variableDeclaration
   static boolean statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "statement")) return false;
     boolean r;
@@ -604,8 +681,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     if (!r) r = assignment(b, l + 1);
     if (!r) r = functionCall(b, l + 1);
     if (!r) r = multilineComment(b, l + 1);
-    if (!r) r = localVariableDeclaration(b, l + 1);
-    if (!r) r = globalVariableDeclaration(b, l + 1);
+    if (!r) r = variableDeclaration(b, l + 1);
     return r;
   }
 
@@ -622,15 +698,41 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // operator expression
+  // binary_operator expression | variableDeclaration
   static boolean unaryExpression(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "unaryExpression")) return false;
-    if (!nextTokenIs(b, OPERATOR)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = operator(b, l + 1);
+    r = unaryExpression_0(b, l + 1);
+    if (!r) r = variableDeclaration(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // binary_operator expression
+  private static boolean unaryExpression_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "unaryExpression_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = binary_operator(b, l + 1);
     r = r && expression(b, l + 1);
     exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // UNARY_OPERATOR
+  static boolean unary_operator(PsiBuilder b, int l) {
+    return consumeToken(b, UNARY_OPERATOR);
+  }
+
+  /* ********************************************************** */
+  // localVariableDeclaration | globalVariableDeclaration
+  static boolean variableDeclaration(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "variableDeclaration")) return false;
+    boolean r;
+    r = localVariableDeclaration(b, l + 1);
+    if (!r) r = globalVariableDeclaration(b, l + 1);
     return r;
   }
 
