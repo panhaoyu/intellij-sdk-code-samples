@@ -64,7 +64,7 @@ private global_var_declare_statement ::= global identifier (comma_operator ident
 
 private expression ::= parenthesis_expression |function_call_expression | unary_expression |binary_expression | value
 private parenthesis_expression ::= left_parenthesis expression right_parenthesis
-private function_call_expression ::= identifier function_argument_list?
+private function_call_expression ::= identifier function_argument_list
 private function_argument_list ::= left_parenthesis value right_parenthesis
 private command_scope_inline_fish_expression ::= left_square_bracket fish_statement right_square_bracket
 
@@ -78,60 +78,60 @@ literal ::= string_literal | number_literal
 
 
 
-//property ::= (identifier) {
-////  pin=3
-//  recoverWhile="recover_property"
-//  mixin="org.intellij.sdk.language.psi.impl.SimpleNamedElementImpl"
-//  implements="org.intellij.sdk.language.psi.SimpleNamedElement"
-//  methods=[getKey getValue getName setName getNameIdentifier getPresentation]
-//}
-//private recover_property ::= !(identifier|end_of_line_comment)
+property ::= (identifier) {
+//  pin=3
+  recoverWhile="recover_property"
+  mixin="org.intellij.sdk.language.psi.impl.SimpleNamedElementImpl"
+  implements="org.intellij.sdk.language.psi.SimpleNamedElement"
+  methods=[getKey getValue getName setName getNameIdentifier getPresentation]
+}
+private recover_property ::= !(identifier|end_of_line_comment)
 
-////以下为读取的原始token
-//private string_literal ::=  STRING_LITERAL
-//private number_literal ::= NUMBER_LITERAL
-//private end_of_line_comment ::= COMMENT
-//private binary_operator ::= BINARY_OPERATOR
-//private unary_operator ::= UNARY_OPERATOR
-//private assignment_operator ::= ASSIGNMENT_OPERATOR
-//private crlf ::= CRLF
-//
-//private at_operator ::= FUNCTION_CALL_OPERATOR
-//private comma_operator ::= COMMA_OPERATOR
-//private dot_operator ::= DOT_OPERATOR
-//
-//// Bracket Operators
-//private left_parenthesis ::= LEFT_PARENTHESIS
-//private right_parenthesis ::= RIGHT_PARENTHESIS
-//private left_square_bracket ::= LEFT_SQUARE_BRACKET
-//private right_square_bracket ::= RIGHT_SQUARE_BRACKET
-//private left_curly_bracket ::= LEFT_CURLY_BRACKET
-//private right_curly_bracket ::= RIGHT_CURLY_BRACKET
-//private  identifier ::= IDENTIFIER
-//
-////keywords
-//private fish ::= FISH
-//private case_of ::= CASEOF
-//private case ::= CASE
-//private end_case ::= ENDCASE
-//private command ::= COMMAND
-//private end_command ::= ENDCOMMAND
-//private define ::= DEFINE
-//private end ::= END
-//private exit ::= EXIT
-//private global ::= GLOBAL
-//private if ::= IF
-//private then ::= THEN
-//private elseif ::= ELSEIF
-//private else ::= ELSE
-//private endif ::= ENDIF
-//private local ::= LOCAL
-//private lock ::= LOCK
-//private loop ::= LOOP
-//private endloop ::= ENDLOOP
-//private continue ::= CONTINUE
-//private return ::= RETURN
-//private section ::= SECTION
-//private end_section ::= ENDSECTION
-//private struct ::= STRUCT
-//private ellipsis ::=  ELLIPSIS
+//以下为读取的原始token
+private string_literal ::=  STRING_LITERAL
+private number_literal ::= NUMBER_LITERAL
+private end_of_line_comment ::= COMMENT
+private binary_operator ::= BINARY_OPERATOR
+private unary_operator ::= UNARY_OPERATOR
+private assignment_operator ::= ASSIGNMENT_OPERATOR
+private crlf ::= CRLF
+
+private at_operator ::= FUNCTION_CALL_OPERATOR
+private comma_operator ::= COMMA_OPERATOR
+private dot_operator ::= DOT_OPERATOR
+
+// Bracket Operators
+private left_parenthesis ::= LEFT_PARENTHESIS
+private right_parenthesis ::= RIGHT_PARENTHESIS
+private left_square_bracket ::= LEFT_SQUARE_BRACKET
+private right_square_bracket ::= RIGHT_SQUARE_BRACKET
+private left_curly_bracket ::= LEFT_CURLY_BRACKET
+private right_curly_bracket ::= RIGHT_CURLY_BRACKET
+private  identifier ::= IDENTIFIER
+
+//keywords
+private fish ::= FISH
+private case_of ::= CASEOF
+private case ::= CASE
+private end_case ::= ENDCASE
+private command ::= COMMAND
+private end_command ::= ENDCOMMAND
+private define ::= DEFINE
+private end ::= END
+private exit ::= EXIT
+private global ::= GLOBAL
+private if ::= IF
+private then ::= THEN
+private elseif ::= ELSEIF
+private else ::= ELSE
+private endif ::= ENDIF
+private local ::= LOCAL
+private lock ::= LOCK
+private loop ::= LOOP
+private endloop ::= ENDLOOP
+private continue ::= CONTINUE
+private return ::= RETURN
+private section ::= SECTION
+private end_section ::= ENDSECTION
+private struct ::= STRUCT
+private ellipsis ::=  ELLIPSIS
