@@ -131,7 +131,7 @@ String = {StringA} | {StringB}
 
     {WhiteSpace}+ {return TokenType.WHITE_SPACE;}
 
-    {LineTerminator}+ {return SimpleTypes.CRLF;}
+    {LineTerminator}+ {return SimpleTypes.NEWLINE;}
 
     // Comments
     {Comment} {return SimpleTypes.COMMENT;}
