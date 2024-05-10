@@ -29,7 +29,7 @@ private parameter ::= identifier
 private controlStructure ::= statementBlock
 private statementBlock ::=  statement*
 
-private statement ::= controlFlow | assignment | functionCall | multilineComment | variableDeclaration
+private statement ::= controlFlow | assignment | functionCall | multilineComment | variableDeclaration | commandStatement
 private outerScopeStatement ::=  '[' statement ']'
 
 private controlFlow ::= ifStatement | loopStatement | caseStatement
@@ -41,6 +41,9 @@ private elseStatement ::=  'else' statementBlock
 private loopStatement ::= 'loop' statementBlock 'end_loop'
 private caseStatement ::= 'case_of' expression caseClause* 'end_case'
 private caseClause ::= 'case' expression statementBlock
+
+private commandStatement ::= 'command' anyInCommand* 'endcommand'
+private anyInCommand ::= identifier | left_square_bracket | right_curly_bracket | unary_operator | literal | '-'
 
 private assignment ::= identifier '=' expression
 private functionCall ::= identifier '(' argumentList ')'
