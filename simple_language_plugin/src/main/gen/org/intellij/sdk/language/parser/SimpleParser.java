@@ -109,7 +109,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // identifier assignment_operator (expression | function_call_expression)
-  static boolean assignment_statement(PsiBuilder b, int l) {
+  public static boolean assignment_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "assignment_statement")) return false;
     if (!nextTokenIs(b, IDENTIFIER)) return false;
     boolean r;
@@ -117,7 +117,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     r = identifier(b, l + 1);
     r = r && assignment_operator(b, l + 1);
     r = r && assignment_statement_2(b, l + 1);
-    exit_section_(b, m, null, r);
+    exit_section_(b, m, ASSIGNMENT_STATEMENT, r);
     return r;
   }
 
@@ -231,7 +231,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // command command_body* end_command
-  static boolean command_statement(PsiBuilder b, int l) {
+  public static boolean command_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "command_statement")) return false;
     if (!nextTokenIs(b, COMMAND)) return false;
     boolean r;
@@ -239,7 +239,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     r = command(b, l + 1);
     r = r && command_statement_1(b, l + 1);
     r = r && end_command(b, l + 1);
-    exit_section_(b, m, null, r);
+    exit_section_(b, m, COMMAND_STATEMENT, r);
     return r;
   }
 
@@ -264,17 +264,6 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   // CONTINUE
   static boolean continue_$(PsiBuilder b, int l) {
     return consumeToken(b, CONTINUE);
-  }
-
-  /* ********************************************************** */
-  // if_statement | loop_statement | case_statement
-  static boolean control_flow(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "control_flow")) return false;
-    boolean r;
-    r = if_statement(b, l + 1);
-    if (!r) r = loop_statement(b, l + 1);
-    if (!r) r = case_statement(b, l + 1);
-    return r;
   }
 
   /* ********************************************************** */
@@ -447,8 +436,14 @@ public class SimpleParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // function_call_expression
-  static boolean function_call_statement(PsiBuilder b, int l) {
-    return function_call_expression(b, l + 1);
+  public static boolean function_call_statement(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "function_call_statement")) return false;
+    if (!nextTokenIs(b, IDENTIFIER)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = function_call_expression(b, l + 1);
+    exit_section_(b, m, FUNCTION_CALL_STATEMENT, r);
+    return r;
   }
 
   /* ********************************************************** */
@@ -627,7 +622,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // if expression then statement_block else_if_statement* else_statement? endif
-  static boolean if_statement(PsiBuilder b, int l) {
+  public static boolean if_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "if_statement")) return false;
     if (!nextTokenIs(b, IF)) return false;
     boolean r;
@@ -639,7 +634,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     r = r && if_statement_4(b, l + 1);
     r = r && if_statement_5(b, l + 1);
     r = r && endif(b, l + 1);
-    exit_section_(b, m, null, r);
+    exit_section_(b, m, IF_STATEMENT, r);
     return r;
   }
 
@@ -819,7 +814,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // loop statement_block endloop
-  static boolean loop_statement(PsiBuilder b, int l) {
+  public static boolean loop_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "loop_statement")) return false;
     if (!nextTokenIs(b, LOOP)) return false;
     boolean r;
@@ -827,7 +822,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     r = loop(b, l + 1);
     r = r && statement_block(b, l + 1);
     r = r && endloop(b, l + 1);
-    exit_section_(b, m, null, r);
+    exit_section_(b, m, LOOP_STATEMENT, r);
     return r;
   }
 
@@ -932,12 +927,14 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // control_flow | assignment_statement | function_call_statement | comment_block | var_declare_statement | command_statement | identifier
+  // if_statement | loop_statement | case_statement  | assignment_statement | function_call_statement | comment_block | var_declare_statement | command_statement | identifier
   public static boolean single_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "single_statement")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, SINGLE_STATEMENT, "<single statement>");
-    r = control_flow(b, l + 1);
+    r = if_statement(b, l + 1);
+    if (!r) r = loop_statement(b, l + 1);
+    if (!r) r = case_statement(b, l + 1);
     if (!r) r = assignment_statement(b, l + 1);
     if (!r) r = function_call_statement(b, l + 1);
     if (!r) r = comment_block(b, l + 1);
@@ -1007,12 +1004,14 @@ public class SimpleParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // local_var_declare_statement | global_var_declare_statement
-  static boolean var_declare_statement(PsiBuilder b, int l) {
+  public static boolean var_declare_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "var_declare_statement")) return false;
-    if (!nextTokenIs(b, "", GLOBAL, LOCAL)) return false;
+    if (!nextTokenIs(b, "<var declare statement>", GLOBAL, LOCAL)) return false;
     boolean r;
+    Marker m = enter_section_(b, l, _NONE_, VAR_DECLARE_STATEMENT, "<var declare statement>");
     r = local_var_declare_statement(b, l + 1);
     if (!r) r = global_var_declare_statement(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 

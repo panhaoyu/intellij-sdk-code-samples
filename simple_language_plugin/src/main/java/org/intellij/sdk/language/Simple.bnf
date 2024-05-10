@@ -34,15 +34,15 @@ statement_block ::=  single_statement*
 single_statement ::=  if_statement | loop_statement | case_statement  | assignment_statement | function_call_statement | comment_block | var_declare_statement | command_statement | identifier
 
 
-private if_statement ::= if expression then statement_block else_if_statement* else_statement? endif
+if_statement ::= if expression then statement_block else_if_statement* else_statement? endif
 private else_if_statement ::= elseif expression then statement_block
 private else_statement ::=  else statement_block
 
-private loop_statement ::= loop statement_block endloop
+loop_statement ::= loop statement_block endloop
 private case_statement ::= case_of expression case_clause* end_case
 private case_clause ::= case expression statement_block
 
-private command_statement ::= command command_body* end_command
+command_statement ::= command command_body* end_command
 private any_in_command ::= (
     identifier | left_square_bracket | right_square_bracket |
     unary_operator | binary_operator| dot_operator|function_call_operator | literal | ellipsis | keywords_in_command_block
@@ -51,16 +51,16 @@ private command_body ::= any_in_command+
 private keywords_in_command_block ::= (fish | case_of | case | end_case | define | end | exit | global | if | then |
     elseif | else | endif | local | lock | loop | endloop | continue | return | section | end_section | struct  |)
 
-private assignment_statement ::= identifier assignment_operator (expression | function_call_expression)
+assignment_statement ::= identifier assignment_operator (expression | function_call_expression)
 
 private local_var_declare_statement ::= local identifier (comma_operator identifier)* (assignment_operator expression)?
 private global_var_declare_statement ::= global identifier (comma_operator identifier)* (assignment_operator expression)?
-private var_declare_statement ::= local_var_declare_statement | global_var_declare_statement
+var_declare_statement ::= local_var_declare_statement | global_var_declare_statement
 
 private expression ::=  (left_parenthesis inner_expression right_parenthesis) | inner_expression
 private inner_expression ::=  binary_expression | unary_expression | value | function_call_expression
 
-private function_call_statement ::= function_call_expression
+function_call_statement ::= function_call_expression
 private function_call_expression ::= identifier argument_list?
 private argument_list ::= left_parenthesis argument_expression (comma_operator argument_expression)* right_parenthesis
 private argument_expression ::= function_call_expression | value
