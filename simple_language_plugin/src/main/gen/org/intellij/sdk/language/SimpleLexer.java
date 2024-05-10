@@ -971,7 +971,7 @@ class SimpleLexer implements FlexLexer {
           // fall through
           case 47: break;
           case 3:
-            { return SimpleTypes.CRLF;
+            { return SimpleTypes.NEWLINE;
             }
           // fall through
           case 48: break;
