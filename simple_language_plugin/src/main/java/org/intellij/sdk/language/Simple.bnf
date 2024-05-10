@@ -21,7 +21,7 @@
   ]
 }
 
-simpleFile ::= command_scope*
+simpleFile ::= newline? command_scope? (newline command_scope)* newline*
 
 private command_scope ::= (command_scope_inline_fish_statement|function_define|comment_block|command_block)
 command_scope_inline_fish_statement ::= command_scope_inline_fish_expression
@@ -30,29 +30,34 @@ function_define ::= function_define_header newline (fish_block newline)? end
 private function_define_header ::= fish define identifier function_parameter_list?
 private function_parameter_list ::= (left_parenthesis identifier (comma_operator identifier)* right_parenthesis)
 
-fish_block ::=  (if_block | loop_block | case_block | comment_block | command_block | fish_statement)+
+fish_block ::=  fish_internal_block (newline fish_internal_block)*
+private fish_internal_block ::= if_block | loop_block | case_block | comment_block | command_block | fish_statement
 
+if_block ::= if expression then
+             (newline fish_block)?
+             (newline else_if_statement)*
+             (newline else_statement)?
+             newline endif
+private else_if_statement ::= elseif expression then (newline fish_block)?
+private else_statement ::=  else (newline fish_block)?
 
+loop_block ::= loop (newline fish_block)? newline endloop
 
-if_block ::= if expression then newline fish_block else_if_statement* else_statement? endif
-private else_if_statement ::= elseif expression then newline fish_block
-private else_statement ::=  else newline fish_block
+case_block ::= case_of expression case_clause* newline end_case
+private case_clause ::= case expression (newline fish_block)?
 
-loop_block ::= loop fish_block endloop
-private case_block ::= case_of expression case_clause* end_case
-private case_clause ::= case expression fish_block
-
-command_block ::= command command_body* end_command
+command_block ::= command (newline command_body)* newline end_command
 private any_in_command ::= (
     identifier | left_square_bracket | right_square_bracket | left_parenthesis | right_parenthesis | comma_operator |
-    assignment_operator|
+    assignment_operator| newline |
     unary_operator | binary_operator| dot_operator|at_operator | literal | ellipsis | keywords_in_command_block
  )
 private command_body ::= any_in_command+
 private keywords_in_command_block ::= (fish | case_of | case | end_case | define | end | exit | global | if | then |
     elseif | else | endif | local | lock | loop | endloop | continue | return | section | end_section | struct  |)
 
-fish_statement ::= (array_assignment_statement | function_call_statement  | var_declare_statement |  assignment_statement | expression) newline
+fish_statement ::= (array_assignment_statement | function_call_statement  | var_declare_statement |  assignment_statement | expression)
+//todo 需要区分单行语句与多行语句
 
 function_call_statement ::= function_call_expression
 
@@ -98,7 +103,7 @@ private end_of_line_comment ::= COMMENT
 private binary_operator ::= BINARY_OPERATOR | MINUS_OPERATOR
 private unary_operator ::= UNARY_OPERATOR | MINUS_OPERATOR
 private assignment_operator ::= ASSIGNMENT_OPERATOR
-private newline ::= NEWLINE
+private newline ::= NEWLINE+
 
 private at_operator ::= FUNCTION_CALL_OPERATOR
 private comma_operator ::= COMMA_OPERATOR

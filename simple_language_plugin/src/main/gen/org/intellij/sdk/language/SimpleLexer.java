@@ -343,14 +343,14 @@ class SimpleLexer implements FlexLexer {
   private static final String ZZ_ACTION_PACKED_0 =
     "\2\0\1\1\1\2\1\3\1\1\1\4\1\5\1\4"+
     "\1\1\1\6\1\7\1\10\1\11\1\12\1\4\1\13"+
-    "\1\14\1\4\1\15\1\16\1\17\1\20\12\5\1\21"+
-    "\1\22\1\23\1\0\1\24\1\15\3\0\2\14\10\5"+
-    "\1\25\5\5\1\26\1\0\1\13\5\5\1\27\11\5"+
-    "\1\30\3\5\1\31\5\5\1\32\1\33\2\5\1\34"+
-    "\1\35\3\5\1\36\11\5\1\37\4\5\1\40\3\5"+
-    "\1\41\2\5\1\42\1\43\4\5\1\44\1\45\1\5"+
-    "\1\46\1\47\1\5\1\50\1\5\1\51\1\5\1\52"+
-    "\1\5\1\53\5\5\1\46\1\54\1\55";
+    "\1\3\1\4\1\14\1\15\1\16\1\17\12\5\1\20"+
+    "\1\21\1\22\1\0\1\23\1\14\3\0\2\3\10\5"+
+    "\1\24\5\5\1\25\1\0\1\13\5\5\1\26\11\5"+
+    "\1\27\3\5\1\30\5\5\1\31\1\32\2\5\1\33"+
+    "\1\34\3\5\1\35\11\5\1\36\4\5\1\37\3\5"+
+    "\1\40\2\5\1\41\1\42\4\5\1\43\1\44\1\5"+
+    "\1\45\1\46\1\5\1\47\1\5\1\50\1\5\1\51"+
+    "\1\5\1\52\5\5\1\45\1\53\1\54";
 
   private static int [] zzUnpackAction() {
     int [] result = new int[144];
@@ -964,227 +964,222 @@ class SimpleLexer implements FlexLexer {
             { return TokenType.BAD_CHARACTER;
             }
           // fall through
-          case 46: break;
+          case 45: break;
           case 2:
             { return TokenType.WHITE_SPACE;
             }
           // fall through
-          case 47: break;
+          case 46: break;
           case 3:
             { return SimpleTypes.NEWLINE;
             }
           // fall through
-          case 48: break;
+          case 47: break;
           case 4:
             { return SimpleTypes.BINARY_OPERATOR;
             }
           // fall through
-          case 49: break;
+          case 48: break;
           case 5:
             { return SimpleTypes.IDENTIFIER;
             }
           // fall through
-          case 50: break;
+          case 49: break;
           case 6:
             { return SimpleTypes.LEFT_PARENTHESIS;
             }
           // fall through
-          case 51: break;
+          case 50: break;
           case 7:
             { return SimpleTypes.RIGHT_PARENTHESIS;
             }
           // fall through
-          case 52: break;
+          case 51: break;
           case 8:
             { return SimpleTypes.COMMA_OPERATOR;
             }
           // fall through
-          case 53: break;
+          case 52: break;
           case 9:
             { return SimpleTypes.MINUS_OPERATOR;
             }
           // fall through
-          case 54: break;
+          case 53: break;
           case 10:
             { return SimpleTypes.DOT_OPERATOR;
             }
           // fall through
-          case 55: break;
+          case 54: break;
           case 11:
             { return SimpleTypes.NUMBER_LITERAL;
             }
           // fall through
-          case 56: break;
+          case 55: break;
           case 12:
-            { return SimpleTypes.COMMENT;
-            }
-          // fall through
-          case 57: break;
-          case 13:
             { return SimpleTypes.ASSIGNMENT_OPERATOR;
             }
           // fall through
-          case 58: break;
-          case 14:
+          case 56: break;
+          case 13:
             { return SimpleTypes.FUNCTION_CALL_OPERATOR;
             }
           // fall through
-          case 59: break;
-          case 15:
+          case 57: break;
+          case 14:
             { return SimpleTypes.LEFT_SQUARE_BRACKET;
             }
           // fall through
-          case 60: break;
-          case 16:
+          case 58: break;
+          case 15:
             { return SimpleTypes.RIGHT_SQUARE_BRACKET;
             }
           // fall through
-          case 61: break;
-          case 17:
+          case 59: break;
+          case 16:
             { return SimpleTypes.RIGHT_CURLY_BRACKET;
             }
           // fall through
-          case 62: break;
-          case 18:
+          case 60: break;
+          case 17:
             { return SimpleTypes.LEFT_CURLY_BRACKET;
             }
           // fall through
-          case 63: break;
-          case 19:
+          case 61: break;
+          case 18:
             { return SimpleTypes.UNARY_OPERATOR;
             }
           // fall through
-          case 64: break;
-          case 20:
+          case 62: break;
+          case 19:
             { return SimpleTypes.STRING_LITERAL;
             }
           // fall through
-          case 65: break;
-          case 21:
+          case 63: break;
+          case 20:
             { return SimpleTypes.IF;
             }
           // fall through
-          case 66: break;
-          case 22:
+          case 64: break;
+          case 21:
             { return SimpleTypes.ELLIPSIS;
             }
           // fall through
-          case 67: break;
-          case 23:
+          case 65: break;
+          case 22:
             { return SimpleTypes.END;
             }
           // fall through
-          case 68: break;
-          case 24:
+          case 66: break;
+          case 23:
             { return SimpleTypes.CASE;
             }
           // fall through
-          case 69: break;
-          case 25:
+          case 67: break;
+          case 24:
             { return SimpleTypes.ELSE;
             }
           // fall through
-          case 70: break;
-          case 26:
+          case 68: break;
+          case 25:
             { return SimpleTypes.EXIT;
             }
           // fall through
-          case 71: break;
-          case 27:
+          case 69: break;
+          case 26:
             { return SimpleTypes.FISH;
             }
           // fall through
-          case 72: break;
-          case 28:
+          case 70: break;
+          case 27:
             { return SimpleTypes.LOCK;
             }
           // fall through
-          case 73: break;
-          case 29:
+          case 71: break;
+          case 28:
             { return SimpleTypes.LOOP;
             }
           // fall through
-          case 74: break;
-          case 30:
+          case 72: break;
+          case 29:
             { return SimpleTypes.THEN;
             }
           // fall through
-          case 75: break;
-          case 31:
+          case 73: break;
+          case 30:
             { return SimpleTypes.ENDIF;
             }
           // fall through
-          case 76: break;
-          case 32:
+          case 74: break;
+          case 31:
             { return SimpleTypes.LOCAL;
             }
           // fall through
-          case 77: break;
-          case 33:
+          case 75: break;
+          case 32:
             { return SimpleTypes.CASEOF;
             }
           // fall through
-          case 78: break;
-          case 34:
+          case 76: break;
+          case 33:
             { return SimpleTypes.DEFINE;
             }
           // fall through
-          case 79: break;
-          case 35:
+          case 77: break;
+          case 34:
             { return SimpleTypes.ELSEIF;
             }
           // fall through
-          case 80: break;
-          case 36:
+          case 78: break;
+          case 35:
             { return SimpleTypes.GLOBAL;
             }
           // fall through
-          case 81: break;
-          case 37:
+          case 79: break;
+          case 36:
             { return SimpleTypes.RETURN;
             }
           // fall through
-          case 82: break;
-          case 38:
+          case 80: break;
+          case 37:
             { return SimpleTypes.STRUCT;
             }
           // fall through
-          case 83: break;
-          case 39:
+          case 81: break;
+          case 38:
             { return SimpleTypes.COMMAND;
             }
           // fall through
-          case 84: break;
-          case 40:
+          case 82: break;
+          case 39:
             { return SimpleTypes.ENDCASE;
             }
           // fall through
-          case 85: break;
-          case 41:
+          case 83: break;
+          case 40:
             { return SimpleTypes.ENDLOOP;
             }
           // fall through
-          case 86: break;
-          case 42:
+          case 84: break;
+          case 41:
             { return SimpleTypes.SECTION;
             }
           // fall through
-          case 87: break;
-          case 43:
+          case 85: break;
+          case 42:
             { return SimpleTypes.CONTINUE;
             }
           // fall through
-          case 88: break;
-          case 44:
+          case 86: break;
+          case 43:
             { return SimpleTypes.ENDCOMMAND;
             }
           // fall through
-          case 89: break;
-          case 45:
+          case 87: break;
+          case 44:
             { return SimpleTypes.ENDSECTION;
             }
           // fall through
-          case 90: break;
+          case 88: break;
           default:
             zzScanError(ZZ_NO_MATCH);
           }

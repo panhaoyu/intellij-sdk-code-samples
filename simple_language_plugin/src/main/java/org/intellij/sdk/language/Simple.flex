@@ -134,7 +134,7 @@ String = {StringA} | {StringB}
     {LineTerminator}+ {return SimpleTypes.NEWLINE;}
 
     // Comments
-    {Comment} {return SimpleTypes.COMMENT;}
+    {Comment} {return SimpleTypes.NEWLINE;}
 
     \} {return SimpleTypes.LEFT_CURLY_BRACKET; }
     \{ {return SimpleTypes.RIGHT_CURLY_BRACKET; }
