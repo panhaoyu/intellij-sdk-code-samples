@@ -604,12 +604,6 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // KEYWORD
-  static boolean keyword(PsiBuilder b, int l) {
-    return consumeToken(b, KEYWORD);
-  }
-
-  /* ********************************************************** */
   // fish | case_of | case | end_case | define | end | exit | global | if | then |
   //     elseif | else | endif | local | lock | loop | endloop | continue | return | section | end_section | struct  |
   static boolean keywords_in_command_block(PsiBuilder b, int l) {

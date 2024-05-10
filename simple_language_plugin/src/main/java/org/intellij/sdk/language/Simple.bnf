@@ -78,8 +78,6 @@ private binary_operator ::= BINARY_OPERATOR
 private unary_operator ::= UNARY_OPERATOR
 private assignment_operator ::= ASSIGNMENT_OPERATOR
 private crlf ::= CRLF
-//noinspection BnfUnusedRule
-private keyword ::= KEYWORD
 
 private function_call_operator ::= FUNCTION_CALL_OPERATOR
 private comma_operator ::= COMMA_OPERATOR
