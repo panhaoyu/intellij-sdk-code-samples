@@ -51,15 +51,17 @@ private command_body ::= any_in_command+
 private keywords_in_command_block ::= (fish | case_of | case | end_case | define | end | exit | global | if | then |
     elseif | else | endif | local | lock | loop | endloop | continue | return | section | end_section | struct  |)
 
-fish_statement ::= function_call_statement  | var_declare_statement | assignment_statement | expression
+fish_statement ::= array_assignment_statement | function_call_statement  | var_declare_statement |  assignment_statement | expression
 
 function_call_statement ::= function_call_expression
 
 
-assignment_statement ::= identifier assignment_operator expression
+assignment_statement ::= identifier assignment_right
+array_assignment_statement ::= identifier (left_parenthesis csv_expression right_parenthesis) assignment_right
 var_declare_statement ::= local_var_declare_statement | global_var_declare_statement
 private local_var_declare_statement ::= local identifier (comma_operator identifier)* (assignment_operator expression)?
 private global_var_declare_statement ::= global identifier (comma_operator identifier)* (assignment_operator expression)?
+private assignment_right ::= assignment_operator expression
 
 
 private expression ::= function_call_expression | unary_expression |binary_expression | value | parenthesis_expression
