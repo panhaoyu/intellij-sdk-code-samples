@@ -9,9 +9,7 @@ import org.jetbrains.annotations.NotNull;
 
 final class SimpleCompletionContributor extends CompletionContributor {
 
-    // Define a list of names for autocompletion.
     private static final String[] NAMES = {
-
             "array",
             "list",
             "string",
