@@ -91,41 +91,39 @@ StringB = \' [^\']* \'
 
 String = {StringA} | {StringB}
 
-Keywords = (
-    "fish" |
-    "caseof" | "case_of" | "case of" |
-    "case" |
-    "endcase" | "end_case" | "end case" |
-    "command" |
-    "endcommand" | "end_command" | "end command" |
-    "define" |
-    "end" |
-    "exit" |
-    "global" |
-    "if" |
-    "elseif" | "else_if" | "else if" |
-    "else" |
-    "endif" | "end_if" | "end if" |
-    "local" |
-    "lock" |
-    "loop" |
-    "endloop" | "end_loop" | "end loop" |
-    "exitloop" | "exit_loop" | "exit loop" |
-    "continue" |
-    "return" |
-    "section" |
-    "endsection" | "end_section" | "end section" |
-    "exitsection" | "exit_section" | "exit section" |
-    "struct" | "structure"
-)
-
 
 %state STRING
 
 %%
 
 //Keywords
-<YYINITIAL> {Keywords} {return SimpleTypes.KEYWORD;}
+<YYINITIAL> {
+    "fish" { return SimpleTypes.FISH; }
+    "caseof" | "case_of" | "case of" { return SimpleTypes.CASEOF; }
+    "case" { return SimpleTypes.CASE; }
+    "endcase" | "end_case" | "end case" { return SimpleTypes.ENDCASE; }
+    "command" { return SimpleTypes.COMMAND; }
+    "endcommand" | "end_command" | "end command" { return SimpleTypes.ENDCOMMAND; }
+    "define" { return SimpleTypes.DEFINE; }
+    "end" { return SimpleTypes.END; }
+    "exit" { return SimpleTypes.EXIT; }
+    "global" { return SimpleTypes.GLOBAL; }
+    "if" { return SimpleTypes.IF; }
+    "elseif" | "else_if" | "else if" { return SimpleTypes.ELSEIF; }
+    "else" { return SimpleTypes.ELSE; }
+    "endif" | "end_if" | "end if" { return SimpleTypes.ENDIF; }
+    "local" { return SimpleTypes.LOCAL; }
+    "lock" { return SimpleTypes.LOCK; }
+    "loop" { return SimpleTypes.LOOP; }
+    "endloop" | "end_loop" | "end loop" { return SimpleTypes.ENDLOOP; }
+    "exitloop" | "exit_loop" | "exit loop" { return SimpleTypes.EXITLOOP; }
+    "continue" { return SimpleTypes.CONTINUE; }
+    "return" { return SimpleTypes.RETURN; }
+    "section" { return SimpleTypes.SECTION; }
+    "endsection" | "end_section" | "end section" { return SimpleTypes.ENDSECTION; }
+    "exitsection" | "exit_section" | "exit section" { return SimpleTypes.EXITSECTION; }
+    "struct" | "structure" { return SimpleTypes.STRUCT; }
+}
 
 //Identifiers
 <YYINITIAL>{
