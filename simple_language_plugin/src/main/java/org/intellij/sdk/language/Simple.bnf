@@ -16,8 +16,9 @@
 
   psiImplUtilClass="org.intellij.sdk.language.psi.impl.SimplePsiImplUtil"
 }
+value0 ::= value*
 
-simpleFile ::= command_scope*
+simpleFile ::= command_scope* | value
 
 //private command_scope ::= (command_scope_inline_fish_statement|function_define|comment_block|command_block)
 private command_scope ::= command_scope_inline_fish_statement
@@ -71,11 +72,20 @@ private unary_expression ::= unary_operator expression
 
 private comment_block ::= end_of_line_comment
 value ::= identifier | literal
-literal ::= string_literal |number_literal
+literal ::= string_literal | number_literal
 
+
+
+property ::= (identifier) {
+//  pin=3
+  recoverWhile="recover_property"
+  mixin="org.intellij.sdk.language.psi.impl.SimpleNamedElementImpl"
+  implements="org.intellij.sdk.language.psi.SimpleNamedElement"
+  methods=[getKey getValue getName setName getNameIdentifier getPresentation]
+}
+private recover_property ::= !(IDENTIFIER|COMMENT)
 
 //以下为读取的原始token
-
 private string_literal ::=  STRING_LITERAL
 private number_literal ::= NUMBER_LITERAL
 private end_of_line_comment ::= COMMENT
@@ -96,17 +106,6 @@ private right_square_bracket ::= RIGHT_SQUARE_BRACKET
 private left_curly_bracket ::= LEFT_CURLY_BRACKET
 private right_curly_bracket ::= RIGHT_CURLY_BRACKET
 private  identifier ::= IDENTIFIER
-
-
-property ::= (identifier) {
-//  pin=3
-  recoverWhile="recover_property"
-  mixin="org.intellij.sdk.language.psi.impl.SimpleNamedElementImpl"
-  implements="org.intellij.sdk.language.psi.SimpleNamedElement"
-  methods=[getKey getValue getName setName getNameIdentifier getPresentation]
-}
-private recover_property ::= !(IDENTIFIER|COMMENT)
-
 
 //keywords
 private fish ::= FISH

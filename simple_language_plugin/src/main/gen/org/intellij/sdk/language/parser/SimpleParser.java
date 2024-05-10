@@ -32,7 +32,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   static boolean parse_root_(IElementType t, PsiBuilder b, int l) {
-    return simpleFile(b, l + 1);
+    return value0(b, l + 1);
   }
 
   /* ********************************************************** */
@@ -374,7 +374,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (if_block | loop_block | case_block   | comment_block | command_block)+
+  // (if_block | loop_block | case_block | comment_block | command_block)+
   public static boolean fish_block(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "fish_block")) return false;
     boolean r;
@@ -389,7 +389,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // if_block | loop_block | case_block   | comment_block | command_block
+  // if_block | loop_block | case_block | comment_block | command_block
   private static boolean fish_block_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "fish_block_0")) return false;
     boolean r;
@@ -894,13 +894,24 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // command_scope*
-  static boolean simpleFile(PsiBuilder b, int l) {
+  // command_scope* | value
+  public static boolean simpleFile(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "simpleFile")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, SIMPLE_FILE, "<simple file>");
+    r = simpleFile_0(b, l + 1);
+    if (!r) r = value(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // command_scope*
+  private static boolean simpleFile_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "simpleFile_0")) return false;
     while (true) {
       int c = current_position_(b);
       if (!command_scope(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "simpleFile", c)) break;
+      if (!empty_element_parsed_guard_(b, "simpleFile_0", c)) break;
     }
     return true;
   }
@@ -952,6 +963,18 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     if (!r) r = literal(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
+  }
+
+  /* ********************************************************** */
+  // value*
+  static boolean value0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "value0")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!value(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "value0", c)) break;
+    }
+    return true;
   }
 
   /* ********************************************************** */
