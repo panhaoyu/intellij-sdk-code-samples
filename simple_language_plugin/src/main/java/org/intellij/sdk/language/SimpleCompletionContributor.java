@@ -11,16 +11,16 @@ import org.jetbrains.annotations.NotNull;
 
 final class SimpleCompletionContributor extends CompletionContributor {
 
-  SimpleCompletionContributor() {
-    extend(CompletionType.BASIC, PlatformPatterns.psiElement(SimpleTypes.STRING_LITERAL),
-        new CompletionProvider<>() {
-          public void addCompletions(@NotNull CompletionParameters parameters,
-                                     @NotNull ProcessingContext context,
-                                     @NotNull CompletionResultSet resultSet) {
-            resultSet.addElement(LookupElementBuilder.create("Hello"));
-          }
-        }
-    );
-  }
+    SimpleCompletionContributor() {
+        extend(CompletionType.BASIC, PlatformPatterns.psiElement(SimpleTypes.STRING_LITERAL),
+                new CompletionProvider<>() {
+                    public void addCompletions(@NotNull CompletionParameters parameters,
+                                               @NotNull ProcessingContext context,
+                                               @NotNull CompletionResultSet resultSet) {
+                        resultSet.addElement(LookupElementBuilder.create("Hello"));
+                    }
+                }
+        );
+    }
 
 }
