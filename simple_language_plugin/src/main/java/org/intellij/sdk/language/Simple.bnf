@@ -29,7 +29,7 @@ private parameter ::= IDENTIFIER
 private controlStructure ::= statementBlock
 private statementBlock ::= '{' statement* '}'
 
-private statement ::= controlFlow | assignment | functionCall | comment | variableDeclaration
+private statement ::= controlFlow | assignment | functionCall | comment | localVariableDeclaration | globalVariableDeclaration
 
 private controlFlow ::= ifStatement | loopStatement | caseStatement
 
@@ -45,7 +45,8 @@ private assignment ::= IDENTIFIER '=' expression
 private functionCall ::= IDENTIFIER '(' argumentList ')'
 private argumentList ::= (expression (',' expression)* )?
 
-private variableDeclaration ::= 'local' IDENTIFIER ('=' expression)?
+private localVariableDeclaration ::= 'local' IDENTIFIER ('=' expression)?
+private globalVariableDeclaration ::= 'global' IDENTIFIER ('=' expression)?
 
 private expression ::= binaryExpression | unaryExpression | literal | IDENTIFIER
 private binaryExpression ::= expression operator expression
