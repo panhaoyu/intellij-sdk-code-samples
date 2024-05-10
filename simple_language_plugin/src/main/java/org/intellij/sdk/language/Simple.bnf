@@ -19,28 +19,28 @@
 
 simpleFile ::= outerItem*
 
-private outerItem ::= (outerScopeStatement|functionDefinition|multilineComment|crlf|commandStatement)
+private outerItem ::= (outer_fish|function_define|multilineComment|crlf|commandStatement)
 
-private functionDefinition ::= fish define functionName (left_parenthesis parameterList right_parenthesis)? controlStructure
+private function_define ::= fish define functionName (left_parenthesis parameterList right_parenthesis)? control_structure
 private functionName ::= identifier
 private parameterList ::= (parameter (comma_operator parameter)* )?
 private parameter ::= identifier
 
-private controlStructure ::= statementBlock
-private statementBlock ::=  statement*
+private control_structure ::= statement_block
+private statement_block ::=  statement*
 
 private statement ::= controlFlow | assignment_statement | function_call_statement | multilineComment | var_declare_statement | commandStatement
-private outerScopeStatement ::=  left_square_bracket statement right_square_bracket
+private outer_fish ::=  left_square_bracket statement right_square_bracket
 
 private controlFlow ::= if_statement | loop_statement | case_statement
 
-private if_statement ::= if expression then statementBlock else_if_statement* else_statement? endif
-private else_if_statement ::= elseif expression then statementBlock
-private else_statement ::=  else statementBlock
+private if_statement ::= if expression then statement_block else_if_statement* else_statement? endif
+private else_if_statement ::= elseif expression then statement_block
+private else_statement ::=  else statement_block
 
-private loop_statement ::= loop statementBlock endloop
+private loop_statement ::= loop statement_block endloop
 private case_statement ::= caseof expression case_clause* endcase
-private case_clause ::= case expression statementBlock
+private case_clause ::= case expression statement_block
 
 private commandStatement ::= command command_block* endcommand
 private any_in_command ::= (identifier | left_square_bracket | right_square_bracket |
