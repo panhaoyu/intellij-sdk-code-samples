@@ -37,7 +37,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // identifier | left_square_bracket | right_square_bracket |
-  //  unary_operator | binary_operator| dot_operator|function_call_operator | literal | ELLIPSIS
+  //  unary_operator | binary_operator| dot_operator|function_call_operator | literal | ellipsis
   static boolean anyInCommand(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "anyInCommand")) return false;
     boolean r;
@@ -49,7 +49,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     if (!r) r = dot_operator(b, l + 1);
     if (!r) r = function_call_operator(b, l + 1);
     if (!r) r = literal(b, l + 1);
-    if (!r) r = consumeToken(b, ELLIPSIS);
+    if (!r) r = ellipsis(b, l + 1);
     return r;
   }
 
@@ -173,7 +173,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // Comma_Operator
+  // COMMA_OPERATOR
   static boolean comma_operator(PsiBuilder b, int l) {
     return consumeToken(b, COMMA_OPERATOR);
   }
@@ -267,9 +267,15 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // Dot_Operator
+  // DOT_OPERATOR
   static boolean dot_operator(PsiBuilder b, int l) {
     return consumeToken(b, DOT_OPERATOR);
+  }
+
+  /* ********************************************************** */
+  // ELLIPSIS
+  static boolean ellipsis(PsiBuilder b, int l) {
+    return consumeToken(b, ELLIPSIS);
   }
 
   /* ********************************************************** */
@@ -352,18 +358,6 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   // EXIT
   static boolean exit(PsiBuilder b, int l) {
     return consumeToken(b, EXIT);
-  }
-
-  /* ********************************************************** */
-  // EXITLOOP
-  static boolean exitloop(PsiBuilder b, int l) {
-    return consumeToken(b, EXITLOOP);
-  }
-
-  /* ********************************************************** */
-  // EXITSECTION
-  static boolean exitsection(PsiBuilder b, int l) {
-    return consumeToken(b, EXITSECTION);
   }
 
   /* ********************************************************** */
@@ -454,7 +448,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // Function_Call_Operator
+  // FUNCTION_CALL_OPERATOR
   static boolean function_call_operator(PsiBuilder b, int l) {
     return consumeToken(b, FUNCTION_CALL_OPERATOR);
   }
@@ -575,19 +569,19 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // Left_Curly_Bracket
+  // LEFT_CURLY_BRACKET
   static boolean left_curly_bracket(PsiBuilder b, int l) {
     return consumeToken(b, LEFT_CURLY_BRACKET);
   }
 
   /* ********************************************************** */
-  // Left_Parenthesis
+  // LEFT_PARENTHESIS
   static boolean left_parenthesis(PsiBuilder b, int l) {
     return consumeToken(b, LEFT_PARENTHESIS);
   }
 
   /* ********************************************************** */
-  // Left_Square_Bracket
+  // LEFT_SQUARE_BRACKET
   static boolean left_square_bracket(PsiBuilder b, int l) {
     return consumeToken(b, LEFT_SQUARE_BRACKET);
   }
@@ -808,19 +802,19 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // Right_Curly_Bracket
+  // RIGHT_CURLY_BRACKET
   static boolean right_curly_bracket(PsiBuilder b, int l) {
     return consumeToken(b, RIGHT_CURLY_BRACKET);
   }
 
   /* ********************************************************** */
-  // Right_Parenthesis
+  // RIGHT_PARENTHESIS
   static boolean right_parenthesis(PsiBuilder b, int l) {
     return consumeToken(b, RIGHT_PARENTHESIS);
   }
 
   /* ********************************************************** */
-  // Right_Square_Bracket
+  // RIGHT_SQUARE_BRACKET
   static boolean right_square_bracket(PsiBuilder b, int l) {
     return consumeToken(b, RIGHT_SQUARE_BRACKET);
   }

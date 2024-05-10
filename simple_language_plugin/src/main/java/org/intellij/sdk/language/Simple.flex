@@ -115,13 +115,11 @@ String = {StringA} | {StringB}
     "local" { return SimpleTypes.LOCAL; }
     "lock" { return SimpleTypes.LOCK; }
     "loop" { return SimpleTypes.LOOP; }
-    "endloop" | "end_loop"  { return SimpleTypes.ENDLOOP; }
-    "exitloop" | "exit_loop" { return SimpleTypes.EXITLOOP; }
+    "endloop" | "end_loop" | "exitloop" | "exit_loop"  { return SimpleTypes.ENDLOOP; }
     "continue" { return SimpleTypes.CONTINUE; }
     "return" { return SimpleTypes.RETURN; }
     "section" { return SimpleTypes.SECTION; }
-    "endsection" | "end_section" { return SimpleTypes.ENDSECTION; }
-    "exitsection" | "exit_section"  { return SimpleTypes.EXITSECTION; }
+    "endsection" | "end_section" |"exitsection" | "exit_section" { return SimpleTypes.ENDSECTION; }
     "struct" | "structure" { return SimpleTypes.STRUCT; }
     "then"  { return SimpleTypes.THEN; }
     "..." {return SimpleTypes.ELLIPSIS; }
