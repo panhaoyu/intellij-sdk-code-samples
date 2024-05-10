@@ -85,7 +85,7 @@ private right_curly_bracket ::= Right_Curly_Bracket
 private  identifier ::= IDENTIFIER
 
 
-property ::= (KEY) {
+property ::= (identifier) {
 //  pin=3
   recoverWhile="recover_property"
   mixin="org.intellij.sdk.language.psi.impl.SimpleNamedElementImpl"
