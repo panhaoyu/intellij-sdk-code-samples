@@ -54,7 +54,7 @@ public class SimpleSyntaxHighlighter extends SyntaxHighlighterBase {
     public TextAttributesKey @NotNull [] getTokenHighlights(IElementType tokenType) {
         if (tokenType.equals(SimpleTypes.BINARY_OPERATOR)) {
             return OPERATOR_KEYS;
-        } else if (tokenType.equals(SimpleTypes.KEYWORD)) {
+        } else if (tokenType.equals(SimpleTypes.IF)) {
             return KEYWORD_KEYS;
         } else if (tokenType.equals(SimpleTypes.STRING_LITERAL)) {
             return STRING_LITERAL_KEYS;
