@@ -656,14 +656,14 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // STRING_LITERAL | NUMBER_LITERAL
+  // string_literal |number_literal
   public static boolean literal(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "literal")) return false;
     if (!nextTokenIs(b, "<literal>", NUMBER_LITERAL, STRING_LITERAL)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, LITERAL, "<literal>");
-    r = consumeToken(b, STRING_LITERAL);
-    if (!r) r = consumeToken(b, NUMBER_LITERAL);
+    r = string_literal(b, l + 1);
+    if (!r) r = number_literal(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
@@ -753,6 +753,12 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     r = r && endloop(b, l + 1);
     exit_section_(b, m, LOOP_STATEMENT, r);
     return r;
+  }
+
+  /* ********************************************************** */
+  // NUMBER_LITERAL
+  static boolean number_literal(PsiBuilder b, int l) {
+    return consumeToken(b, NUMBER_LITERAL);
   }
 
   /* ********************************************************** */
@@ -900,6 +906,12 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     }
     exit_section_(b, l, m, true, false, null);
     return true;
+  }
+
+  /* ********************************************************** */
+  // STRING_LITERAL
+  static boolean string_literal(PsiBuilder b, int l) {
+    return consumeToken(b, STRING_LITERAL);
   }
 
   /* ********************************************************** */
