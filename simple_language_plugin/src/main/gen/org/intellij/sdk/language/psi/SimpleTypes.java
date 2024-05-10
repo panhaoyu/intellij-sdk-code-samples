@@ -12,11 +12,12 @@ public interface SimpleTypes {
 
   IElementType COMMENT = new SimpleTokenType("COMMENT");
   IElementType CRLF = new SimpleTokenType("CRLF");
-  IElementType FISH_FUNCTION = new SimpleTokenType("FISH_FUNCTION");
   IElementType IDENTIFIER = new SimpleTokenType("IDENTIFIER");
+  IElementType KEY = new SimpleTokenType("KEY");
   IElementType KEYWORD = new SimpleTokenType("KEYWORD");
   IElementType NUMBER_LITERAL = new SimpleTokenType("NUMBER_LITERAL");
   IElementType OPERATOR = new SimpleTokenType("OPERATOR");
+  IElementType SEPARATOR = new SimpleTokenType("SEPARATOR");
   IElementType STRING_LITERAL = new SimpleTokenType("STRING_LITERAL");
 
   class Factory {

@@ -64,7 +64,7 @@ public class SimpleSyntaxHighlighter extends SyntaxHighlighterBase {
             return IDENTIFIER_KEYS;
         } else if (tokenType.equals(SimpleTypes.COMMENT)) {
             return COMMENT_KEYS;
-        } else if (tokenType.equals(SimpleTypes.FISH_FUNCTION)) {
+        } else if (tokenType.equals(SimpleTypes.IDENTIFIER)) {
             return FISH_FUNCTION_KEYS;
         } else if (tokenType.equals(TokenType.BAD_CHARACTER)) {
             return BAD_CHARACTER_KEYS;

@@ -7,9 +7,9 @@ import static org.intellij.sdk.language.psi.SimpleTypes.*;
 import static org.intellij.sdk.language.parser.SimpleParserUtil.*;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.lang.ASTNode;
+import com.intellij.psi.tree.TokenSet;
 import com.intellij.lang.PsiParser;
 import com.intellij.lang.LightPsiParser;
-import org.intellij.sdk.language.psi.SimpleTypes;
 
 @SuppressWarnings({"SimplifiableIfStatement", "UnusedAssignment"})
 public class SimpleParser implements PsiParser, LightPsiParser {
@@ -36,16 +36,13 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // KEY|VALUE|SEPARATOR|COMMENT|CRLF|FISH_FUNCTION|KEYWORD|IDENTIFIER|NUMBER_LITERAL|STRING_LITERAL|OPERATOR
+  // SEPARATOR|COMMENT|CRLF|KEYWORD|IDENTIFIER|NUMBER_LITERAL|STRING_LITERAL|OPERATOR
   static boolean item_(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "item_")) return false;
     boolean r;
-    r = consumeToken(b, SimpleTypes.KEYWORD);
-    if (!r) r = consumeToken(b, SimpleTypes.STRING_LITERAL);
-    if (!r) r = consumeToken(b, SimpleTypes.OPERATOR);
+    r = consumeToken(b, SEPARATOR);
     if (!r) r = consumeToken(b, COMMENT);
     if (!r) r = consumeToken(b, CRLF);
-    if (!r) r = consumeToken(b, FISH_FUNCTION);
     if (!r) r = consumeToken(b, KEYWORD);
     if (!r) r = consumeToken(b, IDENTIFIER);
     if (!r) r = consumeToken(b, NUMBER_LITERAL);
@@ -60,7 +57,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     if (!recursion_guard_(b, l, "property")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, PROPERTY, "<property>");
-    r = consumeToken(b, SimpleTypes.KEYWORD);
+    r = consumeToken(b, KEY);
     exit_section_(b, l, m, r, false, SimpleParser::recover_property);
     return r;
   }
@@ -80,8 +77,8 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   private static boolean recover_property_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "recover_property_0")) return false;
     boolean r;
-    r = consumeToken(b, SimpleTypes.KEYWORD);
-    if (!r) r = consumeToken(b, SimpleTypes.OPERATOR);
+    r = consumeToken(b, KEY);
+    if (!r) r = consumeToken(b, SEPARATOR);
     if (!r) r = consumeToken(b, COMMENT);
     return r;
   }
