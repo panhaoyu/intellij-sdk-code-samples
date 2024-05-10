@@ -26,12 +26,12 @@ simpleFile ::= newline? command_scope? (newline command_scope)* newline*
 private command_scope ::= (command_scope_inline_fish_statement|function_define|comment_block|command_block)
 command_scope_inline_fish_statement ::= command_scope_inline_fish_expression
 
-function_define ::= function_define_header newline (fish_block newline)? end
+function_define ::= function_define_header (newline fish_block)? newline end
 private function_define_header ::= fish define identifier function_parameter_list?
 private function_parameter_list ::= (left_parenthesis identifier (comma_operator identifier)* right_parenthesis)
 
-fish_block ::=  fish_internal_block (newline fish_internal_block)*
-private fish_internal_block ::= if_block | loop_block | case_block | comment_block | command_block | fish_statement
+fish_block ::=  single_fish_block (newline single_fish_block)*
+private single_fish_block ::= if_block | loop_block | case_block | comment_block | command_block | fish_statement
 
 if_block ::= if expression then
              (newline fish_block)?
@@ -43,13 +43,13 @@ private else_statement ::=  else (newline fish_block)?
 
 loop_block ::= loop (newline fish_block)? newline endloop
 
-case_block ::= case_of expression case_clause* newline end_case
+case_block ::= case_of expression (newline case_clause)* newline end_case
 private case_clause ::= case expression (newline fish_block)?
 
 command_block ::= command (newline command_body)* newline end_command
 private any_in_command ::= (
     identifier | left_square_bracket | right_square_bracket | left_parenthesis | right_parenthesis | comma_operator |
-    assignment_operator| newline |
+    assignment_operator|
     unary_operator | binary_operator| dot_operator|at_operator | literal | ellipsis | keywords_in_command_block
  )
 private command_body ::= any_in_command+
