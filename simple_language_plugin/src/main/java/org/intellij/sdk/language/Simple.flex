@@ -3,6 +3,7 @@ package org.intellij.sdk.language;
 
 import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
+import org.bouncycastle.pqc.jcajce.interfaces.SABERKey;
 import org.intellij.sdk.language.psi.SimpleTypes;
 import com.intellij.psi.TokenType;
 
@@ -16,18 +17,26 @@ import com.intellij.psi.TokenType;
 %eof{  return;
 %eof}
 
-CRLF=\R
-WHITE_SPACE=[\ \n\t\f]
-FIRST_VALUE_CHARACTER=[^ \n\f\\] | "\\"{CRLF} | "\\".
-VALUE_CHARACTER=[^\n\f\\] | "\\"{CRLF} | "\\".
-END_OF_LINE_COMMENT=";"[^\r\n]*
-SEPARATOR=[-:=+*/%<>#!@]
-DIGIT=[0-9]
-NUMBER=[-0-9.]+
-LINE_TERMINATOR=\r|\n|\r\n
+%{
+  StringBuffer string = new StringBuffer();
+%}
 
-//KEY_CHARACTER=[^:=\ \n\t\f\\] | "\\ "
-KEYWORD=(
+
+LineTerminator = \r|\n|\r\n
+InputCharacter = [^\r\n]
+WhiteSpace     = {LineTerminator} | [ \t\f]
+
+Comment = {EndOfLineComment}
+
+EndOfLineComment     = ";" {InputCharacter}* {LineTerminator}?
+
+Identifier = [:jletter:] [:jletterdigit:]*
+
+Number=[0-9][0-9.]*([eE]-?[0-9]+)?
+
+Operators = [+\-*/!@#$%\^&*()<>=\[\]{}:,/?~`]
+
+Keyword=(
     "log"|"throughgoing"|"jj"|"extent"|"unbonded"|"delete"|"angle"|"distribute"|"set"|"resolution"|"to"|"expand"|
     "spin"|"attribute"|"range"|"register"|"by"|"walls"|"cycles"|"seating"|"deform"|"yforce"|"fully"|"nd"|"origin"|"at"|
     "rblock"|"mech"|"vp"|"which"|"interval"|"setting"|"call"|"fix"|"porosity"|"a"|"their"|"polygon"|"project"|"dry"|
@@ -63,31 +72,46 @@ KEYWORD=(
 
 )
 
-%state WAITING_VALUE
+%state STRING
 
 %%
 
-<YYINITIAL>"([^\"]|(\.))*"   { yybegin(YYINITIAL); return SimpleTypes.VALUE; }
+//Keywords
+<YYINITIAL> {Keyword} {return SimpleTypes.KEY;}
 
-<YYINITIAL>'([^\']|(\.))*'   { yybegin(YYINITIAL); return SimpleTypes.VALUE; }
+//Identifiers
+<YYINITIAL>{
+    //Identifiers
+    {Identifier} {return SimpleTypes.PROPERTY;}
+
+    //Literals
+    {Number} {return SimpleTypes.VALUE;}
+    [\"']           { string.setLength(0); yybegin(STRING); }
+
+    // Operators
+    {Operators} {return SimpleTypes.SEPARATOR;}
+
+    // Comments
+    {Comment} {return SimpleTypes.COMMENT;}
+
+    // Whitespaces
+    {WhiteSpace} {return SimpleTypes.SEPARATOR;}
+
+}
 
 
-<YYINITIAL> {END_OF_LINE_COMMENT}                           { yybegin(YYINITIAL); return SimpleTypes.COMMENT; }
+<STRING> {
+    \" { yybegin(YYINITIAL); return SimpleTypes.VALUE; }
+    \' { yybegin(YYINITIAL); return SimpleTypes.VALUE; }
+    [\"\']+                   { string.append( yytext() ); }
+    \\t                            { string.append('\t'); }
+    \\n                            { string.append('\n'); }
 
-<YYINITIAL> {WHITE_SPACE}                                       { yybegin(YYINITIAL); return TokenType.WHITE_SPACE; }
+    \\r                            { string.append('\r'); }
+    \\\"                           { string.append('\"'); }
+    \\\'                           { string.append('\''); }
+    \\                             { string.append('\\'); }
+}
 
-<YYINITIAL> {KEYWORD}                                       { yybegin(YYINITIAL); return SimpleTypes.KEY; }
-
-<YYINITIAL> {NUMBER}                                       { yybegin(YYINITIAL); return SimpleTypes.VALUE; }
-
-<YYINITIAL> {SEPARATOR}                                     { yybegin(WAITING_VALUE); return SimpleTypes.SEPARATOR; }
-
-<WAITING_VALUE> {CRLF}({CRLF}|{WHITE_SPACE})+               { yybegin(YYINITIAL); return TokenType.WHITE_SPACE; }
-
-<WAITING_VALUE> {WHITE_SPACE}+                              { yybegin(WAITING_VALUE); return TokenType.WHITE_SPACE; }
-
-<WAITING_VALUE> {FIRST_VALUE_CHARACTER}{VALUE_CHARACTER}*   { yybegin(YYINITIAL); return SimpleTypes.VALUE; }
-
-({CRLF}|{WHITE_SPACE})+                                     { yybegin(YYINITIAL); return TokenType.WHITE_SPACE; }
-
-[^]                                                         { return TokenType.BAD_CHARACTER; }
+/* error fallback */
+[^] { return TokenType.BAD_CHARACTER; }
