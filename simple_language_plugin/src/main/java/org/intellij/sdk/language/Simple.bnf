@@ -92,4 +92,4 @@ property ::= (identifier) {
   implements="org.intellij.sdk.language.psi.SimpleNamedElement"
   methods=[getKey getValue getName setName getNameIdentifier getPresentation]
 }
-private recover_property ::= !(KEY|SEPARATOR|COMMENT)
+private recover_property ::= !(IDENTIFIER|COMMENT)
