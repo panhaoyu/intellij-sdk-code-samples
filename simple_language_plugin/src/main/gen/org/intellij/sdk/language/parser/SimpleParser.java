@@ -174,7 +174,23 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // 'command' anyInCommand* 'endcommand'
+  // anyInCommand+
+  static boolean commandBlock(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "commandBlock")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = anyInCommand(b, l + 1);
+    while (r) {
+      int c = current_position_(b);
+      if (!anyInCommand(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "commandBlock", c)) break;
+    }
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // 'command' commandBlock* 'endcommand'
   static boolean commandStatement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "commandStatement")) return false;
     boolean r;
@@ -186,12 +202,12 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // anyInCommand*
+  // commandBlock*
   private static boolean commandStatement_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "commandStatement_1")) return false;
     while (true) {
       int c = current_position_(b);
-      if (!anyInCommand(b, l + 1)) break;
+      if (!commandBlock(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "commandStatement_1", c)) break;
     }
     return true;
@@ -428,7 +444,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // outerScopeStatement|functionDefinition|multilineComment|separator|crlf
+  // outerScopeStatement|functionDefinition|multilineComment|separator|crlf|commandStatement
   static boolean item_(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "item_")) return false;
     boolean r;
@@ -437,6 +453,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     if (!r) r = multilineComment(b, l + 1);
     if (!r) r = consumeToken(b, SEPARATOR);
     if (!r) r = crlf(b, l + 1);
+    if (!r) r = commandStatement(b, l + 1);
     return r;
   }
 
