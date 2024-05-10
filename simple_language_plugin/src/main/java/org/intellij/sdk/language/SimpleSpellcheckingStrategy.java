@@ -65,7 +65,7 @@ final class SimpleSpellcheckingStrategy extends SpellcheckingStrategy {
             TextRange.allOf(text), IdentifierSplitter.getInstance());
       }
 
-      final ASTNode value = element.getNode().findChildByType(SimpleTypes.VALUE);
+      final ASTNode value = element.getNode().findChildByType(SimpleTypes.STRING_LITERAL);
       if (value != null && value.getTextLength() > 0) {
         final PsiElement valuePsi = value.getPsi();
         final String text = valuePsi.getText();

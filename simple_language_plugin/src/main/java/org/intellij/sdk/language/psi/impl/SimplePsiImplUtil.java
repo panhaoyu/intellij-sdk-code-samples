@@ -26,7 +26,7 @@ public class SimplePsiImplUtil {
   }
 
   public static String getValue(SimpleProperty element) {
-    ASTNode valueNode = element.getNode().findChildByType(SimpleTypes.VALUE);
+    ASTNode valueNode = element.getNode().findChildByType(SimpleTypes.STRING_LITERAL);
     if (valueNode != null) {
       return valueNode.getText();
     } else {

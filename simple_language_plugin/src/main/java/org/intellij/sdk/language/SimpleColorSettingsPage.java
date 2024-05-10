@@ -15,62 +15,62 @@ import java.util.Map;
 
 final class SimpleColorSettingsPage implements ColorSettingsPage {
 
-  private static final AttributesDescriptor[] DESCRIPTORS = new AttributesDescriptor[]{
-      new AttributesDescriptor("Key", SimpleSyntaxHighlighter.KEYWORD),
-      new AttributesDescriptor("Separator", SimpleSyntaxHighlighter.SEPARATOR),
-      new AttributesDescriptor("Value", SimpleSyntaxHighlighter.VALUE),
-      new AttributesDescriptor("Bad value", SimpleSyntaxHighlighter.BAD_CHARACTER)
-  };
+    private static final AttributesDescriptor[] DESCRIPTORS = new AttributesDescriptor[]{
+            new AttributesDescriptor("Key", SimpleSyntaxHighlighter.KEYWORD),
+            new AttributesDescriptor("Separator", SimpleSyntaxHighlighter.OPERATOR),
+            new AttributesDescriptor("Value", SimpleSyntaxHighlighter.STRING),
+            new AttributesDescriptor("Bad value", SimpleSyntaxHighlighter.BAD_CHARACTER)
+    };
 
-  @Override
-  public Icon getIcon() {
-    return SimpleIcons.FILE;
-  }
+    @Override
+    public Icon getIcon() {
+        return SimpleIcons.FILE;
+    }
 
-  @NotNull
-  @Override
-  public SyntaxHighlighter getHighlighter() {
-    return new SimpleSyntaxHighlighter();
-  }
+    @NotNull
+    @Override
+    public SyntaxHighlighter getHighlighter() {
+        return new SimpleSyntaxHighlighter();
+    }
 
-  @NotNull
-  @Override
-  public String getDemoText() {
-    return """
-        # You are reading the ".properties" entry.
-        ! The exclamation mark can also mark text as comments.
-        website = https://en.wikipedia.org/
-        language = English
-        # The backslash below tells the application to continue reading
-        # the value onto the next line.
-        message = Welcome to \\
-                  Wikipedia!
-        # Add spaces to the key
-        key\\ with\\ spaces = This is the value that could be looked up with the key "key with spaces".
-        # Unicode
-        tab : \\u0009""";
-  }
+    @NotNull
+    @Override
+    public String getDemoText() {
+        return """
+                # You are reading the ".properties" entry.
+                ! The exclamation mark can also mark text as comments.
+                website = https://en.wikipedia.org/
+                language = English
+                # The backslash below tells the application to continue reading
+                # the value onto the next line.
+                message = Welcome to \\
+                          Wikipedia!
+                # Add spaces to the key
+                key\\ with\\ spaces = This is the value that could be looked up with the key "key with spaces".
+                # Unicode
+                tab : \\u0009""";
+    }
 
-  @Nullable
-  @Override
-  public Map<String, TextAttributesKey> getAdditionalHighlightingTagToDescriptorMap() {
-    return null;
-  }
+    @Nullable
+    @Override
+    public Map<String, TextAttributesKey> getAdditionalHighlightingTagToDescriptorMap() {
+        return null;
+    }
 
-  @Override
-  public AttributesDescriptor @NotNull [] getAttributeDescriptors() {
-    return DESCRIPTORS;
-  }
+    @Override
+    public AttributesDescriptor @NotNull [] getAttributeDescriptors() {
+        return DESCRIPTORS;
+    }
 
-  @Override
-  public ColorDescriptor @NotNull [] getColorDescriptors() {
-    return ColorDescriptor.EMPTY_ARRAY;
-  }
+    @Override
+    public ColorDescriptor @NotNull [] getColorDescriptors() {
+        return ColorDescriptor.EMPTY_ARRAY;
+    }
 
-  @NotNull
-  @Override
-  public String getDisplayName() {
-    return "Simple";
-  }
+    @NotNull
+    @Override
+    public String getDisplayName() {
+        return "Simple";
+    }
 
 }

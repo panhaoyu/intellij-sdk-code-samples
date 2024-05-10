@@ -7,7 +7,6 @@ import static org.intellij.sdk.language.psi.SimpleTypes.*;
 import static com.intellij.lang.parser.GeneratedParserUtilBase.*;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.lang.ASTNode;
-import com.intellij.psi.tree.TokenSet;
 import com.intellij.lang.PsiParser;
 import com.intellij.lang.LightPsiParser;
 
@@ -41,7 +40,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     if (!recursion_guard_(b, l, "item_")) return false;
     boolean r;
     r = consumeToken(b, KEY);
-    if (!r) r = consumeToken(b, VALUE);
+    if (!r) r = consumeToken(b, STRING_LITERAL);
     if (!r) r = consumeToken(b, SEPARATOR);
     if (!r) r = consumeToken(b, COMMENT);
     if (!r) r = consumeToken(b, CRLF);

@@ -34,7 +34,55 @@ Identifier = [:jletter:] [:jletterdigit:]*
 
 Number=[0-9][0-9.]*([eE]-?[0-9]+)?
 
-Operators = [+\-*/!@#$%\^&*()<>=\[\]{}:,/?~`]
+Operators = {ArithmeticOperator} | {ComparisonOperator} | {EqualityOperator} | {LogicalOperator} | {UnaryOperator} | {AssignmentOperator} | {MemberAccessOperator} | {FunctionCallOperator} | {BracketOperator}
+
+ArithmeticOperator = { PlusOperator } | { MinusOperator } | { MultiplyOperator } | { DivideOperator } | { FloorDivideOperator } | { ModulusOperator } | { ExponentOperator }
+PlusOperator = "+"
+MinusOperator = "-"
+MultiplyOperator = "*"
+DivideOperator = "/"
+FloorDivideOperator = "//"
+ModulusOperator = "%"
+ExponentOperator = "^"
+
+ComparisonOperator = { GreaterThanOperator } | { LessThanOperator } | { GreaterThanOrEqualOperator } | { LessThanOrEqualOperator }
+GreaterThanOperator = ">"
+LessThanOperator = "<"
+GreaterThanOrEqualOperator = ">="
+LessThanOrEqualOperator = "<="
+
+EqualityOperator = { EqualsOperator } | { NotEqualsOperator }
+EqualsOperator = "=="
+NotEqualsOperator = "#"
+
+LogicalOperator = { AndOperator } | { OrOperator }
+AndOperator = "&"
+OrOperator = "|"
+
+UnaryOperator = { NegationOperator } | { LogicalNotOperator }
+NegationOperator = "-"
+LogicalNotOperator = "~"
+
+AssignmentOperator = { DirectAssignmentOperator } | { AddAssignmentOperator } | { SubtractAssignmentOperator } | { MultiplyAssignmentOperator } | { DivideAssignmentOperator } | { ModulusAssignmentOperator }
+DirectAssignmentOperator = "="
+AddAssignmentOperator = "+="
+SubtractAssignmentOperator = "-="
+MultiplyAssignmentOperator = "*="
+DivideAssignmentOperator = "/="
+ModulusAssignmentOperator = "%="
+
+MemberAccessOperator = "->"
+
+FunctionCallOperator    =     "@"
+
+// Bracket Operators
+BracketOperator = {LeftParenthesis} | {RightParenthesis} | {LeftSquareBracket} | {RightSquareBracket} | {LeftCurlyBracket} | {RightCurlyBracket}
+LeftParenthesis         = "("
+RightParenthesis        = ")"
+LeftSquareBracket       = "["
+RightSquareBracket      = "]"
+LeftCurlyBracket        = "{"
+RightCurlyBracket       = "}"
 
 StringA = \" [^\"]* \"
 
@@ -89,15 +137,17 @@ Keyword=(
 //Identifiers
 <YYINITIAL>{
     //Identifiers
-    {Identifier} {return SimpleTypes.VALUE;}
+    {Identifier} {return SimpleTypes.IDENTIFIER;}
 
     //Literals
-    {Number} {return SimpleTypes.VALUE;}
+    {Number} {return SimpleTypes.NUMBER_LITERAL;}
 
-    {String} {return SimpleTypes.VALUE;}
+    {String} {return SimpleTypes.STRING_LITERAL;}
 
     // Operators
-    ({Operators} | {WhiteSpace})+ {return SimpleTypes.SEPARATOR;}
+    {Operators} {return SimpleTypes.OPERATOR;}
+
+    {WhiteSpace}+ {return SimpleTypes.SEPARATOR;}
 
     // Comments
     {Comment} {return SimpleTypes.COMMENT;}
