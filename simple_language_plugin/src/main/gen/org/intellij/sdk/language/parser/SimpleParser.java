@@ -39,7 +39,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   static boolean item_(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "item_")) return false;
     boolean r;
-    r = consumeToken(b, KEY);
+    r = consumeToken(b, KEYWORD);
     if (!r) r = consumeToken(b, STRING_LITERAL);
     if (!r) r = consumeToken(b, SEPARATOR);
     if (!r) r = consumeToken(b, COMMENT);
@@ -53,7 +53,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     if (!recursion_guard_(b, l, "property")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, PROPERTY, "<property>");
-    r = consumeToken(b, KEY);
+    r = consumeToken(b, KEYWORD);
     exit_section_(b, l, m, r, false, SimpleParser::recover_property);
     return r;
   }
@@ -73,7 +73,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   private static boolean recover_property_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "recover_property_0")) return false;
     boolean r;
-    r = consumeToken(b, KEY);
+    r = consumeToken(b, KEYWORD);
     if (!r) r = consumeToken(b, SEPARATOR);
     if (!r) r = consumeToken(b, COMMENT);
     return r;

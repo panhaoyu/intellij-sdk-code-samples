@@ -18,7 +18,7 @@ final class SimpleColorSettingsPage implements ColorSettingsPage {
     private static final AttributesDescriptor[] DESCRIPTORS = new AttributesDescriptor[]{
             new AttributesDescriptor("Key", SimpleSyntaxHighlighter.KEYWORD),
             new AttributesDescriptor("Separator", SimpleSyntaxHighlighter.OPERATOR),
-            new AttributesDescriptor("Value", SimpleSyntaxHighlighter.STRING),
+            new AttributesDescriptor("Value", SimpleSyntaxHighlighter.STRING_LITERAL),
             new AttributesDescriptor("Bad value", SimpleSyntaxHighlighter.BAD_CHARACTER)
     };
 

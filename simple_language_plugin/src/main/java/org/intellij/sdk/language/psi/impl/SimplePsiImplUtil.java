@@ -16,7 +16,7 @@ import javax.swing.*;
 public class SimplePsiImplUtil {
 
   public static String getKey(SimpleProperty element) {
-    ASTNode keyNode = element.getNode().findChildByType(SimpleTypes.KEY);
+    ASTNode keyNode = element.getNode().findChildByType(SimpleTypes.KEYWORD);
     if (keyNode != null) {
       // IMPORTANT: Convert embedded escaped spaces to simple spaces
       return keyNode.getText().replaceAll("\\\\ ", " ");
@@ -39,7 +39,7 @@ public class SimplePsiImplUtil {
   }
 
   public static PsiElement setName(SimpleProperty element, String newName) {
-    ASTNode keyNode = element.getNode().findChildByType(SimpleTypes.KEY);
+    ASTNode keyNode = element.getNode().findChildByType(SimpleTypes.KEYWORD);
     if (keyNode != null) {
       SimpleProperty property = SimpleElementFactory.createProperty(element.getProject(), newName);
       ASTNode newKeyNode = property.getFirstChild().getNode();
@@ -49,7 +49,7 @@ public class SimplePsiImplUtil {
   }
 
   public static PsiElement getNameIdentifier(SimpleProperty element) {
-    ASTNode keyNode = element.getNode().findChildByType(SimpleTypes.KEY);
+    ASTNode keyNode = element.getNode().findChildByType(SimpleTypes.KEYWORD);
     if (keyNode != null) {
       return keyNode.getPsi();
     } else {
