@@ -379,6 +379,38 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // (KEY)
+  public static boolean property(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "property")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, PROPERTY, "<property>");
+    r = consumeToken(b, KEY);
+    exit_section_(b, l, m, r, false, SimpleParser::recover_property);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // !(KEY|SEPARATOR|COMMENT)
+  static boolean recover_property(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "recover_property")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NOT_);
+    r = !recover_property_0(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // KEY|SEPARATOR|COMMENT
+  private static boolean recover_property_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "recover_property_0")) return false;
+    boolean r;
+    r = consumeToken(b, KEY);
+    if (!r) r = consumeToken(b, SEPARATOR);
+    if (!r) r = consumeToken(b, COMMENT);
+    return r;
+  }
+
+  /* ********************************************************** */
   // SEPARATOR
   static boolean separator(PsiBuilder b, int l) {
     return consumeToken(b, SEPARATOR);

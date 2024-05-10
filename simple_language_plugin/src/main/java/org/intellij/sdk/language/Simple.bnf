@@ -59,3 +59,12 @@ private separator ::= SEPARATOR
 private crlf ::= CRLF
 //noinspection BnfUnusedRule
 private keyword ::= KEYWORD
+
+property ::= (KEY) {
+//  pin=3
+  recoverWhile="recover_property"
+  mixin="org.intellij.sdk.language.psi.impl.SimpleNamedElementImpl"
+  implements="org.intellij.sdk.language.psi.SimpleNamedElement"
+  methods=[getKey getValue getName setName getNameIdentifier getPresentation]
+}
+private recover_property ::= !(KEY|SEPARATOR|COMMENT)
