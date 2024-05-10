@@ -62,10 +62,10 @@ private global_var_declare_statement ::= global identifier (comma_operator ident
 
 private expression ::=  (left_parenthesis inner_expression right_parenthesis) | inner_expression
 private inner_expression ::=  binary_expression | unary_expression | value | function_call_expression
-private function_call_expression ::= identifier argument_list?
-private argument_list ::= left_parenthesis expression (comma_operator expression)* right_parenthesis
+private function_call_expression ::= identifier function_argument_list?
+private function_argument_list ::= left_parenthesis value right_parenthesis
 
-private binary_expression ::= value binary_operator value
+private binary_expression ::= value binary_operator expression
 private unary_expression ::= unary_operator expression
 
 

@@ -55,43 +55,6 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // left_parenthesis expression (comma_operator expression)* right_parenthesis
-  static boolean argument_list(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "argument_list")) return false;
-    if (!nextTokenIs(b, LEFT_PARENTHESIS)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = left_parenthesis(b, l + 1);
-    r = r && expression(b, l + 1);
-    r = r && argument_list_2(b, l + 1);
-    r = r && right_parenthesis(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // (comma_operator expression)*
-  private static boolean argument_list_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "argument_list_2")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!argument_list_2_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "argument_list_2", c)) break;
-    }
-    return true;
-  }
-
-  // comma_operator expression
-  private static boolean argument_list_2_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "argument_list_2_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = comma_operator(b, l + 1);
-    r = r && expression(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  /* ********************************************************** */
   // ASSIGNMENT_OPERATOR
   static boolean assignment_operator(PsiBuilder b, int l) {
     return consumeToken(b, ASSIGNMENT_OPERATOR);
@@ -112,14 +75,14 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // value binary_operator value
+  // value binary_operator expression
   static boolean binary_expression(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "binary_expression")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = value(b, l + 1);
     r = r && binary_operator(b, l + 1);
-    r = r && value(b, l + 1);
+    r = r && expression(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
@@ -390,7 +353,21 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // identifier argument_list?
+  // left_parenthesis value right_parenthesis
+  static boolean function_argument_list(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "function_argument_list")) return false;
+    if (!nextTokenIs(b, LEFT_PARENTHESIS)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = left_parenthesis(b, l + 1);
+    r = r && value(b, l + 1);
+    r = r && right_parenthesis(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // identifier function_argument_list?
   static boolean function_call_expression(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "function_call_expression")) return false;
     if (!nextTokenIs(b, IDENTIFIER)) return false;
@@ -402,10 +379,10 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // argument_list?
+  // function_argument_list?
   private static boolean function_call_expression_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "function_call_expression_1")) return false;
-    argument_list(b, l + 1);
+    function_argument_list(b, l + 1);
     return true;
   }
 
@@ -953,13 +930,13 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // binary_operator expression
+  // unary_operator expression
   static boolean unary_expression(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "unary_expression")) return false;
-    if (!nextTokenIs(b, BINARY_OPERATOR)) return false;
+    if (!nextTokenIs(b, UNARY_OPERATOR)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = binary_operator(b, l + 1);
+    r = unary_operator(b, l + 1);
     r = r && expression(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
