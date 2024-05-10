@@ -323,26 +323,15 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (left_parenthesis inner_expression right_parenthesis) | inner_expression
+  // binary_expression | unary_expression | value | function_call_expression | parenthesis_expression
   static boolean expression(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "expression")) return false;
     boolean r;
-    Marker m = enter_section_(b);
-    r = expression_0(b, l + 1);
-    if (!r) r = inner_expression(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // left_parenthesis inner_expression right_parenthesis
-  private static boolean expression_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "expression_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = left_parenthesis(b, l + 1);
-    r = r && inner_expression(b, l + 1);
-    r = r && right_parenthesis(b, l + 1);
-    exit_section_(b, m, null, r);
+    r = binary_expression(b, l + 1);
+    if (!r) r = unary_expression(b, l + 1);
+    if (!r) r = value(b, l + 1);
+    if (!r) r = function_call_expression(b, l + 1);
+    if (!r) r = parenthesis_expression(b, l + 1);
     return r;
   }
 
@@ -615,18 +604,6 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // binary_expression | unary_expression | value | function_call_expression
-  static boolean inner_expression(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "inner_expression")) return false;
-    boolean r;
-    r = binary_expression(b, l + 1);
-    if (!r) r = unary_expression(b, l + 1);
-    if (!r) r = value(b, l + 1);
-    if (!r) r = function_call_expression(b, l + 1);
-    return r;
-  }
-
-  /* ********************************************************** */
   // KEYWORD
   static boolean keyword(PsiBuilder b, int l) {
     return consumeToken(b, KEYWORD);
@@ -807,6 +784,20 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     r = left_square_bracket(b, l + 1);
     r = r && single_statement(b, l + 1);
     r = r && right_square_bracket(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // left_parenthesis expression right_parenthesis
+  static boolean parenthesis_expression(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "parenthesis_expression")) return false;
+    if (!nextTokenIs(b, LEFT_PARENTHESIS)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = left_parenthesis(b, l + 1);
+    r = r && expression(b, l + 1);
+    r = r && right_parenthesis(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }

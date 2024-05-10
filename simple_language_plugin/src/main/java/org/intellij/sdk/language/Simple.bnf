@@ -60,8 +60,8 @@ private local_var_declare_statement ::= local identifier (comma_operator identif
 private global_var_declare_statement ::= global identifier (comma_operator identifier)* (assignment_operator expression)?
 
 
-private expression ::=   (left_parenthesis expression right_parenthesis)  | inner_expression
-private inner_expression ::=  binary_expression | unary_expression | value | function_call_expression | expression
+private expression ::=  binary_expression | unary_expression | value | function_call_expression | parenthesis_expression
+private parenthesis_expression ::= left_parenthesis expression right_parenthesis
 private function_call_expression ::= identifier function_argument_list?
 private function_argument_list ::= left_parenthesis value right_parenthesis
 
