@@ -136,16 +136,16 @@ String = {StringA} | {StringB}
     // Comments
     {Comment} {return SimpleTypes.COMMENT;}
 
-    "}" {return SimpleTypes.LEFT_CURLY_BRACKET; }
-    "{" {return SimpleTypes.RIGHT_CURLY_BRACKET; }
-    "(" {return SimpleTypes.LEFT_PARENTHESIS; }
-    ")" {return SimpleTypes.RIGHT_PARENTHESIS; }
-    "[" {return SimpleTypes.LEFT_SQUARE_BRACKET; }
-    "]" {return SimpleTypes.RIGHT_SQUARE_BRACKET; }
+    \} {return SimpleTypes.LEFT_CURLY_BRACKET; }
+    \{ {return SimpleTypes.RIGHT_CURLY_BRACKET; }
+    \( {return SimpleTypes.LEFT_PARENTHESIS; }
+    \) {return SimpleTypes.RIGHT_PARENTHESIS; }
+    \[ {return SimpleTypes.LEFT_SQUARE_BRACKET; }
+    \] {return SimpleTypes.RIGHT_SQUARE_BRACKET; }
 
-    "@" {return SimpleTypes.FUNCTION_CALL_OPERATOR; }
-    "." {return SimpleTypes.DOT_OPERATOR; }
-    "," {return SimpleTypes.COMMA_OPERATOR; }
+    \@ {return SimpleTypes.FUNCTION_CALL_OPERATOR; }
+    \. {return SimpleTypes.DOT_OPERATOR; }
+    \, {return SimpleTypes.COMMA_OPERATOR; }
 
 }
 

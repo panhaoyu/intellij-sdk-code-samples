@@ -205,14 +205,13 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // command_scope_inline_fish_statement|function_define|comment_block|crlf|command_block
+  // command_scope_inline_fish_statement|function_define|comment_block|command_block
   static boolean command_scope(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "command_scope")) return false;
     boolean r;
     r = command_scope_inline_fish_statement(b, l + 1);
     if (!r) r = function_define(b, l + 1);
     if (!r) r = comment_block(b, l + 1);
-    if (!r) r = crlf(b, l + 1);
     if (!r) r = command_block(b, l + 1);
     return r;
   }
