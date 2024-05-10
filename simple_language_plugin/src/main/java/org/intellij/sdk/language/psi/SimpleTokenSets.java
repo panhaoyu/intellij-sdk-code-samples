@@ -6,7 +6,7 @@ import com.intellij.psi.tree.TokenSet;
 
 public interface SimpleTokenSets {
 
-  TokenSet IDENTIFIERS = TokenSet.create(SimpleTypes.KEYWORD);
+  TokenSet IDENTIFIERS = TokenSet.create(SimpleTypes.IF);
 
   TokenSet COMMENTS = TokenSet.create(SimpleTypes.COMMENT);
 
