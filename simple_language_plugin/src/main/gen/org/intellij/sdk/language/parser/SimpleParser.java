@@ -61,16 +61,37 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // identifier parenthesis_csv_expression assignment_right
-  public static boolean array_assignment_statement(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "array_assignment_statement")) return false;
-    if (!nextTokenIs(b, IDENTIFIER)) return false;
+  // assignment_target (comma_operator assignment_target)*
+  static boolean assignment_left(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "assignment_left")) return false;
+    if (!nextTokenIs(b, "", IDENTIFIER, LEFT_PARENTHESIS)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = identifier(b, l + 1);
-    r = r && parenthesis_csv_expression(b, l + 1);
-    r = r && assignment_right(b, l + 1);
-    exit_section_(b, m, ARRAY_ASSIGNMENT_STATEMENT, r);
+    r = assignment_target(b, l + 1);
+    r = r && assignment_left_1(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // (comma_operator assignment_target)*
+  private static boolean assignment_left_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "assignment_left_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!assignment_left_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "assignment_left_1", c)) break;
+    }
+    return true;
+  }
+
+  // comma_operator assignment_target
+  private static boolean assignment_left_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "assignment_left_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = comma_operator(b, l + 1);
+    r = r && assignment_target(b, l + 1);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -94,15 +115,26 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // identifier assignment_right
+  // assignment_left assignment_right
   public static boolean assignment_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "assignment_statement")) return false;
-    if (!nextTokenIs(b, IDENTIFIER)) return false;
+    if (!nextTokenIs(b, "<assignment statement>", IDENTIFIER, LEFT_PARENTHESIS)) return false;
     boolean r;
-    Marker m = enter_section_(b);
-    r = identifier(b, l + 1);
+    Marker m = enter_section_(b, l, _NONE_, ASSIGNMENT_STATEMENT, "<assignment statement>");
+    r = assignment_left(b, l + 1);
     r = r && assignment_right(b, l + 1);
-    exit_section_(b, m, ASSIGNMENT_STATEMENT, r);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // identifier | parenthesis_csv_expression
+  static boolean assignment_target(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "assignment_target")) return false;
+    if (!nextTokenIs(b, "", IDENTIFIER, LEFT_PARENTHESIS)) return false;
+    boolean r;
+    r = identifier(b, l + 1);
+    if (!r) r = parenthesis_csv_expression(b, l + 1);
     return r;
   }
 
@@ -611,13 +643,12 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // array_assignment_statement | function_call_statement  | var_declare_statement |  assignment_statement | expression
+  // function_call_statement  | var_declare_statement |  assignment_statement | expression
   public static boolean fish_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "fish_statement")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, FISH_STATEMENT, "<fish statement>");
-    r = array_assignment_statement(b, l + 1);
-    if (!r) r = function_call_statement(b, l + 1);
+    r = function_call_statement(b, l + 1);
     if (!r) r = var_declare_statement(b, l + 1);
     if (!r) r = assignment_statement(b, l + 1);
     if (!r) r = expression(b, l + 1);
@@ -746,61 +777,6 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   // GLOBAL
   static boolean global(PsiBuilder b, int l) {
     return consumeToken(b, GLOBAL);
-  }
-
-  /* ********************************************************** */
-  // global identifier (comma_operator identifier)* (assignment_operator expression)?
-  static boolean global_var_declare_statement(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "global_var_declare_statement")) return false;
-    if (!nextTokenIs(b, GLOBAL)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = global(b, l + 1);
-    r = r && identifier(b, l + 1);
-    r = r && global_var_declare_statement_2(b, l + 1);
-    r = r && global_var_declare_statement_3(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // (comma_operator identifier)*
-  private static boolean global_var_declare_statement_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "global_var_declare_statement_2")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!global_var_declare_statement_2_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "global_var_declare_statement_2", c)) break;
-    }
-    return true;
-  }
-
-  // comma_operator identifier
-  private static boolean global_var_declare_statement_2_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "global_var_declare_statement_2_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = comma_operator(b, l + 1);
-    r = r && identifier(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // (assignment_operator expression)?
-  private static boolean global_var_declare_statement_3(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "global_var_declare_statement_3")) return false;
-    global_var_declare_statement_3_0(b, l + 1);
-    return true;
-  }
-
-  // assignment_operator expression
-  private static boolean global_var_declare_statement_3_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "global_var_declare_statement_3_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = assignment_operator(b, l + 1);
-    r = r && expression(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
   }
 
   /* ********************************************************** */
@@ -962,61 +938,6 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   // LOCAL
   static boolean local(PsiBuilder b, int l) {
     return consumeToken(b, LOCAL);
-  }
-
-  /* ********************************************************** */
-  // local identifier (comma_operator identifier)* (assignment_operator expression)?
-  static boolean local_var_declare_statement(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "local_var_declare_statement")) return false;
-    if (!nextTokenIs(b, LOCAL)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = local(b, l + 1);
-    r = r && identifier(b, l + 1);
-    r = r && local_var_declare_statement_2(b, l + 1);
-    r = r && local_var_declare_statement_3(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // (comma_operator identifier)*
-  private static boolean local_var_declare_statement_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "local_var_declare_statement_2")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!local_var_declare_statement_2_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "local_var_declare_statement_2", c)) break;
-    }
-    return true;
-  }
-
-  // comma_operator identifier
-  private static boolean local_var_declare_statement_2_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "local_var_declare_statement_2_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = comma_operator(b, l + 1);
-    r = r && identifier(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // (assignment_operator expression)?
-  private static boolean local_var_declare_statement_3(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "local_var_declare_statement_3")) return false;
-    local_var_declare_statement_3_0(b, l + 1);
-    return true;
-  }
-
-  // assignment_operator expression
-  private static boolean local_var_declare_statement_3_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "local_var_declare_statement_3_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = assignment_operator(b, l + 1);
-    r = r && expression(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
   }
 
   /* ********************************************************** */
@@ -1306,16 +1227,33 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // local_var_declare_statement | global_var_declare_statement
+  // (local | global) assignment_left assignment_right?
   public static boolean var_declare_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "var_declare_statement")) return false;
     if (!nextTokenIs(b, "<var declare statement>", GLOBAL, LOCAL)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, VAR_DECLARE_STATEMENT, "<var declare statement>");
-    r = local_var_declare_statement(b, l + 1);
-    if (!r) r = global_var_declare_statement(b, l + 1);
+    r = var_declare_statement_0(b, l + 1);
+    r = r && assignment_left(b, l + 1);
+    r = r && var_declare_statement_2(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
+  }
+
+  // local | global
+  private static boolean var_declare_statement_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "var_declare_statement_0")) return false;
+    boolean r;
+    r = local(b, l + 1);
+    if (!r) r = global(b, l + 1);
+    return r;
+  }
+
+  // assignment_right?
+  private static boolean var_declare_statement_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "var_declare_statement_2")) return false;
+    assignment_right(b, l + 1);
+    return true;
   }
 
 }
