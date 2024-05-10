@@ -15,13 +15,15 @@
   tokenTypeClass="org.intellij.sdk.language.psi.SimpleTokenType"
 
   psiImplUtilClass="org.intellij.sdk.language.psi.impl.SimplePsiImplUtil"
+
+  tokens = [
+    space='regexp:\s+'
+  ]
 }
-value0 ::= value*
 
-simpleFile ::= command_scope* | value
+simpleFile ::= command_scope*
 
-//private command_scope ::= (command_scope_inline_fish_statement|function_define|comment_block|command_block)
-private command_scope ::= command_scope_inline_fish_statement
+private command_scope ::= (command_scope_inline_fish_statement|function_define|comment_block|command_block)
 private command_scope_inline_fish_statement ::= command_scope_inline_fish_expression
 
 function_define ::= function_define_header  (left_parenthesis function_parameter_list right_parenthesis)?  fish_block end
@@ -49,7 +51,7 @@ private command_body ::= any_in_command+
 private keywords_in_command_block ::= (fish | case_of | case | end_case | define | end | exit | global | if | then |
     elseif | else | endif | local | lock | loop | endloop | continue | return | section | end_section | struct  |)
 
-fish_statement ::= function_call_statement  | var_declare_statement | identifier | assignment_statement
+fish_statement ::= function_call_statement  | var_declare_statement | assignment_statement | expression
 
 function_call_statement ::= function_call_expression
 
@@ -60,7 +62,7 @@ private local_var_declare_statement ::= local identifier (comma_operator identif
 private global_var_declare_statement ::= global identifier (comma_operator identifier)* (assignment_operator expression)?
 
 
-private expression ::=  binary_expression | unary_expression | value | function_call_expression | parenthesis_expression
+private expression ::= parenthesis_expression |function_call_expression | unary_expression |binary_expression | value
 private parenthesis_expression ::= left_parenthesis expression right_parenthesis
 private function_call_expression ::= identifier function_argument_list?
 private function_argument_list ::= left_parenthesis value right_parenthesis
@@ -69,67 +71,67 @@ private command_scope_inline_fish_expression ::= left_square_bracket fish_statem
 private binary_expression ::= value binary_operator expression
 private unary_expression ::= unary_operator expression
 
-
+////词汇之间的组合
 private comment_block ::= end_of_line_comment
 value ::= identifier | literal
 literal ::= string_literal | number_literal
 
 
 
-property ::= (identifier) {
-//  pin=3
-  recoverWhile="recover_property"
-  mixin="org.intellij.sdk.language.psi.impl.SimpleNamedElementImpl"
-  implements="org.intellij.sdk.language.psi.SimpleNamedElement"
-  methods=[getKey getValue getName setName getNameIdentifier getPresentation]
-}
-private recover_property ::= !(IDENTIFIER|COMMENT)
+//property ::= (identifier) {
+////  pin=3
+//  recoverWhile="recover_property"
+//  mixin="org.intellij.sdk.language.psi.impl.SimpleNamedElementImpl"
+//  implements="org.intellij.sdk.language.psi.SimpleNamedElement"
+//  methods=[getKey getValue getName setName getNameIdentifier getPresentation]
+//}
+//private recover_property ::= !(identifier|end_of_line_comment)
 
-//以下为读取的原始token
-private string_literal ::=  STRING_LITERAL
-private number_literal ::= NUMBER_LITERAL
-private end_of_line_comment ::= COMMENT
-private binary_operator ::= BINARY_OPERATOR
-private unary_operator ::= UNARY_OPERATOR
-private assignment_operator ::= ASSIGNMENT_OPERATOR
-private crlf ::= CRLF
-
-private at_operator ::= FUNCTION_CALL_OPERATOR
-private comma_operator ::= COMMA_OPERATOR
-private dot_operator ::= DOT_OPERATOR
-
-// Bracket Operators
-private left_parenthesis ::= LEFT_PARENTHESIS
-private right_parenthesis ::= RIGHT_PARENTHESIS
-private left_square_bracket ::= LEFT_SQUARE_BRACKET
-private right_square_bracket ::= RIGHT_SQUARE_BRACKET
-private left_curly_bracket ::= LEFT_CURLY_BRACKET
-private right_curly_bracket ::= RIGHT_CURLY_BRACKET
-private  identifier ::= IDENTIFIER
-
-//keywords
-private fish ::= FISH
-private case_of ::= CASEOF
-private case ::= CASE
-private end_case ::= ENDCASE
-private command ::= COMMAND
-private end_command ::= ENDCOMMAND
-private define ::= DEFINE
-private end ::= END
-private exit ::= EXIT
-private global ::= GLOBAL
-private if ::= IF
-private then ::= THEN
-private elseif ::= ELSEIF
-private else ::= ELSE
-private endif ::= ENDIF
-private local ::= LOCAL
-private lock ::= LOCK
-private loop ::= LOOP
-private endloop ::= ENDLOOP
-private continue ::= CONTINUE
-private return ::= RETURN
-private section ::= SECTION
-private end_section ::= ENDSECTION
-private struct ::= STRUCT
-private ellipsis ::=  ELLIPSIS
+////以下为读取的原始token
+//private string_literal ::=  STRING_LITERAL
+//private number_literal ::= NUMBER_LITERAL
+//private end_of_line_comment ::= COMMENT
+//private binary_operator ::= BINARY_OPERATOR
+//private unary_operator ::= UNARY_OPERATOR
+//private assignment_operator ::= ASSIGNMENT_OPERATOR
+//private crlf ::= CRLF
+//
+//private at_operator ::= FUNCTION_CALL_OPERATOR
+//private comma_operator ::= COMMA_OPERATOR
+//private dot_operator ::= DOT_OPERATOR
+//
+//// Bracket Operators
+//private left_parenthesis ::= LEFT_PARENTHESIS
+//private right_parenthesis ::= RIGHT_PARENTHESIS
+//private left_square_bracket ::= LEFT_SQUARE_BRACKET
+//private right_square_bracket ::= RIGHT_SQUARE_BRACKET
+//private left_curly_bracket ::= LEFT_CURLY_BRACKET
+//private right_curly_bracket ::= RIGHT_CURLY_BRACKET
+//private  identifier ::= IDENTIFIER
+//
+////keywords
+//private fish ::= FISH
+//private case_of ::= CASEOF
+//private case ::= CASE
+//private end_case ::= ENDCASE
+//private command ::= COMMAND
+//private end_command ::= ENDCOMMAND
+//private define ::= DEFINE
+//private end ::= END
+//private exit ::= EXIT
+//private global ::= GLOBAL
+//private if ::= IF
+//private then ::= THEN
+//private elseif ::= ELSEIF
+//private else ::= ELSE
+//private endif ::= ENDIF
+//private local ::= LOCAL
+//private lock ::= LOCK
+//private loop ::= LOOP
+//private endloop ::= ENDLOOP
+//private continue ::= CONTINUE
+//private return ::= RETURN
+//private section ::= SECTION
+//private end_section ::= ENDSECTION
+//private struct ::= STRUCT
+//private ellipsis ::=  ELLIPSIS
