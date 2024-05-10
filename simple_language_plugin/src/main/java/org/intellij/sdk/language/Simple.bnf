@@ -22,22 +22,22 @@ simpleFile ::= command_scope*
 private command_scope ::= (command_scope_inline_fish_statement|function_define|comment_block|crlf|command_statement)
 private command_scope_inline_fish_statement ::= command_scope_inline_fish_expression
 
-function_define ::= function_define_header  (left_parenthesis function_parameter_list right_parenthesis)?  statement end
+function_define ::= function_define_header  (left_parenthesis function_parameter_list right_parenthesis)?  multi_statement end
 private function_define_header ::= fish define identifier function_parameter_list
 private function_parameter_list ::= (identifier (comma_operator identifier)* )?
 
-statement ::=  single_statement*
+multi_statement ::=  single_statement*
 
 single_statement ::=  if_statement | loop_statement | case_statement  | assignment_statement | function_call_statement | comment_block | var_declare_statement | command_statement | identifier
 
 
-if_statement ::= if expression then statement else_if_statement* else_statement? endif
-private else_if_statement ::= elseif expression then statement
-private else_statement ::=  else statement
+if_statement ::= if expression then multi_statement else_if_statement* else_statement? endif
+private else_if_statement ::= elseif expression then multi_statement
+private else_statement ::=  else multi_statement
 
-loop_statement ::= loop statement endloop
+loop_statement ::= loop multi_statement endloop
 private case_statement ::= case_of expression case_clause* end_case
-private case_clause ::= case expression statement
+private case_clause ::= case expression multi_statement
 
 command_statement ::= command command_body* end_command
 private any_in_command ::= (
