@@ -21,7 +21,6 @@ import java.util.*;
 
 // SimpleUtil类提供了一系列静态方法，用于搜索和操作Simple语言文件
 public class SimpleUtil {
-
     /**
      * 在整个项目中搜索含有特定键的Simple属性。
      *
