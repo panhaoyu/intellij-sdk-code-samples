@@ -82,7 +82,7 @@ fish_statement ::= (
     )
 
 function_call_statement ::= function_call_expression | function_call_statement_at
-private function_call_statement_at ::= at_operator identifier
+private function_call_statement_at ::= at_operator identifier parenthesis_csv_expression
 
 
 assignment_statement ::= (local | global)? assignment_expression (comma_operator assignment_expression)*

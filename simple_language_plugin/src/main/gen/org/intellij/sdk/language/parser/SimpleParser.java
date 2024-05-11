@@ -862,7 +862,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // at_operator identifier
+  // at_operator identifier parenthesis_csv_expression
   static boolean function_call_statement_at(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "function_call_statement_at")) return false;
     if (!nextTokenIs(b, FUNCTION_CALL_OPERATOR)) return false;
@@ -870,6 +870,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b);
     r = at_operator(b, l + 1);
     r = r && identifier(b, l + 1);
+    r = r && parenthesis_csv_expression(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
