@@ -23,7 +23,13 @@
 
 simpleFile ::= newline? command_scope? (newline command_scope)* newline*
 
-private command_scope ::= (command_scope_inline_fish_statement|function_define|comment_block|command_block)
+private command_scope ::= (
+    command_scope_inline_fish_statement |
+    function_define |
+    comment_block |
+    command_block |
+    function_call_statement
+)
 command_scope_inline_fish_statement ::= command_scope_inline_fish_expression
 
 function_define ::= function_define_header (newline fish_block)? newline end
@@ -31,7 +37,10 @@ private function_define_header ::= fish define identifier function_parameter_lis
 private function_parameter_list ::= (left_parenthesis identifier (comma_operator identifier)* right_parenthesis)
 
 fish_block ::=  single_fish_block (newline single_fish_block)*
-private single_fish_block ::= if_block | loop_block | case_block | comment_block | command_block | fish_statement
+private single_fish_block ::= (
+    if_block | loop_block | case_block | comment_block | command_block |
+    break | continue | fish_statement
+)
 
 if_block ::= if expression then?
              (newline fish_block)?
@@ -69,8 +78,8 @@ private keywords_in_command_block ::= (fish | case_of | case | end_case | define
 fish_statement ::= (
     array_declare_statement |
     assignment_statement |
-    function_call_statement  |
-    expression
+    expression |
+    exit
     )
 
 function_call_statement ::= function_call_expression | function_call_statement_at
@@ -116,7 +125,7 @@ private recover_property ::= !(identifier|end_of_line_comment)
 private string_literal ::=  STRING_LITERAL
 private number_literal ::= NUMBER_LITERAL
 private end_of_line_comment ::= COMMENT
-private binary_operator ::= BINARY_OPERATOR | MINUS_OPERATOR
+private binary_operator ::= BINARY_OPERATOR | MINUS_OPERATOR | ASSIGNMENT_OPERATOR
 private unary_operator ::= UNARY_OPERATOR | MINUS_OPERATOR
 private assignment_operator ::= ASSIGNMENT_OPERATOR
 private newline ::= NEWLINE+
@@ -164,6 +173,7 @@ private loop ::= LOOP
 private foreach ::= FOREACH
 private endloop ::= ENDLOOP
 private continue ::= CONTINUE
+private break ::= BREAK
 private while ::= WHILE
 private for ::= FOR
 

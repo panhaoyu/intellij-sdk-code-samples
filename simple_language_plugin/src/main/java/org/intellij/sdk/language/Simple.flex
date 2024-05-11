@@ -30,6 +30,7 @@ Comment = {EndOfLineComment}
 
 EndOfLineComment     = ";" {InputCharacter}* {LineTerminator}?
 EndOfLineEllipsis = "..." {LineTerminator}
+EndOfLineEllipsisWithComment = "..." {EndOfLineComment}
 
 Identifier = [:jletter:] ([:jletterdigit:]|".")*
 
@@ -108,6 +109,7 @@ String = {StringA} | {StringB}
     "for" { return SimpleTypes.FOR; }
     "endloop" | "end_loop" | "exitloop" | "exit_loop"  { return SimpleTypes.ENDLOOP; }
     "continue" { return SimpleTypes.CONTINUE; }
+    "break" { return SimpleTypes.BREAK; }
     "return" { return SimpleTypes.RETURN; }
     "section" { return SimpleTypes.SECTION; }
     "endsection" | "end_section" |"exitsection" | "exit_section" { return SimpleTypes.ENDSECTION; }
@@ -142,6 +144,8 @@ String = {StringA} | {StringB}
     {Comment} {return SimpleTypes.NEWLINE;}
 
     {EndOfLineEllipsis} {return TokenType.WHITE_SPACE; }
+
+    {EndOfLineEllipsisWithComment} {return TokenType.WHITE_SPACE; }
 
     \} {return SimpleTypes.LEFT_CURLY_BRACKET; }
     \{ {return SimpleTypes.RIGHT_CURLY_BRACKET; }
