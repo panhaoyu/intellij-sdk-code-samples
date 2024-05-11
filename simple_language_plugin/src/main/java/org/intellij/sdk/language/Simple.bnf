@@ -42,7 +42,7 @@ private else_if_statement ::= elseif expression then? (newline fish_block)?
 private else_statement ::=  else (newline fish_block)?
 
 loop_block ::= loop_each (newline fish_block)? newline endloop
-private loop_each ::= loop foreach identifier expression
+private loop_each ::= loop foreach assignment_left_loop expression
 
 
 case_block ::= case_of expression (newline fish_block)? (newline case_clause)* newline end_case
@@ -61,7 +61,8 @@ private keywords_in_command_block ::= (fish | case_of | case | end_case | define
 
 fish_statement ::= ( declare_statement | assignment_statement | function_call_statement  | expression)
 
-function_call_statement ::= function_call_expression
+function_call_statement ::= function_call_expression | function_call_statement_at
+private function_call_statement_at ::= at_operator identifier
 
 
 assignment_statement ::= assignment_left assignment_right
@@ -69,6 +70,7 @@ declare_statement ::= (local | global) assignment_left assignment_right?
 private assignment_left ::= assignment_target (comma_operator assignment_target)*
 private assignment_target ::= identifier parenthesis_csv_expression?
 private assignment_right ::= assignment_operator expression
+private assignment_left_loop ::= local? identifier
 
 
 private expression ::= binary_expression

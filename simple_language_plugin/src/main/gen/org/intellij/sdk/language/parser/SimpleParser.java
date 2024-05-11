@@ -95,6 +95,26 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // local? identifier
+  static boolean assignment_left_loop(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "assignment_left_loop")) return false;
+    if (!nextTokenIs(b, "", IDENTIFIER, LOCAL)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = assignment_left_loop_0(b, l + 1);
+    r = r && identifier(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // local?
+  private static boolean assignment_left_loop_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "assignment_left_loop_0")) return false;
+    local(b, l + 1);
+    return true;
+  }
+
+  /* ********************************************************** */
   // ASSIGNMENT_OPERATOR
   static boolean assignment_operator(PsiBuilder b, int l) {
     return consumeToken(b, ASSIGNMENT_OPERATOR);
@@ -1077,7 +1097,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // loop foreach identifier expression
+  // loop foreach assignment_left_loop expression
   static boolean loop_each(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "loop_each")) return false;
     if (!nextTokenIs(b, LOOP)) return false;
@@ -1085,7 +1105,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b);
     r = loop(b, l + 1);
     r = r && foreach(b, l + 1);
-    r = r && identifier(b, l + 1);
+    r = r && assignment_left_loop(b, l + 1);
     r = r && expression(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
