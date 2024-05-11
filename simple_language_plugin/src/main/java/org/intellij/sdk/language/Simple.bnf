@@ -52,8 +52,7 @@ command_block ::= command (newline command_body)? newline end_command
 private command_body ::= command_line (newline command_line)*
 private command_line ::= any_in_command+
 private any_in_command ::= (
-    identifier
-    | left_square_bracket | right_square_bracket | left_parenthesis | right_parenthesis | comma_operator |
+    identifier | left_square_bracket | right_square_bracket | left_parenthesis | right_parenthesis | comma_operator |
     assignment_operator|
     unary_operator | binary_operator| dot_operator|at_operator | literal | ellipsis | keywords_in_command_block
  )
