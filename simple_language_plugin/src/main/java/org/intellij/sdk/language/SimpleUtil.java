@@ -29,25 +29,29 @@ public class SimpleUtil {
      * @return 匹配的属性列表
      */
     public static List<SimpleProperty> findProperties(Project project, String key) {
-        List<SimpleProperty> result = new ArrayList<>();
+        List<SimpleProperty> result = new ArrayList<>(); // 创建一个空列表用于存放找到的属性
+
         // 搜索项目中所有的Simple文件
         Collection<VirtualFile> virtualFiles =
                 FileTypeIndex.getFiles(SimpleFileType.INSTANCE, GlobalSearchScope.allScope(project));
+        // 遍历每一个文件
         for (VirtualFile virtualFile : virtualFiles) {
+            // 通过PsiManager将VirtualFile转换成SimpleFile
             SimpleFile simpleFile = (SimpleFile) PsiManager.getInstance(project).findFile(virtualFile);
-            if (simpleFile != null) {
+            if (simpleFile != null) { // 确保文件不为空
+                // 获取simpleFile中所有的SimpleProperty对象
                 SimpleProperty[] properties = PsiTreeUtil.getChildrenOfType(simpleFile, SimpleProperty.class);
-                if (properties != null) {
-                    // 筛选出键匹配的属性
+                if (properties != null) { // 确保属性列表不为空
+                    // 筛选出键与给定键相匹配的属性
                     for (SimpleProperty property : properties) {
                         if (key.equals(property.getKey())) {
-                            result.add(property);
+                            result.add(property); // 将匹配的属性添加到结果列表中
                         }
                     }
                 }
             }
         }
-        return result;
+        return result; // 返回找到的所有匹配属性的列表
     }
 
     /**
