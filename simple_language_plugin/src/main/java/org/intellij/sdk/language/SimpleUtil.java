@@ -19,65 +19,79 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
+// SimpleUtil类提供了一系列静态方法，用于搜索和操作Simple语言文件
 public class SimpleUtil {
 
-  /**
-   * Searches the entire project for Simple language files with instances of the Simple property with the given key.
-   *
-   * @param project current project
-   * @param key     to check
-   * @return matching properties
-   */
-  public static List<SimpleProperty> findProperties(Project project, String key) {
-    List<SimpleProperty> result = new ArrayList<>();
-    Collection<VirtualFile> virtualFiles =
-        FileTypeIndex.getFiles(SimpleFileType.INSTANCE, GlobalSearchScope.allScope(project));
-    for (VirtualFile virtualFile : virtualFiles) {
-      SimpleFile simpleFile = (SimpleFile) PsiManager.getInstance(project).findFile(virtualFile);
-      if (simpleFile != null) {
-        SimpleProperty[] properties = PsiTreeUtil.getChildrenOfType(simpleFile, SimpleProperty.class);
-        if (properties != null) {
-          for (SimpleProperty property : properties) {
-            if (key.equals(property.getKey())) {
-              result.add(property);
+    /**
+     * 在整个项目中搜索含有特定键的Simple属性。
+     *
+     * @param project 当前项目
+     * @param key 要搜索的键
+     * @return 匹配的属性列表
+     */
+    public static List<SimpleProperty> findProperties(Project project, String key) {
+        List<SimpleProperty> result = new ArrayList<>();
+        // 搜索项目中所有的Simple文件
+        Collection<VirtualFile> virtualFiles =
+                FileTypeIndex.getFiles(SimpleFileType.INSTANCE, GlobalSearchScope.allScope(project));
+        for (VirtualFile virtualFile : virtualFiles) {
+            SimpleFile simpleFile = (SimpleFile) PsiManager.getInstance(project).findFile(virtualFile);
+            if (simpleFile != null) {
+                SimpleProperty[] properties = PsiTreeUtil.getChildrenOfType(simpleFile, SimpleProperty.class);
+                if (properties != null) {
+                    // 筛选出键匹配的属性
+                    for (SimpleProperty property : properties) {
+                        if (key.equals(property.getKey())) {
+                            result.add(property);
+                        }
+                    }
+                }
             }
-          }
         }
-      }
+        return result;
     }
-    return result;
-  }
 
-  public static List<SimpleProperty> findProperties(Project project) {
-    List<SimpleProperty> result = new ArrayList<>();
-    Collection<VirtualFile> virtualFiles =
-        FileTypeIndex.getFiles(SimpleFileType.INSTANCE, GlobalSearchScope.allScope(project));
-    for (VirtualFile virtualFile : virtualFiles) {
-      SimpleFile simpleFile = (SimpleFile) PsiManager.getInstance(project).findFile(virtualFile);
-      if (simpleFile != null) {
-        SimpleProperty[] properties = PsiTreeUtil.getChildrenOfType(simpleFile, SimpleProperty.class);
-        if (properties != null) {
-          Collections.addAll(result, properties);
+    /**
+     * 获取项目中所有的Simple属性。
+     *
+     * @param project 当前项目
+     * @return 所有属性的列表
+     */
+    public static List<SimpleProperty> findProperties(Project project) {
+        List<SimpleProperty> result = new ArrayList<>();
+        Collection<VirtualFile> virtualFiles =
+                FileTypeIndex.getFiles(SimpleFileType.INSTANCE, GlobalSearchScope.allScope(project));
+        for (VirtualFile virtualFile : virtualFiles) {
+            SimpleFile simpleFile = (SimpleFile) PsiManager.getInstance(project).findFile(virtualFile);
+            if (simpleFile != null) {
+                SimpleProperty[] properties = PsiTreeUtil.getChildrenOfType(simpleFile, SimpleProperty.class);
+                if (properties != null) {
+                    Collections.addAll(result, properties);
+                }
+            }
         }
-      }
+        return result;
     }
-    return result;
-  }
 
-  /**
-   * Attempts to collect any comment elements above the Simple key/value pair.
-   */
-  public static @NotNull String findDocumentationComment(SimpleProperty property) {
-    List<String> result = new LinkedList<>();
-    PsiElement element = property.getPrevSibling();
-    while (element instanceof PsiComment || element instanceof PsiWhiteSpace) {
-      if (element instanceof PsiComment) {
-        String commentText = element.getText().replaceFirst("[!# ]+", "");
-        result.add(commentText);
-      }
-      element = element.getPrevSibling();
+    /**
+     * 收集Simple键/值对上方的所有注释元素。
+     *
+     * @param property Simple属性
+     * @return 组合后的文档注释
+     */
+    public static @NotNull String findDocumentationComment(SimpleProperty property) {
+        List<String> result = new LinkedList<>();
+        PsiElement element = property.getPrevSibling();
+        while (element instanceof PsiComment || element instanceof PsiWhiteSpace) {
+            if (element instanceof PsiComment) {
+                // 清除注释符号，并将注释添加到列表中
+                String commentText = element.getText().replaceFirst("[!# ]+", "");
+                result.add(commentText);
+            }
+            element = element.getPrevSibling();
+        }
+        // 将所有注释反向连接成单个字符串
+        return StringUtil.join(Lists.reverse(result), "\n ");
     }
-    return StringUtil.join(Lists.reverse(result), "\n ");
-  }
 
 }
