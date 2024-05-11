@@ -103,6 +103,7 @@ String = {StringA} | {StringB}
     "local" { return SimpleTypes.LOCAL; }
     "lock" { return SimpleTypes.LOCK; }
     "loop" { return SimpleTypes.LOOP; }
+    "foreach" { return SimpleTypes.FOREACH; }
     "endloop" | "end_loop" | "exitloop" | "exit_loop"  { return SimpleTypes.ENDLOOP; }
     "continue" { return SimpleTypes.CONTINUE; }
     "return" { return SimpleTypes.RETURN; }
