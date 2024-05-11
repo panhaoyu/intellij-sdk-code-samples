@@ -112,6 +112,7 @@ String = {StringA} | {StringB}
     "struct" | "structure" { return SimpleTypes.STRUCT; }
     "then"  { return SimpleTypes.THEN; }
     "..." {return SimpleTypes.ELLIPSIS; }
+    "Array" {return SimpleTypes.ARRAY; }
 }
 
 //Identifiers

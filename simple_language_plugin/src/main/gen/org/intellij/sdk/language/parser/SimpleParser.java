@@ -60,6 +60,28 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // ARRAY
+  static boolean array(PsiBuilder b, int l) {
+    return consumeToken(b, ARRAY);
+  }
+
+  /* ********************************************************** */
+  // array identifier left_parenthesis number_literal right_parenthesis
+  static boolean array_declare_statement(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "array_declare_statement")) return false;
+    if (!nextTokenIs(b, ARRAY)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = array(b, l + 1);
+    r = r && identifier(b, l + 1);
+    r = r && left_parenthesis(b, l + 1);
+    r = r && number_literal(b, l + 1);
+    r = r && right_parenthesis(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
   // assignment_target (comma_operator assignment_target)*
   static boolean assignment_left(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "assignment_left")) return false;
@@ -741,12 +763,17 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // declare_statement | assignment_statement | function_call_statement  | expression
+  // array_declare_statement |
+  //     declare_statement | 
+  //     assignment_statement |
+  //     function_call_statement  |
+  //     expression
   public static boolean fish_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "fish_statement")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, FISH_STATEMENT, "<fish statement>");
-    r = declare_statement(b, l + 1);
+    r = array_declare_statement(b, l + 1);
+    if (!r) r = declare_statement(b, l + 1);
     if (!r) r = assignment_statement(b, l + 1);
     if (!r) r = function_call_statement(b, l + 1);
     if (!r) r = expression(b, l + 1);
@@ -774,14 +801,28 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // function_call_expression
+  // function_call_expression | function_call_statement_at
   public static boolean function_call_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "function_call_statement")) return false;
-    if (!nextTokenIs(b, IDENTIFIER)) return false;
+    if (!nextTokenIs(b, "<function call statement>", FUNCTION_CALL_OPERATOR, IDENTIFIER)) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, FUNCTION_CALL_STATEMENT, "<function call statement>");
+    r = function_call_expression(b, l + 1);
+    if (!r) r = function_call_statement_at(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // at_operator identifier
+  static boolean function_call_statement_at(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "function_call_statement_at")) return false;
+    if (!nextTokenIs(b, FUNCTION_CALL_OPERATOR)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = function_call_expression(b, l + 1);
-    exit_section_(b, m, FUNCTION_CALL_STATEMENT, r);
+    r = at_operator(b, l + 1);
+    r = r && identifier(b, l + 1);
+    exit_section_(b, m, null, r);
     return r;
   }
 

@@ -59,7 +59,13 @@ private any_in_command ::= (
 private keywords_in_command_block ::= (fish | case_of | case | end_case | define | end | exit | global | if | then |
     elseif | else | endif | local | lock | loop | endloop | continue | return | section | end_section | struct )
 
-fish_statement ::= ( declare_statement | assignment_statement | function_call_statement  | expression)
+fish_statement ::= (
+    array_declare_statement |
+    declare_statement |
+    assignment_statement |
+    function_call_statement  |
+    expression
+    )
 
 function_call_statement ::= function_call_expression | function_call_statement_at
 private function_call_statement_at ::= at_operator identifier
@@ -67,6 +73,7 @@ private function_call_statement_at ::= at_operator identifier
 
 assignment_statement ::= assignment_left assignment_right
 declare_statement ::= (local | global) assignment_left assignment_right?
+private array_declare_statement ::= array identifier left_parenthesis number_literal right_parenthesis
 private assignment_left ::= assignment_target (comma_operator assignment_target)*
 private assignment_target ::= identifier parenthesis_csv_expression?
 private assignment_right ::= assignment_operator expression
@@ -159,3 +166,4 @@ private section ::= SECTION
 private end_section ::= ENDSECTION
 
 private struct ::= STRUCT
+private array ::= ARRAY
