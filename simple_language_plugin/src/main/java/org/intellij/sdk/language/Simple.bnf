@@ -44,7 +44,9 @@ private else_statement ::=  else (newline fish_block)?
 loop_block ::= loop_header (newline fish_block)? newline endloop
 private loop_header ::= loop (loop_each | loop_indexed | loop_for | loop_while)
 private loop_indexed ::= assignment_left_loop loop_indexed_range
-private loop_indexed_range ::= left_parenthesis expression comma_operator expression (comma_operator expression)?
+private loop_indexed_range ::=
+    left_parenthesis expression comma_operator
+    expression (comma_operator expression)? right_parenthesis
 private loop_while ::= while expression
 private loop_each ::= foreach assignment_left_loop expression
 private loop_for ::= for left_parenthesis expression comma_operator expression comma_operator expression right_parenthesis

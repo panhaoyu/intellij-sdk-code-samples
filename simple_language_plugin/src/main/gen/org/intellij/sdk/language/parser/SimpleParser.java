@@ -1111,15 +1111,14 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // loop loop_header (newline fish_block)? newline endloop
+  // loop_header (newline fish_block)? newline endloop
   public static boolean loop_block(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "loop_block")) return false;
     if (!nextTokenIs(b, LOOP)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = loop(b, l + 1);
-    r = r && loop_header(b, l + 1);
-    r = r && loop_block_2(b, l + 1);
+    r = loop_header(b, l + 1);
+    r = r && loop_block_1(b, l + 1);
     r = r && newline(b, l + 1);
     r = r && endloop(b, l + 1);
     exit_section_(b, m, LOOP_BLOCK, r);
@@ -1127,15 +1126,15 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   // (newline fish_block)?
-  private static boolean loop_block_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "loop_block_2")) return false;
-    loop_block_2_0(b, l + 1);
+  private static boolean loop_block_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "loop_block_1")) return false;
+    loop_block_1_0(b, l + 1);
     return true;
   }
 
   // newline fish_block
-  private static boolean loop_block_2_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "loop_block_2_0")) return false;
+  private static boolean loop_block_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "loop_block_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = newline(b, l + 1);
@@ -1215,7 +1214,8 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // left_parenthesis expression comma_operator expression (comma_operator expression)?
+  // left_parenthesis expression comma_operator
+  //     expression (comma_operator expression)? right_parenthesis
   static boolean loop_indexed_range(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "loop_indexed_range")) return false;
     if (!nextTokenIs(b, LEFT_PARENTHESIS)) return false;
@@ -1226,6 +1226,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     r = r && comma_operator(b, l + 1);
     r = r && expression(b, l + 1);
     r = r && loop_indexed_range_4(b, l + 1);
+    r = r && right_parenthesis(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
