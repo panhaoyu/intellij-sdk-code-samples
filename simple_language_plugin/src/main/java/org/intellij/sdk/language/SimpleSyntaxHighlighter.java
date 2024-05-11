@@ -7,10 +7,11 @@ import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
 import com.intellij.openapi.editor.HighlighterColors;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase;
-import com.intellij.psi.TokenType;
 import com.intellij.psi.tree.IElementType;
 import org.intellij.sdk.language.psi.SimpleTypes;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.HashMap;
 
 import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAttributesKey;
 
@@ -40,7 +41,6 @@ public class SimpleSyntaxHighlighter extends SyntaxHighlighterBase {
     private static final TextAttributesKey[] STRING_LITERAL_KEYS = new TextAttributesKey[]{STRING_LITERAL};
     private static final TextAttributesKey[] NUMBER_LITERAL_KEYS = new TextAttributesKey[]{NUMBER_LITERAL};
     private static final TextAttributesKey[] IDENTIFIER_KEYS = new TextAttributesKey[]{IDENTIFIER};
-    private static final TextAttributesKey[] FISH_FUNCTION_KEYS = new TextAttributesKey[]{FISH_FUNCTION};
     private static final TextAttributesKey[] COMMENT_KEYS = new TextAttributesKey[]{COMMENT};
     private static final TextAttributesKey[] EMPTY_KEYS = new TextAttributesKey[0];
 
@@ -50,25 +50,114 @@ public class SimpleSyntaxHighlighter extends SyntaxHighlighterBase {
         return new SimpleLexerAdapter();
     }
 
+    private final HashMap<IElementType, TextAttributesKey[]> highlightingMap = new HashMap<>() {{
+        put(SimpleTypes.ASSIGNMENT_OPERATOR, OPERATOR_KEYS);
+        put(SimpleTypes.BINARY_OPERATOR, OPERATOR_KEYS);
+        put(SimpleTypes.COMMA_OPERATOR, OPERATOR_KEYS);
+        put(SimpleTypes.DOT_OPERATOR, OPERATOR_KEYS);
+        put(SimpleTypes.ELLIPSIS, OPERATOR_KEYS);
+        put(SimpleTypes.FUNCTION_CALL_OPERATOR, OPERATOR_KEYS);
+        put(SimpleTypes.MINUS_OPERATOR, OPERATOR_KEYS);
+        put(SimpleTypes.UNARY_OPERATOR, OPERATOR_KEYS);
+
+        put(SimpleTypes.NUMBER_LITERAL, NUMBER_LITERAL_KEYS);
+        put(SimpleTypes.IDENTIFIER, IDENTIFIER_KEYS);
+        put(SimpleTypes.COMMENT, COMMENT_KEYS);
+        put(SimpleTypes.STRING_LITERAL, STRING_LITERAL_KEYS);
+
+        put(SimpleTypes.ARRAY, KEYWORD_KEYS);
+        put(SimpleTypes.BREAK, KEYWORD_KEYS);
+        put(SimpleTypes.CASE, KEYWORD_KEYS);
+        put(SimpleTypes.CASEOF, KEYWORD_KEYS);
+        put(SimpleTypes.COMMAND, KEYWORD_KEYS);
+        put(SimpleTypes.CONTINUE, KEYWORD_KEYS);
+        put(SimpleTypes.DEFINE, KEYWORD_KEYS);
+        put(SimpleTypes.ELSE, KEYWORD_KEYS);
+        put(SimpleTypes.ELSEIF, KEYWORD_KEYS);
+        put(SimpleTypes.END, KEYWORD_KEYS);
+        put(SimpleTypes.ENDCASE, KEYWORD_KEYS);
+        put(SimpleTypes.ENDCOMMAND, KEYWORD_KEYS);
+        put(SimpleTypes.ENDIF, KEYWORD_KEYS);
+        put(SimpleTypes.ENDLOOP, KEYWORD_KEYS);
+        put(SimpleTypes.ENDSECTION, KEYWORD_KEYS);
+        put(SimpleTypes.EXIT, KEYWORD_KEYS);
+        put(SimpleTypes.FISH, KEYWORD_KEYS);
+        put(SimpleTypes.FOR, KEYWORD_KEYS);
+        put(SimpleTypes.FOREACH, KEYWORD_KEYS);
+        put(SimpleTypes.GLOBAL, KEYWORD_KEYS);
+        put(SimpleTypes.IF, KEYWORD_KEYS);
+        put(SimpleTypes.LEFT_CURLY_BRACKET, KEYWORD_KEYS);
+        put(SimpleTypes.LEFT_PARENTHESIS, KEYWORD_KEYS);
+        put(SimpleTypes.LEFT_SQUARE_BRACKET, EMPTY_KEYS);
+        put(SimpleTypes.LOCAL, KEYWORD_KEYS);
+        put(SimpleTypes.LOCK, KEYWORD_KEYS);
+        put(SimpleTypes.LOOP, KEYWORD_KEYS);
+        put(SimpleTypes.NEWLINE, KEYWORD_KEYS);
+        put(SimpleTypes.RETURN, KEYWORD_KEYS);
+        put(SimpleTypes.RIGHT_CURLY_BRACKET, KEYWORD_KEYS);
+        put(SimpleTypes.RIGHT_PARENTHESIS, KEYWORD_KEYS);
+        put(SimpleTypes.RIGHT_SQUARE_BRACKET, KEYWORD_KEYS);
+        put(SimpleTypes.SECTION, KEYWORD_KEYS);
+        put(SimpleTypes.STRUCT, KEYWORD_KEYS);
+        put(SimpleTypes.THEN, KEYWORD_KEYS);
+        put(SimpleTypes.WHILE, KEYWORD_KEYS);
+
+    }};
+
+    private static final IElementType[] elementTypes = {
+            SimpleTypes.ARRAY,
+            SimpleTypes.ASSIGNMENT_OPERATOR,
+            SimpleTypes.BINARY_OPERATOR,
+            SimpleTypes.BREAK,
+            SimpleTypes.CASE,
+            SimpleTypes.CASEOF,
+            SimpleTypes.COMMAND,
+            SimpleTypes.COMMA_OPERATOR,
+            SimpleTypes.COMMENT,
+            SimpleTypes.CONTINUE,
+            SimpleTypes.DEFINE,
+            SimpleTypes.DOT_OPERATOR,
+            SimpleTypes.ELLIPSIS,
+            SimpleTypes.ELSE,
+            SimpleTypes.ELSEIF,
+            SimpleTypes.END,
+            SimpleTypes.ENDCASE,
+            SimpleTypes.ENDCOMMAND,
+            SimpleTypes.ENDIF,
+            SimpleTypes.ENDLOOP,
+            SimpleTypes.ENDSECTION,
+            SimpleTypes.EXIT,
+            SimpleTypes.FISH,
+            SimpleTypes.FOR,
+            SimpleTypes.FOREACH,
+            SimpleTypes.FUNCTION_CALL_OPERATOR,
+            SimpleTypes.GLOBAL,
+            SimpleTypes.IDENTIFIER,
+            SimpleTypes.IF,
+            SimpleTypes.LEFT_CURLY_BRACKET,
+            SimpleTypes.LEFT_PARENTHESIS,
+            SimpleTypes.LEFT_SQUARE_BRACKET,
+            SimpleTypes.LOCAL,
+            SimpleTypes.LOCK,
+            SimpleTypes.LOOP,
+            SimpleTypes.MINUS_OPERATOR,
+            SimpleTypes.NEWLINE,
+            SimpleTypes.NUMBER_LITERAL,
+            SimpleTypes.RETURN,
+            SimpleTypes.RIGHT_CURLY_BRACKET,
+            SimpleTypes.RIGHT_PARENTHESIS,
+            SimpleTypes.RIGHT_SQUARE_BRACKET,
+            SimpleTypes.SECTION,
+            SimpleTypes.STRING_LITERAL,
+            SimpleTypes.STRUCT,
+            SimpleTypes.THEN,
+            SimpleTypes.UNARY_OPERATOR,
+            SimpleTypes.WHILE,
+    };
+
+
     @Override
     public TextAttributesKey @NotNull [] getTokenHighlights(IElementType tokenType) {
-        if (tokenType.equals(SimpleTypes.BINARY_OPERATOR)) {
-            return OPERATOR_KEYS;
-        } else if (tokenType.equals(SimpleTypes.IF)) {
-            return KEYWORD_KEYS;
-        } else if (tokenType.equals(SimpleTypes.STRING_LITERAL)) {
-            return STRING_LITERAL_KEYS;
-        } else if (tokenType.equals(SimpleTypes.NUMBER_LITERAL)) {
-            return NUMBER_LITERAL_KEYS;
-        } else if (tokenType.equals(SimpleTypes.IDENTIFIER)) {
-            return IDENTIFIER_KEYS;
-        } else if (tokenType.equals(SimpleTypes.COMMENT)) {
-            return COMMENT_KEYS;
-        } else if (tokenType.equals(TokenType.BAD_CHARACTER)) {
-            return BAD_CHARACTER_KEYS;
-        } else {
-            return EMPTY_KEYS;
-        }
+        return highlightingMap.getOrDefault(tokenType, BAD_CHARACTER_KEYS);
     }
-
 }
