@@ -82,38 +82,23 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // assignment_target (comma_operator assignment_target)*
-  static boolean assignment_left(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "assignment_left")) return false;
+  // assignment_target assignment_right?
+  static boolean assignment_expression(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "assignment_expression")) return false;
     if (!nextTokenIs(b, IDENTIFIER)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = assignment_target(b, l + 1);
-    r = r && assignment_left_1(b, l + 1);
+    r = r && assignment_expression_1(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
 
-  // (comma_operator assignment_target)*
-  private static boolean assignment_left_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "assignment_left_1")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!assignment_left_1_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "assignment_left_1", c)) break;
-    }
+  // assignment_right?
+  private static boolean assignment_expression_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "assignment_expression_1")) return false;
+    assignment_right(b, l + 1);
     return true;
-  }
-
-  // comma_operator assignment_target
-  private static boolean assignment_left_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "assignment_left_1_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = comma_operator(b, l + 1);
-    r = r && assignment_target(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
   }
 
   /* ********************************************************** */
@@ -156,15 +141,53 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // assignment_left assignment_right
+  // (local | global)? assignment_expression (comma_operator assignment_expression)*
   public static boolean assignment_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "assignment_statement")) return false;
-    if (!nextTokenIs(b, IDENTIFIER)) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, ASSIGNMENT_STATEMENT, "<assignment statement>");
+    r = assignment_statement_0(b, l + 1);
+    r = r && assignment_expression(b, l + 1);
+    r = r && assignment_statement_2(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // (local | global)?
+  private static boolean assignment_statement_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "assignment_statement_0")) return false;
+    assignment_statement_0_0(b, l + 1);
+    return true;
+  }
+
+  // local | global
+  private static boolean assignment_statement_0_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "assignment_statement_0_0")) return false;
+    boolean r;
+    r = local(b, l + 1);
+    if (!r) r = global(b, l + 1);
+    return r;
+  }
+
+  // (comma_operator assignment_expression)*
+  private static boolean assignment_statement_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "assignment_statement_2")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!assignment_statement_2_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "assignment_statement_2", c)) break;
+    }
+    return true;
+  }
+
+  // comma_operator assignment_expression
+  private static boolean assignment_statement_2_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "assignment_statement_2_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = assignment_left(b, l + 1);
-    r = r && assignment_right(b, l + 1);
-    exit_section_(b, m, ASSIGNMENT_STATEMENT, r);
+    r = comma_operator(b, l + 1);
+    r = r && assignment_expression(b, l + 1);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -520,36 +543,6 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (local | global) assignment_left assignment_right?
-  public static boolean declare_statement(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "declare_statement")) return false;
-    if (!nextTokenIs(b, "<declare statement>", GLOBAL, LOCAL)) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, DECLARE_STATEMENT, "<declare statement>");
-    r = declare_statement_0(b, l + 1);
-    r = r && assignment_left(b, l + 1);
-    r = r && declare_statement_2(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // local | global
-  private static boolean declare_statement_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "declare_statement_0")) return false;
-    boolean r;
-    r = local(b, l + 1);
-    if (!r) r = global(b, l + 1);
-    return r;
-  }
-
-  // assignment_right?
-  private static boolean declare_statement_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "declare_statement_2")) return false;
-    assignment_right(b, l + 1);
-    return true;
-  }
-
-  /* ********************************************************** */
   // DEFINE
   static boolean define(PsiBuilder b, int l) {
     return consumeToken(b, DEFINE);
@@ -764,7 +757,6 @@ public class SimpleParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // array_declare_statement |
-  //     declare_statement |
   //     assignment_statement |
   //     function_call_statement  |
   //     expression
@@ -773,7 +765,6 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, FISH_STATEMENT, "<fish statement>");
     r = array_declare_statement(b, l + 1);
-    if (!r) r = declare_statement(b, l + 1);
     if (!r) r = assignment_statement(b, l + 1);
     if (!r) r = function_call_statement(b, l + 1);
     if (!r) r = expression(b, l + 1);
