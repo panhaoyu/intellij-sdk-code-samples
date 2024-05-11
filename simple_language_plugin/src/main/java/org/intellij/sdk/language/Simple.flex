@@ -94,6 +94,7 @@ String = {StringA} | {StringB}
     "command" { return SimpleTypes.COMMAND; }
     "endcommand" | "end_command"  { return SimpleTypes.ENDCOMMAND; }
     "define" { return SimpleTypes.DEFINE; }
+    "def" { return SimpleTypes.DEFINE; }
     "end" { return SimpleTypes.END; }
     "exit" { return SimpleTypes.EXIT; }
     "global" { return SimpleTypes.GLOBAL; }

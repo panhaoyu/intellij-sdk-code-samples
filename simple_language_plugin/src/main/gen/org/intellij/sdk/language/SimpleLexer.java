@@ -345,14 +345,14 @@ class SimpleLexer implements FlexLexer {
     "\1\1\1\6\1\7\1\10\1\11\1\12\1\4\1\13"+
     "\1\3\1\4\1\14\1\15\1\5\1\16\1\17\14\5"+
     "\1\20\1\21\1\22\1\0\1\23\1\14\3\0\2\3"+
-    "\13\5\1\24\6\5\1\25\1\0\1\13\7\5\1\26"+
-    "\2\5\1\27\10\5\1\0\3\2\2\5\1\30\3\5"+
-    "\1\31\5\5\1\32\1\33\3\5\1\34\1\35\3\5"+
-    "\1\36\1\5\1\37\1\40\11\5\1\41\5\5\1\42"+
-    "\3\5\1\43\1\44\2\5\1\45\1\46\5\5\1\47"+
-    "\1\50\1\5\1\51\1\52\1\5\1\53\1\5\1\54"+
-    "\1\5\1\55\1\56\1\5\1\57\5\5\1\51\1\60"+
-    "\1\61";
+    "\13\5\1\24\6\5\1\25\1\0\1\13\5\5\1\26"+
+    "\1\5\1\27\2\5\1\30\10\5\1\0\3\2\2\5"+
+    "\1\31\3\5\1\32\5\5\1\33\1\34\3\5\1\35"+
+    "\1\36\3\5\1\37\1\5\1\40\1\41\11\5\1\42"+
+    "\5\5\1\43\3\5\1\44\1\45\2\5\1\26\1\46"+
+    "\5\5\1\47\1\50\1\5\1\51\1\52\1\5\1\53"+
+    "\1\5\1\54\1\5\1\55\1\56\1\5\1\57\5\5"+
+    "\1\51\1\60\1\61";
 
   private static int [] zzUnpackAction() {
     int [] result = new int[169];
@@ -1105,82 +1105,82 @@ class SimpleLexer implements FlexLexer {
           // fall through
           case 70: break;
           case 22:
-            { return SimpleTypes.END;
+            { return SimpleTypes.DEFINE;
             }
           // fall through
           case 71: break;
           case 23:
-            { return SimpleTypes.FOR;
+            { return SimpleTypes.END;
             }
           // fall through
           case 72: break;
           case 24:
-            { return SimpleTypes.CASE;
+            { return SimpleTypes.FOR;
             }
           // fall through
           case 73: break;
           case 25:
-            { return SimpleTypes.ELSE;
+            { return SimpleTypes.CASE;
             }
           // fall through
           case 74: break;
           case 26:
-            { return SimpleTypes.EXIT;
+            { return SimpleTypes.ELSE;
             }
           // fall through
           case 75: break;
           case 27:
-            { return SimpleTypes.FISH;
+            { return SimpleTypes.EXIT;
             }
           // fall through
           case 76: break;
           case 28:
-            { return SimpleTypes.LOCK;
+            { return SimpleTypes.FISH;
             }
           // fall through
           case 77: break;
           case 29:
-            { return SimpleTypes.LOOP;
+            { return SimpleTypes.LOCK;
             }
           // fall through
           case 78: break;
           case 30:
-            { return SimpleTypes.THEN;
+            { return SimpleTypes.LOOP;
             }
           // fall through
           case 79: break;
           case 31:
-            { return SimpleTypes.ARRAY;
+            { return SimpleTypes.THEN;
             }
           // fall through
           case 80: break;
           case 32:
-            { return SimpleTypes.BREAK;
+            { return SimpleTypes.ARRAY;
             }
           // fall through
           case 81: break;
           case 33:
-            { return SimpleTypes.ENDIF;
+            { return SimpleTypes.BREAK;
             }
           // fall through
           case 82: break;
           case 34:
-            { return SimpleTypes.LOCAL;
+            { return SimpleTypes.ENDIF;
             }
           // fall through
           case 83: break;
           case 35:
-            { return SimpleTypes.WHILE;
+            { return SimpleTypes.LOCAL;
             }
           // fall through
           case 84: break;
           case 36:
-            { return SimpleTypes.CASEOF;
+            { return SimpleTypes.WHILE;
             }
           // fall through
           case 85: break;
           case 37:
-            { return SimpleTypes.DEFINE;
+            { return SimpleTypes.CASEOF;
             }
           // fall through
           case 86: break;

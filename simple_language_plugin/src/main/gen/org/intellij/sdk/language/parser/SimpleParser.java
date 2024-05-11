@@ -572,14 +572,9 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // DEFINE | DEF
+  // DEFINE
   static boolean define(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "define")) return false;
-    if (!nextTokenIs(b, "", DEF, DEFINE)) return false;
-    boolean r;
-    r = consumeToken(b, DEFINE);
-    if (!r) r = consumeToken(b, DEF);
-    return r;
+    return consumeToken(b, DEFINE);
   }
 
   /* ********************************************************** */
@@ -865,6 +860,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   // function_define_header (newline fish_block)? newline end
   public static boolean function_define(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "function_define")) return false;
+    if (!nextTokenIs(b, "<function define>", DEFINE, FISH)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, FUNCTION_DEFINE, "<function define>");
     r = function_define_header(b, l + 1);
@@ -897,6 +893,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   // fish? define identifier function_parameter_list?
   static boolean function_define_header(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "function_define_header")) return false;
+    if (!nextTokenIs(b, "", DEFINE, FISH)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = function_define_header_0(b, l + 1);

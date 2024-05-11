@@ -144,7 +144,7 @@ private  identifier ::= IDENTIFIER
 
 //keywords
 private fish ::= FISH
-private define ::= DEFINE | DEF
+private define ::= DEFINE
 private end ::= END
 
 private case_of ::= CASEOF
