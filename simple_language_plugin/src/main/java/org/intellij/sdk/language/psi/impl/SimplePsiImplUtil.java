@@ -7,6 +7,7 @@ import com.intellij.navigation.ItemPresentation;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import org.intellij.sdk.language.psi.SimpleElementFactory;
+import org.intellij.sdk.language.psi.SimpleIdentifierElement;
 import org.intellij.sdk.language.psi.SimpleProperty;
 import org.intellij.sdk.language.psi.SimpleTypes;
 import org.jetbrains.annotations.Nullable;
@@ -63,6 +64,71 @@ public class SimplePsiImplUtil {
             @Override
             public String getPresentableText() {
                 return element.getKey();
+            }
+
+            @Nullable
+            @Override
+            public String getLocationString() {
+                PsiFile containingFile = element.getContainingFile();
+                return containingFile == null ? null : containingFile.getName();
+            }
+
+            @Override
+            public Icon getIcon(boolean unused) {
+                return element.getIcon(0);
+            }
+        };
+    }
+
+
+    public static String getKey(SimpleIdentifierElement element) {
+        ASTNode keyNode = element.getNode().findChildByType(SimpleTypes.IF);
+        if (keyNode != null) {
+            // IMPORTANT: Convert embedded escaped spaces to simple spaces
+            return keyNode.getText().replaceAll("\\\\ ", " ");
+        } else {
+            return null;
+        }
+    }
+
+    public static String getValue(SimpleIdentifierElement element) {
+        ASTNode valueNode = element.getNode().findChildByType(SimpleTypes.STRING_LITERAL);
+        if (valueNode != null) {
+            return valueNode.getText();
+        } else {
+            return null;
+        }
+    }
+
+    public static String getName(SimpleIdentifierElement element) {
+        return getKey(element);
+    }
+
+    public static PsiElement setName(SimpleIdentifierElement element, String newName) {
+        ASTNode keyNode = element.getNode().findChildByType(SimpleTypes.IF);
+        if (keyNode != null) {
+            SimpleProperty property = SimpleElementFactory.createProperty(element.getProject(), newName);
+            ASTNode newKeyNode = property.getFirstChild().getNode();
+            element.getNode().replaceChild(keyNode, newKeyNode);
+        }
+        return element;
+    }
+
+    public static PsiElement getNameIdentifier(SimpleIdentifierElement element) {
+        ASTNode keyNode = element.getNode().findChildByType(SimpleTypes.IF);
+        if (keyNode != null) {
+            return keyNode.getPsi();
+        } else {
+            return null;
+        }
+    }
+
+    public static ItemPresentation getPresentation(final SimpleIdentifierElement element) {
+        return new ItemPresentation() {
+            @Nullable
+            @Override
+            public String getPresentableText() {
+                return element.getName();
             }
 
             @Nullable

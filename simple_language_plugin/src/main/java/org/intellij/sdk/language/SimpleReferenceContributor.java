@@ -12,32 +12,32 @@ import org.jetbrains.annotations.NotNull;
 import static org.intellij.sdk.language.SimpleAnnotator.SIMPLE_PREFIX_STR;
 import static org.intellij.sdk.language.SimpleAnnotator.SIMPLE_SEPARATOR_STR;
 
-// å®šä¹‰SimpleReferenceContributorç±»ï¼Œç»§æ‰¿è‡ªPsiReferenceContributor
+// ¶¨ÒåSimpleReferenceContributorÀà£¬¼Ì³Ğ×ÔPsiReferenceContributor
 final class SimpleReferenceContributor extends PsiReferenceContributor {
 
-    // é‡å†™registerReferenceProvidersæ–¹æ³•ï¼Œç”¨äºæ³¨å†Œå¼•ç”¨æä¾›è€…
+    // ÖØĞ´registerReferenceProviders·½·¨£¬ÓÃÓÚ×¢²áÒıÓÃÌá¹©Õß
     @Override
     public void registerReferenceProviders(@NotNull PsiReferenceRegistrar registrar) {
-        // æ³¨å†Œå¼•ç”¨æä¾›è€…ï¼ŒæŒ‡å®šå¯¹PsiLiteralExpressionç±»çš„å…ƒç´ è¿›è¡Œå¤„ç†
+        // ×¢²áÒıÓÃÌá¹©Õß£¬Ö¸¶¨¶ÔPsiLiteralExpressionÀàµÄÔªËØ½øĞĞ´¦Àí
         registrar.registerReferenceProvider(PlatformPatterns.psiElement(PsiLiteralExpression.class),
                 new PsiReferenceProvider() {
-                    // é‡å†™getReferencesByElementæ–¹æ³•ï¼Œç”¨äºæ ¹æ®å…ƒç´ ç”Ÿæˆå¼•ç”¨æ•°ç»„
+                    // ÖØĞ´getReferencesByElement·½·¨£¬ÓÃÓÚ¸ù¾İÔªËØÉú³ÉÒıÓÃÊı×é
                     @Override
                     public PsiReference @NotNull [] getReferencesByElement(@NotNull PsiElement element,
                                                                            @NotNull ProcessingContext context) {
-                        PsiLiteralExpression literalExpression = (PsiLiteralExpression) element;  // å°†å…ƒç´ è½¬æ¢ä¸ºPsiLiteralExpressionç±»å‹
-                        // è·å–å­—é¢å€¼è¡¨è¾¾å¼çš„å€¼ï¼Œå¦‚æœæ˜¯å­—ç¬¦ä¸²ï¼Œåˆ™è½¬æ¢ä¸ºStringç±»å‹
+                        PsiLiteralExpression literalExpression = (PsiLiteralExpression) element;  // ½«ÔªËØ×ª»»ÎªPsiLiteralExpressionÀàĞÍ
+                        // »ñÈ¡×ÖÃæÖµ±í´ïÊ½µÄÖµ£¬Èç¹ûÊÇ×Ö·û´®£¬Ôò×ª»»ÎªStringÀàĞÍ
                         String value = literalExpression.getValue() instanceof String ?
                                 (String) literalExpression.getValue() : null;
-                        // åˆ¤æ–­å€¼æ˜¯å¦ä»¥ç‰¹å®šçš„å‰ç¼€å¼€å§‹
+                        // ÅĞ¶ÏÖµÊÇ·ñÒÔÌØ¶¨µÄÇ°×º¿ªÊ¼
                         if ((value != null && value.startsWith(SIMPLE_PREFIX_STR + SIMPLE_SEPARATOR_STR))) {
-                            // è®¡ç®—åº”è¯¥åˆ›å»ºå¼•ç”¨çš„æ–‡æœ¬èŒƒå›´
+                            // ¼ÆËãÓ¦¸Ã´´½¨ÒıÓÃµÄÎÄ±¾·¶Î§
                             TextRange property = new TextRange(SIMPLE_PREFIX_STR.length() + SIMPLE_SEPARATOR_STR.length() + 1,
                                     value.length() + 1);
-                            // åˆ›å»ºå¹¶è¿”å›SimpleReferenceæ•°ç»„
+                            // ´´½¨²¢·µ»ØSimpleReferenceÊı×é
                             return new PsiReference[]{new SimpleReference(element, property)};
                         }
-                        // å¦‚æœä¸æ»¡è¶³æ¡ä»¶ï¼Œè¿”å›ç©ºæ•°ç»„
+                        // Èç¹û²»Âú×ãÌõ¼ş£¬·µ»Ø¿ÕÊı×é
                         return PsiReference.EMPTY_ARRAY;
                     }
                 });

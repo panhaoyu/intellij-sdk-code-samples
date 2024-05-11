@@ -20,46 +20,46 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
-// SimpleUtilç±»æä¾›äº†ä¸€ç³»åˆ—é™æ€æ–¹æ³•ï¼Œç”¨äºæœç´¢å’Œæ“ä½œSimpleè¯­è¨€æ–‡ä»¶
+// SimpleUtilÀàÌá¹©ÁËÒ»ÏµÁĞ¾²Ì¬·½·¨£¬ÓÃÓÚËÑË÷ºÍ²Ù×÷SimpleÓïÑÔÎÄ¼ş
 public class SimpleUtil {
     /**
-     * åœ¨æ•´ä¸ªé¡¹ç›®ä¸­æœç´¢å«æœ‰ç‰¹å®šé”®çš„Simpleå±æ€§ã€‚
+     * ÔÚÕû¸öÏîÄ¿ÖĞËÑË÷º¬ÓĞÌØ¶¨¼üµÄSimpleÊôĞÔ¡£
      *
-     * @param project å½“å‰é¡¹ç›®
-     * @param key è¦æœç´¢çš„é”®
-     * @return åŒ¹é…çš„å±æ€§åˆ—è¡¨
+     * @param project µ±Ç°ÏîÄ¿
+     * @param key ÒªËÑË÷µÄ¼ü
+     * @return Æ¥ÅäµÄÊôĞÔÁĞ±í
      */
     public static List<SimpleProperty> findProperties(Project project, String key) {
-        List<SimpleProperty> result = new ArrayList<>(); // åˆ›å»ºä¸€ä¸ªç©ºåˆ—è¡¨ç”¨äºå­˜æ”¾æ‰¾åˆ°çš„å±æ€§
+        List<SimpleProperty> result = new ArrayList<>(); // ´´½¨Ò»¸ö¿ÕÁĞ±íÓÃÓÚ´æ·ÅÕÒµ½µÄÊôĞÔ
 
-        // æœç´¢é¡¹ç›®ä¸­æ‰€æœ‰çš„Simpleæ–‡ä»¶
+        // ËÑË÷ÏîÄ¿ÖĞËùÓĞµÄSimpleÎÄ¼ş
         Collection<VirtualFile> virtualFiles =
                 FileTypeIndex.getFiles(SimpleFileType.INSTANCE, GlobalSearchScope.allScope(project));
-        // éå†æ¯ä¸€ä¸ªæ–‡ä»¶
+        // ±éÀúÃ¿Ò»¸öÎÄ¼ş
         for (VirtualFile virtualFile : virtualFiles) {
-            // é€šè¿‡PsiManagerå°†VirtualFileè½¬æ¢æˆSimpleFile
+            // Í¨¹ıPsiManager½«VirtualFile×ª»»³ÉSimpleFile
             SimpleFile simpleFile = (SimpleFile) PsiManager.getInstance(project).findFile(virtualFile);
-            if (simpleFile != null) { // ç¡®ä¿æ–‡ä»¶ä¸ä¸ºç©º
-                // è·å–simpleFileä¸­æ‰€æœ‰çš„SimplePropertyå¯¹è±¡
+            if (simpleFile != null) { // È·±£ÎÄ¼ş²»Îª¿Õ
+                // »ñÈ¡simpleFileÖĞËùÓĞµÄSimpleProperty¶ÔÏó
                 SimpleProperty[] properties = PsiTreeUtil.getChildrenOfType(simpleFile, SimpleProperty.class);
-                if (properties != null) { // ç¡®ä¿å±æ€§åˆ—è¡¨ä¸ä¸ºç©º
-                    // ç­›é€‰å‡ºé”®ä¸ç»™å®šé”®ç›¸åŒ¹é…çš„å±æ€§
+                if (properties != null) { // È·±£ÊôĞÔÁĞ±í²»Îª¿Õ
+                    // É¸Ñ¡³ö¼üÓë¸ø¶¨¼üÏàÆ¥ÅäµÄÊôĞÔ
                     for (SimpleProperty property : properties) {
                         if (key.equals(property.getKey())) {
-                            result.add(property); // å°†åŒ¹é…çš„å±æ€§æ·»åŠ åˆ°ç»“æœåˆ—è¡¨ä¸­
+                            result.add(property); // ½«Æ¥ÅäµÄÊôĞÔÌí¼Óµ½½á¹ûÁĞ±íÖĞ
                         }
                     }
                 }
             }
         }
-        return result; // è¿”å›æ‰¾åˆ°çš„æ‰€æœ‰åŒ¹é…å±æ€§çš„åˆ—è¡¨
+        return result; // ·µ»ØÕÒµ½µÄËùÓĞÆ¥ÅäÊôĞÔµÄÁĞ±í
     }
 
     /**
-     * è·å–é¡¹ç›®ä¸­æ‰€æœ‰çš„Simpleå±æ€§ã€‚
+     * »ñÈ¡ÏîÄ¿ÖĞËùÓĞµÄSimpleÊôĞÔ¡£
      *
-     * @param project å½“å‰é¡¹ç›®
-     * @return æ‰€æœ‰å±æ€§çš„åˆ—è¡¨
+     * @param project µ±Ç°ÏîÄ¿
+     * @return ËùÓĞÊôĞÔµÄÁĞ±í
      */
     public static List<SimpleProperty> findProperties(Project project) {
         List<SimpleProperty> result = new ArrayList<>();
@@ -78,23 +78,23 @@ public class SimpleUtil {
     }
 
     /**
-     * æ”¶é›†Simpleé”®/å€¼å¯¹ä¸Šæ–¹çš„æ‰€æœ‰æ³¨é‡Šå…ƒç´ ã€‚
+     * ÊÕ¼¯Simple¼ü/Öµ¶ÔÉÏ·½µÄËùÓĞ×¢ÊÍÔªËØ¡£
      *
-     * @param property Simpleå±æ€§
-     * @return ç»„åˆåçš„æ–‡æ¡£æ³¨é‡Š
+     * @param property SimpleÊôĞÔ
+     * @return ×éºÏºóµÄÎÄµµ×¢ÊÍ
      */
     public static @NotNull String findDocumentationComment(SimpleProperty property) {
         List<String> result = new LinkedList<>();
         PsiElement element = property.getPrevSibling();
         while (element instanceof PsiComment || element instanceof PsiWhiteSpace) {
             if (element instanceof PsiComment) {
-                // æ¸…é™¤æ³¨é‡Šç¬¦å·ï¼Œå¹¶å°†æ³¨é‡Šæ·»åŠ åˆ°åˆ—è¡¨ä¸­
+                // Çå³ı×¢ÊÍ·ûºÅ£¬²¢½«×¢ÊÍÌí¼Óµ½ÁĞ±íÖĞ
                 String commentText = element.getText().replaceFirst("[!# ]+", "");
                 result.add(commentText);
             }
             element = element.getPrevSibling();
         }
-        // å°†æ‰€æœ‰æ³¨é‡Šåå‘è¿æ¥æˆå•ä¸ªå­—ç¬¦ä¸²
+        // ½«ËùÓĞ×¢ÊÍ·´ÏòÁ¬½Ó³Éµ¥¸ö×Ö·û´®
         return StringUtil.join(Lists.reverse(result), "\n ");
     }
 

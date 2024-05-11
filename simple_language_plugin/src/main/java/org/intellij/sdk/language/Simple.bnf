@@ -33,8 +33,8 @@ private command_scope ::= (
 command_scope_inline_fish_statement ::= command_scope_inline_fish_expression
 
 function_define ::= function_define_header (newline fish_block)? newline end
-private function_define_header ::= fish? define identifier function_parameter_list?
-private function_parameter_list ::= (left_parenthesis identifier (comma_operator identifier)* right_parenthesis)
+private function_define_header ::= fish? define identifier_element function_parameter_list?
+private function_parameter_list ::= (left_parenthesis identifier_element (comma_operator identifier_element)* right_parenthesis)
 
 fish_block ::=  single_fish_block (newline single_fish_block)*
 private single_fish_block ::= if_block | loop_block | case_block | comment_block | command_block | fish_statement
@@ -65,7 +65,7 @@ command_block ::= command (newline command_body)? newline end_command
 private command_body ::= command_line (newline command_line)*
 private command_line ::= any_in_command+
 private any_in_command ::= (
-    identifier | left_square_bracket | right_square_bracket | left_parenthesis | right_parenthesis | comma_operator |
+    identifier_element | left_square_bracket | right_square_bracket | left_parenthesis | right_parenthesis | comma_operator |
     assignment_operator|
     unary_operator | binary_operator| dot_operator|at_operator | literal | ellipsis | keywords_in_command_block
  )
@@ -82,20 +82,20 @@ fish_statement ::= (
     )
 
 function_call_statement ::= function_call_expression | function_call_statement_at
-private function_call_statement_at ::= at_operator identifier parenthesis_csv_expression
+private function_call_statement_at ::= at_operator identifier_element parenthesis_csv_expression
 
 
 assignment_statement ::= (local | global)? assignment_expression (comma_operator assignment_expression)*
-private array_declare_statement ::= array identifier left_parenthesis number_literal right_parenthesis
+private array_declare_statement ::= array identifier_element left_parenthesis number_literal right_parenthesis
 private assignment_expression ::= assignment_target assignment_right?
-private assignment_target ::= identifier parenthesis_csv_expression?
+private assignment_target ::= identifier_element parenthesis_csv_expression?
 private assignment_right ::= assignment_operator expression
-private assignment_left_loop ::= local? identifier
+private assignment_left_loop ::= local? identifier_element
 
 
 private expression ::= (left_square_bracket binary_expression right_square_bracket) |  binary_expression
 private parenthesis_expression ::= left_parenthesis expression right_parenthesis
-private function_call_expression ::= identifier parenthesis_csv_expression
+private function_call_expression ::= identifier_element parenthesis_csv_expression
 private csv_expression ::= expression (comma_operator expression)*
 private parenthesis_csv_expression ::= left_parenthesis csv_expression right_parenthesis
 private command_scope_inline_fish_expression ::= left_square_bracket fish_statement right_square_bracket
@@ -106,19 +106,19 @@ private unary_expression ::= unary_operator expression
 
 ////词汇之间的组合
 private comment_block ::= end_of_line_comment
-value ::= identifier | literal
+value ::= identifier_element | literal
 literal ::= string_literal | number_literal
 
 
 
-property ::= (identifier) {
+property ::= (identifier_element) {
 //  pin=3
   recoverWhile="recover_property"
   mixin="org.intellij.sdk.language.psi.impl.SimpleNamedElementImpl"
   implements="org.intellij.sdk.language.psi.SimpleNamedElement"
   methods=[getKey getValue getName setName getNameIdentifier getPresentation]
 }
-private recover_property ::= !(identifier|end_of_line_comment)
+private recover_property ::= !(identifier_element|end_of_line_comment)
 
 //以下为读取的原始token
 private string_literal ::=  STRING_LITERAL
@@ -140,7 +140,9 @@ private left_square_bracket ::= LEFT_SQUARE_BRACKET
 private right_square_bracket ::= RIGHT_SQUARE_BRACKET
 private left_curly_bracket ::= LEFT_CURLY_BRACKET
 private right_curly_bracket ::= RIGHT_CURLY_BRACKET
-identifier ::= IDENTIFIER {
+identifier_element ::= IDENTIFIER {
+//  pin=3
+  recoverWhile="recover_property"
   mixin="org.intellij.sdk.language.psi.impl.SimpleNamedElementImpl"
   implements="org.intellij.sdk.language.psi.SimpleNamedElement"
   methods=[getKey getValue getName setName getNameIdentifier getPresentation]

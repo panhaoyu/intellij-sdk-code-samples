@@ -14,53 +14,53 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-// åˆ›å»ºSimpleReferenceç±»ï¼Œå®ƒæ˜¯PsiReferenceBaseçš„å­ç±»ï¼Œå®ç°äº†PsiPolyVariantReferenceæ¥å£
+// ´´½¨SimpleReferenceÀà£¬ËüÊÇPsiReferenceBaseµÄ×ÓÀà£¬ÊµÏÖÁËPsiPolyVariantReference½Ó¿Ú
 final class SimpleReference extends PsiReferenceBase<PsiElement> implements PsiPolyVariantReference {
 
-    // å®šä¹‰ä¸€ä¸ªå­—ç¬¦ä¸²æˆå‘˜å˜é‡ç”¨äºå­˜å‚¨é”®å€¼
+    // ¶¨ÒåÒ»¸ö×Ö·û´®³ÉÔ±±äÁ¿ÓÃÓÚ´æ´¢¼üÖµ
     private final String key;
 
-    // æ„é€ å‡½æ•°ï¼Œåˆå§‹åŒ–å¼•ç”¨å’Œé”®å€¼
+    // ¹¹Ôìº¯Êı£¬³õÊ¼»¯ÒıÓÃºÍ¼üÖµ
     SimpleReference(@NotNull PsiElement element, TextRange textRange) {
-        super(element, textRange);  // è°ƒç”¨çˆ¶ç±»æ„é€ å‡½æ•°ï¼Œä¼ å…¥å…ƒç´ å’Œæ–‡æœ¬èŒƒå›´
-        key = element.getText().substring(textRange.getStartOffset(), textRange.getEndOffset()); // ä»æ–‡æœ¬èŒƒå›´æˆªå–é”®å€¼
+        super(element, textRange);  // µ÷ÓÃ¸¸Àà¹¹Ôìº¯Êı£¬´«ÈëÔªËØºÍÎÄ±¾·¶Î§
+        key = element.getText().substring(textRange.getStartOffset(), textRange.getEndOffset()); // ´ÓÎÄ±¾·¶Î§½ØÈ¡¼üÖµ
     }
 
-    // é‡å†™multiResolveæ–¹æ³•ï¼Œç”¨äºè§£æå¤šä¸ªå¯èƒ½çš„å¼•ç”¨ç»“æœ
+    // ÖØĞ´multiResolve·½·¨£¬ÓÃÓÚ½âÎö¶à¸ö¿ÉÄÜµÄÒıÓÃ½á¹û
     @Override
     public ResolveResult @NotNull [] multiResolve(boolean incompleteCode) {
-        Project project = myElement.getProject(); // è·å–å½“å‰å…ƒç´ æ‰€åœ¨çš„é¡¹ç›®
-        final List<SimpleProperty> properties = SimpleUtil.findProperties(project, key); // æŸ¥æ‰¾ä¸é”®å€¼ç›¸å…³çš„å±æ€§åˆ—è¡¨
-        List<ResolveResult> results = new ArrayList<>(); // åˆ›å»ºè§£æç»“æœåˆ—è¡¨
-        for (SimpleProperty property : properties) { // éå†æ‰¾åˆ°çš„å±æ€§
-            results.add(new PsiElementResolveResult(property)); // å°†å±æ€§å°è£…ä¸ºè§£æç»“æœå¹¶æ·»åŠ åˆ°åˆ—è¡¨ä¸­
+        Project project = myElement.getProject(); // »ñÈ¡µ±Ç°ÔªËØËùÔÚµÄÏîÄ¿
+        final List<SimpleProperty> properties = SimpleUtil.findProperties(project, key); // ²éÕÒÓë¼üÖµÏà¹ØµÄÊôĞÔÁĞ±í
+        List<ResolveResult> results = new ArrayList<>(); // ´´½¨½âÎö½á¹ûÁĞ±í
+        for (SimpleProperty property : properties) { // ±éÀúÕÒµ½µÄÊôĞÔ
+            results.add(new PsiElementResolveResult(property)); // ½«ÊôĞÔ·â×°Îª½âÎö½á¹û²¢Ìí¼Óµ½ÁĞ±íÖĞ
         }
-        return results.toArray(new ResolveResult[0]); // å°†åˆ—è¡¨è½¬æ¢ä¸ºæ•°ç»„å¹¶è¿”å›
+        return results.toArray(new ResolveResult[0]); // ½«ÁĞ±í×ª»»ÎªÊı×é²¢·µ»Ø
     }
 
-    // é‡å†™resolveæ–¹æ³•ï¼Œè¿”å›å•ä¸€çš„è§£æç»“æœ
+    // ÖØĞ´resolve·½·¨£¬·µ»Øµ¥Ò»µÄ½âÎö½á¹û
     @Nullable
     @Override
     public PsiElement resolve() {
-        ResolveResult[] resolveResults = multiResolve(false); // è·å–å¤šä¸ªè§£æç»“æœ
-        return resolveResults.length == 1 ? resolveResults[0].getElement() : null; // å¦‚æœåªæœ‰ä¸€ä¸ªç»“æœï¼Œè¿”å›è¯¥å…ƒç´ ï¼›å¦åˆ™è¿”å›null
+        ResolveResult[] resolveResults = multiResolve(false); // »ñÈ¡¶à¸ö½âÎö½á¹û
+        return resolveResults.length == 1 ? resolveResults[0].getElement() : null; // Èç¹ûÖ»ÓĞÒ»¸ö½á¹û£¬·µ»Ø¸ÃÔªËØ£»·ñÔò·µ»Ønull
     }
 
-    // é‡å†™getVariantsæ–¹æ³•ï¼Œç”¨äºè·å–æ‰€æœ‰å¯èƒ½çš„è‡ªåŠ¨è¡¥å…¨é€‰é¡¹
+    // ÖØĞ´getVariants·½·¨£¬ÓÃÓÚ»ñÈ¡ËùÓĞ¿ÉÄÜµÄ×Ô¶¯²¹È«Ñ¡Ïî
     @Override
     public Object @NotNull [] getVariants() {
-        Project project = myElement.getProject(); // è·å–å½“å‰å…ƒç´ æ‰€åœ¨çš„é¡¹ç›®
-        List<SimpleProperty> properties = SimpleUtil.findProperties(project); // è·å–æ‰€æœ‰å±æ€§
-        List<LookupElement> variants = new ArrayList<>(); // åˆ›å»ºè‡ªåŠ¨è¡¥å…¨é€‰é¡¹åˆ—è¡¨
-        for (final SimpleProperty property : properties) { // éå†æ‰€æœ‰å±æ€§
-            if (property.getKey() != null && !property.getKey().isEmpty()) { // å¦‚æœå±æ€§çš„é”®ä¸ä¸ºç©º
-                variants.add(LookupElementBuilder // åˆ›å»ºè‡ªåŠ¨è¡¥å…¨é€‰é¡¹
-                        .create(property).withIcon(SimpleIcons.FILE) // è®¾ç½®å›¾æ ‡
-                        .withTypeText(property.getContainingFile().getName()) // è®¾ç½®ç±»å‹æ–‡æœ¬ä¸ºæ–‡ä»¶å
+        Project project = myElement.getProject(); // »ñÈ¡µ±Ç°ÔªËØËùÔÚµÄÏîÄ¿
+        List<SimpleProperty> properties = SimpleUtil.findProperties(project); // »ñÈ¡ËùÓĞÊôĞÔ
+        List<LookupElement> variants = new ArrayList<>(); // ´´½¨×Ô¶¯²¹È«Ñ¡ÏîÁĞ±í
+        for (final SimpleProperty property : properties) { // ±éÀúËùÓĞÊôĞÔ
+            if (property.getKey() != null && !property.getKey().isEmpty()) { // Èç¹ûÊôĞÔµÄ¼ü²»Îª¿Õ
+                variants.add(LookupElementBuilder // ´´½¨×Ô¶¯²¹È«Ñ¡Ïî
+                        .create(property).withIcon(SimpleIcons.FILE) // ÉèÖÃÍ¼±ê
+                        .withTypeText(property.getContainingFile().getName()) // ÉèÖÃÀàĞÍÎÄ±¾ÎªÎÄ¼şÃû
                 );
             }
         }
-        return variants.toArray(); // å°†åˆ—è¡¨è½¬æ¢ä¸ºæ•°ç»„å¹¶è¿”å›
+        return variants.toArray(); // ½«ÁĞ±í×ª»»ÎªÊı×é²¢·µ»Ø
     }
 
 }
