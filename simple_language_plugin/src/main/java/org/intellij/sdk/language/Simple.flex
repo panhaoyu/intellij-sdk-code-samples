@@ -3,7 +3,7 @@ package org.intellij.sdk.language;
 
 import com.intellij.formatting.WhiteSpace;import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
-import org.bouncycastle.pqc.jcajce.interfaces.SABERKey;
+import groovyjarjarantlr.Token;import org.bouncycastle.pqc.jcajce.interfaces.SABERKey;
 import org.intellij.sdk.language.psi.SimpleTypes;
 import com.intellij.psi.TokenType;
 
@@ -29,6 +29,7 @@ WhiteSpace     = [ \t\f]
 Comment = {EndOfLineComment}
 
 EndOfLineComment     = ";" {InputCharacter}* {LineTerminator}?
+EndOfLineEllipsis = "..." {LineTerminator}
 
 Identifier = [:jletter:] ([:jletterdigit:]|".")*
 
@@ -135,6 +136,8 @@ String = {StringA} | {StringB}
 
     // Comments
     {Comment} {return SimpleTypes.NEWLINE;}
+
+    {EndOfLineEllipsis} {return TokenType.WHITE_SPACE; }
 
     \} {return SimpleTypes.LEFT_CURLY_BRACKET; }
     \{ {return SimpleTypes.RIGHT_CURLY_BRACKET; }
