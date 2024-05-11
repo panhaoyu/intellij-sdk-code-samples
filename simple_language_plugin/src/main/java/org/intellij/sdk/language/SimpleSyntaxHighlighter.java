@@ -7,6 +7,7 @@ import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
 import com.intellij.openapi.editor.HighlighterColors;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase;
+import com.intellij.psi.TokenType;
 import com.intellij.psi.tree.IElementType;
 import org.intellij.sdk.language.psi.SimpleTypes;
 import org.jetbrains.annotations.NotNull;
@@ -64,6 +65,7 @@ public class SimpleSyntaxHighlighter extends SyntaxHighlighterBase {
         put(SimpleTypes.IDENTIFIER, IDENTIFIER_KEYS);
         put(SimpleTypes.COMMENT, COMMENT_KEYS);
         put(SimpleTypes.STRING_LITERAL, STRING_LITERAL_KEYS);
+        put(TokenType.WHITE_SPACE, EMPTY_KEYS);
 
         put(SimpleTypes.ARRAY, KEYWORD_KEYS);
         put(SimpleTypes.BREAK, KEYWORD_KEYS);
