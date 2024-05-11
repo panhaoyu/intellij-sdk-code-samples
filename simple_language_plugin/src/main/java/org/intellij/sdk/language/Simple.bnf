@@ -33,17 +33,17 @@ private function_parameter_list ::= (left_parenthesis identifier (comma_operator
 fish_block ::=  single_fish_block (newline single_fish_block)*
 private single_fish_block ::= if_block | loop_block | case_block | comment_block | command_block | fish_statement
 
-if_block ::= if expression then
+if_block ::= if expression then?
              (newline fish_block)?
              (newline else_if_statement)*
              (newline else_statement)?
              newline endif
-private else_if_statement ::= elseif expression then (newline fish_block)?
+private else_if_statement ::= elseif expression then? (newline fish_block)?
 private else_statement ::=  else (newline fish_block)?
 
 loop_block ::= loop (newline fish_block)? newline endloop
 
-case_block ::= case_of expression (newline case_clause)* newline end_case
+case_block ::= case_of expression (newline fish_block)? (newline case_clause)* newline end_case
 private case_clause ::= case expression (newline fish_block)?
 
 command_block ::= command (newline command_body)? newline end_command

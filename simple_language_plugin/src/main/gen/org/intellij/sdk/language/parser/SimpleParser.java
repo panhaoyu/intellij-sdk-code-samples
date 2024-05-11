@@ -64,7 +64,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   // assignment_target (comma_operator assignment_target)*
   static boolean assignment_left(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "assignment_left")) return false;
-    if (!nextTokenIs(b, "", IDENTIFIER, LEFT_PARENTHESIS)) return false;
+    if (!nextTokenIs(b, IDENTIFIER)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = assignment_target(b, l + 1);
@@ -118,24 +118,33 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   // assignment_left assignment_right
   public static boolean assignment_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "assignment_statement")) return false;
-    if (!nextTokenIs(b, "<assignment statement>", IDENTIFIER, LEFT_PARENTHESIS)) return false;
+    if (!nextTokenIs(b, IDENTIFIER)) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, ASSIGNMENT_STATEMENT, "<assignment statement>");
+    Marker m = enter_section_(b);
     r = assignment_left(b, l + 1);
     r = r && assignment_right(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
+    exit_section_(b, m, ASSIGNMENT_STATEMENT, r);
     return r;
   }
 
   /* ********************************************************** */
-  // identifier | parenthesis_csv_expression
+  // identifier parenthesis_csv_expression?
   static boolean assignment_target(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "assignment_target")) return false;
-    if (!nextTokenIs(b, "", IDENTIFIER, LEFT_PARENTHESIS)) return false;
+    if (!nextTokenIs(b, IDENTIFIER)) return false;
     boolean r;
+    Marker m = enter_section_(b);
     r = identifier(b, l + 1);
-    if (!r) r = parenthesis_csv_expression(b, l + 1);
+    r = r && assignment_target_1(b, l + 1);
+    exit_section_(b, m, null, r);
     return r;
+  }
+
+  // parenthesis_csv_expression?
+  private static boolean assignment_target_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "assignment_target_1")) return false;
+    parenthesis_csv_expression(b, l + 1);
+    return true;
   }
 
   /* ********************************************************** */
@@ -145,14 +154,35 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // value binary_operator expression
+  // non_binary_expression (binary_operator non_binary_expression)*
   static boolean binary_expression(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "binary_expression")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = value(b, l + 1);
-    r = r && binary_operator(b, l + 1);
-    r = r && expression(b, l + 1);
+    r = non_binary_expression(b, l + 1);
+    r = r && binary_expression_1(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // (binary_operator non_binary_expression)*
+  private static boolean binary_expression_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "binary_expression_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!binary_expression_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "binary_expression_1", c)) break;
+    }
+    return true;
+  }
+
+  // binary_operator non_binary_expression
+  private static boolean binary_expression_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "binary_expression_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = binary_operator(b, l + 1);
+    r = r && non_binary_expression(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
@@ -175,7 +205,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // case_of expression (newline case_clause)* newline end_case
+  // case_of expression (newline fish_block)? (newline case_clause)* newline end_case
   public static boolean case_block(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "case_block")) return false;
     if (!nextTokenIs(b, CASEOF)) return false;
@@ -184,26 +214,45 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     r = case_of(b, l + 1);
     r = r && expression(b, l + 1);
     r = r && case_block_2(b, l + 1);
+    r = r && case_block_3(b, l + 1);
     r = r && newline(b, l + 1);
     r = r && end_case(b, l + 1);
     exit_section_(b, m, CASE_BLOCK, r);
     return r;
   }
 
-  // (newline case_clause)*
+  // (newline fish_block)?
   private static boolean case_block_2(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "case_block_2")) return false;
+    case_block_2_0(b, l + 1);
+    return true;
+  }
+
+  // newline fish_block
+  private static boolean case_block_2_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "case_block_2_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = newline(b, l + 1);
+    r = r && fish_block(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // (newline case_clause)*
+  private static boolean case_block_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "case_block_3")) return false;
     while (true) {
       int c = current_position_(b);
-      if (!case_block_2_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "case_block_2", c)) break;
+      if (!case_block_3_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "case_block_3", c)) break;
     }
     return true;
   }
 
   // newline case_clause
-  private static boolean case_block_2_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "case_block_2_0")) return false;
+  private static boolean case_block_3_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "case_block_3_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = newline(b, l + 1);
@@ -430,6 +479,36 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // (local | global) assignment_left assignment_right?
+  public static boolean declare_statement(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "declare_statement")) return false;
+    if (!nextTokenIs(b, "<declare statement>", GLOBAL, LOCAL)) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, DECLARE_STATEMENT, "<declare statement>");
+    r = declare_statement_0(b, l + 1);
+    r = r && assignment_left(b, l + 1);
+    r = r && declare_statement_2(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // local | global
+  private static boolean declare_statement_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "declare_statement_0")) return false;
+    boolean r;
+    r = local(b, l + 1);
+    if (!r) r = global(b, l + 1);
+    return r;
+  }
+
+  // assignment_right?
+  private static boolean declare_statement_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "declare_statement_2")) return false;
+    assignment_right(b, l + 1);
+    return true;
+  }
+
+  /* ********************************************************** */
   // DEFINE
   static boolean define(PsiBuilder b, int l) {
     return consumeToken(b, DEFINE);
@@ -454,7 +533,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // elseif expression then (newline fish_block)?
+  // elseif expression then? (newline fish_block)?
   static boolean else_if_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "else_if_statement")) return false;
     if (!nextTokenIs(b, "", ELSE, ELSEIF)) return false;
@@ -462,10 +541,17 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b);
     r = elseif(b, l + 1);
     r = r && expression(b, l + 1);
-    r = r && then(b, l + 1);
+    r = r && else_if_statement_2(b, l + 1);
     r = r && else_if_statement_3(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
+  }
+
+  // then?
+  private static boolean else_if_statement_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "else_if_statement_2")) return false;
+    then(b, l + 1);
+    return true;
   }
 
   // (newline fish_block)?
@@ -590,16 +676,9 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // parenthesis_expression | function_call_expression | unary_expression |binary_expression | value
+  // binary_expression
   static boolean expression(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "expression")) return false;
-    boolean r;
-    r = parenthesis_expression(b, l + 1);
-    if (!r) r = function_call_expression(b, l + 1);
-    if (!r) r = unary_expression(b, l + 1);
-    if (!r) r = binary_expression(b, l + 1);
-    if (!r) r = value(b, l + 1);
-    return r;
+    return binary_expression(b, l + 1);
   }
 
   /* ********************************************************** */
@@ -643,14 +722,14 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // function_call_statement  | var_declare_statement |  assignment_statement | expression
+  // declare_statement | assignment_statement | function_call_statement  | expression
   public static boolean fish_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "fish_statement")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, FISH_STATEMENT, "<fish statement>");
-    r = function_call_statement(b, l + 1);
-    if (!r) r = var_declare_statement(b, l + 1);
+    r = declare_statement(b, l + 1);
     if (!r) r = assignment_statement(b, l + 1);
+    if (!r) r = function_call_statement(b, l + 1);
     if (!r) r = expression(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
@@ -792,7 +871,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // if expression then
+  // if expression then?
   //              (newline fish_block)?
   //              (newline else_if_statement)*
   //              (newline else_statement)?
@@ -804,7 +883,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b);
     r = if_$(b, l + 1);
     r = r && expression(b, l + 1);
-    r = r && then(b, l + 1);
+    r = r && if_block_2(b, l + 1);
     r = r && if_block_3(b, l + 1);
     r = r && if_block_4(b, l + 1);
     r = r && if_block_5(b, l + 1);
@@ -812,6 +891,13 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     r = r && endif(b, l + 1);
     exit_section_(b, m, IF_BLOCK, r);
     return r;
+  }
+
+  // then?
+  private static boolean if_block_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "if_block_2")) return false;
+    then(b, l + 1);
+    return true;
   }
 
   // (newline fish_block)?
@@ -999,6 +1085,18 @@ public class SimpleParser implements PsiParser, LightPsiParser {
       if (!empty_element_parsed_guard_(b, "newline", c)) break;
     }
     exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // parenthesis_expression | function_call_expression | unary_expression | value
+  static boolean non_binary_expression(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "non_binary_expression")) return false;
+    boolean r;
+    r = parenthesis_expression(b, l + 1);
+    if (!r) r = function_call_expression(b, l + 1);
+    if (!r) r = unary_expression(b, l + 1);
+    if (!r) r = value(b, l + 1);
     return r;
   }
 
@@ -1224,36 +1322,6 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     if (!r) r = literal(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
-  }
-
-  /* ********************************************************** */
-  // (local | global) assignment_left assignment_right?
-  public static boolean var_declare_statement(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "var_declare_statement")) return false;
-    if (!nextTokenIs(b, "<var declare statement>", GLOBAL, LOCAL)) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, VAR_DECLARE_STATEMENT, "<var declare statement>");
-    r = var_declare_statement_0(b, l + 1);
-    r = r && assignment_left(b, l + 1);
-    r = r && var_declare_statement_2(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // local | global
-  private static boolean var_declare_statement_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "var_declare_statement_0")) return false;
-    boolean r;
-    r = local(b, l + 1);
-    if (!r) r = global(b, l + 1);
-    return r;
-  }
-
-  // assignment_right?
-  private static boolean var_declare_statement_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "var_declare_statement_2")) return false;
-    assignment_right(b, l + 1);
-    return true;
   }
 
 }
