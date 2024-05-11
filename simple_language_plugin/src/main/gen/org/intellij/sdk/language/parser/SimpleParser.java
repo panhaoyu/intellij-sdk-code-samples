@@ -263,9 +263,27 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // BREAK
+  // BREAK | (exit loop)
   static boolean break_$(PsiBuilder b, int l) {
-    return consumeToken(b, BREAK);
+    if (!recursion_guard_(b, l, "break_$")) return false;
+    if (!nextTokenIs(b, "", BREAK, EXIT)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, BREAK);
+    if (!r) r = break_1(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // exit loop
+  private static boolean break_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "break_1")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = exit(b, l + 1);
+    r = r && loop(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
   }
 
   /* ********************************************************** */
@@ -770,6 +788,8 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   // array_declare_statement |
   //     assignment_statement |
   //     expression |
+  //     break |
+  //     continue |
   //     exit
   public static boolean fish_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "fish_statement")) return false;
@@ -778,6 +798,8 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     r = array_declare_statement(b, l + 1);
     if (!r) r = assignment_statement(b, l + 1);
     if (!r) r = expression(b, l + 1);
+    if (!r) r = break_$(b, l + 1);
+    if (!r) r = continue_$(b, l + 1);
     if (!r) r = exit(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
@@ -1160,7 +1182,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // for left_parenthesis expression comma_operator expression comma_operator expression right_parenthesis
+  // for left_parenthesis local? expression comma_operator expression comma_operator expression right_parenthesis
   static boolean loop_for(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "loop_for")) return false;
     if (!nextTokenIs(b, FOR)) return false;
@@ -1168,6 +1190,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b);
     r = for_$(b, l + 1);
     r = r && left_parenthesis(b, l + 1);
+    r = r && loop_for_2(b, l + 1);
     r = r && expression(b, l + 1);
     r = r && comma_operator(b, l + 1);
     r = r && expression(b, l + 1);
@@ -1176,6 +1199,13 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     r = r && right_parenthesis(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
+  }
+
+  // local?
+  private static boolean loop_for_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "loop_for_2")) return false;
+    local(b, l + 1);
+    return true;
   }
 
   /* ********************************************************** */
@@ -1450,8 +1480,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // if_block | loop_block | case_block | comment_block | command_block | 
-  //     break | continue | fish_statement
+  // if_block | loop_block | case_block | comment_block | command_block | fish_statement
   static boolean single_fish_block(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "single_fish_block")) return false;
     boolean r;
@@ -1460,8 +1489,6 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     if (!r) r = case_block(b, l + 1);
     if (!r) r = comment_block(b, l + 1);
     if (!r) r = command_block(b, l + 1);
-    if (!r) r = break_$(b, l + 1);
-    if (!r) r = continue_$(b, l + 1);
     if (!r) r = fish_statement(b, l + 1);
     return r;
   }

@@ -28,9 +28,9 @@ WhiteSpace     = [ \t\f]
 
 Comment = {EndOfLineComment}
 
+EndOfLineEllipsisWithComment = "..." {WhiteSpace}* {EndOfLineComment}
 EndOfLineComment     = ";" {InputCharacter}* {LineTerminator}?
 EndOfLineEllipsis = "..." {LineTerminator}
-EndOfLineEllipsisWithComment = "..." {EndOfLineComment}
 
 Identifier = [:jletter:] ([:jletterdigit:]|".")*
 
@@ -115,7 +115,6 @@ String = {StringA} | {StringB}
     "endsection" | "end_section" |"exitsection" | "exit_section" { return SimpleTypes.ENDSECTION; }
     "struct" | "structure" { return SimpleTypes.STRUCT; }
     "then"  { return SimpleTypes.THEN; }
-    "..." {return SimpleTypes.ELLIPSIS; }
     "Array" {return SimpleTypes.ARRAY; }
 }
 
@@ -140,12 +139,12 @@ String = {StringA} | {StringB}
 
     {LineTerminator}+ {return SimpleTypes.NEWLINE;}
 
-    // Comments
+    {EndOfLineEllipsisWithComment} {return TokenType.WHITE_SPACE; }
+
     {Comment} {return SimpleTypes.NEWLINE;}
 
     {EndOfLineEllipsis} {return TokenType.WHITE_SPACE; }
 
-    {EndOfLineEllipsisWithComment} {return TokenType.WHITE_SPACE; }
 
     \} {return SimpleTypes.LEFT_CURLY_BRACKET; }
     \{ {return SimpleTypes.RIGHT_CURLY_BRACKET; }
@@ -158,6 +157,8 @@ String = {StringA} | {StringB}
     \. {return SimpleTypes.DOT_OPERATOR; }
     \, {return SimpleTypes.COMMA_OPERATOR; }
     \- {return SimpleTypes.MINUS_OPERATOR;}
+
+    "..." {return SimpleTypes.ELLIPSIS; }
 
 }
 
