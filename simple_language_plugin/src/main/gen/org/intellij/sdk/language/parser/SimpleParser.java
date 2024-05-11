@@ -36,8 +36,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // identifier
-  //     | left_square_bracket | right_square_bracket | left_parenthesis | right_parenthesis | comma_operator |
+  // identifier | left_square_bracket | right_square_bracket | left_parenthesis | right_parenthesis | comma_operator |
   //     assignment_operator|
   //     unary_operator | binary_operator| dot_operator|at_operator | literal | ellipsis | keywords_in_command_block
   static boolean any_in_command(PsiBuilder b, int l) {
@@ -1078,7 +1077,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // loop foreach identifier expression newline
+  // loop foreach identifier expression
   static boolean loop_each(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "loop_each")) return false;
     if (!nextTokenIs(b, LOOP)) return false;
@@ -1088,7 +1087,6 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     r = r && foreach(b, l + 1);
     r = r && identifier(b, l + 1);
     r = r && expression(b, l + 1);
-    r = r && newline(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }

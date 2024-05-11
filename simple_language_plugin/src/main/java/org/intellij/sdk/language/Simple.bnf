@@ -42,7 +42,7 @@ private else_if_statement ::= elseif expression then? (newline fish_block)?
 private else_statement ::=  else (newline fish_block)?
 
 loop_block ::= loop_each (newline fish_block)? newline endloop
-private loop_each ::= loop foreach identifier expression newline
+private loop_each ::= loop foreach identifier expression
 
 
 case_block ::= case_of expression (newline fish_block)? (newline case_clause)* newline end_case
