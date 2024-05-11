@@ -93,7 +93,7 @@ private assignment_right ::= assignment_operator expression
 private assignment_left_loop ::= local? identifier
 
 
-private expression ::= binary_expression
+private expression ::= (left_square_bracket binary_expression right_square_bracket) |  binary_expression
 private parenthesis_expression ::= left_parenthesis expression right_parenthesis
 private function_call_expression ::= identifier parenthesis_csv_expression
 private csv_expression ::= expression (comma_operator expression)*

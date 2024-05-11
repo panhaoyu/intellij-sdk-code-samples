@@ -739,9 +739,27 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // binary_expression
+  // (left_square_bracket binary_expression right_square_bracket) |  binary_expression
   static boolean expression(PsiBuilder b, int l) {
-    return binary_expression(b, l + 1);
+    if (!recursion_guard_(b, l, "expression")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = expression_0(b, l + 1);
+    if (!r) r = binary_expression(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // left_square_bracket binary_expression right_square_bracket
+  private static boolean expression_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "expression_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = left_square_bracket(b, l + 1);
+    r = r && binary_expression(b, l + 1);
+    r = r && right_square_bracket(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
   }
 
   /* ********************************************************** */
