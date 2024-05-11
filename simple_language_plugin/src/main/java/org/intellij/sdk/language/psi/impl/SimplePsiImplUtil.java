@@ -82,7 +82,7 @@ public class SimplePsiImplUtil {
 
 
     public static String getKey(SimpleIdentifierElement element) {
-        ASTNode keyNode = element.getNode().findChildByType(SimpleTypes.IF);
+        ASTNode keyNode = element.getNode().findChildByType(SimpleTypes.IDENTIFIER_ELEMENT);
         if (keyNode != null) {
             // IMPORTANT: Convert embedded escaped spaces to simple spaces
             return keyNode.getText().replaceAll("\\\\ ", " ");
@@ -92,7 +92,7 @@ public class SimplePsiImplUtil {
     }
 
     public static String getValue(SimpleIdentifierElement element) {
-        ASTNode valueNode = element.getNode().findChildByType(SimpleTypes.STRING_LITERAL);
+        ASTNode valueNode = element.getNode().findChildByType(SimpleTypes.IDENTIFIER_ELEMENT);
         if (valueNode != null) {
             return valueNode.getText();
         } else {
@@ -105,7 +105,7 @@ public class SimplePsiImplUtil {
     }
 
     public static PsiElement setName(SimpleIdentifierElement element, String newName) {
-        ASTNode keyNode = element.getNode().findChildByType(SimpleTypes.IDENTIFIER);
+        ASTNode keyNode = element.getNode().findChildByType(SimpleTypes.IDENTIFIER_ELEMENT);
         if (keyNode != null) {
             SimpleProperty property = SimpleElementFactory.createProperty(element.getProject(), newName);
             ASTNode newKeyNode = property.getFirstChild().getNode();
@@ -115,7 +115,7 @@ public class SimplePsiImplUtil {
     }
 
     public static PsiElement getNameIdentifier(SimpleIdentifierElement element) {
-        ASTNode keyNode = element.getNode().findChildByType(SimpleTypes.IDENTIFIER);
+        ASTNode keyNode = element.getNode().findChildByType(SimpleTypes.IDENTIFIER_ELEMENT);
         if (keyNode != null) {
             return keyNode.getPsi();
         } else {
