@@ -41,8 +41,13 @@ if_block ::= if expression then?
 private else_if_statement ::= elseif expression then? (newline fish_block)?
 private else_statement ::=  else (newline fish_block)?
 
-loop_block ::= loop_each (newline fish_block)? newline endloop
-private loop_each ::= loop foreach assignment_left_loop expression
+loop_block ::= loop loop_header (newline fish_block)? newline endloop
+private loop_header ::= loop (loop_each | loop_indexed | loop_for | loop_while)
+private loop_indexed ::= assignment_left_loop loop_indexed_range
+private loop_indexed_range ::= left_parenthesis expression comma_operator expression (comma_operator expression)?
+private loop_while ::= while expression
+private loop_each ::= foreach assignment_left_loop expression
+private loop_for ::= for left_parenthesis expression comma_operator expression comma_operator expression right_parenthesis
 
 
 case_block ::= case_of expression (newline fish_block)? (newline case_clause)* newline end_case
@@ -159,6 +164,8 @@ private loop ::= LOOP
 private foreach ::= FOREACH
 private endloop ::= ENDLOOP
 private continue ::= CONTINUE
+private while ::= WHILE
+private for ::= FOR
 
 private return ::= RETURN
 

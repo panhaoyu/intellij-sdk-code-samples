@@ -104,6 +104,8 @@ String = {StringA} | {StringB}
     "lock" { return SimpleTypes.LOCK; }
     "loop" { return SimpleTypes.LOOP; }
     "foreach" { return SimpleTypes.FOREACH; }
+    "while" { return SimpleTypes.WHILE; }
+    "for" { return SimpleTypes.FOR; }
     "endloop" | "end_loop" | "exitloop" | "exit_loop"  { return SimpleTypes.ENDLOOP; }
     "continue" { return SimpleTypes.CONTINUE; }
     "return" { return SimpleTypes.RETURN; }

@@ -764,7 +764,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // array_declare_statement |
-  //     declare_statement | 
+  //     declare_statement |
   //     assignment_statement |
   //     function_call_statement  |
   //     expression
@@ -779,6 +779,12 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     if (!r) r = expression(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
+  }
+
+  /* ********************************************************** */
+  // FOR
+  static boolean for_$(PsiBuilder b, int l) {
+    return consumeToken(b, FOR);
   }
 
   /* ********************************************************** */
@@ -1105,14 +1111,15 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // loop_each (newline fish_block)? newline endloop
+  // loop loop_header (newline fish_block)? newline endloop
   public static boolean loop_block(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "loop_block")) return false;
     if (!nextTokenIs(b, LOOP)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = loop_each(b, l + 1);
-    r = r && loop_block_1(b, l + 1);
+    r = loop(b, l + 1);
+    r = r && loop_header(b, l + 1);
+    r = r && loop_block_2(b, l + 1);
     r = r && newline(b, l + 1);
     r = r && endloop(b, l + 1);
     exit_section_(b, m, LOOP_BLOCK, r);
@@ -1120,15 +1127,15 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   // (newline fish_block)?
-  private static boolean loop_block_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "loop_block_1")) return false;
-    loop_block_1_0(b, l + 1);
+  private static boolean loop_block_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "loop_block_2")) return false;
+    loop_block_2_0(b, l + 1);
     return true;
   }
 
   // newline fish_block
-  private static boolean loop_block_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "loop_block_1_0")) return false;
+  private static boolean loop_block_2_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "loop_block_2_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = newline(b, l + 1);
@@ -1138,15 +1145,117 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // loop foreach assignment_left_loop expression
+  // foreach assignment_left_loop expression
   static boolean loop_each(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "loop_each")) return false;
+    if (!nextTokenIs(b, FOREACH)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = foreach(b, l + 1);
+    r = r && assignment_left_loop(b, l + 1);
+    r = r && expression(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // for left_parenthesis expression comma_operator expression comma_operator expression right_parenthesis
+  static boolean loop_for(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "loop_for")) return false;
+    if (!nextTokenIs(b, FOR)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = for_$(b, l + 1);
+    r = r && left_parenthesis(b, l + 1);
+    r = r && expression(b, l + 1);
+    r = r && comma_operator(b, l + 1);
+    r = r && expression(b, l + 1);
+    r = r && comma_operator(b, l + 1);
+    r = r && expression(b, l + 1);
+    r = r && right_parenthesis(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // loop (loop_each | loop_indexed | loop_for | loop_while)
+  static boolean loop_header(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "loop_header")) return false;
     if (!nextTokenIs(b, LOOP)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = loop(b, l + 1);
-    r = r && foreach(b, l + 1);
-    r = r && assignment_left_loop(b, l + 1);
+    r = r && loop_header_1(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // loop_each | loop_indexed | loop_for | loop_while
+  private static boolean loop_header_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "loop_header_1")) return false;
+    boolean r;
+    r = loop_each(b, l + 1);
+    if (!r) r = loop_indexed(b, l + 1);
+    if (!r) r = loop_for(b, l + 1);
+    if (!r) r = loop_while(b, l + 1);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // assignment_left_loop loop_indexed_range
+  static boolean loop_indexed(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "loop_indexed")) return false;
+    if (!nextTokenIs(b, "", IDENTIFIER, LOCAL)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = assignment_left_loop(b, l + 1);
+    r = r && loop_indexed_range(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // left_parenthesis expression comma_operator expression (comma_operator expression)?
+  static boolean loop_indexed_range(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "loop_indexed_range")) return false;
+    if (!nextTokenIs(b, LEFT_PARENTHESIS)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = left_parenthesis(b, l + 1);
+    r = r && expression(b, l + 1);
+    r = r && comma_operator(b, l + 1);
+    r = r && expression(b, l + 1);
+    r = r && loop_indexed_range_4(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // (comma_operator expression)?
+  private static boolean loop_indexed_range_4(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "loop_indexed_range_4")) return false;
+    loop_indexed_range_4_0(b, l + 1);
+    return true;
+  }
+
+  // comma_operator expression
+  private static boolean loop_indexed_range_4_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "loop_indexed_range_4_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = comma_operator(b, l + 1);
+    r = r && expression(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // while expression
+  static boolean loop_while(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "loop_while")) return false;
+    if (!nextTokenIs(b, WHILE)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = while_$(b, l + 1);
     r = r && expression(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
@@ -1403,6 +1512,12 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     if (!r) r = literal(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
+  }
+
+  /* ********************************************************** */
+  // WHILE
+  static boolean while_$(PsiBuilder b, int l) {
+    return consumeToken(b, WHILE);
   }
 
 }
