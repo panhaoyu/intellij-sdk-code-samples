@@ -58,26 +58,27 @@ private any_in_command ::= (
 private keywords_in_command_block ::= (fish | case_of | case | end_case | define | end | exit | global | if | then |
     elseif | else | endif | local | lock | loop | endloop | continue | return | section | end_section | struct )
 
-fish_statement ::= ( var_declare_statement | assignment_statement | function_call_statement  | expression)
+fish_statement ::= ( declare_statement | assignment_statement | function_call_statement  | expression)
 
 function_call_statement ::= function_call_expression
 
 
 assignment_statement ::= assignment_left assignment_right
-var_declare_statement ::= (local | global) assignment_left assignment_right?
+declare_statement ::= (local | global) assignment_left assignment_right?
 private assignment_left ::= assignment_target (comma_operator assignment_target)*
 private assignment_target ::= identifier | parenthesis_csv_expression
 private assignment_right ::= assignment_operator expression
 
 
-private expression ::= parenthesis_expression | function_call_expression | unary_expression |binary_expression | value
+private expression ::= binary_expression
 private parenthesis_expression ::= left_parenthesis expression right_parenthesis
 private function_call_expression ::= identifier parenthesis_csv_expression
 private csv_expression ::= expression (comma_operator expression)*
 private parenthesis_csv_expression ::= left_parenthesis csv_expression right_parenthesis
 private command_scope_inline_fish_expression ::= left_square_bracket fish_statement right_square_bracket
 
-private binary_expression ::= value binary_operator expression
+private binary_expression ::= non_binary_expression (binary_operator non_binary_expression)*
+private non_binary_expression ::=  parenthesis_expression | function_call_expression | unary_expression | value
 private unary_expression ::= unary_operator expression
 
 ////词汇之间的组合
