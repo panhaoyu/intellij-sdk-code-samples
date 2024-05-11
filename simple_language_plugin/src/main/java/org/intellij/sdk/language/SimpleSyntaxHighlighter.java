@@ -22,8 +22,6 @@ public class SimpleSyntaxHighlighter extends SyntaxHighlighterBase {
             createTextAttributesKey("SIMPLE_OPERATOR", DefaultLanguageHighlighterColors.OPERATION_SIGN);
     public static final TextAttributesKey KEYWORD =
             createTextAttributesKey("SIMPLE_KEYWORD", DefaultLanguageHighlighterColors.KEYWORD);
-    public static final TextAttributesKey FISH_FUNCTION =
-            createTextAttributesKey("FISH_FUNCTIONS", DefaultLanguageHighlighterColors.FUNCTION_CALL);
     public static final TextAttributesKey STRING_LITERAL =
             createTextAttributesKey("SIMPLE_VALUE", DefaultLanguageHighlighterColors.STRING);
     public static final TextAttributesKey NUMBER_LITERAL =
@@ -34,6 +32,10 @@ public class SimpleSyntaxHighlighter extends SyntaxHighlighterBase {
             createTextAttributesKey("SIMPLE_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT);
     public static final TextAttributesKey BAD_CHARACTER =
             createTextAttributesKey("SIMPLE_BAD_CHARACTER", HighlighterColors.BAD_CHARACTER);
+    public static final TextAttributesKey BRACKETS =
+            createTextAttributesKey("SIMPLE_BRACKETS", DefaultLanguageHighlighterColors.BRACKETS);
+    public static final TextAttributesKey IMPORTANT_KEYWORD =
+            createTextAttributesKey("SIMPLE_IMPORTANT_KEYWORD", DefaultLanguageHighlighterColors.METADATA);
 
 
     private static final TextAttributesKey[] BAD_CHARACTER_KEYS = new TextAttributesKey[]{BAD_CHARACTER};
@@ -44,12 +46,8 @@ public class SimpleSyntaxHighlighter extends SyntaxHighlighterBase {
     private static final TextAttributesKey[] IDENTIFIER_KEYS = new TextAttributesKey[]{IDENTIFIER};
     private static final TextAttributesKey[] COMMENT_KEYS = new TextAttributesKey[]{COMMENT};
     private static final TextAttributesKey[] EMPTY_KEYS = new TextAttributesKey[0];
-    private static final TextAttributesKey[] FUNCTION_DECLARATION_KEYS = new TextAttributesKey[]{
-            createTextAttributesKey("SIMPLE_KEYWORD", DefaultLanguageHighlighterColors.FUNCTION_DECLARATION)
-    };
-    private static final TextAttributesKey[] BRACKETS_KEYS = new TextAttributesKey[]{
-            createTextAttributesKey("SIMPLE_KEYWORD", DefaultLanguageHighlighterColors.BRACKETS)
-    };
+    private static final TextAttributesKey[] BRACKETS_KEYS = new TextAttributesKey[]{BRACKETS};
+    private static final TextAttributesKey[] IMPORTANT_KEYWORD_KEYS = new TextAttributesKey[]{IMPORTANT_KEYWORD};
 
     @NotNull
     @Override
@@ -88,13 +86,13 @@ public class SimpleSyntaxHighlighter extends SyntaxHighlighterBase {
         put(SimpleTypes.CASE, KEYWORD_KEYS);
         put(SimpleTypes.CASEOF, KEYWORD_KEYS);
         put(SimpleTypes.COMMAND, KEYWORD_KEYS);
+        put(SimpleTypes.ENDCOMMAND, KEYWORD_KEYS);
         put(SimpleTypes.CONTINUE, KEYWORD_KEYS);
         put(SimpleTypes.DEFINE, KEYWORD_KEYS);
         put(SimpleTypes.ELSE, KEYWORD_KEYS);
         put(SimpleTypes.ELSEIF, KEYWORD_KEYS);
         put(SimpleTypes.END, KEYWORD_KEYS);
         put(SimpleTypes.ENDCASE, KEYWORD_KEYS);
-        put(SimpleTypes.ENDCOMMAND, KEYWORD_KEYS);
         put(SimpleTypes.ENDIF, KEYWORD_KEYS);
         put(SimpleTypes.ENDLOOP, KEYWORD_KEYS);
         put(SimpleTypes.ENDSECTION, KEYWORD_KEYS);

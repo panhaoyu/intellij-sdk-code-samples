@@ -16,10 +16,15 @@ import java.util.Map;
 final class SimpleColorSettingsPage implements ColorSettingsPage {
 
     private static final AttributesDescriptor[] DESCRIPTORS = new AttributesDescriptor[]{
-            new AttributesDescriptor("Key", SimpleSyntaxHighlighter.KEYWORD),
-            new AttributesDescriptor("Separator", SimpleSyntaxHighlighter.OPERATOR),
-            new AttributesDescriptor("Value", SimpleSyntaxHighlighter.STRING_LITERAL),
-            new AttributesDescriptor("Bad value", SimpleSyntaxHighlighter.BAD_CHARACTER)
+            new AttributesDescriptor("OPERATOR", SimpleSyntaxHighlighter.OPERATOR),
+            new AttributesDescriptor("KEYWORD", SimpleSyntaxHighlighter.KEYWORD),
+            new AttributesDescriptor("STRING_LITERAL", SimpleSyntaxHighlighter.STRING_LITERAL),
+            new AttributesDescriptor("BAD_CHARACTER", SimpleSyntaxHighlighter.BAD_CHARACTER),
+            new AttributesDescriptor("NUMBER_LITERAL", SimpleSyntaxHighlighter.NUMBER_LITERAL),
+            new AttributesDescriptor("COMMENT", SimpleSyntaxHighlighter.COMMENT),
+            new AttributesDescriptor("IDENTIFIER", SimpleSyntaxHighlighter.IDENTIFIER),
+            new AttributesDescriptor("BRACKETS", SimpleSyntaxHighlighter.BRACKETS),
+            new AttributesDescriptor("IMPORTANT_KEYWORD", SimpleSyntaxHighlighter.IMPORTANT_KEYWORD),
     };
 
     @Override
@@ -37,18 +42,17 @@ final class SimpleColorSettingsPage implements ColorSettingsPage {
     @Override
     public String getDemoText() {
         return """
-                # You are reading the ".properties" entry.
-                ! The exclamation mark can also mark text as comments.
-                website = https://en.wikipedia.org/
-                language = English
-                # The backslash below tells the application to continue reading
-                # the value onto the next line.
-                message = Welcome to \\
-                          Wikipedia!
-                # Add spaces to the key
-                key\\ with\\ spaces = This is the value that could be looked up with the key "key with spaces".
-                # Unicode
-                tab : \\u0009""";
+                fish define _msSBiGrpName( sb_state )
+                    caseof sb_state
+                        system.error = '_msSBiGrpName: sb_state not in range 0-5'
+                    case 0
+                        _msSBiGrpName = 'unbonded'
+                    endcase
+                    command
+                        project save
+                    endcommand
+                end
+                """;
     }
 
     @Nullable
