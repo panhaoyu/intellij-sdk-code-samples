@@ -21,19 +21,19 @@
   ]
 }
 
-simpleFile ::= newline? command_scope? (newline command_scope)* newline*
+simpleFile ::= newline* command_scope (newline command_scope)* newline*
 
 private command_scope ::= (
     command_scope_inline_fish_statement |
     function_define |
     comment_block |
-    command_block |
-    function_call_statement
+    function_call_statement |
+    command_line
 )
 command_scope_inline_fish_statement ::= command_scope_inline_fish_expression
 
 function_define ::= function_define_header (newline fish_block)? newline end
-private function_define_header ::= fish define identifier function_parameter_list?
+private function_define_header ::= fish? define identifier function_parameter_list?
 private function_parameter_list ::= (left_parenthesis identifier (comma_operator identifier)* right_parenthesis)
 
 fish_block ::=  single_fish_block (newline single_fish_block)*
@@ -144,7 +144,7 @@ private  identifier ::= IDENTIFIER
 
 //keywords
 private fish ::= FISH
-private define ::= DEFINE
+private define ::= DEFINE | DEF
 private end ::= END
 
 private case_of ::= CASEOF

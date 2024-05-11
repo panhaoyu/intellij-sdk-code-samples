@@ -486,16 +486,16 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   // command_scope_inline_fish_statement |
   //     function_define |
   //     comment_block |
-  //     command_block |
-  //     function_call_statement
+  //     function_call_statement |
+  //     command_line
   static boolean command_scope(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "command_scope")) return false;
     boolean r;
     r = command_scope_inline_fish_statement(b, l + 1);
     if (!r) r = function_define(b, l + 1);
     if (!r) r = comment_block(b, l + 1);
-    if (!r) r = command_block(b, l + 1);
     if (!r) r = function_call_statement(b, l + 1);
+    if (!r) r = command_line(b, l + 1);
     return r;
   }
 
@@ -572,9 +572,14 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // DEFINE
+  // DEFINE | DEF
   static boolean define(PsiBuilder b, int l) {
-    return consumeToken(b, DEFINE);
+    if (!recursion_guard_(b, l, "define")) return false;
+    if (!nextTokenIs(b, "", DEF, DEFINE)) return false;
+    boolean r;
+    r = consumeToken(b, DEFINE);
+    if (!r) r = consumeToken(b, DEF);
+    return r;
   }
 
   /* ********************************************************** */
@@ -860,14 +865,13 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   // function_define_header (newline fish_block)? newline end
   public static boolean function_define(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "function_define")) return false;
-    if (!nextTokenIs(b, FISH)) return false;
     boolean r;
-    Marker m = enter_section_(b);
+    Marker m = enter_section_(b, l, _NONE_, FUNCTION_DEFINE, "<function define>");
     r = function_define_header(b, l + 1);
     r = r && function_define_1(b, l + 1);
     r = r && newline(b, l + 1);
     r = r && end(b, l + 1);
-    exit_section_(b, m, FUNCTION_DEFINE, r);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
@@ -890,18 +894,24 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // fish define identifier function_parameter_list?
+  // fish? define identifier function_parameter_list?
   static boolean function_define_header(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "function_define_header")) return false;
-    if (!nextTokenIs(b, FISH)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = fish(b, l + 1);
+    r = function_define_header_0(b, l + 1);
     r = r && define(b, l + 1);
     r = r && identifier(b, l + 1);
     r = r && function_define_header_3(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
+  }
+
+  // fish?
+  private static boolean function_define_header_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "function_define_header_0")) return false;
+    fish(b, l + 1);
+    return true;
   }
 
   // function_parameter_list?
@@ -1419,30 +1429,27 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // newline? command_scope? (newline command_scope)* newline*
+  // newline* command_scope (newline command_scope)* newline*
   static boolean simpleFile(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "simpleFile")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = simpleFile_0(b, l + 1);
-    r = r && simpleFile_1(b, l + 1);
+    r = r && command_scope(b, l + 1);
     r = r && simpleFile_2(b, l + 1);
     r = r && simpleFile_3(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
 
-  // newline?
+  // newline*
   private static boolean simpleFile_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "simpleFile_0")) return false;
-    newline(b, l + 1);
-    return true;
-  }
-
-  // command_scope?
-  private static boolean simpleFile_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "simpleFile_1")) return false;
-    command_scope(b, l + 1);
+    while (true) {
+      int c = current_position_(b);
+      if (!newline(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "simpleFile_0", c)) break;
+    }
     return true;
   }
 
