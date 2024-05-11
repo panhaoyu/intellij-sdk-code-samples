@@ -42,7 +42,6 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   static boolean any_in_command(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "any_in_command")) return false;
     boolean r;
-    Marker m = enter_section_(b);
     r = identifier_element(b, l + 1);
     if (!r) r = left_square_bracket(b, l + 1);
     if (!r) r = right_square_bracket(b, l + 1);
@@ -57,7 +56,6 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     if (!r) r = literal(b, l + 1);
     if (!r) r = ellipsis(b, l + 1);
     if (!r) r = keywords_in_command_block(b, l + 1);
-    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -986,10 +984,11 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   // IDENTIFIER
   public static boolean identifier_element(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "identifier_element")) return false;
+    if (!nextTokenIs(b, IDENTIFIER)) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, IDENTIFIER_ELEMENT, "<identifier element>");
+    Marker m = enter_section_(b);
     r = consumeToken(b, IDENTIFIER);
-    exit_section_(b, l, m, r, false, SimpleParser::recover_property);
+    exit_section_(b, m, IDENTIFIER_ELEMENT, r);
     return r;
   }
 
@@ -1416,10 +1415,8 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   private static boolean recover_property_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "recover_property_0")) return false;
     boolean r;
-    Marker m = enter_section_(b);
     r = identifier_element(b, l + 1);
     if (!r) r = end_of_line_comment(b, l + 1);
-    exit_section_(b, m, null, r);
     return r;
   }
 
