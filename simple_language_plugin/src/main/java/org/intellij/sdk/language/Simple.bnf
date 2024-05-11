@@ -66,7 +66,7 @@ function_call_statement ::= function_call_expression
 assignment_statement ::= assignment_left assignment_right
 declare_statement ::= (local | global) assignment_left assignment_right?
 private assignment_left ::= assignment_target (comma_operator assignment_target)*
-private assignment_target ::= identifier | parenthesis_csv_expression
+private assignment_target ::= identifier parenthesis_csv_expression?
 private assignment_right ::= assignment_operator expression
 
 
