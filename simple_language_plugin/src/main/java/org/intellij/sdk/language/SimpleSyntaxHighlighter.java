@@ -44,6 +44,12 @@ public class SimpleSyntaxHighlighter extends SyntaxHighlighterBase {
     private static final TextAttributesKey[] IDENTIFIER_KEYS = new TextAttributesKey[]{IDENTIFIER};
     private static final TextAttributesKey[] COMMENT_KEYS = new TextAttributesKey[]{COMMENT};
     private static final TextAttributesKey[] EMPTY_KEYS = new TextAttributesKey[0];
+    private static final TextAttributesKey[] FUNCTION_DECLARATION_KEYS = new TextAttributesKey[]{
+            createTextAttributesKey("SIMPLE_KEYWORD", DefaultLanguageHighlighterColors.FUNCTION_DECLARATION)
+    };
+    private static final TextAttributesKey[] BRACKETS_KEYS = new TextAttributesKey[]{
+            createTextAttributesKey("SIMPLE_KEYWORD", DefaultLanguageHighlighterColors.BRACKETS)
+    };
 
     @NotNull
     @Override
@@ -65,7 +71,17 @@ public class SimpleSyntaxHighlighter extends SyntaxHighlighterBase {
         put(SimpleTypes.IDENTIFIER, IDENTIFIER_KEYS);
         put(SimpleTypes.COMMENT, COMMENT_KEYS);
         put(SimpleTypes.STRING_LITERAL, STRING_LITERAL_KEYS);
+
         put(TokenType.WHITE_SPACE, EMPTY_KEYS);
+        put(SimpleTypes.NEWLINE, EMPTY_KEYS);
+
+        put(SimpleTypes.LEFT_CURLY_BRACKET, BRACKETS_KEYS);
+        put(SimpleTypes.LEFT_PARENTHESIS, BRACKETS_KEYS);
+        put(SimpleTypes.LEFT_SQUARE_BRACKET, BRACKETS_KEYS);
+        put(SimpleTypes.RIGHT_CURLY_BRACKET, BRACKETS_KEYS);
+        put(SimpleTypes.RIGHT_PARENTHESIS, BRACKETS_KEYS);
+        put(SimpleTypes.RIGHT_SQUARE_BRACKET, BRACKETS_KEYS);
+
 
         put(SimpleTypes.ARRAY, KEYWORD_KEYS);
         put(SimpleTypes.BREAK, KEYWORD_KEYS);
@@ -88,74 +104,16 @@ public class SimpleSyntaxHighlighter extends SyntaxHighlighterBase {
         put(SimpleTypes.FOREACH, KEYWORD_KEYS);
         put(SimpleTypes.GLOBAL, KEYWORD_KEYS);
         put(SimpleTypes.IF, KEYWORD_KEYS);
-        put(SimpleTypes.LEFT_CURLY_BRACKET, KEYWORD_KEYS);
-        put(SimpleTypes.LEFT_PARENTHESIS, KEYWORD_KEYS);
-        put(SimpleTypes.LEFT_SQUARE_BRACKET, EMPTY_KEYS);
         put(SimpleTypes.LOCAL, KEYWORD_KEYS);
         put(SimpleTypes.LOCK, KEYWORD_KEYS);
         put(SimpleTypes.LOOP, KEYWORD_KEYS);
-        put(SimpleTypes.NEWLINE, KEYWORD_KEYS);
         put(SimpleTypes.RETURN, KEYWORD_KEYS);
-        put(SimpleTypes.RIGHT_CURLY_BRACKET, KEYWORD_KEYS);
-        put(SimpleTypes.RIGHT_PARENTHESIS, KEYWORD_KEYS);
-        put(SimpleTypes.RIGHT_SQUARE_BRACKET, KEYWORD_KEYS);
         put(SimpleTypes.SECTION, KEYWORD_KEYS);
         put(SimpleTypes.STRUCT, KEYWORD_KEYS);
         put(SimpleTypes.THEN, KEYWORD_KEYS);
         put(SimpleTypes.WHILE, KEYWORD_KEYS);
 
     }};
-
-    private static final IElementType[] elementTypes = {
-            SimpleTypes.ARRAY,
-            SimpleTypes.ASSIGNMENT_OPERATOR,
-            SimpleTypes.BINARY_OPERATOR,
-            SimpleTypes.BREAK,
-            SimpleTypes.CASE,
-            SimpleTypes.CASEOF,
-            SimpleTypes.COMMAND,
-            SimpleTypes.COMMA_OPERATOR,
-            SimpleTypes.COMMENT,
-            SimpleTypes.CONTINUE,
-            SimpleTypes.DEFINE,
-            SimpleTypes.DOT_OPERATOR,
-            SimpleTypes.ELLIPSIS,
-            SimpleTypes.ELSE,
-            SimpleTypes.ELSEIF,
-            SimpleTypes.END,
-            SimpleTypes.ENDCASE,
-            SimpleTypes.ENDCOMMAND,
-            SimpleTypes.ENDIF,
-            SimpleTypes.ENDLOOP,
-            SimpleTypes.ENDSECTION,
-            SimpleTypes.EXIT,
-            SimpleTypes.FISH,
-            SimpleTypes.FOR,
-            SimpleTypes.FOREACH,
-            SimpleTypes.FUNCTION_CALL_OPERATOR,
-            SimpleTypes.GLOBAL,
-            SimpleTypes.IDENTIFIER,
-            SimpleTypes.IF,
-            SimpleTypes.LEFT_CURLY_BRACKET,
-            SimpleTypes.LEFT_PARENTHESIS,
-            SimpleTypes.LEFT_SQUARE_BRACKET,
-            SimpleTypes.LOCAL,
-            SimpleTypes.LOCK,
-            SimpleTypes.LOOP,
-            SimpleTypes.MINUS_OPERATOR,
-            SimpleTypes.NEWLINE,
-            SimpleTypes.NUMBER_LITERAL,
-            SimpleTypes.RETURN,
-            SimpleTypes.RIGHT_CURLY_BRACKET,
-            SimpleTypes.RIGHT_PARENTHESIS,
-            SimpleTypes.RIGHT_SQUARE_BRACKET,
-            SimpleTypes.SECTION,
-            SimpleTypes.STRING_LITERAL,
-            SimpleTypes.STRUCT,
-            SimpleTypes.THEN,
-            SimpleTypes.UNARY_OPERATOR,
-            SimpleTypes.WHILE,
-    };
 
 
     @Override
