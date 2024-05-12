@@ -51,7 +51,7 @@ final class SimpleReference extends PsiReferenceBase<SimpleIdentifierElement> im
     public SimpleIdentifierElement resolve() {
         SimpleIdentifierElement element = (SimpleIdentifierElement) this.getElement();
         Project project = element.getProject();
-        List<SimpleIdentifierElement> declarations = SimpleUtil.findDeclarations(project);
+        List<SimpleIdentifierElement> declarations = SimpleUtil.findAllDeclarations(project);
         for (SimpleIdentifierElement decl : declarations) {
             if (Objects.equals(decl.getName(), element.getName())) {
                 return decl;

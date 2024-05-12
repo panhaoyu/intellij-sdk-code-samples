@@ -29,7 +29,7 @@ public class SimpleUtil {
      * @param key 要搜索的键
      * @return 匹配的属性列表
      */
-    private static final Map<Project, List<SimpleIdentifierElement>> declarationsCache = new HashMap<>();
+    private static final Map<Project, List<SimpleIdentifierElement>> cachedKeys = new HashMap<>();
 
     public static List<SimpleProperty> findProperties(Project project, String key) {
         List<SimpleProperty> result = new ArrayList<>(); // 创建一个空列表用于存放找到的属性
@@ -108,8 +108,8 @@ public class SimpleUtil {
      */
     public static List<SimpleIdentifierElement> findAllIdentifiers(Project project) {
         // Check if the cache already contains the result
-        if (declarationsCache.containsKey(project)) {
-            return declarationsCache.get(project);
+        if (cachedKeys.containsKey(project)) {
+            return cachedKeys.get(project);
         }
         List<SimpleIdentifierElement> result = new ArrayList<>();
         Collection<VirtualFile> virtualFiles =
@@ -121,6 +121,7 @@ public class SimpleUtil {
                 result.addAll(identifiers);
             }
         }
+        cachedKeys.put(project, result);
         return result;
     }
 
@@ -130,7 +131,7 @@ public class SimpleUtil {
      * @param project the current project in which to search for declarations.
      * @return a list of SimpleNamedElement, each representing a declaration.
      */
-    public static List<SimpleIdentifierElement> findDeclarations(Project project) {
+    public static List<SimpleIdentifierElement> findAllDeclarations(Project project) {
         List<SimpleIdentifierElement> result = new ArrayList<>();
         Set<String> seenNames = new HashSet<>();
 
@@ -140,7 +141,6 @@ public class SimpleUtil {
                 result.add(element);
             }
         }
-        declarationsCache.put(project, result);
         return result;
     }
 }
