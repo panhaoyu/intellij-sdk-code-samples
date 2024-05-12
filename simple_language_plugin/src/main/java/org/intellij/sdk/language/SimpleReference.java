@@ -40,7 +40,7 @@ public final class SimpleReference extends PsiReferenceBase<PsiElement> implemen
     // 重写multiResolve方法，用于解析多个可能的引用结果
     @Override
     public ResolveResult @NotNull [] multiResolve(boolean incompleteCode) {
-        Project project = myElement.getProject(); // 获取当前元素所在的项目
+        Project project = this.getElement().getProject();
         final List<SimpleIdentifierElement> properties = SimpleUtil.findAllIdentifiers(project); // 查找与键值相关的属性列表
         List<ResolveResult> results = new ArrayList<>(); // 创建解析结果列表
         for (SimpleIdentifierElement identifier : properties) { // 遍历找到的属性
@@ -57,7 +57,7 @@ public final class SimpleReference extends PsiReferenceBase<PsiElement> implemen
     @Nullable
     @Override
     public PsiElement resolve() {
-        Project project = myElement.getProject();
+        Project project = this.getElement().getProject();
         List<SimpleIdentifierElement> declarations = SimpleUtil.findDeclarations(project);
         for (SimpleIdentifierElement decl : declarations) {
             if (Objects.equals(decl.getName(), key)) {
@@ -70,7 +70,7 @@ public final class SimpleReference extends PsiReferenceBase<PsiElement> implemen
     // 重写getVariants方法，用于获取所有可能的自动补全选项
     @Override
     public Object @NotNull [] getVariants() {
-        Project project = myElement.getProject(); // 获取当前元素所在的项目
+        Project project = this.getElement().getProject();
         List<SimpleIdentifierElement> properties = SimpleUtil.findAllIdentifiers(project); // 获取所有属性
         List<LookupElement> variants = new ArrayList<>(); // 创建自动补全选项列表
         for (final SimpleIdentifierElement identifier : properties) { // 遍历所有属性
