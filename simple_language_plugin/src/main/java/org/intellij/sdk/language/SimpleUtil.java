@@ -15,7 +15,6 @@ import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.util.PsiTreeUtil;
 import org.intellij.sdk.language.psi.SimpleFile;
 import org.intellij.sdk.language.psi.SimpleIdentifierElement;
-import org.intellij.sdk.language.psi.SimpleNamedElement;
 import org.intellij.sdk.language.psi.SimpleProperty;
 import org.jetbrains.annotations.NotNull;
 
@@ -132,16 +131,10 @@ public class SimpleUtil {
 
         Set<String> seenNames = new HashSet<>(); // Track seen names to identify declarations
 
-        for (VirtualFile virtualFile : virtualFiles) {
-            SimpleFile simpleFile = (SimpleFile) PsiManager.getInstance(project).findFile(virtualFile);
-            if (simpleFile != null) {
-                Collection<SimpleIdentifierElement> namedElements = PsiTreeUtil.findChildrenOfType(simpleFile, SimpleIdentifierElement.class);
-                for (SimpleIdentifierElement element : findAllIdentifiers(project)) {
-                    if (!seenNames.contains(element.getName())) {
-                        seenNames.add(element.getName());
-                        result.add(element); // Add the element if its name hasn't been seen yet
-                    }
-                }
+        for (SimpleIdentifierElement element : findAllIdentifiers(project)) {
+            if (!seenNames.contains(element.getName())) {
+                seenNames.add(element.getName());
+                result.add(element);
             }
         }
 
