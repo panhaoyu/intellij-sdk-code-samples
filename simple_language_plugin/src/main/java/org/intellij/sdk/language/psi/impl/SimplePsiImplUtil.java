@@ -50,7 +50,7 @@ public class SimplePsiImplUtil {
             @Nullable
             @Override
             public String getPresentableText() {
-                return element.getKey();
+                return element.getName();
             }
 
             @Nullable
