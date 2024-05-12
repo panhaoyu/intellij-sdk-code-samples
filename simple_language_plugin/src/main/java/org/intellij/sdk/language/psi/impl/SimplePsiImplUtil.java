@@ -14,10 +14,11 @@ import org.intellij.sdk.language.psi.SimpleElementFactory;
 import org.intellij.sdk.language.psi.SimpleIdentifierElement;
 import org.intellij.sdk.language.psi.SimpleProperty;
 import org.intellij.sdk.language.psi.SimpleTypes;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SimplePsiImplUtil {
 
@@ -135,7 +136,12 @@ public class SimplePsiImplUtil {
 
 
     public static SimpleReference[] getReferences(final SimpleIdentifierElement element) {
-        return (SimpleReference[]) SimpleUtil.findIdentifiers(element.getProject(), element.getName()).stream().map(i -> new SimpleReference(i, i.getTextRange())).toArray();
+        List<SimpleIdentifierElement> identifiers = SimpleUtil.findIdentifiers(element.getProject(), element.getName());
+        ArrayList<SimpleReference> a = new ArrayList<>();
+        for (SimpleIdentifierElement b : identifiers) {
+            a.add(new SimpleReference(b, b.getTextRange()));
+        }
+        return a.toArray(SimpleReference[]::new);
     }
 
     public static PsiReference getReference(final SimpleIdentifierElement element) {
