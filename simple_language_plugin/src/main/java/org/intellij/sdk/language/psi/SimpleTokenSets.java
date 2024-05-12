@@ -10,4 +10,6 @@ public interface SimpleTokenSets {
 
     TokenSet COMMENTS = TokenSet.create(SimpleTypes.COMMENT);
 
+    TokenSet LITERALS = TokenSet.create(SimpleTypes.LITERAL);
+
 }

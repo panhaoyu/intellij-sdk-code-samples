@@ -6,7 +6,6 @@ import com.intellij.lang.cacheBuilder.DefaultWordsScanner;
 import com.intellij.lang.cacheBuilder.WordsScanner;
 import com.intellij.lang.findUsages.FindUsagesProvider;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiNamedElement;
 import com.intellij.psi.tree.TokenSet;
 import org.intellij.sdk.language.psi.SimpleIdentifierElement;
 import org.intellij.sdk.language.psi.SimpleTokenSets;
@@ -21,8 +20,9 @@ final class SimpleFindUsagesProvider implements FindUsagesProvider {
     public WordsScanner getWordsScanner() {
         return new DefaultWordsScanner(new SimpleLexerAdapter(),
                 SimpleTokenSets.IDENTIFIERS,
-                SimpleTokenSets.COMMENTS,
-                TokenSet.EMPTY);
+                SimpleTokenSets.LITERALS,
+                TokenSet.EMPTY
+        );
     }
 
     @Override
