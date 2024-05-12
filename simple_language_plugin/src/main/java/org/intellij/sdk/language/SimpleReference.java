@@ -12,6 +12,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 // 创建SimpleReference类，它是PsiReferenceBase的子类，实现了PsiPolyVariantReference接口
 public final class SimpleReference extends PsiReferenceBase<PsiElement> implements PsiPolyVariantReference {
@@ -56,10 +57,14 @@ public final class SimpleReference extends PsiReferenceBase<PsiElement> implemen
     @Nullable
     @Override
     public PsiElement resolve() {
-        ResolveResult[] resolveResults = multiResolve(false); // 获取多个解析结果
-        PsiElement result = resolveResults.length == 1 ? resolveResults[0].getElement() : null;
-        LOG.error("Resolve result: " + (result != null ? result.getText() : "null")); // 记录解析结果
-        return result;
+        Project project = myElement.getProject();
+        List<SimpleNamedElement> declarations = SimpleUtil.findDeclarations(project);
+        for (SimpleNamedElement decl : declarations) {
+            if (Objects.equals(decl.getName(), key)) {
+                return decl;
+            }
+        }
+        return null;
     }
 
     // 重写getVariants方法，用于获取所有可能的自动补全选项

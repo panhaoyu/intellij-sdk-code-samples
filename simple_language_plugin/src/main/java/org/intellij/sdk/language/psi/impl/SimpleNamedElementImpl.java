@@ -17,7 +17,9 @@ public abstract class SimpleNamedElementImpl extends ASTWrapperPsiElement implem
 
     @Override
     public PsiReference getReference() {
-        // 返回一个新的 SimpleReference 对象，假设构造函数接受当前元素和文本范围
+        if (this.isDeclaration()) {
+            return null;
+        }
         return new SimpleReference(this, getTextRange());
     }
 }

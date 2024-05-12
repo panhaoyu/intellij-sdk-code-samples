@@ -98,24 +98,52 @@ public class SimpleUtil {
         return StringUtil.join(Lists.reverse(result), "\n ");
     }
 
-/**
- * 查找整个项目中所有标识符元素（SimpleNamedElement）。
- *
- * @param project 当前项目
- * @return 找到的所有标识符元素的列表
- */
+    /**
+     * 查找整个项目中所有标识符元素（SimpleNamedElement）。
+     *
+     * @param project 当前项目
+     * @return 找到的所有标识符元素的列表
+     */
     public static List<SimpleNamedElement> findAllIdentifiers(Project project) {
-    List<SimpleNamedElement> result = new ArrayList<>();
-    Collection<VirtualFile> virtualFiles =
-        FileTypeIndex.getFiles(SimpleFileType.INSTANCE, GlobalSearchScope.allScope(project));
-    for (VirtualFile virtualFile : virtualFiles) {
-        SimpleFile simpleFile = (SimpleFile) PsiManager.getInstance(project).findFile(virtualFile);
-        if (simpleFile != null) {
-            Collection<SimpleNamedElement> namedElements = PsiTreeUtil.findChildrenOfType(simpleFile, SimpleNamedElement.class);
-            result.addAll(namedElements);
+        List<SimpleNamedElement> result = new ArrayList<>();
+        Collection<VirtualFile> virtualFiles =
+                FileTypeIndex.getFiles(SimpleFileType.INSTANCE, GlobalSearchScope.allScope(project));
+        for (VirtualFile virtualFile : virtualFiles) {
+            SimpleFile simpleFile = (SimpleFile) PsiManager.getInstance(project).findFile(virtualFile);
+            if (simpleFile != null) {
+                Collection<SimpleNamedElement> namedElements = PsiTreeUtil.findChildrenOfType(simpleFile, SimpleNamedElement.class);
+                result.addAll(namedElements);
+            }
         }
+        return result;
     }
-    return result;
-}
 
+    /**
+     * Finds the declarations of all identifiers within a project. Only the first occurrence of each identifier is considered the declaration.
+     *
+     * @param project the current project in which to search for declarations.
+     * @return a list of SimpleNamedElement, each representing a declaration.
+     */
+    public static List<SimpleNamedElement> findDeclarations(Project project) {
+        List<SimpleNamedElement> result = new ArrayList<>();
+        Collection<VirtualFile> virtualFiles =
+                FileTypeIndex.getFiles(SimpleFileType.INSTANCE, GlobalSearchScope.allScope(project));
+
+        Set<String> seenNames = new HashSet<>(); // Track seen names to identify declarations
+
+        for (VirtualFile virtualFile : virtualFiles) {
+            SimpleFile simpleFile = (SimpleFile) PsiManager.getInstance(project).findFile(virtualFile);
+            if (simpleFile != null) {
+                Collection<SimpleNamedElement> namedElements = PsiTreeUtil.findChildrenOfType(simpleFile, SimpleNamedElement.class);
+                for (SimpleNamedElement element : namedElements) {
+                    if (!seenNames.contains(element.getName())) {
+                        seenNames.add(element.getName());
+                        result.add(element); // Add the element if its name hasn't been seen yet
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
 }
