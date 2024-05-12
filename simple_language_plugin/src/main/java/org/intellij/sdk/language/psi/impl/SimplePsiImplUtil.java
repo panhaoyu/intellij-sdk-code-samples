@@ -8,6 +8,7 @@ import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiReference;
+import com.intellij.psi.PsiReferenceBase;
 import org.intellij.sdk.language.SimpleReference;
 import org.intellij.sdk.language.SimpleUtil;
 import org.intellij.sdk.language.psi.SimpleElementFactory;
@@ -145,7 +146,8 @@ public class SimplePsiImplUtil {
     }
 
     public static PsiReference getReference(final SimpleIdentifierElement element) {
-        return getReferences(element)[0];
+        SimpleReference[] references = getReferences(element);
+        return references.length > 0 ? references[0] : null;
     }
 
 }
