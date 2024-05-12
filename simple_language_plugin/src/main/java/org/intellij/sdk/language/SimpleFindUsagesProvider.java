@@ -32,7 +32,7 @@ final class SimpleFindUsagesProvider implements FindUsagesProvider {
     @Nullable
     @Override
     public String getHelpId(@NotNull PsiElement psiElement) {
-        return null;
+        return "hello";
     }
 
     @NotNull
@@ -48,7 +48,9 @@ final class SimpleFindUsagesProvider implements FindUsagesProvider {
     @Override
     public String getDescriptiveName(@NotNull PsiElement element) {
         if (element instanceof SimpleIdentifierElement) {
-            return Objects.requireNonNull(((SimpleIdentifierElement) element).getName());
+            String name = ((SimpleIdentifierElement) element).getName();
+            String range = element.getTextRange().toString();
+            return name + "@" + range;
         }
         return "";
     }
