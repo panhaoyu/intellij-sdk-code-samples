@@ -19,22 +19,12 @@ public final class SimpleReference extends PsiReferenceBase<PsiElement> implemen
 
     private static final Logger LOG = Logger.getInstance(SimpleReference.class); // 日志记录器
     // 定义一个字符串成员变量用于存储键值
-    private final String key;
 
     // 构造函数，初始化引用和键值
     public SimpleReference(@NotNull PsiElement element, TextRange textRange) {
         super(element, textRange);
         // 确保文本范围有效
         String elementText = element.getText();
-        int startOffset = Math.min(textRange.getStartOffset(), elementText.length());
-        int endOffset = Math.min(textRange.getEndOffset(), elementText.length());
-        if (startOffset <= endOffset) {
-            key = elementText.substring(startOffset, endOffset);
-            LOG.info("SimpleReference initialized for key: " + key);
-        } else {
-            key = "";
-            LOG.error("Invalid TextRange: startOffset " + startOffset + ", endOffset " + endOffset);
-        }
     }
 
     // 重写multiResolve方法，用于解析多个可能的引用结果
