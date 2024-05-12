@@ -10,8 +10,7 @@ import org.intellij.sdk.language.SimpleFileType;
 public class SimpleElementFactory {
 
     public static SimpleIdentifierElement createIdentifier(Project project, String name) {
-        SimpleFile fileFromText = createFile(project, "[ global " + name + " ]");
-        return fileFromText.findChildByClass(SimpleIdentifierElement.class);
+        return (SimpleIdentifierElement) createFile(project, "@" + name).getLastChild();
     }
 
     public static SimpleProperty createProperty(Project project, String name) {
