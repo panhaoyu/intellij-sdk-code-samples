@@ -123,10 +123,6 @@ public class SimplePsiImplUtil {
 
         ArrayList<SimpleReference> references = new ArrayList<>();
         references.add(new SimpleReference(element, new TextRange(0, element.getTextLength())));
-//        for (SimpleIdentifierElement other : identifiers) {
-//            if (Objects.equal(element, other)) continue;
-//            references.add(new SimpleReference(other, new TextRange(0, other.getTextLength())));
-//        }
         return references.toArray(SimpleReference[]::new);
     }
 
