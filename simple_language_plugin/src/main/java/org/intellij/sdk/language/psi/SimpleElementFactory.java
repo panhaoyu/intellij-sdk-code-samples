@@ -11,8 +11,7 @@ public class SimpleElementFactory {
 
     public static SimpleIdentifierElement createIdentifier(Project project, String name) {
         SimpleFile fileFromText = createFile(project, "[ global " + name + " ]");
-        SimpleIdentifierElement childByClass = fileFromText.findChildByClass(SimpleIdentifierElement.class);
-        return childByClass;
+        return fileFromText.findChildByClass(SimpleIdentifierElement.class);
     }
 
     public static SimpleProperty createProperty(Project project, String name) {
