@@ -126,10 +126,7 @@ public class SimpleUtil {
      */
     public static List<SimpleIdentifierElement> findDeclarations(Project project) {
         List<SimpleIdentifierElement> result = new ArrayList<>();
-        Collection<VirtualFile> virtualFiles =
-                FileTypeIndex.getFiles(SimpleFileType.INSTANCE, GlobalSearchScope.allScope(project));
-
-        Set<String> seenNames = new HashSet<>(); // Track seen names to identify declarations
+        Set<String> seenNames = new HashSet<>();
 
         for (SimpleIdentifierElement element : findAllIdentifiers(project)) {
             if (!seenNames.contains(element.getName())) {
