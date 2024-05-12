@@ -59,4 +59,9 @@ public class SimpleIdentifierElementImpl extends SimpleNamedElementImpl implemen
     return SimplePsiImplUtil.getReferences(this);
   }
 
+  @Override
+  public int getTextOffset() {
+    return SimplePsiImplUtil.getTextOffset(this);
+  }
+
 }

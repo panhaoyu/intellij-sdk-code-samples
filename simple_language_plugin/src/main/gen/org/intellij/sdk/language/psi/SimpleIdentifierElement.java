@@ -22,4 +22,6 @@ public interface SimpleIdentifierElement extends SimpleNamedElement {
 
   SimpleReference[] getReferences();
 
+  int getTextOffset();
+
 }

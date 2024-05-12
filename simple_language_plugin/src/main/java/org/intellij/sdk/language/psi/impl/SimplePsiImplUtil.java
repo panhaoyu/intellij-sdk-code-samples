@@ -116,4 +116,7 @@ public class SimplePsiImplUtil {
         return references.length > 0 ? references[0] : null;
     }
 
+    public static int getTextOffset(final SimpleIdentifierElement element) {
+        return element.getNode().getStartOffset();
+    }
 }
