@@ -125,8 +125,8 @@ public class SimpleUtil {
      * @param project the current project in which to search for declarations.
      * @return a list of SimpleNamedElement, each representing a declaration.
      */
-    public static List<SimpleNamedElement> findDeclarations(Project project) {
-        List<SimpleNamedElement> result = new ArrayList<>();
+    public static List<SimpleIdentifierElement> findDeclarations(Project project) {
+        List<SimpleIdentifierElement> result = new ArrayList<>();
         Collection<VirtualFile> virtualFiles =
                 FileTypeIndex.getFiles(SimpleFileType.INSTANCE, GlobalSearchScope.allScope(project));
 
@@ -135,8 +135,8 @@ public class SimpleUtil {
         for (VirtualFile virtualFile : virtualFiles) {
             SimpleFile simpleFile = (SimpleFile) PsiManager.getInstance(project).findFile(virtualFile);
             if (simpleFile != null) {
-                Collection<SimpleNamedElement> namedElements = PsiTreeUtil.findChildrenOfType(simpleFile, SimpleIdentifierElement.class);
-                for (SimpleNamedElement element : namedElements) {
+                Collection<SimpleIdentifierElement> namedElements = PsiTreeUtil.findChildrenOfType(simpleFile, SimpleIdentifierElement.class);
+                for (SimpleIdentifierElement element : namedElements) {
                     if (!seenNames.contains(element.getName())) {
                         seenNames.add(element.getName());
                         result.add(element); // Add the element if its name hasn't been seen yet

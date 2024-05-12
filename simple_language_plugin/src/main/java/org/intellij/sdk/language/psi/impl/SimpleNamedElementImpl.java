@@ -8,6 +8,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiReference;
 import org.intellij.sdk.language.SimpleReference;
 import org.intellij.sdk.language.SimpleUtil;
+import org.intellij.sdk.language.psi.SimpleIdentifierElement;
 import org.intellij.sdk.language.psi.SimpleNamedElement;
 import org.jetbrains.annotations.NotNull;
 
@@ -25,7 +26,7 @@ public abstract class SimpleNamedElementImpl extends ASTWrapperPsiElement implem
         // 获取当前项目
         @NotNull Project project = this.getProject();
         // 查找所有的声明
-        List<SimpleNamedElement> declarations = SimpleUtil.findDeclarations(project);
+        List<SimpleIdentifierElement> declarations = SimpleUtil.findDeclarations(project);
         // 流处理，筛选出第一个同名的元素
         return declarations.stream()
                 .filter(e -> Objects.equals(e.getName(), this.getName()) && !e.equals(this))

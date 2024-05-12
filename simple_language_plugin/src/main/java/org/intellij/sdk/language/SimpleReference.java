@@ -6,6 +6,7 @@ import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.*;
+import org.intellij.sdk.language.psi.SimpleIdentifierElement;
 import org.intellij.sdk.language.psi.SimpleNamedElement;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -58,8 +59,8 @@ public final class SimpleReference extends PsiReferenceBase<PsiElement> implemen
     @Override
     public PsiElement resolve() {
         Project project = myElement.getProject();
-        List<SimpleNamedElement> declarations = SimpleUtil.findDeclarations(project);
-        for (SimpleNamedElement decl : declarations) {
+        List<SimpleIdentifierElement> declarations = SimpleUtil.findDeclarations(project);
+        for (SimpleIdentifierElement decl : declarations) {
             if (Objects.equals(decl.getName(), key)) {
                 return decl;
             }
