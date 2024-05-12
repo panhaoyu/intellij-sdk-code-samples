@@ -14,6 +14,7 @@ import com.intellij.psi.search.FileTypeIndex;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.util.PsiTreeUtil;
 import org.intellij.sdk.language.psi.SimpleFile;
+import org.intellij.sdk.language.psi.SimpleIdentifierElement;
 import org.intellij.sdk.language.psi.SimpleNamedElement;
 import org.intellij.sdk.language.psi.SimpleProperty;
 import org.jetbrains.annotations.NotNull;
@@ -134,7 +135,7 @@ public class SimpleUtil {
         for (VirtualFile virtualFile : virtualFiles) {
             SimpleFile simpleFile = (SimpleFile) PsiManager.getInstance(project).findFile(virtualFile);
             if (simpleFile != null) {
-                Collection<SimpleNamedElement> namedElements = PsiTreeUtil.findChildrenOfType(simpleFile, SimpleNamedElement.class);
+                Collection<SimpleNamedElement> namedElements = PsiTreeUtil.findChildrenOfType(simpleFile, SimpleIdentifierElement.class);
                 for (SimpleNamedElement element : namedElements) {
                     if (!seenNames.contains(element.getName())) {
                         seenNames.add(element.getName());
