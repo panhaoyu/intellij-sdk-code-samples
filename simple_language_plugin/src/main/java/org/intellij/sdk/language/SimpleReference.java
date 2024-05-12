@@ -14,14 +14,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 // 创建SimpleReference类，它是PsiReferenceBase的子类，实现了PsiPolyVariantReference接口
-final class SimpleReference extends PsiReferenceBase<PsiElement> implements PsiPolyVariantReference {
+public final class SimpleReference extends PsiReferenceBase<PsiElement> implements PsiPolyVariantReference {
 
     private static final Logger LOG = Logger.getInstance(SimpleReference.class); // 日志记录器
     // 定义一个字符串成员变量用于存储键值
     private final String key;
 
     // 构造函数，初始化引用和键值
-    SimpleReference(@NotNull PsiElement element, TextRange textRange) {
+    public SimpleReference(@NotNull PsiElement element, TextRange textRange) {
         super(element, textRange);  // 调用父类构造函数，传入元素和文本范围
         key = element.getText().substring(textRange.getStartOffset(), textRange.getEndOffset()); // 从文本范围截取键值
         LOG.error("SimpleReference initialized for key: " + key); // 记录日志
