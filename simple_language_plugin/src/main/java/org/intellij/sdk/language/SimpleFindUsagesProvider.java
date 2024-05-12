@@ -8,7 +8,7 @@ import com.intellij.lang.findUsages.FindUsagesProvider;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiNamedElement;
 import com.intellij.psi.tree.TokenSet;
-import org.intellij.sdk.language.psi.SimpleProperty;
+import org.intellij.sdk.language.psi.SimpleIdentifierElement;
 import org.intellij.sdk.language.psi.SimpleTokenSets;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -39,8 +39,8 @@ final class SimpleFindUsagesProvider implements FindUsagesProvider {
     @NotNull
     @Override
     public String getType(@NotNull PsiElement element) {
-        if (element instanceof SimpleProperty) {
-            return "simple property";
+        if (element instanceof SimpleIdentifierElement) {
+            return "simple identifier element";
         }
         return "";
     }
@@ -48,8 +48,8 @@ final class SimpleFindUsagesProvider implements FindUsagesProvider {
     @NotNull
     @Override
     public String getDescriptiveName(@NotNull PsiElement element) {
-        if (element instanceof SimpleProperty) {
-            return Objects.requireNonNull(((SimpleProperty) element).getName());
+        if (element instanceof SimpleIdentifierElement) {
+            return Objects.requireNonNull(((SimpleIdentifierElement) element).getName());
         }
         return "";
     }
@@ -57,8 +57,8 @@ final class SimpleFindUsagesProvider implements FindUsagesProvider {
     @NotNull
     @Override
     public String getNodeText(@NotNull PsiElement element, boolean useFullName) {
-        if (element instanceof SimpleProperty) {
-            return Objects.requireNonNull(((SimpleProperty) element).getName());
+        if (element instanceof SimpleIdentifierElement) {
+            return Objects.requireNonNull(((SimpleIdentifierElement) element).getName());
         }
         return "";
     }
