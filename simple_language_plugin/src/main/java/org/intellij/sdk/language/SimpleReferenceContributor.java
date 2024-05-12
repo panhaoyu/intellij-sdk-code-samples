@@ -1,5 +1,3 @@
-// Copyright 2000-2023 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
-
 package org.intellij.sdk.language;
 
 import com.intellij.openapi.diagnostic.Logger;
@@ -17,6 +15,8 @@ final class SimpleReferenceContributor extends PsiReferenceContributor {
     // 重写registerReferenceProviders方法，用于注册引用提供者
     @Override
     public void registerReferenceProviders(@NotNull PsiReferenceRegistrar registrar) {
+        LOG.info("注册引用提供者，处理 SimpleIdentifierElement 类型的 PSI 元素");
+
         registrar.registerReferenceProvider(
                 PlatformPatterns.psiElement(SimpleIdentifierElement.class),
                 new PsiReferenceProvider() {
@@ -24,13 +24,18 @@ final class SimpleReferenceContributor extends PsiReferenceContributor {
                     public PsiReference @NotNull [] getReferencesByElement(@NotNull PsiElement element, @NotNull ProcessingContext context) {
                         SimpleIdentifierElement identifier = (SimpleIdentifierElement) element;
                         String value = identifier.getName();
+
                         if (value != null) {
+                            LOG.info("为元素 '" + identifier + "' 创建引用，其标识符为: " + value);
                             TextRange range = new TextRange(0, value.length());
                             return new PsiReference[]{new SimpleReference(element, range)};
+                        } else {
+                            LOG.warn("未找到标识符名称，无法为元素 '" + identifier + "' 创建引用");
                         }
                         return PsiReference.EMPTY_ARRAY;
                     }
                 }
         );
+        LOG.info("引用提供者注册完成");
     }
 }
