@@ -4,16 +4,18 @@ package org.intellij.sdk.language.psi.impl;
 
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.intellij.lang.ASTNode;
+import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiReference;
 import org.intellij.sdk.language.SimpleReference;
 import org.intellij.sdk.language.SimpleUtil;
 import org.intellij.sdk.language.psi.SimpleNamedElement;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 public abstract class SimpleNamedElementImpl extends ASTWrapperPsiElement implements SimpleNamedElement {
-
     public SimpleNamedElementImpl(@NotNull ASTNode node) {
         super(node);
     }
@@ -26,11 +28,11 @@ public abstract class SimpleNamedElementImpl extends ASTWrapperPsiElement implem
     private boolean isDeclaration() {
         // Assuming that a declaration in your language is defined as the first occurrence
         // in the file or a specific structural scope.
-        SimpleNamedElement firstDeclaration = SimpleUtil.findDeclarations(this.getProject()).stream()
-                .filter(e -> Objects.equals(e.getName(), this.getName()) && e.equals(this))
-                .findFirst()
-                .orElse(null);
-
+        @NotNull Project project = this.getProject();
+        List<SimpleNamedElement> declarations = SimpleUtil.findDeclarations(project);
+        Stream<SimpleNamedElement> stream = declarations.stream();
+        Stream<SimpleNamedElement> simpleNamedElementStream = stream.filter(e -> Objects.equals(e.getName(), this.getName()) && e.equals(this));
+        SimpleNamedElement firstDeclaration = simpleNamedElementStream.findFirst().orElse(null);
         return firstDeclaration != null && firstDeclaration.equals(this);
     }
 
