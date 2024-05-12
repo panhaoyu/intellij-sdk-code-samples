@@ -6,6 +6,7 @@ import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiReference;
 import org.intellij.sdk.language.SimpleReference;
 import org.intellij.sdk.language.SimpleUtil;
@@ -47,9 +48,11 @@ public abstract class SimpleNamedElementImpl extends ASTWrapperPsiElement implem
 
         for (SimpleIdentifierElement declaration : declarations) {
             String declarationName = declaration.getName();
-            if (Objects.equals(declarationName, currentName) && !Objects.equals(this.getTextRange(), declaration.getTextRange())) {
-                return new SimpleReference(declaration, declaration.getTextRange());
-            }
+            if (!Objects.equals(declarationName, currentName)) continue;
+            TextRange thisTextRange = getTextRange();
+            TextRange declarationTextRange = declaration.getTextRange();
+            if (Objects.equals(thisTextRange, declarationTextRange)) continue;
+            return new SimpleReference(declaration, declarationTextRange);
         }
         return null;
     }
