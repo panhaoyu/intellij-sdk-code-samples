@@ -27,7 +27,7 @@ final class SimpleFindUsagesProvider implements FindUsagesProvider {
 
     @Override
     public boolean canFindUsagesFor(@NotNull PsiElement psiElement) {
-        return psiElement instanceof PsiNamedElement;
+        return psiElement instanceof SimpleIdentifierElement;
     }
 
     @Nullable
