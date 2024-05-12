@@ -39,7 +39,7 @@ final class SimpleFindUsagesProvider implements FindUsagesProvider {
     @Override
     public String getType(@NotNull PsiElement element) {
         if (element instanceof SimpleIdentifierElement) {
-            return "simple identifier element";
+            return "identifier";
         }
         return "";
     }
