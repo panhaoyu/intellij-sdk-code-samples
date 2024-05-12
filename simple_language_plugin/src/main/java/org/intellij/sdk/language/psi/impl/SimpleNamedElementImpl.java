@@ -24,8 +24,16 @@ public abstract class SimpleNamedElementImpl extends ASTWrapperPsiElement implem
     private static final Logger LOG = Logger.getInstance(SimpleNamedElementImpl.class);
 
     @Override
+    public PsiReference @NotNull [] getReferences() {
+        PsiReference reference = getReference();
+        return new PsiReference[]{reference};
+    }
+
+    @Override
     public PsiReference getReference() {
-        if (!(this instanceof SimpleIdentifierElement)) return null; // 仅处理IdentifierElement
+        if (!(this instanceof SimpleIdentifierElement)) {
+            return null; // 仅处理IdentifierElement
+        }
         Project project = this.getProject();
         String currentName = this.getName();
 
@@ -34,9 +42,9 @@ public abstract class SimpleNamedElementImpl extends ASTWrapperPsiElement implem
         for (SimpleIdentifierElement declaration : declarations) {
             String declarationName = declaration.getName();
             if (Objects.equals(declarationName, currentName)) {
-                if (!declaration.equals(this)) {
+//                if (!declaration.equals(this)) {
                     return new SimpleReference(declaration, declaration.getTextRange());
-                }
+//                }
             }
         }
         return null;

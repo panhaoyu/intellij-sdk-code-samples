@@ -104,7 +104,7 @@ public class SimplePsiImplUtil {
     }
 
     public static PsiElement getNameIdentifier(SimpleIdentifierElement element) {
-        ASTNode keyNode = element.getNode().findChildByType(SimpleTypes.IDENTIFIER_ELEMENT);
+        ASTNode keyNode = element.getNode();
         if (keyNode != null) {
             return keyNode.getPsi();
         } else {
