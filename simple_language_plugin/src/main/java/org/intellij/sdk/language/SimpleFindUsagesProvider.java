@@ -56,9 +56,7 @@ final class SimpleFindUsagesProvider implements FindUsagesProvider {
     @Override
     public String getNodeText(@NotNull PsiElement element, boolean useFullName) {
         if (element instanceof SimpleProperty) {
-            return ((SimpleProperty) element).getKey() +
-                    SimpleAnnotator.SIMPLE_SEPARATOR_STR +
-                    ((SimpleProperty) element).getValue();
+            return ((SimpleProperty) element).getKey();
         }
         return "";
     }
