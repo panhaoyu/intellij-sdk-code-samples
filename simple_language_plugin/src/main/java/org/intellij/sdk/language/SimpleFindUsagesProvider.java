@@ -31,7 +31,7 @@ final class SimpleFindUsagesProvider implements FindUsagesProvider {
 
     @Override
     public @NotNull String getHelpId(@NotNull PsiElement psiElement) {
-        return "hello";
+        return psiElement.getTextRange().toString();
     }
 
     @NotNull
