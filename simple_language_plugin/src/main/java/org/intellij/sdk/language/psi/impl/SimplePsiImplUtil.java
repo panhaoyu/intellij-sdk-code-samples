@@ -2,6 +2,7 @@
 
 package org.intellij.sdk.language.psi.impl;
 
+import com.google.common.base.Objects;
 import com.intellij.lang.ASTNode;
 import com.intellij.navigation.ItemPresentation;
 import com.intellij.psi.PsiElement;
@@ -118,11 +119,12 @@ public class SimplePsiImplUtil {
 
     public static SimpleReference[] getReferences(final SimpleIdentifierElement element) {
         List<SimpleIdentifierElement> identifiers = SimpleUtil.findIdentifiers(element.getProject(), element.getName());
-        ArrayList<SimpleReference> a = new ArrayList<>();
-        for (SimpleIdentifierElement b : identifiers) {
-            a.add(new SimpleReference(b, b.getTextRange()));
+        ArrayList<SimpleReference> references = new ArrayList<>();
+        for (SimpleIdentifierElement other : identifiers) {
+            if (Objects.equal(element, other)) continue;
+            references.add(new SimpleReference(other, other.getTextRange()));
         }
-        return a.toArray(SimpleReference[]::new);
+        return references.toArray(SimpleReference[]::new);
     }
 
     public static PsiReference getReference(final SimpleIdentifierElement element) {
