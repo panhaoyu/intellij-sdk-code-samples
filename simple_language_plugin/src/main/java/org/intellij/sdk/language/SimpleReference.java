@@ -29,7 +29,6 @@ public final class SimpleReference extends PsiReferenceBase<SimpleIdentifierElem
     public SimpleReference(@NotNull SimpleIdentifierElement element, TextRange textRange) {
         super(element, textRange);
         key = element.getText();
-//        key = element.getText().substring(textRange.getStartOffset(), textRange.getEndOffset());
     }
 
     // 重写multiResolve方法，用于解析多个可能的引用结果
