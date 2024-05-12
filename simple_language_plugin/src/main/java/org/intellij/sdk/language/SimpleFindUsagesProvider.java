@@ -19,7 +19,7 @@ final class SimpleFindUsagesProvider implements FindUsagesProvider {
     public WordsScanner getWordsScanner() {
         return new DefaultWordsScanner(new SimpleLexerAdapter(),
                 SimpleTokenSets.IDENTIFIERS,
-                SimpleTokenSets.LITERALS,
+                SimpleTokenSets.COMMENTS,
                 SimpleTokenSets.LITERALS
         );
     }
