@@ -4,6 +4,7 @@ package org.intellij.sdk.language.psi.impl;
 
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.intellij.lang.ASTNode;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiReference;
 import org.intellij.sdk.language.SimpleReference;
@@ -20,18 +21,25 @@ public abstract class SimpleNamedElementImpl extends ASTWrapperPsiElement implem
         super(node);
     }
 
+    private static final Logger LOG = Logger.getInstance(SimpleNamedElementImpl.class);
+
 
     @Override
     public PsiReference getReference() {
-        // 获取当前项目
-        @NotNull Project project = this.getProject();
-        // 查找所有的声明
+        if (!(this instanceof SimpleIdentifierElement)) return null; // 仅处理IdentifierElement
+        Project project = this.getProject();
+        String currentName = this.getName();
+
         List<SimpleIdentifierElement> declarations = SimpleUtil.findDeclarations(project);
-        // 流处理，筛选出第一个同名的元素
-        return declarations.stream()
-                .filter(e -> Objects.equals(e.getName(), this.getName()) && !e.equals(this))
-                .findFirst()
-                .map(e -> new SimpleReference(e, e.getTextRange())) // 创建引用
-                .orElse(null); // 如果没有找到任何匹配项，则返回null
+
+        for (SimpleIdentifierElement declaration : declarations) {
+            String declarationName = declaration.getName();
+            if (Objects.equals(declarationName, currentName)) {
+                if (!declaration.equals(this)) {
+                    return new SimpleReference(declaration, declaration.getTextRange());
+                }
+            }
+        }
+        return null;
     }
 }
