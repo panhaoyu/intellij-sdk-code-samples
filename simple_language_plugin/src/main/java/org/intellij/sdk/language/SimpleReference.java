@@ -56,11 +56,12 @@ public final class SimpleReference extends PsiReferenceBase<PsiElement> implemen
     // 重写resolve方法，返回单一的解析结果
     @Nullable
     @Override
-    public PsiElement resolve() {
-        Project project = this.getElement().getProject();
+    public SimpleIdentifierElement resolve() {
+        SimpleIdentifierElement element = (SimpleIdentifierElement) this.getElement();
+        Project project = element.getProject();
         List<SimpleIdentifierElement> declarations = SimpleUtil.findDeclarations(project);
         for (SimpleIdentifierElement decl : declarations) {
-            if (Objects.equals(decl.getName(), key)) {
+            if (Objects.equals(decl.getName(), element.getName())) {
                 return decl;
             }
         }
