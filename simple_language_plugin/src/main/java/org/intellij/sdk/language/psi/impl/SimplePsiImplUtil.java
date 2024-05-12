@@ -79,12 +79,7 @@ public class SimplePsiImplUtil {
     }
 
     public static PsiElement getNameIdentifier(SimpleIdentifierElement element) {
-        ASTNode keyNode = element.getNode();
-        if (keyNode != null) {
-            return keyNode.getPsi();
-        } else {
-            return null;
-        }
+        return element;
     }
 
     public static ItemPresentation getPresentation(final SimpleIdentifierElement element) {
