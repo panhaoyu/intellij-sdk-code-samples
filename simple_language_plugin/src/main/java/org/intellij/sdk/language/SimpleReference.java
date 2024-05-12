@@ -22,9 +22,18 @@ public final class SimpleReference extends PsiReferenceBase<PsiElement> implemen
 
     // 构造函数，初始化引用和键值
     public SimpleReference(@NotNull PsiElement element, TextRange textRange) {
-        super(element, textRange);  // 调用父类构造函数，传入元素和文本范围
-        key = element.getText().substring(textRange.getStartOffset(), textRange.getEndOffset()); // 从文本范围截取键值
-        LOG.error("SimpleReference initialized for key: " + key); // 记录日志
+        super(element, textRange);
+        // 确保文本范围有效
+        String elementText = element.getText();
+        int startOffset = Math.min(textRange.getStartOffset(), elementText.length());
+        int endOffset = Math.min(textRange.getEndOffset(), elementText.length());
+        if (startOffset <= endOffset) {
+            key = elementText.substring(startOffset, endOffset);
+            LOG.info("SimpleReference initialized for key: " + key);
+        } else {
+            key = "";
+            LOG.error("Invalid TextRange: startOffset " + startOffset + ", endOffset " + endOffset);
+        }
     }
 
     // 重写multiResolve方法，用于解析多个可能的引用结果
