@@ -9,24 +9,30 @@ import org.intellij.sdk.language.SimpleFileType;
 
 public class SimpleElementFactory {
 
-  public static SimpleProperty createProperty(Project project, String name) {
-    final SimpleFile file = createFile(project, name);
-    return (SimpleProperty) file.getFirstChild();
-  }
+    public static SimpleIdentifierElement createIdentifier(Project project, String name) {
+        SimpleFile fileFromText = createFile(project, "[ global " + name + " ]");
+        SimpleIdentifierElement childByClass = fileFromText.findChildByClass(SimpleIdentifierElement.class);
+        return childByClass;
+    }
 
-  public static SimpleFile createFile(Project project, String text) {
-    String name = "dummy.simple";
-    return (SimpleFile) PsiFileFactory.getInstance(project).createFileFromText(name, SimpleFileType.INSTANCE, text);
-  }
+    public static SimpleProperty createProperty(Project project, String name) {
+        final SimpleFile file = createFile(project, name);
+        return (SimpleProperty) file.getFirstChild();
+    }
 
-  public static SimpleProperty createProperty(Project project, String name, String value) {
-    final SimpleFile file = createFile(project, name + " = " + value);
-    return (SimpleProperty) file.getFirstChild();
-  }
+    public static SimpleFile createFile(Project project, String text) {
+        String name = "dummy.fis";
+        return (SimpleFile) PsiFileFactory.getInstance(project).createFileFromText(name, SimpleFileType.INSTANCE, text);
+    }
 
-  public static PsiElement createCRLF(Project project) {
-    final SimpleFile file = createFile(project, "\n");
-    return file.getFirstChild();
-  }
+    public static SimpleProperty createProperty(Project project, String name, String value) {
+        final SimpleFile file = createFile(project, name + " = " + value);
+        return (SimpleProperty) file.getFirstChild();
+    }
+
+    public static PsiElement createCRLF(Project project) {
+        final SimpleFile file = createFile(project, "\n");
+        return file.getFirstChild();
+    }
 
 }
