@@ -47,7 +47,7 @@ public class SimpleUtil {
                 if (properties != null) { // 确保属性列表不为空
                     // 筛选出键与给定键相匹配的属性
                     for (SimpleProperty property : properties) {
-                        if (key.equals(property.getKey())) {
+                        if (key.equals(property.getName())) {
                             result.add(property); // 将匹配的属性添加到结果列表中
                         }
                     }
