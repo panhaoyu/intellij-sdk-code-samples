@@ -123,26 +123,26 @@ public class SimplePsiImplUtil {
         }
     }
 
-//    public static ItemPresentation getPresentation(final SimpleIdentifierElement element) {
-//        return new ItemPresentation() {
-//            @Nullable
-//            @Override
-//            public String getPresentableText() {
-//                return element.getName();
-//            }
-//
-//            @Nullable
-//            @Override
-//            public String getLocationString() {
-//                PsiFile containingFile = element.getContainingFile();
-//                return containingFile == null ? null : containingFile.getName();
-//            }
-//
-//            @Override
-//            public Icon getIcon(boolean unused) {
-//                return element.getIcon(0);
-//            }
-//        };
-//    }
+    public static ItemPresentation getPresentation(final SimpleIdentifierElement element) {
+        return new ItemPresentation() {
+            @Nullable
+            @Override
+            public String getPresentableText() {
+                return element.getName();
+            }
+
+            @Nullable
+            @Override
+            public String getLocationString() {
+                PsiFile containingFile = element.getContainingFile();
+                return containingFile == null ? null : containingFile.getName();
+            }
+
+            @Override
+            public Icon getIcon(boolean unused) {
+                return element.getIcon(0);
+            }
+        };
+    }
 
 }

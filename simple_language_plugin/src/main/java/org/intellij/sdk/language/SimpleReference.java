@@ -1,5 +1,3 @@
-// Copyright 2000-2024 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license.
-
 package org.intellij.sdk.language;
 
 import com.intellij.codeInsight.lookup.LookupElement;
@@ -7,7 +5,7 @@ import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.*;
-import org.intellij.sdk.language.psi.SimpleProperty;
+import org.intellij.sdk.language.psi.SimpleNamedElement;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -30,10 +28,12 @@ final class SimpleReference extends PsiReferenceBase<PsiElement> implements PsiP
     @Override
     public ResolveResult @NotNull [] multiResolve(boolean incompleteCode) {
         Project project = myElement.getProject(); // 获取当前元素所在的项目
-        final List<SimpleProperty> properties = SimpleUtil.findProperties(project, key); // 查找与键值相关的属性列表
+        final List<SimpleNamedElement> properties = SimpleUtil.findAllIdentifiers(project); // 查找与键值相关的属性列表
         List<ResolveResult> results = new ArrayList<>(); // 创建解析结果列表
-        for (SimpleProperty property : properties) { // 遍历找到的属性
-            results.add(new PsiElementResolveResult(property)); // 将属性封装为解析结果并添加到列表中
+        for (SimpleNamedElement property : properties) { // 遍历找到的属性
+            if (property.getName() != null && property.getName().equals(key)) {
+                results.add(new PsiElementResolveResult(property)); // 将属性封装为解析结果并添加到列表中
+            }
         }
         return results.toArray(new ResolveResult[0]); // 将列表转换为数组并返回
     }
@@ -50,10 +50,10 @@ final class SimpleReference extends PsiReferenceBase<PsiElement> implements PsiP
     @Override
     public Object @NotNull [] getVariants() {
         Project project = myElement.getProject(); // 获取当前元素所在的项目
-        List<SimpleProperty> properties = SimpleUtil.findProperties(project); // 获取所有属性
+        List<SimpleNamedElement> properties = SimpleUtil.findAllIdentifiers(project); // 获取所有属性
         List<LookupElement> variants = new ArrayList<>(); // 创建自动补全选项列表
-        for (final SimpleProperty property : properties) { // 遍历所有属性
-            if (property.getKey() != null && !property.getKey().isEmpty()) { // 如果属性的键不为空
+        for (final SimpleNamedElement property : properties) { // 遍历所有属性
+            if (property.getName() != null && !property.getName().isEmpty()) { // 如果属性的键不为空
                 variants.add(LookupElementBuilder // 创建自动补全选项
                         .create(property).withIcon(SimpleIcons.FILE) // 设置图标
                         .withTypeText(property.getContainingFile().getName()) // 设置类型文本为文件名

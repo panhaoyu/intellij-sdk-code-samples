@@ -40,7 +40,7 @@ public class SimpleVisitor extends PsiElementVisitor {
   }
 
   public void visitIdentifierElement(@NotNull SimpleIdentifierElement o) {
-    visitPsiElement(o);
+    visitNamedElement(o);
   }
 
   public void visitIfBlock(@NotNull SimpleIfBlock o) {

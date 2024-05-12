@@ -14,8 +14,8 @@ import com.intellij.psi.search.FileTypeIndex;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.util.PsiTreeUtil;
 import org.intellij.sdk.language.psi.SimpleFile;
+import org.intellij.sdk.language.psi.SimpleNamedElement;
 import org.intellij.sdk.language.psi.SimpleProperty;
-import org.intellij.sdk.language.psi.SimpleValue;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -97,5 +97,25 @@ public class SimpleUtil {
         // 将所有注释反向连接成单个字符串
         return StringUtil.join(Lists.reverse(result), "\n ");
     }
+
+/**
+ * 查找整个项目中所有标识符元素（SimpleNamedElement）。
+ *
+ * @param project 当前项目
+ * @return 找到的所有标识符元素的列表
+ */
+    public static List<SimpleNamedElement> findAllIdentifiers(Project project) {
+    List<SimpleNamedElement> result = new ArrayList<>();
+    Collection<VirtualFile> virtualFiles =
+        FileTypeIndex.getFiles(SimpleFileType.INSTANCE, GlobalSearchScope.allScope(project));
+    for (VirtualFile virtualFile : virtualFiles) {
+        SimpleFile simpleFile = (SimpleFile) PsiManager.getInstance(project).findFile(virtualFile);
+        if (simpleFile != null) {
+            Collection<SimpleNamedElement> namedElements = PsiTreeUtil.findChildrenOfType(simpleFile, SimpleNamedElement.class);
+            result.addAll(namedElements);
+        }
+    }
+    return result;
+}
 
 }
