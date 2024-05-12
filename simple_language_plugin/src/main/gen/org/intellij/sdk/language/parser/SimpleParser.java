@@ -4,7 +4,7 @@ package org.intellij.sdk.language.parser;
 import com.intellij.lang.PsiBuilder;
 import com.intellij.lang.PsiBuilder.Marker;
 import static org.intellij.sdk.language.psi.SimpleTypes.*;
-import static com.intellij.lang.parser.GeneratedParserUtilBase.*;
+import static org.intellij.sdk.language.parser.SimpleParserUtil.*;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.tree.TokenSet;

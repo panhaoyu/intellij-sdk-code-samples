@@ -28,7 +28,7 @@ final class SimpleReferenceContributor extends PsiReferenceContributor {
                         if (value != null) {
                             LOG.info("为元素 '" + identifier + "' 创建引用，其标识符为: " + value);
                             TextRange range = new TextRange(0, value.length());
-                            return new PsiReference[]{new SimpleReference(element, range)};
+                            return new PsiReference[]{new SimpleReference(identifier, range)};
                         } else {
                             LOG.warn("未找到标识符名称，无法为元素 '" + identifier + "' 创建引用");
                         }

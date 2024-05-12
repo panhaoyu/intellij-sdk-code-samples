@@ -15,25 +15,28 @@ import java.util.List;
 import java.util.Objects;
 
 // 创建SimpleReference类，它是PsiReferenceBase的子类，实现了PsiPolyVariantReference接口
-public final class SimpleReference extends PsiReferenceBase<PsiElement> implements PsiPolyVariantReference {
+final class SimpleReference extends PsiReferenceBase<SimpleIdentifierElement> implements PsiPolyVariantReference {
 
     private static final Logger LOG = Logger.getInstance(SimpleReference.class); // 日志记录器
     // 定义一个字符串成员变量用于存储键值
 
+    private final String key;
+
+
     // 构造函数，初始化引用和键值
-    public SimpleReference(@NotNull PsiElement element, TextRange textRange) {
+    SimpleReference(@NotNull SimpleIdentifierElement element, TextRange textRange) {
         super(element, textRange);
+        key = element.getText().substring(textRange.getStartOffset(), textRange.getEndOffset());
     }
 
     // 重写multiResolve方法，用于解析多个可能的引用结果
     @Override
     public ResolveResult @NotNull [] multiResolve(boolean incompleteCode) {
-        SimpleIdentifierElement element = (SimpleIdentifierElement) this.getElement();
-        Project project = element.getProject();
+        Project project = myElement.getProject();
         final List<SimpleIdentifierElement> properties = SimpleUtil.findAllIdentifiers(project); // 查找与键值相关的属性列表
         List<ResolveResult> results = new ArrayList<>(); // 创建解析结果列表
         for (SimpleIdentifierElement identifier : properties) { // 遍历找到的属性
-            if (Objects.equals(identifier.getName(), element.getName())) {
+            if (Objects.equals(identifier.getName(), myElement.getName())) {
                 results.add(new PsiElementResolveResult(identifier)); // 将属性封装为解析结果并添加到列表中
                 LOG.error("Matching identifier found: " + identifier.getName()); // 记录匹配信息
             }
@@ -60,7 +63,7 @@ public final class SimpleReference extends PsiReferenceBase<PsiElement> implemen
     // 重写getVariants方法，用于获取所有可能的自动补全选项
     @Override
     public Object @NotNull [] getVariants() {
-        Project project = this.getElement().getProject();
+        Project project = myElement.getProject();
         List<SimpleIdentifierElement> properties = SimpleUtil.findAllIdentifiers(project); // 获取所有属性
         List<LookupElement> variants = new ArrayList<>(); // 创建自动补全选项列表
         for (final SimpleIdentifierElement identifier : properties) { // 遍历所有属性
