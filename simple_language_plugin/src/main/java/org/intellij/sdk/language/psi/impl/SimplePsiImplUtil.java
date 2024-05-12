@@ -4,7 +4,6 @@ package org.intellij.sdk.language.psi.impl;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.navigation.ItemPresentation;
-import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiReference;
@@ -69,9 +68,10 @@ public class SimplePsiImplUtil {
 
 
     public static String getName(SimpleIdentifierElement element) {
-        TextRange textRange = element.getTextRange();
-        String key = element.getNode().getText();
-        return key + "@" + textRange;
+        return element.getText();
+//        TextRange textRange = element.getTextRange();
+//        String key = element.getNode().getText();
+//        return key + "@" + textRange;
     }
 
     public static PsiElement setName(SimpleIdentifierElement element, String newName) {
