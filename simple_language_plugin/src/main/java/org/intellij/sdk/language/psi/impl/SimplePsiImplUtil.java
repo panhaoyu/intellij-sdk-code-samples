@@ -82,22 +82,11 @@ public class SimplePsiImplUtil {
 
 
     public static String getKey(SimpleIdentifierElement element) {
-        ASTNode keyNode = element.getNode().findChildByType(SimpleTypes.IDENTIFIER_ELEMENT);
-        if (keyNode != null) {
-            // IMPORTANT: Convert embedded escaped spaces to simple spaces
-            return keyNode.getText().replaceAll("\\\\ ", " ");
-        } else {
-            return null;
-        }
+        return element.getNode().getText();
     }
 
     public static String getValue(SimpleIdentifierElement element) {
-        ASTNode valueNode = element.getNode().findChildByType(SimpleTypes.IDENTIFIER_ELEMENT);
-        if (valueNode != null) {
-            return valueNode.getText();
-        } else {
-            return null;
-        }
+        return element.getNode().getText();
     }
 
     public static String getName(SimpleIdentifierElement element) {
