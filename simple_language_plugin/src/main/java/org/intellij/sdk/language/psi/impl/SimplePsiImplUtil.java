@@ -68,9 +68,6 @@ public class SimplePsiImplUtil {
 
     public static String getName(SimpleIdentifierElement element) {
         return element.getText();
-//        TextRange textRange = element.getTextRange();
-//        String key = element.getNode().getText();
-//        return key + "@" + textRange;
     }
 
     public static PsiElement setName(SimpleIdentifierElement element, String newName) {
