@@ -71,13 +71,11 @@ public class SimplePsiImplUtil {
     }
 
     public static PsiElement setName(SimpleIdentifierElement element, String newName) {
-        ASTNode keyNode = element.getNode().findChildByType(SimpleTypes.IDENTIFIER_ELEMENT);
-        if (keyNode != null) {
-            SimpleProperty property = SimpleElementFactory.createProperty(element.getProject(), newName);
-            ASTNode newKeyNode = property.getFirstChild().getNode();
-            element.getNode().replaceChild(keyNode, newKeyNode);
-        }
-        return element;
+        ASTNode node = element.getNode();
+        ASTNode parent = node.getTreeParent();
+        SimpleIdentifierElement newElement = SimpleElementFactory.createIdentifier(element.getProject(), newName);
+        parent.replaceChild(node, newElement.getNode());
+        return newElement;
     }
 
     public static PsiElement getNameIdentifier(SimpleIdentifierElement element) {
