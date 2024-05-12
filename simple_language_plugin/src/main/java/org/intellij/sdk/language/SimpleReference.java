@@ -40,7 +40,7 @@ public final class SimpleReference extends PsiReferenceBase<SimpleIdentifierElem
         for (SimpleIdentifierElement identifier : properties) { // 遍历找到的属性
             results.add(new PsiElementResolveResult(identifier)); // 将属性封装为解析结果并添加到列表中
         }
-        LOG.error("Total identifiers resolved: " + results.size()); // 记录解析的数量
+        LOG.info("Total identifiers resolved: " + results.size()); // 记录解析的数量
         return results.toArray(new ResolveResult[0]); // 将列表转换为数组并返回
     }
 
@@ -66,7 +66,7 @@ public final class SimpleReference extends PsiReferenceBase<SimpleIdentifierElem
                 );
             }
         }
-        LOG.error("Autocomplete variants count: " + variants.size()); // 记录自动补全候选数量
+        LOG.info("Autocomplete variants count: " + variants.size()); // 记录自动补全候选数量
         return variants.toArray(); // 将列表转换为数组并返回
     }
 
