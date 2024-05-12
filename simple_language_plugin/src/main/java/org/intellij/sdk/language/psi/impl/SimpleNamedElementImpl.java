@@ -18,37 +18,37 @@ public abstract class SimpleNamedElementImpl extends ASTWrapperPsiElement implem
     public SimpleNamedElementImpl(@NotNull ASTNode node) {
         super(node);
     }
-
-    private static final Logger LOG = Logger.getInstance(SimpleNamedElementImpl.class);
-
-    @Override
-    public PsiReference @NotNull [] getReferences() {
-        PsiReference reference = getReference();
-        if (Objects.isNull(reference)) {
-            return new PsiReference[]{};
-        } else {
-            return new PsiReference[]{reference};
-        }
-    }
-
-    @Override
-    @Nullable
-    public PsiReference getReference() {
-        assert this instanceof SimpleIdentifierElement;
-//        if (!(this instanceof SimpleIdentifierElement)) {
-//            return null; // 仅处理IdentifierElement
-//        }
-        return new SimpleReference(this, this.getTextRange());
-//        Project project = this.getProject();
-//        String currentName = this.getName();
 //
-//        List<SimpleIdentifierElement> declarations = SimpleUtil.findDeclarations(project);
+//    private static final Logger LOG = Logger.getInstance(SimpleNamedElementImpl.class);
 //
-//        for (SimpleIdentifierElement declaration : declarations) {
-//            String declarationName = declaration.getName();
-//            if (!Objects.equals(declarationName, currentName)) continue;
-//            return new SimpleReference(this, this.getTextRange());
+//    @Override
+//    public PsiReference @NotNull [] getReferences() {
+//        PsiReference reference = getReference();
+//        if (Objects.isNull(reference)) {
+//            return new PsiReference[]{};
+//        } else {
+//            return new PsiReference[]{reference};
 //        }
-//        return null;
-    }
+//    }
+//
+//    @Override
+//    @Nullable
+//    public PsiReference getReference() {
+//        assert this instanceof SimpleIdentifierElement;
+////        if (!(this instanceof SimpleIdentifierElement)) {
+////            return null; // 仅处理IdentifierElement
+////        }
+//        return new SimpleReference(this, this.getTextRange());
+////        Project project = this.getProject();
+////        String currentName = this.getName();
+////
+////        List<SimpleIdentifierElement> declarations = SimpleUtil.findDeclarations(project);
+////
+////        for (SimpleIdentifierElement declaration : declarations) {
+////            String declarationName = declaration.getName();
+////            if (!Objects.equals(declarationName, currentName)) continue;
+////            return new SimpleReference(this, this.getTextRange());
+////        }
+////        return null;
+//    }
 }
