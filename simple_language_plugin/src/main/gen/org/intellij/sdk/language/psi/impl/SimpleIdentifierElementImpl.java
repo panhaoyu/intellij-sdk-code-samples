@@ -28,16 +28,6 @@ public class SimpleIdentifierElementImpl extends SimpleNamedElementImpl implemen
   }
 
   @Override
-  public String getKey() {
-    return SimplePsiImplUtil.getKey(this);
-  }
-
-  @Override
-  public String getValue() {
-    return SimplePsiImplUtil.getValue(this);
-  }
-
-  @Override
   public String getName() {
     return SimplePsiImplUtil.getName(this);
   }

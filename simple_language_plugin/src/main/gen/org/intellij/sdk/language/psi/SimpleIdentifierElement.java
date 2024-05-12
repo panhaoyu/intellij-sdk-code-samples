@@ -8,10 +8,6 @@ import com.intellij.navigation.ItemPresentation;
 
 public interface SimpleIdentifierElement extends SimpleNamedElement {
 
-  String getKey();
-
-  String getValue();
-
   String getName();
 
   PsiElement setName(String newName);

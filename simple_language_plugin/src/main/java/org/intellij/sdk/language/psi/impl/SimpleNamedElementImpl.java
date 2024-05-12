@@ -5,17 +5,13 @@ package org.intellij.sdk.language.psi.impl;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiReference;
 import org.intellij.sdk.language.SimpleReference;
-import org.intellij.sdk.language.SimpleUtil;
 import org.intellij.sdk.language.psi.SimpleIdentifierElement;
 import org.intellij.sdk.language.psi.SimpleNamedElement;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
 import java.util.Objects;
 
 public abstract class SimpleNamedElementImpl extends ASTWrapperPsiElement implements SimpleNamedElement {
@@ -38,22 +34,21 @@ public abstract class SimpleNamedElementImpl extends ASTWrapperPsiElement implem
     @Override
     @Nullable
     public PsiReference getReference() {
-        if (!(this instanceof SimpleIdentifierElement)) {
-            return null; // 仅处理IdentifierElement
-        }
-        Project project = this.getProject();
-        String currentName = this.getName();
-
-        List<SimpleIdentifierElement> declarations = SimpleUtil.findDeclarations(project);
-
-        for (SimpleIdentifierElement declaration : declarations) {
-            String declarationName = declaration.getName();
-            if (!Objects.equals(declarationName, currentName)) continue;
-            TextRange thisTextRange = getTextRange();
-            TextRange declarationTextRange = declaration.getTextRange();
-            if (Objects.equals(thisTextRange, declarationTextRange)) continue;
-            return new SimpleReference(declaration, declarationTextRange);
-        }
-        return null;
+        assert this instanceof SimpleIdentifierElement;
+//        if (!(this instanceof SimpleIdentifierElement)) {
+//            return null; // 仅处理IdentifierElement
+//        }
+        return new SimpleReference(this, this.getTextRange());
+//        Project project = this.getProject();
+//        String currentName = this.getName();
+//
+//        List<SimpleIdentifierElement> declarations = SimpleUtil.findDeclarations(project);
+//
+//        for (SimpleIdentifierElement declaration : declarations) {
+//            String declarationName = declaration.getName();
+//            if (!Objects.equals(declarationName, currentName)) continue;
+//            return new SimpleReference(this, this.getTextRange());
+//        }
+//        return null;
     }
 }
