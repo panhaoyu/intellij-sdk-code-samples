@@ -2,7 +2,6 @@
 
 package org.intellij.sdk.language.psi.impl;
 
-import com.google.common.base.Objects;
 import com.intellij.lang.ASTNode;
 import com.intellij.navigation.ItemPresentation;
 import com.intellij.openapi.util.TextRange;
@@ -10,7 +9,6 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiReference;
 import org.intellij.sdk.language.SimpleReference;
-import org.intellij.sdk.language.SimpleUtil;
 import org.intellij.sdk.language.psi.SimpleElementFactory;
 import org.intellij.sdk.language.psi.SimpleIdentifierElement;
 import org.intellij.sdk.language.psi.SimpleProperty;
@@ -19,7 +17,6 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class SimplePsiImplUtil {
 
@@ -119,8 +116,6 @@ public class SimplePsiImplUtil {
 
 
     public static SimpleReference[] getReferences(final SimpleIdentifierElement element) {
-        List<SimpleIdentifierElement> identifiers = SimpleUtil.findIdentifiers(element.getProject(), element.getName());
-
         ArrayList<SimpleReference> references = new ArrayList<>();
         references.add(new SimpleReference(element, new TextRange(0, element.getTextLength())));
         return references.toArray(SimpleReference[]::new);
