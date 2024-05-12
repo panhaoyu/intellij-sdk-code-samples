@@ -35,9 +35,9 @@ public final class SimpleReference extends PsiReferenceBase<SimpleIdentifierElem
     @Override
     public ResolveResult @NotNull [] multiResolve(boolean incompleteCode) {
         Project project = myElement.getProject();
-        final List<SimpleIdentifierElement> properties = SimpleUtil.findIdentifiers(project, myElement.getName()); // 查找与键值相关的属性列表
+        final List<SimpleIdentifierElement> identifiers = SimpleUtil.findIdentifiers(project, myElement.getName()); // 查找与键值相关的属性列表
         List<ResolveResult> results = new ArrayList<>(); // 创建解析结果列表
-        for (SimpleIdentifierElement identifier : properties) { // 遍历找到的属性
+        for (SimpleIdentifierElement identifier : identifiers) { // 遍历找到的属性
             results.add(new PsiElementResolveResult(identifier)); // 将属性封装为解析结果并添加到列表中
         }
         LOG.info("Total identifiers resolved: " + results.size()); // 记录解析的数量

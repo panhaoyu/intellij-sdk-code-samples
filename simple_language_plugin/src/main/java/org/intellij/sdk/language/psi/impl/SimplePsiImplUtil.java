@@ -120,11 +120,13 @@ public class SimplePsiImplUtil {
 
     public static SimpleReference[] getReferences(final SimpleIdentifierElement element) {
         List<SimpleIdentifierElement> identifiers = SimpleUtil.findIdentifiers(element.getProject(), element.getName());
+
         ArrayList<SimpleReference> references = new ArrayList<>();
-        for (SimpleIdentifierElement other : identifiers) {
-            if (Objects.equal(element, other)) continue;
-            references.add(new SimpleReference(other, new TextRange(0, other.getTextLength())));
-        }
+        references.add(new SimpleReference(element, new TextRange(0, element.getTextLength())));
+//        for (SimpleIdentifierElement other : identifiers) {
+//            if (Objects.equal(element, other)) continue;
+//            references.add(new SimpleReference(other, new TextRange(0, other.getTextLength())));
+//        }
         return references.toArray(SimpleReference[]::new);
     }
 
