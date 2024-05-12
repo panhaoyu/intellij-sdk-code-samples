@@ -41,7 +41,7 @@ public abstract class SimpleNamedElementImpl extends ASTWrapperPsiElement implem
 
         for (SimpleIdentifierElement declaration : declarations) {
             String declarationName = declaration.getName();
-            if (Objects.equals(declarationName, currentName)) {
+            if (Objects.equals(declarationName, currentName) && !Objects.equals(this.getTextRange(), declaration.getTextRange())) {
                 return new SimpleReference(declaration, declaration.getTextRange());
             }
         }
