@@ -5,13 +5,16 @@ package org.intellij.sdk.language;
 import com.intellij.lexer.Lexer;
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
 import com.intellij.openapi.editor.HighlighterColors;
+import com.intellij.openapi.editor.colors.EditorColorsManager;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
+import com.intellij.openapi.editor.markup.TextAttributes;
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase;
 import com.intellij.psi.TokenType;
 import com.intellij.psi.tree.IElementType;
 import org.intellij.sdk.language.psi.SimpleTypes;
 import org.jetbrains.annotations.NotNull;
 
+import java.awt.*;
 import java.util.HashMap;
 
 import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAttributesKey;
@@ -37,17 +40,26 @@ public class SimpleSyntaxHighlighter extends SyntaxHighlighterBase {
     public static final TextAttributesKey IMPORTANT_KEYWORD =
             createTextAttributesKey("SIMPLE_IMPORTANT_KEYWORD", DefaultLanguageHighlighterColors.METADATA);
 
+    private static final TextAttributesKey BOLD = TextAttributesKey.createTextAttributesKey(
+            "SIMPLE_COMMAND_BLOCK_KEY");
+
+    static {
+        // 获取全局颜色方案中的默认常量样式，并对其进行修改以实现加粗
+        TextAttributes bold = new TextAttributes(null, null, null, null, Font.BOLD);
+        EditorColorsManager.getInstance().getGlobalScheme().setAttributes(BOLD, bold);
+    }
+
 
     private static final TextAttributesKey[] BAD_CHARACTER_KEYS = new TextAttributesKey[]{BAD_CHARACTER};
     private static final TextAttributesKey[] OPERATOR_KEYS = new TextAttributesKey[]{OPERATOR};
-    private static final TextAttributesKey[] KEYWORD_KEYS = new TextAttributesKey[]{KEYWORD};
+    private static final TextAttributesKey[] KEYWORD_KEYS = new TextAttributesKey[]{KEYWORD, BOLD};
     private static final TextAttributesKey[] STRING_LITERAL_KEYS = new TextAttributesKey[]{STRING_LITERAL};
     private static final TextAttributesKey[] NUMBER_LITERAL_KEYS = new TextAttributesKey[]{NUMBER_LITERAL};
     private static final TextAttributesKey[] IDENTIFIER_KEYS = new TextAttributesKey[]{IDENTIFIER};
     private static final TextAttributesKey[] COMMENT_KEYS = new TextAttributesKey[]{COMMENT};
     private static final TextAttributesKey[] EMPTY_KEYS = new TextAttributesKey[0];
     private static final TextAttributesKey[] BRACKETS_KEYS = new TextAttributesKey[]{BRACKETS};
-    private static final TextAttributesKey[] IMPORTANT_KEYWORD_KEYS = new TextAttributesKey[]{IMPORTANT_KEYWORD};
+//    private static final TextAttributesKey[] IMPORTANT_KEYWORD_KEYS = new TextAttributesKey[]{IMPORTANT_KEYWORD};
 
     @NotNull
     @Override

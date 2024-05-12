@@ -7,17 +7,12 @@ import com.intellij.lang.annotation.AnnotationHolder;
 import com.intellij.lang.annotation.Annotator;
 import com.intellij.lang.annotation.HighlightSeverity;
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
-import com.intellij.openapi.editor.colors.EditorColorsManager;
-import com.intellij.openapi.editor.colors.TextAttributesKey;
-import com.intellij.openapi.editor.markup.TextAttributes;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiLiteralExpression;
-import org.intellij.sdk.language.psi.SimpleCommandBlock;
 import org.intellij.sdk.language.psi.SimpleProperty;
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.*;
 import java.util.List;
 
 // 该类实现了Annotator接口，用于添加注释，如语法高亮等
@@ -27,25 +22,16 @@ final class SimpleAnnotator implements Annotator {
     public static final String SIMPLE_PREFIX_STR = "simple";
     public static final String SIMPLE_SEPARATOR_STR = ":";
 
-    private static final TextAttributesKey BOLD = TextAttributesKey.createTextAttributesKey(
-            "SIMPLE_COMMAND_BLOCK_KEY");
-
-    static {
-        // 获取全局颜色方案中的默认常量样式，并对其进行修改以实现加粗
-        TextAttributes bold = new TextAttributes(null, null, null, null, Font.BOLD);
-        EditorColorsManager.getInstance().getGlobalScheme().setAttributes(BOLD, bold);
-    }
-
 
     @Override
     public void annotate(@NotNull final PsiElement element, @NotNull AnnotationHolder holder) {
-        if (element instanceof SimpleCommandBlock) {
-            holder.newSilentAnnotation(HighlightSeverity.TEXT_ATTRIBUTES)
-                    .range(element.getTextRange())
-                    .textAttributes(BOLD)
-                    .create();
-            return;
-        }
+//        if (element instanceof SimpleCommandBlock) {
+//            holder.newSilentAnnotation(HighlightSeverity.TEXT_ATTRIBUTES)
+//                    .range(element.getTextRange())
+//                    .textAttributes(BOLD)
+//                    .create();
+//            return;
+//        }
 
 
         // 确保传入的PSI元素是一个表达式
