@@ -12,6 +12,7 @@ import org.intellij.sdk.language.SimpleUtil;
 import org.intellij.sdk.language.psi.SimpleIdentifierElement;
 import org.intellij.sdk.language.psi.SimpleNamedElement;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Objects;
@@ -26,10 +27,15 @@ public abstract class SimpleNamedElementImpl extends ASTWrapperPsiElement implem
     @Override
     public PsiReference @NotNull [] getReferences() {
         PsiReference reference = getReference();
-        return new PsiReference[]{reference};
+        if (Objects.isNull(reference)) {
+            return new PsiReference[]{};
+        } else {
+            return new PsiReference[]{reference};
+        }
     }
 
     @Override
+    @Nullable
     public PsiReference getReference() {
         if (!(this instanceof SimpleIdentifierElement)) {
             return null; // 仅处理IdentifierElement
