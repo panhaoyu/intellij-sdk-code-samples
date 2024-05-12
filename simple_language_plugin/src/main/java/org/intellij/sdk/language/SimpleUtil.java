@@ -105,14 +105,14 @@ public class SimpleUtil {
      * @param project 当前项目
      * @return 找到的所有标识符元素的列表
      */
-    public static List<SimpleNamedElement> findAllIdentifiers(Project project) {
-        List<SimpleNamedElement> result = new ArrayList<>();
+    public static List<SimpleIdentifierElement> findAllIdentifiers(Project project) {
+        List<SimpleIdentifierElement> result = new ArrayList<>();
         Collection<VirtualFile> virtualFiles =
                 FileTypeIndex.getFiles(SimpleFileType.INSTANCE, GlobalSearchScope.allScope(project));
         for (VirtualFile virtualFile : virtualFiles) {
             SimpleFile simpleFile = (SimpleFile) PsiManager.getInstance(project).findFile(virtualFile);
             if (simpleFile != null) {
-                Collection<SimpleNamedElement> namedElements = PsiTreeUtil.findChildrenOfType(simpleFile, SimpleNamedElement.class);
+                Collection<SimpleIdentifierElement> namedElements = PsiTreeUtil.findChildrenOfType(simpleFile, SimpleIdentifierElement.class);
                 result.addAll(namedElements);
             }
         }
@@ -136,7 +136,7 @@ public class SimpleUtil {
             SimpleFile simpleFile = (SimpleFile) PsiManager.getInstance(project).findFile(virtualFile);
             if (simpleFile != null) {
                 Collection<SimpleIdentifierElement> namedElements = PsiTreeUtil.findChildrenOfType(simpleFile, SimpleIdentifierElement.class);
-                for (SimpleIdentifierElement element : namedElements) {
+                for (SimpleIdentifierElement element : findAllIdentifiers(project)) {
                     if (!seenNames.contains(element.getName())) {
                         seenNames.add(element.getName());
                         result.add(element); // Add the element if its name hasn't been seen yet

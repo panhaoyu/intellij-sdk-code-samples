@@ -7,7 +7,6 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.*;
 import org.intellij.sdk.language.psi.SimpleIdentifierElement;
-import org.intellij.sdk.language.psi.SimpleNamedElement;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -42,12 +41,12 @@ public final class SimpleReference extends PsiReferenceBase<PsiElement> implemen
     @Override
     public ResolveResult @NotNull [] multiResolve(boolean incompleteCode) {
         Project project = myElement.getProject(); // 获取当前元素所在的项目
-        final List<SimpleNamedElement> properties = SimpleUtil.findAllIdentifiers(project); // 查找与键值相关的属性列表
+        final List<SimpleIdentifierElement> properties = SimpleUtil.findAllIdentifiers(project); // 查找与键值相关的属性列表
         List<ResolveResult> results = new ArrayList<>(); // 创建解析结果列表
-        for (SimpleNamedElement property : properties) { // 遍历找到的属性
-            if (property.getName() != null && property.getName().equals(key)) {
-                results.add(new PsiElementResolveResult(property)); // 将属性封装为解析结果并添加到列表中
-                LOG.error("Matching identifier found: " + property.getName()); // 记录匹配信息
+        for (SimpleIdentifierElement identifier : properties) { // 遍历找到的属性
+            if (identifier.getName() != null && identifier.getName().equals(key)) {
+                results.add(new PsiElementResolveResult(identifier)); // 将属性封装为解析结果并添加到列表中
+                LOG.error("Matching identifier found: " + identifier.getName()); // 记录匹配信息
             }
         }
         LOG.error("Total identifiers resolved: " + results.size()); // 记录解析的数量
@@ -72,13 +71,13 @@ public final class SimpleReference extends PsiReferenceBase<PsiElement> implemen
     @Override
     public Object @NotNull [] getVariants() {
         Project project = myElement.getProject(); // 获取当前元素所在的项目
-        List<SimpleNamedElement> properties = SimpleUtil.findAllIdentifiers(project); // 获取所有属性
+        List<SimpleIdentifierElement> properties = SimpleUtil.findAllIdentifiers(project); // 获取所有属性
         List<LookupElement> variants = new ArrayList<>(); // 创建自动补全选项列表
-        for (final SimpleNamedElement property : properties) { // 遍历所有属性
-            if (property.getName() != null && !property.getName().isEmpty()) { // 如果属性的键不为空
+        for (final SimpleIdentifierElement identifier : properties) { // 遍历所有属性
+            if (identifier.getName() != null && !identifier.getName().isEmpty()) { // 如果属性的键不为空
                 variants.add(LookupElementBuilder // 创建自动补全选项
-                        .create(property).withIcon(SimpleIcons.FILE) // 设置图标
-                        .withTypeText(property.getContainingFile().getName()) // 设置类型文本为文件名
+                        .create(identifier).withIcon(SimpleIcons.FILE) // 设置图标
+                        .withTypeText(identifier.getContainingFile().getName()) // 设置类型文本为文件名
                 );
             }
         }
