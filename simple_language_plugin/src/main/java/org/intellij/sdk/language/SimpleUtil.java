@@ -29,8 +29,7 @@ public class SimpleUtil {
      * @param key 要搜索的键
      * @return 匹配的属性列表
      */
-    private static final Map<Project, List<SimpleIdentifierElement>> cachedKeys = new HashMap<>();
-
+//    private static final Map<Project, List<SimpleIdentifierElement>> cachedKeys = new HashMap<>();
     public static List<SimpleProperty> findProperties(Project project, String key) {
         List<SimpleProperty> result = new ArrayList<>(); // 创建一个空列表用于存放找到的属性
 
@@ -108,9 +107,9 @@ public class SimpleUtil {
      */
     public static List<SimpleIdentifierElement> findAllIdentifiers(Project project) {
         // Check if the cache already contains the result
-        if (cachedKeys.containsKey(project)) {
-            return cachedKeys.get(project);
-        }
+//        if (cachedKeys.containsKey(project)) {
+//            return cachedKeys.get(project);
+//        }
         List<SimpleIdentifierElement> result = new ArrayList<>();
         Collection<VirtualFile> virtualFiles =
                 FileTypeIndex.getFiles(SimpleFileType.INSTANCE, GlobalSearchScope.allScope(project));
@@ -121,7 +120,7 @@ public class SimpleUtil {
                 result.addAll(identifiers);
             }
         }
-        cachedKeys.put(project, result);
+//        cachedKeys.put(project, result);
         return result;
     }
 
