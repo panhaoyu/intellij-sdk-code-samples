@@ -2,6 +2,7 @@ package org.intellij.sdk.language;
 
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.*;
@@ -15,6 +16,7 @@ import java.util.List;
 // 创建SimpleReference类，它是PsiReferenceBase的子类，实现了PsiPolyVariantReference接口
 final class SimpleReference extends PsiReferenceBase<PsiElement> implements PsiPolyVariantReference {
 
+    private static final Logger LOG = Logger.getInstance(SimpleReference.class); // 日志记录器
     // 定义一个字符串成员变量用于存储键值
     private final String key;
 
@@ -22,6 +24,7 @@ final class SimpleReference extends PsiReferenceBase<PsiElement> implements PsiP
     SimpleReference(@NotNull PsiElement element, TextRange textRange) {
         super(element, textRange);  // 调用父类构造函数，传入元素和文本范围
         key = element.getText().substring(textRange.getStartOffset(), textRange.getEndOffset()); // 从文本范围截取键值
+        LOG.info("SimpleReference initialized for key: " + key); // 记录日志
     }
 
     // 重写multiResolve方法，用于解析多个可能的引用结果
@@ -33,8 +36,10 @@ final class SimpleReference extends PsiReferenceBase<PsiElement> implements PsiP
         for (SimpleNamedElement property : properties) { // 遍历找到的属性
             if (property.getName() != null && property.getName().equals(key)) {
                 results.add(new PsiElementResolveResult(property)); // 将属性封装为解析结果并添加到列表中
+                LOG.info("Matching identifier found: " + property.getName()); // 记录匹配信息
             }
         }
+        LOG.info("Total identifiers resolved: " + results.size()); // 记录解析的数量
         return results.toArray(new ResolveResult[0]); // 将列表转换为数组并返回
     }
 
@@ -43,7 +48,9 @@ final class SimpleReference extends PsiReferenceBase<PsiElement> implements PsiP
     @Override
     public PsiElement resolve() {
         ResolveResult[] resolveResults = multiResolve(false); // 获取多个解析结果
-        return resolveResults.length == 1 ? resolveResults[0].getElement() : null; // 如果只有一个结果，返回该元素；否则返回null
+        PsiElement result = resolveResults.length == 1 ? resolveResults[0].getElement() : null;
+        LOG.info("Resolve result: " + (result != null ? result.getText() : "null")); // 记录解析结果
+        return result;
     }
 
     // 重写getVariants方法，用于获取所有可能的自动补全选项
@@ -60,6 +67,7 @@ final class SimpleReference extends PsiReferenceBase<PsiElement> implements PsiP
                 );
             }
         }
+        LOG.info("Autocomplete variants count: " + variants.size()); // 记录自动补全候选数量
         return variants.toArray(); // 将列表转换为数组并返回
     }
 
