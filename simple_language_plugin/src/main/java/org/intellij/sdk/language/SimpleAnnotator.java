@@ -9,6 +9,7 @@ import com.intellij.lang.annotation.HighlightSeverity;
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
 import com.intellij.openapi.editor.colors.EditorColorsManager;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
+import com.intellij.openapi.editor.markup.TextAttributes;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiLiteralExpression;
@@ -16,6 +17,7 @@ import org.intellij.sdk.language.psi.SimpleCommandBlock;
 import org.intellij.sdk.language.psi.SimpleProperty;
 import org.jetbrains.annotations.NotNull;
 
+import java.awt.*;
 import java.util.List;
 
 // 该类实现了Annotator接口，用于添加注释，如语法高亮等
@@ -24,15 +26,27 @@ final class SimpleAnnotator implements Annotator {
     // 定义用于注释、行标记等的Simple语言前缀字符串
     public static final String SIMPLE_PREFIX_STR = "simple";
     public static final String SIMPLE_SEPARATOR_STR = ":";
+
     private static final TextAttributesKey SIMPLE_COMMAND_BLOCK_KEY = TextAttributesKey.createTextAttributesKey(
-            "SIMPLE_COMMAND_BLOCK_KEY", DefaultLanguageHighlighterColors.CONSTANT);
+            "SIMPLE_COMMAND_BLOCK_KEY");
+
+    static {
+        // 获取全局颜色方案中的默认常量样式，并对其进行修改以实现加粗
+        TextAttributes boldAttributes = new TextAttributes(
+                EditorColorsManager.getInstance().getGlobalScheme().getAttributes(DefaultLanguageHighlighterColors.CONSTANT).getForegroundColor(),
+                EditorColorsManager.getInstance().getGlobalScheme().getAttributes(DefaultLanguageHighlighterColors.CONSTANT).getBackgroundColor(),
+                EditorColorsManager.getInstance().getGlobalScheme().getAttributes(DefaultLanguageHighlighterColors.CONSTANT).getEffectColor(),
+                EditorColorsManager.getInstance().getGlobalScheme().getAttributes(DefaultLanguageHighlighterColors.CONSTANT).getEffectType(),
+                Font.BOLD // 设置字体为加粗
+        );
+        EditorColorsManager.getInstance().getGlobalScheme().setAttributes(SIMPLE_COMMAND_BLOCK_KEY, boldAttributes);
+    }
 
 
     @Override
     public void annotate(@NotNull final PsiElement element, @NotNull AnnotationHolder holder) {
         if (element instanceof SimpleCommandBlock) {
             TextRange blockRange = element.getTextRange();
-            // 使用定义的TextAttributesKey，更新为加粗显示
             holder.newSilentAnnotation(HighlightSeverity.INFORMATION)
                     .range(blockRange)
                     .textAttributes(SIMPLE_COMMAND_BLOCK_KEY)
