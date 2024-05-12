@@ -29,9 +29,8 @@ final class SimpleFindUsagesProvider implements FindUsagesProvider {
         return psiElement instanceof SimpleIdentifierElement;
     }
 
-    @Nullable
     @Override
-    public String getHelpId(@NotNull PsiElement psiElement) {
+    public @NotNull String getHelpId(@NotNull PsiElement psiElement) {
         return "hello";
     }
 
