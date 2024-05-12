@@ -13,6 +13,8 @@ import org.intellij.sdk.language.psi.SimpleTokenSets;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
+
 final class SimpleFindUsagesProvider implements FindUsagesProvider {
 
     @Override
@@ -47,7 +49,7 @@ final class SimpleFindUsagesProvider implements FindUsagesProvider {
     @Override
     public String getDescriptiveName(@NotNull PsiElement element) {
         if (element instanceof SimpleProperty) {
-            return ((SimpleProperty) element).getKey();
+            return Objects.requireNonNull(((SimpleProperty) element).getName());
         }
         return "";
     }
@@ -56,7 +58,7 @@ final class SimpleFindUsagesProvider implements FindUsagesProvider {
     @Override
     public String getNodeText(@NotNull PsiElement element, boolean useFullName) {
         if (element instanceof SimpleProperty) {
-            return ((SimpleProperty) element).getKey();
+            return Objects.requireNonNull(((SimpleProperty) element).getName());
         }
         return "";
     }
