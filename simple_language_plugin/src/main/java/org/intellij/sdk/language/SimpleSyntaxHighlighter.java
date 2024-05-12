@@ -58,7 +58,7 @@ public class SimpleSyntaxHighlighter extends SyntaxHighlighterBase {
     private static final TextAttributesKey[] IDENTIFIER_KEYS = new TextAttributesKey[]{IDENTIFIER};
     private static final TextAttributesKey[] COMMENT_KEYS = new TextAttributesKey[]{COMMENT};
     private static final TextAttributesKey[] EMPTY_KEYS = new TextAttributesKey[0];
-    private static final TextAttributesKey[] BRACKETS_KEYS = new TextAttributesKey[]{BRACKETS};
+    private static final TextAttributesKey[] BRACKETS_KEYS = new TextAttributesKey[]{BRACKETS, BOLD};
 //    private static final TextAttributesKey[] IMPORTANT_KEYWORD_KEYS = new TextAttributesKey[]{IMPORTANT_KEYWORD};
 
     @NotNull
@@ -80,10 +80,10 @@ public class SimpleSyntaxHighlighter extends SyntaxHighlighterBase {
         put(SimpleTypes.NUMBER_LITERAL, NUMBER_LITERAL_KEYS);
         put(SimpleTypes.IDENTIFIER, IDENTIFIER_KEYS);
         put(SimpleTypes.COMMENT, COMMENT_KEYS);
+        put(SimpleTypes.NEWLINE, COMMENT_KEYS);
         put(SimpleTypes.STRING_LITERAL, STRING_LITERAL_KEYS);
 
         put(TokenType.WHITE_SPACE, EMPTY_KEYS);
-        put(SimpleTypes.NEWLINE, EMPTY_KEYS);
 
         put(SimpleTypes.LEFT_CURLY_BRACKET, BRACKETS_KEYS);
         put(SimpleTypes.LEFT_PARENTHESIS, BRACKETS_KEYS);
