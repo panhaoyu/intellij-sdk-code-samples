@@ -7,10 +7,14 @@ import com.intellij.navigation.ItemPresentation;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
+import com.intellij.psi.PsiReference;
+import org.intellij.sdk.language.SimpleReference;
+import org.intellij.sdk.language.SimpleUtil;
 import org.intellij.sdk.language.psi.SimpleElementFactory;
 import org.intellij.sdk.language.psi.SimpleIdentifierElement;
 import org.intellij.sdk.language.psi.SimpleProperty;
 import org.intellij.sdk.language.psi.SimpleTypes;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
@@ -127,6 +131,15 @@ public class SimplePsiImplUtil {
                 return element.getIcon(0);
             }
         };
+    }
+
+
+    public static SimpleReference[] getReferences(final SimpleIdentifierElement element) {
+        return (SimpleReference[]) SimpleUtil.findIdentifiers(element.getProject(), element.getName()).stream().map(i -> new SimpleReference(i, i.getTextRange())).toArray();
+    }
+
+    public static PsiReference getReference(final SimpleIdentifierElement element) {
+        return getReferences(element)[0];
     }
 
 }

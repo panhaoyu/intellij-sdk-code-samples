@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 // 创建SimpleReference类，它是PsiReferenceBase的子类，实现了PsiPolyVariantReference接口
-final class SimpleReference extends PsiReferenceBase<SimpleIdentifierElement> implements PsiPolyVariantReference {
+public final class SimpleReference extends PsiReferenceBase<SimpleIdentifierElement> implements PsiPolyVariantReference {
 
     private static final Logger LOG = Logger.getInstance(SimpleReference.class); // 日志记录器
     // 定义一个字符串成员变量用于存储键值
@@ -26,7 +26,7 @@ final class SimpleReference extends PsiReferenceBase<SimpleIdentifierElement> im
 
 
     // 构造函数，初始化引用和键值
-    SimpleReference(@NotNull SimpleIdentifierElement element, TextRange textRange) {
+    public SimpleReference(@NotNull SimpleIdentifierElement element, TextRange textRange) {
         super(element, textRange);
         key = element.getText().substring(textRange.getStartOffset(), textRange.getEndOffset());
     }

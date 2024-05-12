@@ -10,6 +10,8 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static org.intellij.sdk.language.psi.SimpleTypes.*;
 import org.intellij.sdk.language.psi.*;
 import com.intellij.navigation.ItemPresentation;
+import com.intellij.psi.PsiReference;
+import org.intellij.sdk.language.SimpleReference;
 
 public class SimpleIdentifierElementImpl extends SimpleNamedElementImpl implements SimpleIdentifierElement {
 
@@ -45,6 +47,16 @@ public class SimpleIdentifierElementImpl extends SimpleNamedElementImpl implemen
   @Override
   public ItemPresentation getPresentation() {
     return SimplePsiImplUtil.getPresentation(this);
+  }
+
+  @Override
+  public PsiReference getReference() {
+    return SimplePsiImplUtil.getReference(this);
+  }
+
+  @Override
+  public SimpleReference[] getReferences() {
+    return SimplePsiImplUtil.getReferences(this);
   }
 
 }
