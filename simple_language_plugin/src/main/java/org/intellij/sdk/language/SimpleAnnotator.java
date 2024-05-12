@@ -27,29 +27,22 @@ final class SimpleAnnotator implements Annotator {
     public static final String SIMPLE_PREFIX_STR = "simple";
     public static final String SIMPLE_SEPARATOR_STR = ":";
 
-    private static final TextAttributesKey SIMPLE_COMMAND_BLOCK_KEY = TextAttributesKey.createTextAttributesKey(
+    private static final TextAttributesKey BOLD = TextAttributesKey.createTextAttributesKey(
             "SIMPLE_COMMAND_BLOCK_KEY");
 
     static {
         // 获取全局颜色方案中的默认常量样式，并对其进行修改以实现加粗
-        TextAttributes boldAttributes = new TextAttributes(
-                EditorColorsManager.getInstance().getGlobalScheme().getAttributes(DefaultLanguageHighlighterColors.CONSTANT).getForegroundColor(),
-                EditorColorsManager.getInstance().getGlobalScheme().getAttributes(DefaultLanguageHighlighterColors.CONSTANT).getBackgroundColor(),
-                EditorColorsManager.getInstance().getGlobalScheme().getAttributes(DefaultLanguageHighlighterColors.CONSTANT).getEffectColor(),
-                EditorColorsManager.getInstance().getGlobalScheme().getAttributes(DefaultLanguageHighlighterColors.CONSTANT).getEffectType(),
-                Font.BOLD // 设置字体为加粗
-        );
-        EditorColorsManager.getInstance().getGlobalScheme().setAttributes(SIMPLE_COMMAND_BLOCK_KEY, boldAttributes);
+        TextAttributes bold = new TextAttributes(null, null, null, null, Font.BOLD);
+        EditorColorsManager.getInstance().getGlobalScheme().setAttributes(BOLD, bold);
     }
 
 
     @Override
     public void annotate(@NotNull final PsiElement element, @NotNull AnnotationHolder holder) {
         if (element instanceof SimpleCommandBlock) {
-            TextRange blockRange = element.getTextRange();
-            holder.newSilentAnnotation(HighlightSeverity.INFORMATION)
-                    .range(blockRange)
-                    .textAttributes(SIMPLE_COMMAND_BLOCK_KEY)
+            holder.newSilentAnnotation(HighlightSeverity.TEXT_ATTRIBUTES)
+                    .range(element.getTextRange())
+                    .textAttributes(BOLD)
                     .create();
             return;
         }

@@ -9,7 +9,6 @@ import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase;
 import com.intellij.psi.TokenType;
 import com.intellij.psi.tree.IElementType;
-import org.intellij.sdk.language.psi.SimpleIdentifierElement;
 import org.intellij.sdk.language.psi.SimpleTypes;
 import org.jetbrains.annotations.NotNull;
 
@@ -116,9 +115,6 @@ public class SimpleSyntaxHighlighter extends SyntaxHighlighterBase {
 
     @Override
     public TextAttributesKey @NotNull [] getTokenHighlights(IElementType tokenType) {
-        if (tokenType instanceof SimpleIdentifierElement) {
-            return KEYWORD_KEYS;
-        }
         return highlightingMap.getOrDefault(tokenType, BAD_CHARACTER_KEYS);
     }
 
