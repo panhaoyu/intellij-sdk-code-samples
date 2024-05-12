@@ -7,9 +7,12 @@ import com.intellij.lang.annotation.AnnotationHolder;
 import com.intellij.lang.annotation.Annotator;
 import com.intellij.lang.annotation.HighlightSeverity;
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
+import com.intellij.openapi.editor.colors.EditorColorsManager;
+import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiLiteralExpression;
+import org.intellij.sdk.language.psi.SimpleCommandBlock;
 import org.intellij.sdk.language.psi.SimpleProperty;
 import org.jetbrains.annotations.NotNull;
 
@@ -21,9 +24,23 @@ final class SimpleAnnotator implements Annotator {
     // 定义用于注释、行标记等的Simple语言前缀字符串
     public static final String SIMPLE_PREFIX_STR = "simple";
     public static final String SIMPLE_SEPARATOR_STR = ":";
+    private static final TextAttributesKey SIMPLE_COMMAND_BLOCK_KEY = TextAttributesKey.createTextAttributesKey(
+            "SIMPLE_COMMAND_BLOCK_KEY", DefaultLanguageHighlighterColors.CONSTANT);
+
 
     @Override
     public void annotate(@NotNull final PsiElement element, @NotNull AnnotationHolder holder) {
+        if (element instanceof SimpleCommandBlock) {
+            TextRange blockRange = element.getTextRange();
+            // 使用定义的TextAttributesKey，更新为加粗显示
+            holder.newSilentAnnotation(HighlightSeverity.INFORMATION)
+                    .range(blockRange)
+                    .textAttributes(SIMPLE_COMMAND_BLOCK_KEY)
+                    .create();
+            return;
+        }
+
+
         // 确保传入的PSI元素是一个表达式
         if (!(element instanceof PsiLiteralExpression literalExpression)) {
             return;
