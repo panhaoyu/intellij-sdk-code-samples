@@ -15,52 +15,52 @@ import org.jetbrains.annotations.Nullable;
 
 final class SimpleFindUsagesProvider implements FindUsagesProvider {
 
-  @Override
-  public WordsScanner getWordsScanner() {
-    return new DefaultWordsScanner(new SimpleLexerAdapter(),
-        SimpleTokenSets.IDENTIFIERS,
-        SimpleTokenSets.COMMENTS,
-        TokenSet.EMPTY);
-  }
-
-  @Override
-  public boolean canFindUsagesFor(@NotNull PsiElement psiElement) {
-    return psiElement instanceof PsiNamedElement;
-  }
-
-  @Nullable
-  @Override
-  public String getHelpId(@NotNull PsiElement psiElement) {
-    return null;
-  }
-
-  @NotNull
-  @Override
-  public String getType(@NotNull PsiElement element) {
-    if (element instanceof SimpleProperty) {
-      return "simple property";
+    @Override
+    public WordsScanner getWordsScanner() {
+        return new DefaultWordsScanner(new SimpleLexerAdapter(),
+                SimpleTokenSets.IDENTIFIERS,
+                SimpleTokenSets.COMMENTS,
+                TokenSet.EMPTY);
     }
-    return "";
-  }
 
-  @NotNull
-  @Override
-  public String getDescriptiveName(@NotNull PsiElement element) {
-    if (element instanceof SimpleProperty) {
-      return ((SimpleProperty) element).getKey();
+    @Override
+    public boolean canFindUsagesFor(@NotNull PsiElement psiElement) {
+        return psiElement instanceof PsiNamedElement;
     }
-    return "";
-  }
 
-  @NotNull
-  @Override
-  public String getNodeText(@NotNull PsiElement element, boolean useFullName) {
-    if (element instanceof SimpleProperty) {
-      return ((SimpleProperty) element).getKey() +
-          SimpleAnnotator.SIMPLE_SEPARATOR_STR +
-          ((SimpleProperty) element).getValue();
+    @Nullable
+    @Override
+    public String getHelpId(@NotNull PsiElement psiElement) {
+        return null;
     }
-    return "";
-  }
+
+    @NotNull
+    @Override
+    public String getType(@NotNull PsiElement element) {
+        if (element instanceof SimpleProperty) {
+            return "simple property";
+        }
+        return "";
+    }
+
+    @NotNull
+    @Override
+    public String getDescriptiveName(@NotNull PsiElement element) {
+        if (element instanceof SimpleProperty) {
+            return ((SimpleProperty) element).getKey();
+        }
+        return "";
+    }
+
+    @NotNull
+    @Override
+    public String getNodeText(@NotNull PsiElement element, boolean useFullName) {
+        if (element instanceof SimpleProperty) {
+            return ((SimpleProperty) element).getKey() +
+                    SimpleAnnotator.SIMPLE_SEPARATOR_STR +
+                    ((SimpleProperty) element).getValue();
+        }
+        return "";
+    }
 
 }
