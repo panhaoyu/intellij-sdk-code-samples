@@ -23,7 +23,6 @@ public abstract class SimpleNamedElementImpl extends ASTWrapperPsiElement implem
 
     private static final Logger LOG = Logger.getInstance(SimpleNamedElementImpl.class);
 
-
     @Override
     public PsiReference getReference() {
         if (!(this instanceof SimpleIdentifierElement)) return null; // 仅处理IdentifierElement
