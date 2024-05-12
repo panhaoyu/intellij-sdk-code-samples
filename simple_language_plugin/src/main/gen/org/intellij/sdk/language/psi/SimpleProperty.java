@@ -11,10 +11,6 @@ public interface SimpleProperty extends SimpleNamedElement {
   @NotNull
   SimpleIdentifierElement getIdentifierElement();
 
-  String getKey();
-
-  String getValue();
-
   String getName();
 
   PsiElement setName(String newName);

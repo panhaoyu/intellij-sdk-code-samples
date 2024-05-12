@@ -34,16 +34,6 @@ public class SimplePropertyImpl extends SimpleNamedElementImpl implements Simple
   }
 
   @Override
-  public String getKey() {
-    return SimplePsiImplUtil.getKey(this);
-  }
-
-  @Override
-  public String getValue() {
-    return SimplePsiImplUtil.getValue(this);
-  }
-
-  @Override
   public String getName() {
     return SimplePsiImplUtil.getName(this);
   }

@@ -116,7 +116,7 @@ property ::= (identifier_element) {
   recoverWhile="recover_property"
   mixin="org.intellij.sdk.language.psi.impl.SimpleNamedElementImpl"
   implements="org.intellij.sdk.language.psi.SimpleNamedElement"
-  methods=[getKey getValue getName setName getNameIdentifier getPresentation]
+  methods=[getName setName getNameIdentifier getPresentation]
 }
 private recover_property ::= !(identifier_element|end_of_line_comment)
 

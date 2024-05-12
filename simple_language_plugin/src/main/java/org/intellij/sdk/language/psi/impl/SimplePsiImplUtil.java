@@ -8,7 +8,6 @@ import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiReference;
-import com.intellij.psi.PsiReferenceBase;
 import org.intellij.sdk.language.SimpleReference;
 import org.intellij.sdk.language.SimpleUtil;
 import org.intellij.sdk.language.psi.SimpleElementFactory;
@@ -23,27 +22,8 @@ import java.util.List;
 
 public class SimplePsiImplUtil {
 
-    public static String getKey(SimpleProperty element) {
-        ASTNode keyNode = element.getNode().findChildByType(SimpleTypes.IF);
-        if (keyNode != null) {
-            // IMPORTANT: Convert embedded escaped spaces to simple spaces
-            return keyNode.getText().replaceAll("\\\\ ", " ");
-        } else {
-            return null;
-        }
-    }
-
-    public static String getValue(SimpleProperty element) {
-        ASTNode valueNode = element.getNode().findChildByType(SimpleTypes.STRING_LITERAL);
-        if (valueNode != null) {
-            return valueNode.getText();
-        } else {
-            return null;
-        }
-    }
-
     public static String getName(SimpleProperty element) {
-        return getKey(element);
+        return element.getText();
     }
 
     public static PsiElement setName(SimpleProperty element, String newName) {
