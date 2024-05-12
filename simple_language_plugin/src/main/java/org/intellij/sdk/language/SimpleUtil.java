@@ -111,8 +111,8 @@ public class SimpleUtil {
         for (VirtualFile virtualFile : virtualFiles) {
             SimpleFile simpleFile = (SimpleFile) PsiManager.getInstance(project).findFile(virtualFile);
             if (simpleFile != null) {
-                Collection<SimpleIdentifierElement> namedElements = PsiTreeUtil.findChildrenOfType(simpleFile, SimpleIdentifierElement.class);
-                result.addAll(namedElements);
+                Collection<SimpleIdentifierElement> identifiers = PsiTreeUtil.findChildrenOfType(simpleFile, SimpleIdentifierElement.class);
+                result.addAll(identifiers);
             }
         }
         return result;
