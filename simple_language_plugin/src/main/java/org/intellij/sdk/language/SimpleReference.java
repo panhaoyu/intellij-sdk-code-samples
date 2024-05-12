@@ -23,8 +23,6 @@ public final class SimpleReference extends PsiReferenceBase<PsiElement> implemen
     // 构造函数，初始化引用和键值
     public SimpleReference(@NotNull PsiElement element, TextRange textRange) {
         super(element, textRange);
-        // 确保文本范围有效
-        String elementText = element.getText();
     }
 
     // 重写multiResolve方法，用于解析多个可能的引用结果
