@@ -5,6 +5,7 @@ package org.intellij.sdk.language.psi.impl;
 import com.google.common.base.Objects;
 import com.intellij.lang.ASTNode;
 import com.intellij.navigation.ItemPresentation;
+import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiReference;
@@ -122,7 +123,7 @@ public class SimplePsiImplUtil {
         ArrayList<SimpleReference> references = new ArrayList<>();
         for (SimpleIdentifierElement other : identifiers) {
             if (Objects.equal(element, other)) continue;
-            references.add(new SimpleReference(other, other.getTextRange()));
+            references.add(new SimpleReference(other, new TextRange(0, other.getTextLength())));
         }
         return references.toArray(SimpleReference[]::new);
     }
