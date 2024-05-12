@@ -5,7 +5,10 @@ import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.*;
+import com.intellij.psi.PsiElementResolveResult;
+import com.intellij.psi.PsiPolyVariantReference;
+import com.intellij.psi.PsiReferenceBase;
+import com.intellij.psi.ResolveResult;
 import org.intellij.sdk.language.psi.SimpleIdentifierElement;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -33,13 +36,10 @@ final class SimpleReference extends PsiReferenceBase<SimpleIdentifierElement> im
     @Override
     public ResolveResult @NotNull [] multiResolve(boolean incompleteCode) {
         Project project = myElement.getProject();
-        final List<SimpleIdentifierElement> properties = SimpleUtil.findAllIdentifiers(project); // 查找与键值相关的属性列表
+        final List<SimpleIdentifierElement> properties = SimpleUtil.findIdentifiers(project, myElement.getName()); // 查找与键值相关的属性列表
         List<ResolveResult> results = new ArrayList<>(); // 创建解析结果列表
         for (SimpleIdentifierElement identifier : properties) { // 遍历找到的属性
-            if (Objects.equals(identifier.getName(), myElement.getName())) {
-                results.add(new PsiElementResolveResult(identifier)); // 将属性封装为解析结果并添加到列表中
-                LOG.error("Matching identifier found: " + identifier.getName()); // 记录匹配信息
-            }
+            results.add(new PsiElementResolveResult(identifier)); // 将属性封装为解析结果并添加到列表中
         }
         LOG.error("Total identifiers resolved: " + results.size()); // 记录解析的数量
         return results.toArray(new ResolveResult[0]); // 将列表转换为数组并返回

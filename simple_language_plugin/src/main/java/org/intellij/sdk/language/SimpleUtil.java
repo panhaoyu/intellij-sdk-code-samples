@@ -126,6 +126,23 @@ public class SimpleUtil {
     }
 
     /**
+     * 查找整个项目中所有标识符元素（SimpleNamedElement）。
+     *
+     * @param project 当前项目
+     * @return 找到的所有标识符元素的列表
+     */
+    public static List<SimpleIdentifierElement> findIdentifiers(Project project, String key) {
+        final List<SimpleIdentifierElement> properties = findAllIdentifiers(project); // 查找与键值相关的属性列表
+        List<SimpleIdentifierElement> results = new ArrayList<>(); // 创建解析结果列表
+        for (SimpleIdentifierElement identifier : properties) { // 遍历找到的属性
+            if (Objects.equals(identifier.getName(), key)) {
+                results.add(identifier);
+            }
+        }
+        return results;
+    }
+
+    /**
      * Finds the declarations of all identifiers within a project. Only the first occurrence of each identifier is considered the declaration.
      *
      * @param project the current project in which to search for declarations.
