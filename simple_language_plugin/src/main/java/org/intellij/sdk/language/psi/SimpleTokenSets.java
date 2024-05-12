@@ -8,6 +8,6 @@ public interface SimpleTokenSets {
 
   TokenSet IDENTIFIERS = TokenSet.create(SimpleTypes.IF);
 
-  TokenSet COMMENTS = TokenSet.create(SimpleTypes.COMMENT);
+    TokenSet COMMENTS = TokenSet.create(SimpleTypes.COMMENT);
 
 }
