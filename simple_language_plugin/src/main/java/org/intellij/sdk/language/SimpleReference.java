@@ -40,11 +40,12 @@ public final class SimpleReference extends PsiReferenceBase<PsiElement> implemen
     // 重写multiResolve方法，用于解析多个可能的引用结果
     @Override
     public ResolveResult @NotNull [] multiResolve(boolean incompleteCode) {
-        Project project = this.getElement().getProject();
+        SimpleIdentifierElement element = (SimpleIdentifierElement) this.getElement();
+        Project project = element.getProject();
         final List<SimpleIdentifierElement> properties = SimpleUtil.findAllIdentifiers(project); // 查找与键值相关的属性列表
         List<ResolveResult> results = new ArrayList<>(); // 创建解析结果列表
         for (SimpleIdentifierElement identifier : properties) { // 遍历找到的属性
-            if (identifier.getName() != null && identifier.getName().equals(key)) {
+            if (Objects.equals(identifier.getName(), element.getName())) {
                 results.add(new PsiElementResolveResult(identifier)); // 将属性封装为解析结果并添加到列表中
                 LOG.error("Matching identifier found: " + identifier.getName()); // 记录匹配信息
             }
