@@ -13,34 +13,24 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Stream;
 
 public abstract class SimpleNamedElementImpl extends ASTWrapperPsiElement implements SimpleNamedElement {
     public SimpleNamedElementImpl(@NotNull ASTNode node) {
         super(node);
     }
 
-    /**
-     * Checks if this element is the declaration of the identifier.
-     *
-     * @return true if this is the first occurrence of the identifier in the scope.
-     */
-    private boolean isDeclaration() {
-        // Assuming that a declaration in your language is defined as the first occurrence
-        // in the file or a specific structural scope.
-        @NotNull Project project = this.getProject();
-        List<SimpleNamedElement> declarations = SimpleUtil.findDeclarations(project);
-        Stream<SimpleNamedElement> stream = declarations.stream();
-        Stream<SimpleNamedElement> simpleNamedElementStream = stream.filter(e -> Objects.equals(e.getName(), this.getName()) && e.equals(this));
-        SimpleNamedElement firstDeclaration = simpleNamedElementStream.findFirst().orElse(null);
-        return firstDeclaration != null && firstDeclaration.equals(this);
-    }
 
     @Override
     public PsiReference getReference() {
-        if (this.isDeclaration()) {
-            return null;
-        }
-        return new SimpleReference(this, getTextRange());
+        // 获取当前项目
+        @NotNull Project project = this.getProject();
+        // 查找所有的声明
+        List<SimpleNamedElement> declarations = SimpleUtil.findDeclarations(project);
+        // 流处理，筛选出第一个同名的元素
+        return declarations.stream()
+                .filter(e -> Objects.equals(e.getName(), this.getName()) && !e.equals(this))
+                .findFirst()
+                .map(e -> new SimpleReference(e, e.getTextRange())) // 创建引用
+                .orElse(null); // 如果没有找到任何匹配项，则返回null
     }
 }
