@@ -22,13 +22,10 @@ public final class SimpleReference extends PsiReferenceBase<SimpleTkIdentifier> 
     private static final Logger LOG = Logger.getInstance(SimpleReference.class); // 日志记录器
     // 定义一个字符串成员变量用于存储键值
 
-    private final String key;
-
 
     // 构造函数，初始化引用和键值
     public SimpleReference(@NotNull SimpleTkIdentifier element, TextRange textRange) {
         super(element, textRange);
-        key = element.getText();
     }
 
     // 重写multiResolve方法，用于解析多个可能的引用结果
