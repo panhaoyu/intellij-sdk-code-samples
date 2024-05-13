@@ -62,10 +62,10 @@ public class SimpleStructureViewElement implements StructureViewTreeElement, Sor
     @Override
     public TreeElement @NotNull [] getChildren() {
         if (myElement instanceof SimpleFile) {
-            List<SimpleBlockDefine> properties = PsiTreeUtil.getChildrenOfTypeAsList(myElement, SimpleBlockDefine.class);
-            List<TreeElement> treeElements = new ArrayList<>(properties.size());
-            for (SimpleBlockDefine property : properties) {
-                treeElements.add(new SimpleStructureViewElement((SimpleBlockDefineImpl) property));
+            List<SimpleBlockDefine> defines = PsiTreeUtil.getChildrenOfTypeAsList(myElement, SimpleBlockDefine.class);
+            List<TreeElement> treeElements = new ArrayList<>(defines.size());
+            for (SimpleBlockDefine define : defines) {
+                treeElements.add(new SimpleStructureViewElement((SimpleBlockDefineImpl) define));
             }
             return treeElements.toArray(new TreeElement[0]);
         }
