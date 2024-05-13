@@ -9,15 +9,14 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiReference;
 import com.intellij.psi.impl.source.resolve.reference.impl.PsiMultiReference;
+import com.intellij.psi.util.PsiTreeUtil;
 import org.intellij.sdk.language.SimpleReference;
-import org.intellij.sdk.language.psi.SimpleElementFactory;
-import org.intellij.sdk.language.psi.SimpleTkIdentifier;
-import org.intellij.sdk.language.psi.SimpleProperty;
-import org.intellij.sdk.language.psi.SimpleTypes;
+import org.intellij.sdk.language.psi.*;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class SimplePsiImplUtil {
 
@@ -67,9 +66,14 @@ public class SimplePsiImplUtil {
     }
 
 
+    public static String getName(SimpleBlockDefine element) {
+        return element.getText();
+    }
+
     public static String getName(SimpleTkIdentifier element) {
         return element.getText();
     }
+
 
     public static PsiElement setName(SimpleTkIdentifier element, String newName) {
         ASTNode node = element.getNode();
@@ -89,6 +93,30 @@ public class SimplePsiImplUtil {
             @Override
             public String getPresentableText() {
                 return element.getName();
+            }
+
+            @Nullable
+            @Override
+            public String getLocationString() {
+                PsiFile containingFile = element.getContainingFile();
+                return containingFile == null ? null : containingFile.getName();
+            }
+
+            @Override
+            public Icon getIcon(boolean unused) {
+                return element.getIcon(0);
+            }
+        };
+    }
+
+    public static ItemPresentation getPresentation(final SimpleBlockDefine element) {
+        return new ItemPresentation() {
+            final SimpleTkIdentifier identifier = PsiTreeUtil.findChildOfType(element, SimpleTkIdentifier.class);
+
+            @Nullable
+            @Override
+            public String getPresentableText() {
+                return Objects.requireNonNull(identifier).getName();
             }
 
             @Nullable

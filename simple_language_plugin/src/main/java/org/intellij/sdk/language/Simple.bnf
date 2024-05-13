@@ -91,7 +91,9 @@ private cmd_expr_func_call ::= op_at tk_identifier expr_paren_csv?
 private cmd_expr_inline_fish ::= square_l stat_fish square_r
 
 
-block_define ::= define_header (eol block_fish)? eol kw_end
+block_define ::= (define_header (eol block_fish)? eol kw_end) {
+    methods=[getName getPresentation]
+}
 define_header ::= kw_fish? kw_def tk_identifier define_params?
 private define_params ::= (paren_l tk_identifier (op_comma tk_identifier)* paren_r)
 

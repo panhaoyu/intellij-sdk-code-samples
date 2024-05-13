@@ -10,6 +10,7 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static org.intellij.sdk.language.psi.SimpleTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import org.intellij.sdk.language.psi.*;
+import com.intellij.navigation.ItemPresentation;
 
 public class SimpleBlockDefineImpl extends ASTWrapperPsiElement implements SimpleBlockDefine {
 
@@ -43,6 +44,16 @@ public class SimpleBlockDefineImpl extends ASTWrapperPsiElement implements Simpl
   @NotNull
   public List<SimpleEol> getEolList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleEol.class);
+  }
+
+  @Override
+  public String getName() {
+    return SimplePsiImplUtil.getName(this);
+  }
+
+  @Override
+  public ItemPresentation getPresentation() {
+    return SimplePsiImplUtil.getPresentation(this);
   }
 
 }
