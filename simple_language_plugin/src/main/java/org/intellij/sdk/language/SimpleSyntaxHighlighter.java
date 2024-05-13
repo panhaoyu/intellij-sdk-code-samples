@@ -72,7 +72,6 @@ public class SimpleSyntaxHighlighter extends SyntaxHighlighterBase {
         put(SimpleTypes.BINARY_OPERATOR, OPERATOR_KEYS);
         put(SimpleTypes.COMMA_OPERATOR, OPERATOR_KEYS);
         put(SimpleTypes.DOT_OPERATOR, OPERATOR_KEYS);
-        put(SimpleTypes.ELLIPSIS, OPERATOR_KEYS);
         put(SimpleTypes.FUNCTION_CALL_OPERATOR, OPERATOR_KEYS);
         put(SimpleTypes.MINUS_OPERATOR, OPERATOR_KEYS);
         put(SimpleTypes.UNARY_OPERATOR, OPERATOR_KEYS);
