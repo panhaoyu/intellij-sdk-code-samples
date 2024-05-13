@@ -8,7 +8,7 @@ public interface SimpleTokenSets {
 
     TokenSet IDENTIFIERS = TokenSet.create(SimpleTypes.IDENTIFIER);
 
-    TokenSet COMMENTS = TokenSet.create(SimpleTypes.COMMENT);
+    TokenSet COMMENTS = TokenSet.create(SimpleTypes.COMMENT, SimpleTypes.NEWLINE);
 
     TokenSet LITERALS = TokenSet.create(SimpleTypes.LITERAL);
 
