@@ -4,6 +4,7 @@ package org.intellij.sdk.language;
 
 import com.intellij.formatting.*;
 import com.intellij.psi.codeStyle.CodeStyleSettings;
+import org.intellij.sdk.language.psi.SimpleTokenSets;
 import org.intellij.sdk.language.psi.SimpleTypes;
 import org.jetbrains.annotations.NotNull;
 
@@ -11,10 +12,12 @@ final class SimpleFormattingModelBuilder implements FormattingModelBuilder {
 
     private static SpacingBuilder createSpaceBuilder(CodeStyleSettings settings) {
         return new SpacingBuilder(settings, SimpleLanguage.INSTANCE)
-                .around(SimpleTypes.BINARY_OPERATOR)
-                .spaces(1)
-                .before(SimpleTypes.IDENTIFIER)
-                .none();
+                .around(SimpleTokenSets.Operators).spaces(1)
+                .around(SimpleTypes.FUNCTION_CALL_OPERATOR).spaces(0)
+                .after(SimpleTokenSets.LeftBrackets).spaces(0)
+                .before(SimpleTokenSets.RightBrackets).spaces(0)
+                .around(SimpleTokenSets.IDENTIFIERS).spaces(1)
+                ;
     }
 
     @Override

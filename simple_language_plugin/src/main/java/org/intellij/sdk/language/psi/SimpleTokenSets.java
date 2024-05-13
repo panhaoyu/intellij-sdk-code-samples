@@ -14,4 +14,23 @@ public interface SimpleTokenSets {
 
     TokenSet STRING_LITERALS = TokenSet.create(SimpleTypes.STRING_LITERAL);
 
+    TokenSet Operators = TokenSet.create(
+            SimpleTypes.ASSIGNMENT_OPERATOR,
+            SimpleTypes.UNARY_OPERATOR,
+            SimpleTypes.MINUS_OPERATOR,
+            SimpleTypes.BINARY_OPERATOR
+    );
+
+    TokenSet RightBrackets = TokenSet.create(
+            SimpleTypes.RIGHT_CURLY_BRACKET,
+            SimpleTypes.RIGHT_PARENTHESIS,
+            SimpleTypes.RIGHT_SQUARE_BRACKET
+    );
+    TokenSet LeftBrackets = TokenSet.create(
+            SimpleTypes.LEFT_CURLY_BRACKET,
+            SimpleTypes.LEFT_PARENTHESIS,
+            SimpleTypes.LEFT_SQUARE_BRACKET
+    );
+
+
 }
