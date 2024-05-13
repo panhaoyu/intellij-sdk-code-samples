@@ -87,7 +87,7 @@ private cmd_tk_all ::= (
 private cmd_tk_kw_all ::= (kw_fish | kw_case_of | kw_case | kw_end_case | kw_def | kw_end | kw_exit | kw_global | kw_if | kw_then |
     kw_else_if | kw_else | kw_end_if | kw_local | kw_lock | kw_loop | kw_endloop | kw_continue | kw_return | kw_section | kw_end_section | kw_struct )
 cmd_stat_func_call ::= cmd_expr_func_call
-private cmd_expr_func_call ::= op_at tk_identifier expr_paren_csv
+private cmd_expr_func_call ::= op_at tk_identifier expr_paren_csv?
 private cmd_expr_inline_fish ::= square_l stat_fish square_r
 
 
