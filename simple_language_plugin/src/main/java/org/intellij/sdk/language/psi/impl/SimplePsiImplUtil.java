@@ -8,6 +8,7 @@ import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiReference;
+import com.intellij.psi.impl.source.resolve.reference.impl.PsiMultiReference;
 import org.intellij.sdk.language.SimpleReference;
 import org.intellij.sdk.language.psi.SimpleElementFactory;
 import org.intellij.sdk.language.psi.SimpleIdentifierElement;
@@ -113,7 +114,13 @@ public class SimplePsiImplUtil {
 
     public static PsiReference getReference(final SimpleIdentifierElement element) {
         SimpleReference[] references = getReferences(element);
-        return references.length > 0 ? references[0] : null;
+        if (references.length == 1) {
+            return references[0];
+        } else if (references.length > 1) {
+            return new PsiMultiReference(references, element);
+        } else {
+            return null;
+        }
     }
 
     public static int getTextOffset(final SimpleIdentifierElement element) {
