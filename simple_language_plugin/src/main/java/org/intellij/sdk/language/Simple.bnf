@@ -79,21 +79,33 @@ cmd_block ::= (
     cmd_stat_other
 )
 cmd_stat_inline_fish ::= cmd_expr_inline_fish
+cmd_stat_other ::= cmd_tk_all+
+private cmd_tk_all ::= (
+    tk_identifier | square_l | square_r | paren_l | paren_r | op_comma |
+    op_assign|
+    op_unary | op_binary| op_dot|op_at | tk_literal | cmd_tk_kw_all
+ )
+private cmd_tk_kw_all ::= (kw_fish | kw_case_of | kw_case | kw_end_case | kw_def | kw_end | kw_exit | kw_global | kw_if | kw_then |
+    kw_else_if | kw_else | kw_end_if | kw_local | kw_lock | kw_loop | kw_endloop | kw_continue | kw_return | kw_section | kw_end_section | kw_struct )
+cmd_stat_func_call ::= cmd_expr_func_call
+private cmd_expr_func_call ::= op_at tk_identifier expr_paren_csv
+private cmd_expr_inline_fish ::= square_l stat_fish square_r
+
 
 block_define ::= define_header (eol block_fish)? eol kw_end
 define_header ::= kw_fish? kw_def tk_identifier define_params?
 private define_params ::= (paren_l tk_identifier (op_comma tk_identifier)* paren_r)
 
 block_fish ::=  block_single_fish (eol block_single_fish)*
-block_single_fish ::= if_block | block_loop | block_case_of | block_cmd | stat_fish
+block_single_fish ::= block_if | block_loop | block_case_of | block_cmd | stat_fish
 
-if_block ::= kw_if expr kw_then?
+block_if ::= kw_if expr kw_then?
              (eol block_fish)?
-             (eol else_if_block)*
-             (eol else_block)?
+             (eol block_else_if)*
+             (eol block_else)?
              eol kw_end_if
-else_if_block ::= kw_else_if expr kw_then? (eol block_fish)?
-else_block ::=  kw_else (eol block_fish)?
+block_else_if ::= kw_else_if expr kw_then? (eol block_fish)?
+block_else ::=  kw_else (eol block_fish)?
 
 block_loop ::= block_header_loop (eol block_fish)? eol kw_endloop
 block_header_loop ::= kw_loop (loop_each | loop_indexed | loop_for | loop_while)
@@ -111,14 +123,6 @@ block_case_option ::= kw_case expr (eol block_fish)?
 
 block_cmd ::= kw_command (eol body_cmd)? eol kw_end_command
 body_cmd ::= cmd_stat_other (eol cmd_stat_other)*
-cmd_stat_other ::= cmd_tk_all+
-private cmd_tk_all ::= (
-    tk_identifier | square_l | square_r | paren_l | paren_r | op_comma |
-    op_assign|
-    op_unary | op_binary| op_dot|op_at | tk_literal | cmd_tk_kw_all
- )
-private cmd_tk_kw_all ::= (kw_fish | kw_case_of | kw_case | kw_end_case | kw_def | kw_end | kw_exit | kw_global | kw_if | kw_then |
-    kw_else_if | kw_else | kw_end_if | kw_local | kw_lock | kw_loop | kw_endloop | kw_continue | kw_return | kw_section | kw_end_section | kw_struct )
 
 stat_fish ::= (
     stat_array_declare |
@@ -129,8 +133,6 @@ stat_fish ::= (
     kw_exit
     )
 
-cmd_stat_func_call ::= cmd_expr_func_call
-private cmd_expr_func_call ::= op_at tk_identifier expr_paren_csv
 
 
 stat_assign ::= (kw_local | kw_global)? expr_assign (op_comma expr_assign)*
@@ -146,7 +148,7 @@ private expr_paren ::= paren_l expr paren_r
 private expr_func_call ::= tk_identifier expr_paren_csv
 private expr_csv ::= expr (op_comma expr)*
 private expr_paren_csv ::= paren_l expr_csv paren_r
-private cmd_expr_inline_fish ::= square_l stat_fish square_r
+
 
 private expr_binary ::= expr_non_binary (op_binary expr_non_binary)*
 private expr_non_binary ::=  expr_paren | expr_func_call | expr_unary | tk_value
