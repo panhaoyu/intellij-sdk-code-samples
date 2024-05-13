@@ -49,7 +49,7 @@ final class SimpleFoldingBuilder extends FoldingBuilderEx {
     // 获取占位文本的方法，通常用于显示折叠时的简略信息
     @Override
     public String getPlaceholderText(@NotNull ASTNode node) {
-        return node.getText();
+        return node.getText().replaceAll("\\s+", " ");
     }
 
     // 判断节点在初始化时是否应该默认折叠
