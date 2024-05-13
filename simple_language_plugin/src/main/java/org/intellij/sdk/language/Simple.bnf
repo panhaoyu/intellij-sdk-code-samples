@@ -75,7 +75,7 @@ command_scope ::= (
     command_scope_inline_fish_statement |
     function_define |
     comment_block |
-    function_call_statement |
+    command_scope_function_call |
     command_line
 )
 command_scope_inline_fish_statement ::= command_scope_inline_fish_expression
@@ -129,8 +129,8 @@ fish_statement ::= (
     exit
     )
 
-function_call_statement ::= function_call_expression | function_call_statement_at
-private function_call_statement_at ::= at_operator identifier_element parenthesis_csv_expression
+function_call_statement ::= function_call_expression
+private command_scope_function_call ::= at_operator identifier_element parenthesis_csv_expression
 
 
 assignment_statement ::= (local | global)? assignment_expression (comma_operator assignment_expression)*
