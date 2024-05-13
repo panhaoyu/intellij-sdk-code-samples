@@ -2,6 +2,7 @@
 
 package org.intellij.sdk.language.psi.impl;
 
+import com.intellij.icons.AllIcons;
 import com.intellij.lang.ASTNode;
 import com.intellij.navigation.ItemPresentation;
 import com.intellij.openapi.util.TextRange;
@@ -128,7 +129,7 @@ public class SimplePsiImplUtil {
 
             @Override
             public Icon getIcon(boolean unused) {
-                return element.getIcon(0);
+                return AllIcons.Nodes.Function;
             }
         };
     }
