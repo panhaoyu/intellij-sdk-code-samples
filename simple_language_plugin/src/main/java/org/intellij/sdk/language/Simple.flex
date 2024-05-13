@@ -32,7 +32,7 @@ EndOfLineEllipsisWithComment = "..." {WhiteSpace}* {EndOfLineComment}
 EndOfLineComment     = ";" {InputCharacter}* {LineTerminator}?
 EndOfLineEllipsis = "..." {LineTerminator}
 
-Identifier = [:jletter:] ([:jletterdigit:]|".")*
+Identifier = ([:jletter:]|_) ([:jletterdigit:]|".")*
 
 Number=[0-9][0-9.]*([eE]-?[0-9]+)?
 
@@ -142,7 +142,7 @@ String = {StringA} | {StringB}
 
     {EndOfLineEllipsisWithComment} {return TokenType.WHITE_SPACE; }
 
-    {Comment} {return SimpleTypes.NEWLINE;}
+    {Comment} {return SimpleTypes.COMMENT;}
 
     {EndOfLineEllipsis} {return TokenType.WHITE_SPACE; }
 

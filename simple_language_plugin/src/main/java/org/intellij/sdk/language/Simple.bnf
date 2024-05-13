@@ -17,7 +17,8 @@
   psiImplUtilClass="org.intellij.sdk.language.psi.impl.SimplePsiImplUtil"
 
   tokens = [
-    space='regexp:\s+'
+    space="regexp: +"
+    NEWLINE='regexp:(\R( \t)*)'
 
     FISH="fish"
     DEFINE="define"
@@ -50,8 +51,6 @@
     STRUCT="struct"
     ARRAY="[Aa]rray"
 
-//    identifier="regexp:[a-zA-Z][a-zA-Z0-9_]*"
-
     STRING_LITERAL="\".*?\""
     NUMBER_LITERAL="[0-9][0-9*](\.[0-9])?"
     COMMENT=";.*?"
@@ -65,6 +64,8 @@
     RIGHT_SQUARE_BRACKET="]"
     LEFT_CURLY_BRACKET="{"
     RIGHT_CURLY_BRACKET="}"
+
+    identifier="regexp:[a-zA-Z_][a-zA-Z0-9_]*"
   ]
 }
 
@@ -183,7 +184,7 @@ private end_of_line_comment ::= COMMENT
 private binary_operator ::= BINARY_OPERATOR | MINUS_OPERATOR | ASSIGNMENT_OPERATOR
 private unary_operator ::= UNARY_OPERATOR | MINUS_OPERATOR
 private assignment_operator ::= ASSIGNMENT_OPERATOR
-private newline ::= NEWLINE+
+private newline ::= (NEWLINE|COMMENT)+
 
 private at_operator ::= FUNCTION_CALL_OPERATOR
 private comma_operator ::= COMMA_OPERATOR
