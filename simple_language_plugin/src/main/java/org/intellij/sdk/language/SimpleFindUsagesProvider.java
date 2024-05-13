@@ -41,8 +41,8 @@ final class SimpleFindUsagesProvider implements FindUsagesProvider {
     @NotNull
     @Override
     public String getDescriptiveName(@NotNull PsiElement element) {
-        if (element instanceof SimpleIdentifierElement element1) {
-            return Objects.requireNonNull(element1.getName());
+        if (element instanceof SimpleIdentifierElement identifierElement) {
+            return Objects.requireNonNull(identifierElement.getName());
         }
         return "";
     }
