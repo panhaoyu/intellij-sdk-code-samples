@@ -14,7 +14,7 @@ public interface SimpleFishBlock extends PsiElement {
   List<SimpleCommandBlock> getCommandBlockList();
 
   @NotNull
-  List<SimpleEndOfLine> getEndOfLineList();
+  List<SimpleEol> getEolList();
 
   @NotNull
   List<SimpleFishStatement> getFishStatementList();

@@ -29,8 +29,8 @@ public class SimpleElseIfBlockImpl extends ASTWrapperPsiElement implements Simpl
 
   @Override
   @Nullable
-  public SimpleEndOfLine getEndOfLine() {
-    return findChildByClass(SimpleEndOfLine.class);
+  public SimpleEol getEol() {
+    return findChildByClass(SimpleEol.class);
   }
 
   @Override

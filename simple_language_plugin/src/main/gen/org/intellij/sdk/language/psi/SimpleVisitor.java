@@ -35,7 +35,7 @@ public class SimpleVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitEndOfLine(@NotNull SimpleEndOfLine o) {
+  public void visitEol(@NotNull SimpleEol o) {
     visitPsiElement(o);
   }
 

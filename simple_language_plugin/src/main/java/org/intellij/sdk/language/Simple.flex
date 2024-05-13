@@ -26,10 +26,8 @@ LineTerminator = \r|\n|(\r\n)
 InputCharacter = [^\r\n]
 WhiteSpace     = [ \t\f]
 
-Comment = {EndOfLineComment}
-
-EndOfLineEllipsisWithComment = "..." {WhiteSpace}* {EndOfLineComment}
-EndOfLineComment     = ";" {InputCharacter}* {LineTerminator}?
+Comment     = ";" {InputCharacter}* {LineTerminator}?
+EndOfLineEllipsisWithComment = "..." {WhiteSpace}* ({Comment})?
 EndOfLineEllipsis = "..." {LineTerminator}
 
 Identifier = ([:jletter:]|_) ([:jletterdigit:]|".")*
@@ -143,8 +141,6 @@ String = {StringA} | {StringB}
     {EndOfLineEllipsisWithComment} {return TokenType.WHITE_SPACE; }
 
     {Comment} {return SimpleTypes.COMMENT;}
-
-    {EndOfLineEllipsis} {return TokenType.WHITE_SPACE; }
 
 
     \} {return SimpleTypes.LEFT_CURLY_BRACKET; }

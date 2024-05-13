@@ -11,14 +11,14 @@ import static org.intellij.sdk.language.psi.SimpleTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import org.intellij.sdk.language.psi.*;
 
-public class SimpleEndOfLineImpl extends ASTWrapperPsiElement implements SimpleEndOfLine {
+public class SimpleEolImpl extends ASTWrapperPsiElement implements SimpleEol {
 
-  public SimpleEndOfLineImpl(@NotNull ASTNode node) {
+  public SimpleEolImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull SimpleVisitor visitor) {
-    visitor.visitEndOfLine(this);
+    visitor.visitEol(this);
   }
 
   @Override

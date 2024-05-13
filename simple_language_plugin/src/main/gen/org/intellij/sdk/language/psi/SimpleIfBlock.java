@@ -14,7 +14,7 @@ public interface SimpleIfBlock extends PsiElement {
   List<SimpleElseIfBlock> getElseIfBlockList();
 
   @NotNull
-  List<SimpleEndOfLine> getEndOfLineList();
+  List<SimpleEol> getEolList();
 
   @Nullable
   SimpleFishBlock getFishBlock();

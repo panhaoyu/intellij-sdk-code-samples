@@ -29,8 +29,8 @@ public class SimpleLoopBlockImpl extends ASTWrapperPsiElement implements SimpleL
 
   @Override
   @NotNull
-  public List<SimpleEndOfLine> getEndOfLineList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleEndOfLine.class);
+  public List<SimpleEol> getEolList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleEol.class);
   }
 
   @Override

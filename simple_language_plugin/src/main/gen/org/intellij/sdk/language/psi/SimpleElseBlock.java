@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface SimpleElseBlock extends PsiElement {
 
   @Nullable
-  SimpleEndOfLine getEndOfLine();
+  SimpleEol getEol();
 
   @Nullable
   SimpleFishBlock getFishBlock();
