@@ -69,7 +69,7 @@
   ]
 }
 
-simpleFile ::= newline* command_scope (newline command_scope)* newline*
+simpleFile ::= end_of_line* command_scope (end_of_line command_scope)* end_of_line*
 
 command_scope ::= (
     command_scope_inline_fish_statement |
@@ -80,22 +80,22 @@ command_scope ::= (
 )
 command_scope_inline_fish_statement ::= command_scope_inline_fish_expression
 
-function_define ::= function_define_header (newline fish_block)? newline end
+function_define ::= function_define_header (end_of_line fish_block)? end_of_line end
 private function_define_header ::= fish? define identifier_element function_parameter_list?
 private function_parameter_list ::= (left_parenthesis identifier_element (comma_operator identifier_element)* right_parenthesis)
 
-fish_block ::=  single_fish_block (newline single_fish_block)*
+fish_block ::=  single_fish_block (end_of_line single_fish_block)*
 private single_fish_block ::= if_block | loop_block | case_block | comment_block | command_block | fish_statement
 
 if_block ::= if expression then?
-             (newline fish_block)?
-             (newline else_if_block)*
-             (newline else_block)?
-             newline endif
-else_if_block ::= elseif expression then? (newline fish_block)?
-else_block ::=  else (newline fish_block)?
+             (end_of_line fish_block)?
+             (end_of_line else_if_block)*
+             (end_of_line else_block)?
+             end_of_line endif
+else_if_block ::= elseif expression then? (end_of_line fish_block)?
+else_block ::=  else (end_of_line fish_block)?
 
-loop_block ::= loop_header (newline fish_block)? newline endloop
+loop_block ::= loop_header (end_of_line fish_block)? end_of_line endloop
 private loop_header ::= loop (loop_each | loop_indexed | loop_for | loop_while)
 private loop_indexed ::= assignment_left_loop loop_indexed_range
 private loop_indexed_range ::=
@@ -106,11 +106,11 @@ private loop_each ::= foreach assignment_left_loop expression
 private loop_for ::= for left_parenthesis local? expression comma_operator expression comma_operator expression right_parenthesis
 
 
-case_block ::= case_of expression (newline fish_block)? (newline case_clause)* newline end_case
-private case_clause ::= case expression (newline fish_block)?
+case_block ::= case_of expression (end_of_line fish_block)? (end_of_line case_clause)* end_of_line end_case
+private case_clause ::= case expression (end_of_line fish_block)?
 
-command_block ::= command (newline command_body)? newline end_command
-private command_body ::= command_line (newline command_line)*
+command_block ::= command (end_of_line command_body)? end_of_line end_command
+private command_body ::= command_line (end_of_line command_line)*
 private command_line ::= any_in_command+
 private any_in_command ::= (
     identifier_element | left_square_bracket | right_square_bracket | left_parenthesis | right_parenthesis | comma_operator |
@@ -184,7 +184,7 @@ private end_of_line_comment ::= COMMENT
 private binary_operator ::= BINARY_OPERATOR | MINUS_OPERATOR | ASSIGNMENT_OPERATOR
 private unary_operator ::= UNARY_OPERATOR | MINUS_OPERATOR
 private assignment_operator ::= ASSIGNMENT_OPERATOR
-private newline ::= (NEWLINE|COMMENT)+
+end_of_line ::= (NEWLINE|COMMENT)+
 
 private at_operator ::= FUNCTION_CALL_OPERATOR
 private comma_operator ::= COMMA_OPERATOR
