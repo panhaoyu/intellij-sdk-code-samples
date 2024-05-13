@@ -83,7 +83,7 @@ public class SimpleCodeInsightTest extends LightJavaCodeInsightFixtureTestCase {
     PsiReference referenceAtCaret =
         myFixture.getReferenceAtCaretPositionWithAssertion("ReferenceTestData.java", "DefaultTestData.simple");
     final SimpleProperty resolvedSimpleProperty = assertInstanceOf(referenceAtCaret.resolve(), SimpleProperty.class);
-    assertEquals("https://en.wikipedia.org/", resolvedSimpleProperty.getValue());
+    assertEquals("https://en.wikipedia.org/", resolvedSimpleProperty.getName());
   }
 
   public void testDocumentation() {
