@@ -17,7 +17,7 @@ public interface SimpleTokenSets {
     TokenSet Operators = TokenSet.create(
             SimpleTypes.ASSIGNMENT_OPERATOR,
             SimpleTypes.UNARY_OPERATOR,
-            SimpleTypes.MINUS_OPERATOR,
+            SimpleTypes.MINUS_OPERATOR, // 注意，减号并不永远是减号。在command语句里面，减号是可以作为标识符的一部分存在的。
             SimpleTypes.BINARY_OPERATOR
     );
 
