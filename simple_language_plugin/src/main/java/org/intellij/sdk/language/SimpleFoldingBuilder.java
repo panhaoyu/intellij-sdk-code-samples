@@ -11,12 +11,13 @@ import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.JavaRecursiveElementWalkingVisitor;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiLiteralExpression;
 import com.intellij.psi.util.PsiLiteralUtil;
 import com.intellij.util.containers.ContainerUtil;
+import org.intellij.sdk.language.psi.SimpleBlockDefine;
 import org.intellij.sdk.language.psi.SimpleProperty;
+import org.intellij.sdk.language.psi.SimpleVisitor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -38,17 +39,15 @@ final class SimpleFoldingBuilder extends FoldingBuilderEx implements DumbAware {
         List<FoldingDescriptor> descriptors = new ArrayList<>();
 
         // 使用访问者模式递归遍历代码的AST节点
-        root.accept(new JavaRecursiveElementWalkingVisitor() {
-
-            // 访问字面量表达式节点
+        root.accept(new SimpleVisitor() {
             @Override
-            public void visitLiteralExpression(@NotNull PsiLiteralExpression literalExpression) {
-                super.visitLiteralExpression(literalExpression);
+            public void visitBlockDefine(@NotNull SimpleBlockDefine blockDefine) {
+                super.visitBlockDefine(blockDefine);
 
-                String value = PsiLiteralUtil.getStringLiteralContent(literalExpression);
+                String value = blockDefine.getFirstChild().getText();
                 if (value != null &&
                         value.startsWith(SimpleAnnotator.SIMPLE_PREFIX_STR + SimpleAnnotator.SIMPLE_SEPARATOR_STR)) {
-                    Project project = literalExpression.getProject();
+                    Project project = blockDefine.getProject();
                     String key = value.substring(
                             SimpleAnnotator.SIMPLE_PREFIX_STR.length() + SimpleAnnotator.SIMPLE_SEPARATOR_STR.length()
                     );
@@ -56,9 +55,9 @@ final class SimpleFoldingBuilder extends FoldingBuilderEx implements DumbAware {
                     SimpleProperty simpleProperty = ContainerUtil.getOnlyItem(SimpleUtil.findProperties(project, key));
                     if (simpleProperty != null) {
                         // 为当前字面量表达式创建一个新的折叠描述符，并添加到列表中
-                        descriptors.add(new FoldingDescriptor(literalExpression.getNode(),
-                                new TextRange(literalExpression.getTextRange().getStartOffset() + 1,
-                                        literalExpression.getTextRange().getEndOffset() - 1),
+                        descriptors.add(new FoldingDescriptor(blockDefine.getNode(),
+                                new TextRange(blockDefine.getTextRange().getStartOffset() + 1,
+                                        blockDefine.getTextRange().getEndOffset() - 1),
                                 group, Collections.singleton(simpleProperty)));
                     }
                 }
