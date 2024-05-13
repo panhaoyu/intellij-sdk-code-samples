@@ -21,7 +21,6 @@ final class SimpleFormattingModelBuilder implements FormattingModelBuilder {
                 .after(SimpleTokenSets.LeftBrackets).none()
                 .before(SimpleTokenSets.RightBrackets).none()
                 .before(SimpleTypes.COMMA_OPERATOR).none()
-                .between(SimpleTypes.TK_VALUE, SimpleTypes.TK_VALUE).spaces(1)
                 .after(SimpleTypes.COMMA_OPERATOR).spaces(1)
                 ;
     }
