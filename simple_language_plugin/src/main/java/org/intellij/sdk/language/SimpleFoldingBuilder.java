@@ -7,7 +7,6 @@ import com.intellij.lang.folding.FoldingBuilderEx;
 import com.intellij.lang.folding.FoldingDescriptor;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.FoldingGroup;
-import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiLiteralExpression;
@@ -24,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 // SimpleFoldingBuilder类，实现代码折叠构建
-final class SimpleFoldingBuilder extends FoldingBuilderEx implements DumbAware {
+final class SimpleFoldingBuilder extends FoldingBuilderEx {
 
     // 构建折叠区域的方法
     @Override
