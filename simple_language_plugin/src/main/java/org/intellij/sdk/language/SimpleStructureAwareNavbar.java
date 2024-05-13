@@ -22,8 +22,8 @@ final class SimpleStructureAwareNavbar extends StructureAwareNavBarModelExtensio
 
     @Override
     public @Nullable String getPresentableText(Object object) {
-        if (object instanceof SimpleFile) {
-            return ((SimpleFile) object).getName();
+        if (object instanceof SimpleFile file) {
+            return file.getName();
         }
         if (object instanceof SimpleBlockDefine blockDefine) {
             return blockDefine.getText();
