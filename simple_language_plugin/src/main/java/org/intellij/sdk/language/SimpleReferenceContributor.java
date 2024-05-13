@@ -18,7 +18,7 @@ final class SimpleReferenceContributor extends PsiReferenceContributor {
         LOG.info("注册引用提供者，处理 SimpleIdentifierElement 类型的 PSI 元素");
 
         registrar.registerReferenceProvider(
-                PlatformPatterns.psiElement(SimpleIdentifierElement.class),
+                PlatformPatterns.psiElement(),
                 new PsiReferenceProvider() {
                     @Override
                     public PsiReference @NotNull [] getReferencesByElement(@NotNull PsiElement element, @NotNull ProcessingContext context) {

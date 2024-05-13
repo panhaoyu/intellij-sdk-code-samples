@@ -10,15 +10,13 @@ import org.intellij.sdk.language.psi.SimpleIdentifierElement;
 import org.intellij.sdk.language.psi.SimpleTokenSets;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 final class SimpleFindUsagesProvider implements FindUsagesProvider {
 
     @Override
     public WordsScanner getWordsScanner() {
-        return new DefaultWordsScanner(new SimpleLexerAdapter(),
-                SimpleTokenSets.IDENTIFIERS,
-                SimpleTokenSets.COMMENTS,
-                SimpleTokenSets.LITERALS
-        );
+        return new DefaultWordsScanner(new SimpleLexerAdapter(), SimpleTokenSets.IDENTIFIERS, SimpleTokenSets.COMMENTS, SimpleTokenSets.LITERALS);
     }
 
     @Override
@@ -43,10 +41,8 @@ final class SimpleFindUsagesProvider implements FindUsagesProvider {
     @NotNull
     @Override
     public String getDescriptiveName(@NotNull PsiElement element) {
-        if (element instanceof SimpleIdentifierElement) {
-            String name = ((SimpleIdentifierElement) element).getName();
-            String range = element.getTextRange().toString();
-            return name + "@" + range;
+        if (element instanceof SimpleIdentifierElement element1) {
+            return Objects.requireNonNull(element1.getName());
         }
         return "";
     }
