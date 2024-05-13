@@ -37,7 +37,7 @@ final class SimpleParserDefinition implements ParserDefinition {
     @NotNull
     @Override
     public TokenSet getStringLiteralElements() {
-        return TokenSet.EMPTY;
+        return SimpleTokenSets.STRING_LITERALS;
     }
 
     @NotNull

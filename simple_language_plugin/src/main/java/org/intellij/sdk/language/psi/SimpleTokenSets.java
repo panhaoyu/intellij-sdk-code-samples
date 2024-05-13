@@ -12,4 +12,6 @@ public interface SimpleTokenSets {
 
     TokenSet LITERALS = TokenSet.create(SimpleTypes.STRING_LITERAL, SimpleTypes.NUMBER_LITERAL);
 
+    TokenSet STRING_LITERALS = TokenSet.create(SimpleTypes.STRING_LITERAL);
+
 }
