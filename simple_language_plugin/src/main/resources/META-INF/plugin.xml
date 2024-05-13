@@ -7,7 +7,7 @@
     <id>org.intellij.sdk.language</id>
 
     <!-- Text to display as name on Settings | Plugin page -->
-    <name>SDK: Simple Language Sample</name>
+    <name>Fish Language</name>
 
     <!-- Product and plugin compatibility requirements -->
     <depends>com.intellij.modules.platform</depends>
