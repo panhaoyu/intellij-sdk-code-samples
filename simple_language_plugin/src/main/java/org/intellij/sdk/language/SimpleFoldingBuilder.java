@@ -13,7 +13,7 @@ import com.intellij.psi.PsiLiteralExpression;
 import com.intellij.psi.util.PsiLiteralUtil;
 import com.intellij.util.containers.ContainerUtil;
 import org.intellij.sdk.language.psi.SimpleBlockCmd;
-import org.intellij.sdk.language.psi.SimpleCmdBlock;
+import org.intellij.sdk.language.psi.SimpleBlockDefine;
 import org.intellij.sdk.language.psi.SimpleProperty;
 import org.intellij.sdk.language.psi.SimpleVisitor;
 import org.jetbrains.annotations.NotNull;
@@ -32,18 +32,22 @@ final class SimpleFoldingBuilder extends FoldingBuilderEx {
                                                           boolean quick) {
 
 
-        FoldingGroup blockCmdGroup = FoldingGroup.newGroup("SimpleBlockCmdGroup");
         List<FoldingDescriptor> descriptors = new ArrayList<>();
-        SimpleVisitor simpleVisitor = new SimpleVisitor() {
+        SimpleVisitor simpleVisitor = new FishRecursiveElementWalkingVisitor() {
             @Override
-            public void visitCmdBlock(@NotNull SimpleCmdBlock o) {
-                super.visitCmdBlock(o);
+            public void visitBlockCmd(@NotNull SimpleBlockCmd o) {
+                super.visitBlockCmd(o);
+                String groupName = "CommandBlock";
+                FoldingGroup group = FoldingGroup.newGroup(o.getContainingFile().getName() + "/" + groupName + "/" + o.getTextRange());
+                descriptors.add(new FoldingDescriptor(o.getNode(), o.getTextRange(), group));
             }
 
             @Override
-            public void visitBlockCmd(@NotNull SimpleBlockCmd blockCmd) {
-                super.visitBlockCmd(blockCmd);
-                descriptors.add(new FoldingDescriptor(blockCmd.getNode(), blockCmd.getTextRange(), blockCmdGroup));
+            public void visitBlockDefine(@NotNull SimpleBlockDefine o) {
+                super.visitBlockDefine(o);
+                String groupName = "FishDefineBlock";
+                FoldingGroup group = FoldingGroup.newGroup(o.getContainingFile().getName() + "/" + groupName + "/" + o.getTextRange());
+                descriptors.add(new FoldingDescriptor(o.getNode(), o.getTextRange(), group));
             }
         };
         root.accept(simpleVisitor);
