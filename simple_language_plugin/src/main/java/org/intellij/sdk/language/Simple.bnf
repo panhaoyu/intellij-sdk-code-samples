@@ -18,10 +18,53 @@
 
   tokens = [
     space='regexp:\s+'
-    fish="fish"
-    define="define"
-    identifier="regexp:[a-z][a-z0-9]*"
-    end="end"
+
+    FISH="fish"
+    DEFINE="define"
+    END="end"
+    CASEOF="caseof"
+    CASE="case"
+    ENDCASE="endcase"
+    COMMAND="command"
+    ENDCOMMAND="endcommand"
+    EXIT="exit"
+    ELLIPSIS="..."
+    GLOBAL="global"
+    LOCAL="local"
+    IF="if"
+    THEN="then"
+    ELSEIF="else if"
+    ELSE="else"
+    ENDIF="endif"
+    LOCK="lock"
+    LOOP="loop"
+    FOREACH="foreach"
+    ENDLOOP="endloop"
+    CONTINUE="continue"
+    BREAK="break"
+    WHILE="while"
+    FOR="for"
+    RETURN="return"
+    SECTION="section"
+    ENDSECTION="endsection"
+    STRUCT="struct"
+    ARRAY="[Aa]rray"
+
+    identifier="regexp:[a-zA-Z][a-zA-Z0-9_]*"
+
+    STRING_LITERAL="\".*?\""
+    NUMBER_LITERAL="[0-9][0-9*](\.[0-9])?"
+    COMMENT=";.*?"
+    ASSIGNMENT_OPERATOR="="
+    FUNCTION_CALL_OPERATOR="@"
+    COMMA_OPERATOR=","
+    DOT_OPERATOR="."
+    LEFT_PARENTHESIS="("
+    RIGHT_PARENTHESIS=")"
+    LEFT_SQUARE_BRACKET="["
+    RIGHT_SQUARE_BRACKET="]"
+    LEFT_CURLY_BRACKET="{"
+    RIGHT_CURLY_BRACKET="}"
   ]
 }
 
@@ -124,6 +167,15 @@ property ::= (identifier_element) {
 }
 private recover_property ::= !(identifier_element|end_of_line_comment)
 
+
+identifier_element ::= IDENTIFIER {
+////  pin=3
+//  recoverWhile="recover_property"
+  mixin="org.intellij.sdk.language.psi.impl.SimpleNamedElementImpl"
+  implements="org.intellij.sdk.language.psi.SimpleNamedElement"
+  methods=[getName setName getNameIdentifier getPresentation getReference getReferences getTextOffset]
+}
+
 //以下为读取的原始token
 private string_literal ::=  STRING_LITERAL
 private number_literal ::= NUMBER_LITERAL
@@ -144,13 +196,6 @@ private left_square_bracket ::= LEFT_SQUARE_BRACKET
 private right_square_bracket ::= RIGHT_SQUARE_BRACKET
 private left_curly_bracket ::= LEFT_CURLY_BRACKET
 private right_curly_bracket ::= RIGHT_CURLY_BRACKET
-identifier_element ::= IDENTIFIER {
-////  pin=3
-//  recoverWhile="recover_property"
-  mixin="org.intellij.sdk.language.psi.impl.SimpleNamedElementImpl"
-  implements="org.intellij.sdk.language.psi.SimpleNamedElement"
-  methods=[getName setName getNameIdentifier getPresentation getReference getReferences getTextOffset]
-}
 
 //keywords
 private fish ::= FISH
