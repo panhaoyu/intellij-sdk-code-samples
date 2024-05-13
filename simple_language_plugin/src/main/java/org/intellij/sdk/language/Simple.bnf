@@ -18,6 +18,10 @@
 
   tokens = [
     space='regexp:\s+'
+    fish="fish"
+    define="define"
+    identifier="regexp:[a-z][a-z0-9]*"
+    end="end"
   ]
 }
 
