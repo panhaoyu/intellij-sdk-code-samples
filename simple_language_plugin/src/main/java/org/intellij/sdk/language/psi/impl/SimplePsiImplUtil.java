@@ -105,7 +105,7 @@ public class SimplePsiImplUtil {
 
             @Override
             public Icon getIcon(boolean unused) {
-                return element.getIcon(0);
+                return AllIcons.Nodes.Variable;
             }
         };
     }
