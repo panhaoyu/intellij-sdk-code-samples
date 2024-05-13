@@ -11,9 +11,6 @@ public interface SimpleCommandScope extends PsiElement {
   SimpleCommandScopeInlineFishStatement getCommandScopeInlineFishStatement();
 
   @Nullable
-  SimpleFunctionCallStatement getFunctionCallStatement();
-
-  @Nullable
   SimpleFunctionDefine getFunctionDefine();
 
   @NotNull
@@ -21,5 +18,8 @@ public interface SimpleCommandScope extends PsiElement {
 
   @NotNull
   List<SimpleLiteral> getLiteralList();
+
+  @NotNull
+  List<SimpleValue> getValueList();
 
 }

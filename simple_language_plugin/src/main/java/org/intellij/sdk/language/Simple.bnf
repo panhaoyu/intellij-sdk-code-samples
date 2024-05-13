@@ -74,7 +74,6 @@ simpleFile ::= eol* command_scope (eol command_scope)* eol*
 command_scope ::= (
     command_scope_inline_fish_statement |
     function_define |
-    comment_block |
     command_scope_function_call |
     command_line
 )
@@ -85,7 +84,7 @@ private function_define_header ::= fish? define identifier_element function_para
 private function_parameter_list ::= (left_parenthesis identifier_element (comma_operator identifier_element)* right_parenthesis)
 
 fish_block ::=  single_fish_block (eol single_fish_block)*
-private single_fish_block ::= if_block | loop_block | case_block | comment_block | command_block | fish_statement
+private single_fish_block ::= if_block | loop_block | case_block | command_block | fish_statement
 
 if_block ::= if expression then?
              (eol fish_block)?
@@ -153,7 +152,6 @@ private non_binary_expression ::=  parenthesis_expression | function_call_expres
 private unary_expression ::= unary_operator expression
 
 ////词汇之间的组合
-private comment_block ::= end_of_line_comment
 value ::= identifier_element | literal
 literal ::= string_literal | number_literal
 
@@ -166,7 +164,7 @@ property ::= (identifier_element) {
   implements="org.intellij.sdk.language.psi.SimpleNamedElement"
   methods=[getName setName getNameIdentifier getPresentation]
 }
-private recover_property ::= !(identifier_element|end_of_line_comment)
+private recover_property ::= !(identifier_element)
 
 
 identifier_element ::= IDENTIFIER {
@@ -180,7 +178,6 @@ identifier_element ::= IDENTIFIER {
 //以下为读取的原始token
 private string_literal ::=  STRING_LITERAL
 private number_literal ::= NUMBER_LITERAL
-private end_of_line_comment ::= COMMENT
 private binary_operator ::= BINARY_OPERATOR | MINUS_OPERATOR | ASSIGNMENT_OPERATOR
 private unary_operator ::= UNARY_OPERATOR | MINUS_OPERATOR
 private assignment_operator ::= ASSIGNMENT_OPERATOR

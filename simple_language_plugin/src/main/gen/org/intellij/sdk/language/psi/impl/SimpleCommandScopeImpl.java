@@ -35,12 +35,6 @@ public class SimpleCommandScopeImpl extends ASTWrapperPsiElement implements Simp
 
   @Override
   @Nullable
-  public SimpleFunctionCallStatement getFunctionCallStatement() {
-    return findChildByClass(SimpleFunctionCallStatement.class);
-  }
-
-  @Override
-  @Nullable
   public SimpleFunctionDefine getFunctionDefine() {
     return findChildByClass(SimpleFunctionDefine.class);
   }
@@ -55,6 +49,12 @@ public class SimpleCommandScopeImpl extends ASTWrapperPsiElement implements Simp
   @NotNull
   public List<SimpleLiteral> getLiteralList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleLiteral.class);
+  }
+
+  @Override
+  @NotNull
+  public List<SimpleValue> getValueList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleValue.class);
   }
 
 }
