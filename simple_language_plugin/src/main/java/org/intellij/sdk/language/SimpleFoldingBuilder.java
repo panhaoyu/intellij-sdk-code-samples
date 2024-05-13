@@ -51,39 +51,6 @@ final class SimpleFoldingBuilder extends FoldingBuilderEx {
             }
         };
         root.accept(simpleVisitor);
-
-//
-//        // 初始化折叠组，相同组的折叠区域会同时展开或折叠
-//        FoldingGroup group = FoldingGroup.newGroup(SimpleAnnotator.SIMPLE_PREFIX_STR);
-//        // 初始化折叠描述符列表
-//        List<FoldingDescriptor> descriptors = new ArrayList<>();
-//
-//        // 使用访问者模式递归遍历代码的AST节点
-//        root.accept(new SimpleVisitor() {
-//            @Override
-//            public void visitBlockDefine(@NotNull SimpleBlockDefine blockDefine) {
-//                super.visitBlockDefine(blockDefine);
-//
-//                String value = blockDefine.getFirstChild().getText();
-//                if (value != null &&
-//                        value.startsWith(SimpleAnnotator.SIMPLE_PREFIX_STR + SimpleAnnotator.SIMPLE_SEPARATOR_STR)) {
-//                    Project project = blockDefine.getProject();
-//                    String key = value.substring(
-//                            SimpleAnnotator.SIMPLE_PREFIX_STR.length() + SimpleAnnotator.SIMPLE_SEPARATOR_STR.length()
-//                    );
-//                    // 在项目中查找与键对应的SimpleProperty
-//                    SimpleProperty simpleProperty = ContainerUtil.getOnlyItem(SimpleUtil.findProperties(project, key));
-//                    if (simpleProperty != null) {
-//                        // 为当前字面量表达式创建一个新的折叠描述符，并添加到列表中
-//                        descriptors.add(new FoldingDescriptor(blockDefine.getNode(),
-//                                new TextRange(blockDefine.getTextRange().getStartOffset() + 1,
-//                                        blockDefine.getTextRange().getEndOffset() - 1),
-//                                group, Collections.singleton(simpleProperty)));
-//                    }
-//                }
-//            }
-//        });
-
         return descriptors.toArray(new FoldingDescriptor[0]);
     }
 
