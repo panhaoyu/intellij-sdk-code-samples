@@ -12,11 +12,11 @@ final class SimpleFormattingModelBuilder implements FormattingModelBuilder {
 
     private static SpacingBuilder createSpaceBuilder(CodeStyleSettings settings) {
         return new SpacingBuilder(settings, SimpleLanguage.INSTANCE)
+                .around(SimpleTokenSets.IDENTIFIERS).spaces(1)
                 .around(SimpleTokenSets.Operators).spaces(1)
                 .around(SimpleTypes.FUNCTION_CALL_OPERATOR).spaces(0)
                 .after(SimpleTokenSets.LeftBrackets).spaces(0)
                 .before(SimpleTokenSets.RightBrackets).spaces(0)
-                .around(SimpleTokenSets.IDENTIFIERS).spaces(1)
                 ;
     }
 
