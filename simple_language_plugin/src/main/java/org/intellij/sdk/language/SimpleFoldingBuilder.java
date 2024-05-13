@@ -15,7 +15,6 @@ import com.intellij.util.containers.ContainerUtil;
 import org.intellij.sdk.language.psi.SimpleBlockCmd;
 import org.intellij.sdk.language.psi.SimpleBlockDefine;
 import org.intellij.sdk.language.psi.SimpleProperty;
-import org.intellij.sdk.language.psi.SimpleVisitor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -33,7 +32,7 @@ final class SimpleFoldingBuilder extends FoldingBuilderEx {
 
 
         List<FoldingDescriptor> descriptors = new ArrayList<>();
-        SimpleVisitor simpleVisitor = new FishRecursiveElementWalkingVisitor() {
+        root.accept(new FishRecursiveElementWalkingVisitor() {
             @Override
             public void visitBlockCmd(@NotNull SimpleBlockCmd o) {
                 super.visitBlockCmd(o);
@@ -49,8 +48,7 @@ final class SimpleFoldingBuilder extends FoldingBuilderEx {
                 FoldingGroup group = FoldingGroup.newGroup(o.getContainingFile().getName() + "/" + groupName + "/" + o.getTextRange());
                 descriptors.add(new FoldingDescriptor(o.getNode(), o.getTextRange(), group));
             }
-        };
-        root.accept(simpleVisitor);
+        });
         return descriptors.toArray(new FoldingDescriptor[0]);
     }
 
