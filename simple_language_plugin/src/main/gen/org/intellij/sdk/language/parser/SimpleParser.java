@@ -560,7 +560,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // op_at tk_identifier expr_paren_csv
+  // op_at tk_identifier expr_paren_csv?
   static boolean cmd_expr_func_call(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "cmd_expr_func_call")) return false;
     if (!nextTokenIs(b, FUNCTION_CALL_OPERATOR)) return false;
@@ -568,9 +568,16 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b);
     r = op_at(b, l + 1);
     r = r && tk_identifier(b, l + 1);
-    r = r && expr_paren_csv(b, l + 1);
+    r = r && cmd_expr_func_call_2(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
+  }
+
+  // expr_paren_csv?
+  private static boolean cmd_expr_func_call_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "cmd_expr_func_call_2")) return false;
+    expr_paren_csv(b, l + 1);
+    return true;
   }
 
   /* ********************************************************** */
@@ -628,7 +635,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // square_l | square_r | paren_l | paren_r | op_comma |    op_assign|    op_unary | op_binary| op_dot|op_at |
+  // square_l | square_r | paren_l | paren_r | op_comma | op_assign | op_unary | op_binary| op_dot | op_at |
   //      tk_literal | cmd_tk_kw_all | eol | tk_identifier
   static boolean cmd_tk_all(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "cmd_tk_all")) return false;
