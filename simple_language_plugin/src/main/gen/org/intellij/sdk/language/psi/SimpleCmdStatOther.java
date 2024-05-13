@@ -8,9 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface SimpleCmdStatOther extends PsiElement {
 
   @NotNull
-  List<SimpleEol> getEolList();
-
-  @NotNull
   List<SimpleTkIdentifier> getTkIdentifierList();
 
   @NotNull

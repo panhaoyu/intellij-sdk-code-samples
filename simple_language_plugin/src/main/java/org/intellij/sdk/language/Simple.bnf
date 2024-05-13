@@ -69,7 +69,7 @@
   ]
 }
 
-simpleFile ::= eol* cmd_block (eol cmd_block)* eol*
+simpleFile ::= (eol? cmd_block)* eol?
 
 //前缀为cmd的均表示作用于command作用域中
 cmd_block ::= (

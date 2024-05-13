@@ -636,7 +636,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // square_l | square_r | paren_l | paren_r | op_comma | op_assign | op_unary | op_binary| op_dot | op_at |
-  //      tk_literal | cmd_tk_kw_all | eol | tk_identifier
+  //      tk_literal | cmd_tk_kw_all | tk_identifier
   static boolean cmd_tk_all(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "cmd_tk_all")) return false;
     boolean r;
@@ -652,7 +652,6 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     if (!r) r = op_at(b, l + 1);
     if (!r) r = tk_literal(b, l + 1);
     if (!r) r = cmd_tk_kw_all(b, l + 1);
-    if (!r) r = eol(b, l + 1);
     if (!r) r = tk_identifier(b, l + 1);
     return r;
   }
@@ -767,7 +766,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (NEWLINE|COMMENT)+
+  // ( NEWLINE | COMMENT )+
   public static boolean eol(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "eol")) return false;
     if (!nextTokenIs(b, "<eol>", COMMENT, NEWLINE)) return false;
@@ -783,7 +782,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // NEWLINE|COMMENT
+  // NEWLINE | COMMENT
   private static boolean eol_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "eol_0")) return false;
     boolean r;
@@ -1386,60 +1385,50 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // eol* cmd_block (eol cmd_block)* eol*
+  // (eol? cmd_block)* eol?
   static boolean simpleFile(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "simpleFile")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = simpleFile_0(b, l + 1);
-    r = r && cmd_block(b, l + 1);
-    r = r && simpleFile_2(b, l + 1);
-    r = r && simpleFile_3(b, l + 1);
+    r = r && simpleFile_1(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
 
-  // eol*
+  // (eol? cmd_block)*
   private static boolean simpleFile_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "simpleFile_0")) return false;
     while (true) {
       int c = current_position_(b);
-      if (!eol(b, l + 1)) break;
+      if (!simpleFile_0_0(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "simpleFile_0", c)) break;
     }
     return true;
   }
 
-  // (eol cmd_block)*
-  private static boolean simpleFile_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "simpleFile_2")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!simpleFile_2_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "simpleFile_2", c)) break;
-    }
-    return true;
-  }
-
-  // eol cmd_block
-  private static boolean simpleFile_2_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "simpleFile_2_0")) return false;
+  // eol? cmd_block
+  private static boolean simpleFile_0_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "simpleFile_0_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = eol(b, l + 1);
+    r = simpleFile_0_0_0(b, l + 1);
     r = r && cmd_block(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
 
-  // eol*
-  private static boolean simpleFile_3(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "simpleFile_3")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!eol(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "simpleFile_3", c)) break;
-    }
+  // eol?
+  private static boolean simpleFile_0_0_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "simpleFile_0_0_0")) return false;
+    eol(b, l + 1);
+    return true;
+  }
+
+  // eol?
+  private static boolean simpleFile_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "simpleFile_1")) return false;
+    eol(b, l + 1);
     return true;
   }
 

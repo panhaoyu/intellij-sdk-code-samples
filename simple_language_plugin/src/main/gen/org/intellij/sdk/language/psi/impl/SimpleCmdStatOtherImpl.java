@@ -29,12 +29,6 @@ public class SimpleCmdStatOtherImpl extends ASTWrapperPsiElement implements Simp
 
   @Override
   @NotNull
-  public List<SimpleEol> getEolList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleEol.class);
-  }
-
-  @Override
-  @NotNull
   public List<SimpleTkIdentifier> getTkIdentifierList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleTkIdentifier.class);
   }
