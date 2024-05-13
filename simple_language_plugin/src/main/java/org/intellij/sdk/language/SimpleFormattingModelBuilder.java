@@ -12,14 +12,16 @@ final class SimpleFormattingModelBuilder implements FormattingModelBuilder {
 
     private static SpacingBuilder createSpaceBuilder(CodeStyleSettings settings) {
         return new SpacingBuilder(settings, SimpleLanguage.INSTANCE)
-                .around(SimpleTypes.TK_VALUE).spaces(1)
+//                .around(SimpleTypes.TK_VALUE).spaces(1)
                 .around(SimpleTypes.ASSIGNMENT_OPERATOR).spaces(1)
                 .around(SimpleTypes.BINARY_OPERATOR).spaces(1)
                 .around(SimpleTypes.UNARY_OPERATOR).spaces(1)
-                .around(SimpleTypes.FUNCTION_CALL_OPERATOR).spaces(0)
-                .after(SimpleTokenSets.LeftBrackets).spaces(0)
-                .before(SimpleTokenSets.RightBrackets).spaces(0)
-                .before(SimpleTypes.COMMA_OPERATOR).spaces(0)
+                .before(SimpleTypes.FUNCTION_CALL_OPERATOR).spaces(1)
+                .after(SimpleTypes.FUNCTION_CALL_OPERATOR).none()
+                .after(SimpleTokenSets.LeftBrackets).none()
+                .before(SimpleTokenSets.RightBrackets).none()
+                .before(SimpleTypes.COMMA_OPERATOR).none()
+                .between(SimpleTypes.TK_VALUE, SimpleTypes.TK_VALUE).spaces(1)
                 .after(SimpleTypes.COMMA_OPERATOR).spaces(1)
                 ;
     }
