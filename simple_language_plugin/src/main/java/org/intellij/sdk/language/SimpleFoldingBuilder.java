@@ -8,8 +8,7 @@ import com.intellij.lang.folding.FoldingDescriptor;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.FoldingGroup;
 import com.intellij.psi.PsiElement;
-import org.intellij.sdk.language.psi.SimpleBlockCmd;
-import org.intellij.sdk.language.psi.SimpleBlockDefine;
+import org.intellij.sdk.language.psi.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -17,6 +16,10 @@ import java.util.List;
 
 // SimpleFoldingBuilder类，实现代码折叠构建
 final class SimpleFoldingBuilder extends FoldingBuilderEx {
+    FoldingDescriptor createFold(PsiElement o) {
+        FoldingGroup group = FoldingGroup.newGroup(o.getContainingFile().getName() + "/" + o.getTextRange());
+        return new FoldingDescriptor(o.getNode(), o.getTextRange(), group);
+    }
 
     // 构建折叠区域的方法
     @Override
@@ -30,17 +33,31 @@ final class SimpleFoldingBuilder extends FoldingBuilderEx {
             @Override
             public void visitBlockCmd(@NotNull SimpleBlockCmd o) {
                 super.visitBlockCmd(o);
-                String groupName = "CommandBlock";
-                FoldingGroup group = FoldingGroup.newGroup(o.getContainingFile().getName() + "/" + groupName + "/" + o.getTextRange());
-                descriptors.add(new FoldingDescriptor(o.getNode(), o.getTextRange(), group));
+                descriptors.add(createFold(o));
             }
 
             @Override
             public void visitBlockDefine(@NotNull SimpleBlockDefine o) {
                 super.visitBlockDefine(o);
-                String groupName = "FishDefineBlock";
-                FoldingGroup group = FoldingGroup.newGroup(o.getContainingFile().getName() + "/" + groupName + "/" + o.getTextRange());
-                descriptors.add(new FoldingDescriptor(o.getNode(), o.getTextRange(), group));
+                descriptors.add(createFold(o));
+            }
+
+            @Override
+            public void visitBlockElse(@NotNull SimpleBlockElse o) {
+                super.visitBlockElse(o);
+                descriptors.add(createFold(o));
+            }
+
+            @Override
+            public void visitBlockLoop(@NotNull SimpleBlockLoop o) {
+                super.visitBlockLoop(o);
+                descriptors.add(createFold(o));
+            }
+
+            @Override
+            public void visitBlockIf(@NotNull SimpleBlockIf o) {
+                super.visitBlockIf(o);
+                descriptors.add(createFold(o));
             }
         });
         return descriptors.toArray(new FoldingDescriptor[0]);
