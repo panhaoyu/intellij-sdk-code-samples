@@ -8,18 +8,15 @@ import com.intellij.psi.PsiElement;
 public interface SimpleCommandScope extends PsiElement {
 
   @Nullable
+  SimpleCommandScopeFunctionCallStatement getCommandScopeFunctionCallStatement();
+
+  @Nullable
   SimpleCommandScopeInlineFishStatement getCommandScopeInlineFishStatement();
 
   @Nullable
-  SimpleFunctionDefine getFunctionDefine();
+  SimpleCommandStatement getCommandStatement();
 
-  @NotNull
-  List<SimpleIdentifierElement> getIdentifierElementList();
-
-  @NotNull
-  List<SimpleLiteral> getLiteralList();
-
-  @NotNull
-  List<SimpleValue> getValueList();
+  @Nullable
+  SimpleFunctionDefineBlock getFunctionDefineBlock();
 
 }

@@ -22,13 +22,13 @@ import com.intellij.psi.TokenType;
 %}
 
 
-LineTerminator = \r|\n|(\r\n)
-InputCharacter = [^\r\n]
-WhiteSpace     = [ \t\f]
+NewLine = (\R( \t)*)
 
-Comment     = ";" {InputCharacter}* {LineTerminator}?
-EndOfLineEllipsisWithComment = "..." {WhiteSpace}* ({Comment})?
-EndOfLineEllipsis = "..." {LineTerminator}
+WhiteSpace     = [ \t\x0B\f]+
+Ellipsis       = "..."
+
+
+Comment     = ;.*
 
 Identifier = ([:jletter:]|_) ([:jletterdigit:]|".")*
 
@@ -134,11 +134,9 @@ String = {StringA} | {StringB}
 
     {UnaryOperator} {return SimpleTypes.UNARY_OPERATOR;}
 
-    {WhiteSpace}+ {return TokenType.WHITE_SPACE;}
+    {WhiteSpace} {return TokenType.WHITE_SPACE;}
 
-    {LineTerminator}+ {return SimpleTypes.NEWLINE;}
-
-    {EndOfLineEllipsisWithComment} {return TokenType.WHITE_SPACE; }
+    {NewLine} {return SimpleTypes.NEWLINE;}
 
     {Comment} {return SimpleTypes.COMMENT;}
 
@@ -155,7 +153,8 @@ String = {StringA} | {StringB}
     \, {return SimpleTypes.COMMA_OPERATOR; }
     \- {return SimpleTypes.MINUS_OPERATOR;}
 
-    "..." {return SimpleTypes.ELLIPSIS; }
+    {Ellipsis} {WhiteSpace}* {NewLine} {return TokenType.WHITE_SPACE; }
+    {Ellipsis} {return TokenType.WHITE_SPACE; }
 
 }
 

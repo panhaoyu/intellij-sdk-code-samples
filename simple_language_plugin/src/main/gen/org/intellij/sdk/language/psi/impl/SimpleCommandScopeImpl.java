@@ -29,32 +29,26 @@ public class SimpleCommandScopeImpl extends ASTWrapperPsiElement implements Simp
 
   @Override
   @Nullable
+  public SimpleCommandScopeFunctionCallStatement getCommandScopeFunctionCallStatement() {
+    return findChildByClass(SimpleCommandScopeFunctionCallStatement.class);
+  }
+
+  @Override
+  @Nullable
   public SimpleCommandScopeInlineFishStatement getCommandScopeInlineFishStatement() {
     return findChildByClass(SimpleCommandScopeInlineFishStatement.class);
   }
 
   @Override
   @Nullable
-  public SimpleFunctionDefine getFunctionDefine() {
-    return findChildByClass(SimpleFunctionDefine.class);
+  public SimpleCommandStatement getCommandStatement() {
+    return findChildByClass(SimpleCommandStatement.class);
   }
 
   @Override
-  @NotNull
-  public List<SimpleIdentifierElement> getIdentifierElementList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleIdentifierElement.class);
-  }
-
-  @Override
-  @NotNull
-  public List<SimpleLiteral> getLiteralList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleLiteral.class);
-  }
-
-  @Override
-  @NotNull
-  public List<SimpleValue> getValueList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleValue.class);
+  @Nullable
+  public SimpleFunctionDefineBlock getFunctionDefineBlock() {
+    return findChildByClass(SimpleFunctionDefineBlock.class);
   }
 
 }

@@ -8,21 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface SimpleFishBlock extends PsiElement {
 
   @NotNull
-  List<SimpleCaseBlock> getCaseBlockList();
-
-  @NotNull
-  List<SimpleCommandBlock> getCommandBlockList();
-
-  @NotNull
   List<SimpleEol> getEolList();
 
   @NotNull
-  List<SimpleFishStatement> getFishStatementList();
-
-  @NotNull
-  List<SimpleIfBlock> getIfBlockList();
-
-  @NotNull
-  List<SimpleLoopBlock> getLoopBlockList();
+  List<SimpleSingleFishBlock> getSingleFishBlockList();
 
 }

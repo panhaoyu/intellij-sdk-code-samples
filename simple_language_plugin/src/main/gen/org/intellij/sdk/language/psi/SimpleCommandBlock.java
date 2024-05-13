@@ -7,13 +7,10 @@ import com.intellij.psi.PsiElement;
 
 public interface SimpleCommandBlock extends PsiElement {
 
+  @Nullable
+  SimpleCommandBody getCommandBody();
+
   @NotNull
   List<SimpleEol> getEolList();
-
-  @NotNull
-  List<SimpleIdentifierElement> getIdentifierElementList();
-
-  @NotNull
-  List<SimpleLiteral> getLiteralList();
 
 }

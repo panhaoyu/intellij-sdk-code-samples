@@ -14,9 +14,6 @@ public interface SimpleLoopBlock extends PsiElement {
   SimpleFishBlock getFishBlock();
 
   @NotNull
-  List<SimpleIdentifierElement> getIdentifierElementList();
-
-  @NotNull
-  List<SimpleValue> getValueList();
+  SimpleLoopHeader getLoopHeader();
 
 }

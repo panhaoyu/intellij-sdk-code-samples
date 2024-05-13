@@ -7,11 +7,11 @@ import com.intellij.psi.PsiElement;
 
 public interface SimpleCaseBlock extends PsiElement {
 
-  @NotNull
-  List<SimpleEol> getEolList();
+  @Nullable
+  SimpleEol getEol();
 
-  @NotNull
-  List<SimpleFishBlock> getFishBlockList();
+  @Nullable
+  SimpleFishBlock getFishBlock();
 
   @NotNull
   List<SimpleIdentifierElement> getIdentifierElementList();

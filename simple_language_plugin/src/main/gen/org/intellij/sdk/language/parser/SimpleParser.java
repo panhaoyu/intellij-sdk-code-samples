@@ -54,7 +54,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     if (!r) r = dot_operator(b, l + 1);
     if (!r) r = at_operator(b, l + 1);
     if (!r) r = literal(b, l + 1);
-    if (!r) r = ellipsis(b, l + 1);
+    if (!r) r = consumeToken(b, ELLIPSIS);
     if (!r) r = keywords_in_command_block(b, l + 1);
     return r;
   }
@@ -293,18 +293,15 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // case_of expression (eol fish_block)? (eol case_clause)* eol end_case
+  // case expression (eol fish_block)?
   public static boolean case_block(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "case_block")) return false;
-    if (!nextTokenIs(b, CASEOF)) return false;
+    if (!nextTokenIs(b, CASE)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = case_of(b, l + 1);
+    r = case_$(b, l + 1);
     r = r && expression(b, l + 1);
     r = r && case_block_2(b, l + 1);
-    r = r && case_block_3(b, l + 1);
-    r = r && eol(b, l + 1);
-    r = r && end_case(b, l + 1);
     exit_section_(b, m, CASE_BLOCK, r);
     return r;
   }
@@ -327,52 +324,39 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // (eol case_clause)*
-  private static boolean case_block_3(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "case_block_3")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!case_block_3_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "case_block_3", c)) break;
-    }
-    return true;
-  }
-
-  // eol case_clause
-  private static boolean case_block_3_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "case_block_3_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = eol(b, l + 1);
-    r = r && case_clause(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
+  /* ********************************************************** */
+  // CASEOF
+  static boolean case_of(PsiBuilder b, int l) {
+    return consumeToken(b, CASEOF);
   }
 
   /* ********************************************************** */
-  // case expression (eol fish_block)?
-  static boolean case_clause(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "case_clause")) return false;
-    if (!nextTokenIs(b, CASE)) return false;
+  // case_of expression (eol fish_block)? (eol case_block)* eol end_case
+  public static boolean case_of_block(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "case_of_block")) return false;
+    if (!nextTokenIs(b, CASEOF)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = case_$(b, l + 1);
+    r = case_of(b, l + 1);
     r = r && expression(b, l + 1);
-    r = r && case_clause_2(b, l + 1);
-    exit_section_(b, m, null, r);
+    r = r && case_of_block_2(b, l + 1);
+    r = r && case_of_block_3(b, l + 1);
+    r = r && eol(b, l + 1);
+    r = r && end_case(b, l + 1);
+    exit_section_(b, m, CASE_OF_BLOCK, r);
     return r;
   }
 
   // (eol fish_block)?
-  private static boolean case_clause_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "case_clause_2")) return false;
-    case_clause_2_0(b, l + 1);
+  private static boolean case_of_block_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "case_of_block_2")) return false;
+    case_of_block_2_0(b, l + 1);
     return true;
   }
 
   // eol fish_block
-  private static boolean case_clause_2_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "case_clause_2_0")) return false;
+  private static boolean case_of_block_2_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "case_of_block_2_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = eol(b, l + 1);
@@ -381,10 +365,26 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  /* ********************************************************** */
-  // CASEOF
-  static boolean case_of(PsiBuilder b, int l) {
-    return consumeToken(b, CASEOF);
+  // (eol case_block)*
+  private static boolean case_of_block_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "case_of_block_3")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!case_of_block_3_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "case_of_block_3", c)) break;
+    }
+    return true;
+  }
+
+  // eol case_block
+  private static boolean case_of_block_3_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "case_of_block_3_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = eol(b, l + 1);
+    r = r && case_block(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
   }
 
   /* ********************************************************** */
@@ -433,18 +433,18 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // command_line (eol command_line)*
-  static boolean command_body(PsiBuilder b, int l) {
+  // command_statement (eol command_statement)*
+  public static boolean command_body(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "command_body")) return false;
     boolean r;
-    Marker m = enter_section_(b);
-    r = command_line(b, l + 1);
+    Marker m = enter_section_(b, l, _NONE_, COMMAND_BODY, "<command body>");
+    r = command_statement(b, l + 1);
     r = r && command_body_1(b, l + 1);
-    exit_section_(b, m, null, r);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
-  // (eol command_line)*
+  // (eol command_statement)*
   private static boolean command_body_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "command_body_1")) return false;
     while (true) {
@@ -455,54 +455,38 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // eol command_line
+  // eol command_statement
   private static boolean command_body_1_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "command_body_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = eol(b, l + 1);
-    r = r && command_line(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // any_in_command+
-  static boolean command_line(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "command_line")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = any_in_command(b, l + 1);
-    while (r) {
-      int c = current_position_(b);
-      if (!any_in_command(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "command_line", c)) break;
-    }
+    r = r && command_statement(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
 
   /* ********************************************************** */
   // command_scope_inline_fish_statement |
-  //     function_define |
-  //     command_scope_function_call |
-  //     command_line
+  //     function_define_block |
+  //     command_scope_function_call_statement |
+  //     command_statement
   public static boolean command_scope(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "command_scope")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, COMMAND_SCOPE, "<command scope>");
     r = command_scope_inline_fish_statement(b, l + 1);
-    if (!r) r = function_define(b, l + 1);
-    if (!r) r = command_scope_function_call(b, l + 1);
-    if (!r) r = command_line(b, l + 1);
+    if (!r) r = function_define_block(b, l + 1);
+    if (!r) r = command_scope_function_call_statement(b, l + 1);
+    if (!r) r = command_statement(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
   /* ********************************************************** */
   // at_operator identifier_element parenthesis_csv_expression
-  static boolean command_scope_function_call(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "command_scope_function_call")) return false;
+  static boolean command_scope_function_call_expression(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "command_scope_function_call_expression")) return false;
     if (!nextTokenIs(b, FUNCTION_CALL_OPERATOR)) return false;
     boolean r;
     Marker m = enter_section_(b);
@@ -510,6 +494,18 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     r = r && identifier_element(b, l + 1);
     r = r && parenthesis_csv_expression(b, l + 1);
     exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // command_scope_function_call_expression
+  public static boolean command_scope_function_call_statement(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "command_scope_function_call_statement")) return false;
+    if (!nextTokenIs(b, FUNCTION_CALL_OPERATOR)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = command_scope_function_call_expression(b, l + 1);
+    exit_section_(b, m, COMMAND_SCOPE_FUNCTION_CALL_STATEMENT, r);
     return r;
   }
 
@@ -536,6 +532,22 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b);
     r = command_scope_inline_fish_expression(b, l + 1);
     exit_section_(b, m, COMMAND_SCOPE_INLINE_FISH_STATEMENT, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // any_in_command+
+  public static boolean command_statement(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "command_statement")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, COMMAND_STATEMENT, "<command statement>");
+    r = any_in_command(b, l + 1);
+    while (r) {
+      int c = current_position_(b);
+      if (!any_in_command(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "command_statement", c)) break;
+    }
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
@@ -589,12 +601,6 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   // DOT_OPERATOR
   static boolean dot_operator(PsiBuilder b, int l) {
     return consumeToken(b, DOT_OPERATOR);
-  }
-
-  /* ********************************************************** */
-  // ELLIPSIS
-  static boolean ellipsis(PsiBuilder b, int l) {
-    return consumeToken(b, ELLIPSIS);
   }
 
   /* ********************************************************** */
@@ -877,26 +883,14 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // function_call_expression
-  public static boolean function_call_statement(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "function_call_statement")) return false;
-    if (!nextTokenIs(b, IDENTIFIER)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = function_call_expression(b, l + 1);
-    exit_section_(b, m, FUNCTION_CALL_STATEMENT, r);
-    return r;
-  }
-
-  /* ********************************************************** */
   // function_define_header (eol fish_block)? eol end
-  public static boolean function_define(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "function_define")) return false;
-    if (!nextTokenIs(b, "<function define>", DEFINE, FISH)) return false;
+  public static boolean function_define_block(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "function_define_block")) return false;
+    if (!nextTokenIs(b, "<function define block>", DEFINE, FISH)) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, FUNCTION_DEFINE, "<function define>");
+    Marker m = enter_section_(b, l, _NONE_, FUNCTION_DEFINE_BLOCK, "<function define block>");
     r = function_define_header(b, l + 1);
-    r = r && function_define_1(b, l + 1);
+    r = r && function_define_block_1(b, l + 1);
     r = r && eol(b, l + 1);
     r = r && end(b, l + 1);
     exit_section_(b, l, m, r, false, null);
@@ -904,15 +898,15 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   // (eol fish_block)?
-  private static boolean function_define_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "function_define_1")) return false;
-    function_define_1_0(b, l + 1);
+  private static boolean function_define_block_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "function_define_block_1")) return false;
+    function_define_block_1_0(b, l + 1);
     return true;
   }
 
   // eol fish_block
-  private static boolean function_define_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "function_define_1_0")) return false;
+  private static boolean function_define_block_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "function_define_block_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = eol(b, l + 1);
@@ -923,16 +917,16 @@ public class SimpleParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // fish? define identifier_element function_parameter_list?
-  static boolean function_define_header(PsiBuilder b, int l) {
+  public static boolean function_define_header(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "function_define_header")) return false;
-    if (!nextTokenIs(b, "", DEFINE, FISH)) return false;
+    if (!nextTokenIs(b, "<function define header>", DEFINE, FISH)) return false;
     boolean r;
-    Marker m = enter_section_(b);
+    Marker m = enter_section_(b, l, _NONE_, FUNCTION_DEFINE_HEADER, "<function define header>");
     r = function_define_header_0(b, l + 1);
     r = r && define(b, l + 1);
     r = r && identifier_element(b, l + 1);
     r = r && function_define_header_3(b, l + 1);
-    exit_section_(b, m, null, r);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
@@ -1255,14 +1249,14 @@ public class SimpleParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // loop (loop_each | loop_indexed | loop_for | loop_while)
-  static boolean loop_header(PsiBuilder b, int l) {
+  public static boolean loop_header(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "loop_header")) return false;
     if (!nextTokenIs(b, LOOP)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = loop(b, l + 1);
     r = r && loop_header_1(b, l + 1);
-    exit_section_(b, m, null, r);
+    exit_section_(b, m, LOOP_HEADER, r);
     return r;
   }
 
@@ -1506,15 +1500,17 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // if_block | loop_block | case_block | command_block | fish_statement
-  static boolean single_fish_block(PsiBuilder b, int l) {
+  // if_block | loop_block | case_of_block | command_block | fish_statement
+  public static boolean single_fish_block(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "single_fish_block")) return false;
     boolean r;
+    Marker m = enter_section_(b, l, _NONE_, SINGLE_FISH_BLOCK, "<single fish block>");
     r = if_block(b, l + 1);
     if (!r) r = loop_block(b, l + 1);
-    if (!r) r = case_block(b, l + 1);
+    if (!r) r = case_of_block(b, l + 1);
     if (!r) r = command_block(b, l + 1);
     if (!r) r = fish_statement(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 

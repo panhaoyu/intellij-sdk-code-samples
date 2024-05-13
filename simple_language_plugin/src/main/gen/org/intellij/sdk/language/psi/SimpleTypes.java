@@ -10,21 +10,27 @@ public interface SimpleTypes {
 
   IElementType ASSIGNMENT_STATEMENT = new SimpleElementType("ASSIGNMENT_STATEMENT");
   IElementType CASE_BLOCK = new SimpleElementType("CASE_BLOCK");
+  IElementType CASE_OF_BLOCK = new SimpleElementType("CASE_OF_BLOCK");
   IElementType COMMAND_BLOCK = new SimpleElementType("COMMAND_BLOCK");
+  IElementType COMMAND_BODY = new SimpleElementType("COMMAND_BODY");
   IElementType COMMAND_SCOPE = new SimpleElementType("COMMAND_SCOPE");
+  IElementType COMMAND_SCOPE_FUNCTION_CALL_STATEMENT = new SimpleElementType("COMMAND_SCOPE_FUNCTION_CALL_STATEMENT");
   IElementType COMMAND_SCOPE_INLINE_FISH_STATEMENT = new SimpleElementType("COMMAND_SCOPE_INLINE_FISH_STATEMENT");
+  IElementType COMMAND_STATEMENT = new SimpleElementType("COMMAND_STATEMENT");
   IElementType ELSE_BLOCK = new SimpleElementType("ELSE_BLOCK");
   IElementType ELSE_IF_BLOCK = new SimpleElementType("ELSE_IF_BLOCK");
   IElementType EOL = new SimpleElementType("EOL");
   IElementType FISH_BLOCK = new SimpleElementType("FISH_BLOCK");
   IElementType FISH_STATEMENT = new SimpleElementType("FISH_STATEMENT");
-  IElementType FUNCTION_CALL_STATEMENT = new SimpleElementType("FUNCTION_CALL_STATEMENT");
-  IElementType FUNCTION_DEFINE = new SimpleElementType("FUNCTION_DEFINE");
+  IElementType FUNCTION_DEFINE_BLOCK = new SimpleElementType("FUNCTION_DEFINE_BLOCK");
+  IElementType FUNCTION_DEFINE_HEADER = new SimpleElementType("FUNCTION_DEFINE_HEADER");
   IElementType IDENTIFIER_ELEMENT = new SimpleElementType("IDENTIFIER_ELEMENT");
   IElementType IF_BLOCK = new SimpleElementType("IF_BLOCK");
   IElementType LITERAL = new SimpleElementType("LITERAL");
   IElementType LOOP_BLOCK = new SimpleElementType("LOOP_BLOCK");
+  IElementType LOOP_HEADER = new SimpleElementType("LOOP_HEADER");
   IElementType PROPERTY = new SimpleElementType("PROPERTY");
+  IElementType SINGLE_FISH_BLOCK = new SimpleElementType("SINGLE_FISH_BLOCK");
   IElementType VALUE = new SimpleElementType("VALUE");
 
   IElementType ARRAY = new SimpleTokenType("ARRAY");
@@ -39,7 +45,7 @@ public interface SimpleTypes {
   IElementType CONTINUE = new SimpleTokenType("CONTINUE");
   IElementType DEFINE = new SimpleTokenType("DEFINE");
   IElementType DOT_OPERATOR = new SimpleTokenType("DOT_OPERATOR");
-  IElementType ELLIPSIS = new SimpleTokenType("ELLIPSIS");
+  IElementType ELLIPSIS = new SimpleTokenType("ellipsis");
   IElementType ELSE = new SimpleTokenType("ELSE");
   IElementType ELSEIF = new SimpleTokenType("ELSEIF");
   IElementType END = new SimpleTokenType("END");
@@ -85,14 +91,26 @@ public interface SimpleTypes {
       else if (type == CASE_BLOCK) {
         return new SimpleCaseBlockImpl(node);
       }
+      else if (type == CASE_OF_BLOCK) {
+        return new SimpleCaseOfBlockImpl(node);
+      }
       else if (type == COMMAND_BLOCK) {
         return new SimpleCommandBlockImpl(node);
+      }
+      else if (type == COMMAND_BODY) {
+        return new SimpleCommandBodyImpl(node);
       }
       else if (type == COMMAND_SCOPE) {
         return new SimpleCommandScopeImpl(node);
       }
+      else if (type == COMMAND_SCOPE_FUNCTION_CALL_STATEMENT) {
+        return new SimpleCommandScopeFunctionCallStatementImpl(node);
+      }
       else if (type == COMMAND_SCOPE_INLINE_FISH_STATEMENT) {
         return new SimpleCommandScopeInlineFishStatementImpl(node);
+      }
+      else if (type == COMMAND_STATEMENT) {
+        return new SimpleCommandStatementImpl(node);
       }
       else if (type == ELSE_BLOCK) {
         return new SimpleElseBlockImpl(node);
@@ -109,11 +127,11 @@ public interface SimpleTypes {
       else if (type == FISH_STATEMENT) {
         return new SimpleFishStatementImpl(node);
       }
-      else if (type == FUNCTION_CALL_STATEMENT) {
-        return new SimpleFunctionCallStatementImpl(node);
+      else if (type == FUNCTION_DEFINE_BLOCK) {
+        return new SimpleFunctionDefineBlockImpl(node);
       }
-      else if (type == FUNCTION_DEFINE) {
-        return new SimpleFunctionDefineImpl(node);
+      else if (type == FUNCTION_DEFINE_HEADER) {
+        return new SimpleFunctionDefineHeaderImpl(node);
       }
       else if (type == IDENTIFIER_ELEMENT) {
         return new SimpleIdentifierElementImpl(node);
@@ -127,8 +145,14 @@ public interface SimpleTypes {
       else if (type == LOOP_BLOCK) {
         return new SimpleLoopBlockImpl(node);
       }
+      else if (type == LOOP_HEADER) {
+        return new SimpleLoopHeaderImpl(node);
+      }
       else if (type == PROPERTY) {
         return new SimplePropertyImpl(node);
+      }
+      else if (type == SINGLE_FISH_BLOCK) {
+        return new SimpleSingleFishBlockImpl(node);
       }
       else if (type == VALUE) {
         return new SimpleValueImpl(node);

@@ -29,38 +29,14 @@ public class SimpleFishBlockImpl extends ASTWrapperPsiElement implements SimpleF
 
   @Override
   @NotNull
-  public List<SimpleCaseBlock> getCaseBlockList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleCaseBlock.class);
-  }
-
-  @Override
-  @NotNull
-  public List<SimpleCommandBlock> getCommandBlockList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleCommandBlock.class);
-  }
-
-  @Override
-  @NotNull
   public List<SimpleEol> getEolList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleEol.class);
   }
 
   @Override
   @NotNull
-  public List<SimpleFishStatement> getFishStatementList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleFishStatement.class);
-  }
-
-  @Override
-  @NotNull
-  public List<SimpleIfBlock> getIfBlockList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleIfBlock.class);
-  }
-
-  @Override
-  @NotNull
-  public List<SimpleLoopBlock> getLoopBlockList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleLoopBlock.class);
+  public List<SimpleSingleFishBlock> getSingleFishBlockList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleSingleFishBlock.class);
   }
 
 }

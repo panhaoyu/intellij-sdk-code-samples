@@ -28,15 +28,15 @@ public class SimpleCaseBlockImpl extends ASTWrapperPsiElement implements SimpleC
   }
 
   @Override
-  @NotNull
-  public List<SimpleEol> getEolList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleEol.class);
+  @Nullable
+  public SimpleEol getEol() {
+    return findChildByClass(SimpleEol.class);
   }
 
   @Override
-  @NotNull
-  public List<SimpleFishBlock> getFishBlockList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleFishBlock.class);
+  @Nullable
+  public SimpleFishBlock getFishBlock() {
+    return findChildByClass(SimpleFishBlock.class);
   }
 
   @Override

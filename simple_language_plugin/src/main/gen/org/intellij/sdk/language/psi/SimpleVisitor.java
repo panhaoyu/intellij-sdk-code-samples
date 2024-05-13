@@ -15,7 +15,15 @@ public class SimpleVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitCaseOfBlock(@NotNull SimpleCaseOfBlock o) {
+    visitPsiElement(o);
+  }
+
   public void visitCommandBlock(@NotNull SimpleCommandBlock o) {
+    visitPsiElement(o);
+  }
+
+  public void visitCommandBody(@NotNull SimpleCommandBody o) {
     visitPsiElement(o);
   }
 
@@ -23,7 +31,15 @@ public class SimpleVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitCommandScopeFunctionCallStatement(@NotNull SimpleCommandScopeFunctionCallStatement o) {
+    visitPsiElement(o);
+  }
+
   public void visitCommandScopeInlineFishStatement(@NotNull SimpleCommandScopeInlineFishStatement o) {
+    visitPsiElement(o);
+  }
+
+  public void visitCommandStatement(@NotNull SimpleCommandStatement o) {
     visitPsiElement(o);
   }
 
@@ -47,11 +63,11 @@ public class SimpleVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitFunctionCallStatement(@NotNull SimpleFunctionCallStatement o) {
+  public void visitFunctionDefineBlock(@NotNull SimpleFunctionDefineBlock o) {
     visitPsiElement(o);
   }
 
-  public void visitFunctionDefine(@NotNull SimpleFunctionDefine o) {
+  public void visitFunctionDefineHeader(@NotNull SimpleFunctionDefineHeader o) {
     visitPsiElement(o);
   }
 
@@ -71,8 +87,16 @@ public class SimpleVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitLoopHeader(@NotNull SimpleLoopHeader o) {
+    visitPsiElement(o);
+  }
+
   public void visitProperty(@NotNull SimpleProperty o) {
     visitNamedElement(o);
+  }
+
+  public void visitSingleFishBlock(@NotNull SimpleSingleFishBlock o) {
+    visitPsiElement(o);
   }
 
   public void visitValue(@NotNull SimpleValue o) {

@@ -18,7 +18,7 @@
 
   tokens = [
     space="regexp: +"
-//    NEWLINE='regexp:(\R( \t)*)'
+    NEWLINE='regexp:(\R( \t)*)'
 //
 //    FISH="fish"
 //    DEFINE="define"
@@ -73,18 +73,18 @@ simpleFile ::= eol* command_scope (eol command_scope)* eol*
 
 command_scope ::= (
     command_scope_inline_fish_statement |
-    function_define |
-    command_scope_function_call |
-    command_line
+    function_define_block |
+    command_scope_function_call_statement |
+    command_statement
 )
 command_scope_inline_fish_statement ::= command_scope_inline_fish_expression
 
-function_define ::= function_define_header (eol fish_block)? eol end
-private function_define_header ::= fish? define identifier_element function_parameter_list?
+function_define_block ::= function_define_header (eol fish_block)? eol end
+function_define_header ::= fish? define identifier_element function_parameter_list?
 private function_parameter_list ::= (left_parenthesis identifier_element (comma_operator identifier_element)* right_parenthesis)
 
 fish_block ::=  single_fish_block (eol single_fish_block)*
-private single_fish_block ::= if_block | loop_block | case_block | command_block | fish_statement
+single_fish_block ::= if_block | loop_block | case_of_block | command_block | fish_statement
 
 if_block ::= if expression then?
              (eol fish_block)?
@@ -95,7 +95,7 @@ else_if_block ::= elseif expression then? (eol fish_block)?
 else_block ::=  else (eol fish_block)?
 
 loop_block ::= loop_header (eol fish_block)? eol endloop
-private loop_header ::= loop (loop_each | loop_indexed | loop_for | loop_while)
+loop_header ::= loop (loop_each | loop_indexed | loop_for | loop_while)
 private loop_indexed ::= assignment_left_loop loop_indexed_range
 private loop_indexed_range ::=
     left_parenthesis expression comma_operator
@@ -105,12 +105,12 @@ private loop_each ::= foreach assignment_left_loop expression
 private loop_for ::= for left_parenthesis local? expression comma_operator expression comma_operator expression right_parenthesis
 
 
-case_block ::= case_of expression (eol fish_block)? (eol case_clause)* eol end_case
-private case_clause ::= case expression (eol fish_block)?
+case_of_block ::= case_of expression (eol fish_block)? (eol case_block)* eol end_case
+case_block ::= case expression (eol fish_block)?
 
 command_block ::= command (eol command_body)? eol end_command
-private command_body ::= command_line (eol command_line)*
-private command_line ::= any_in_command+
+command_body ::= command_statement (eol command_statement)*
+command_statement ::= any_in_command+
 private any_in_command ::= (
     identifier_element | left_square_bracket | right_square_bracket | left_parenthesis | right_parenthesis | comma_operator |
     assignment_operator|
@@ -128,8 +128,8 @@ fish_statement ::= (
     exit
     )
 
-function_call_statement ::= function_call_expression
-private command_scope_function_call ::= at_operator identifier_element parenthesis_csv_expression
+command_scope_function_call_statement ::= command_scope_function_call_expression
+private command_scope_function_call_expression ::= at_operator identifier_element parenthesis_csv_expression
 
 
 assignment_statement ::= (local | global)? assignment_expression (comma_operator assignment_expression)*
@@ -208,7 +208,6 @@ private command ::= COMMAND
 private end_command ::= ENDCOMMAND
 
 private exit ::= EXIT
-private ellipsis ::=  ELLIPSIS
 
 private global ::= GLOBAL
 private local ::= LOCAL

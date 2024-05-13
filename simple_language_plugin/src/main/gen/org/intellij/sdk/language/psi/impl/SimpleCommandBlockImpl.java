@@ -28,21 +28,15 @@ public class SimpleCommandBlockImpl extends ASTWrapperPsiElement implements Simp
   }
 
   @Override
+  @Nullable
+  public SimpleCommandBody getCommandBody() {
+    return findChildByClass(SimpleCommandBody.class);
+  }
+
+  @Override
   @NotNull
   public List<SimpleEol> getEolList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleEol.class);
-  }
-
-  @Override
-  @NotNull
-  public List<SimpleIdentifierElement> getIdentifierElementList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleIdentifierElement.class);
-  }
-
-  @Override
-  @NotNull
-  public List<SimpleLiteral> getLiteralList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleLiteral.class);
   }
 
 }

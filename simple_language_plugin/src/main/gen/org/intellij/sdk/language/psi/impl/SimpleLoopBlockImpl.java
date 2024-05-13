@@ -41,14 +41,8 @@ public class SimpleLoopBlockImpl extends ASTWrapperPsiElement implements SimpleL
 
   @Override
   @NotNull
-  public List<SimpleIdentifierElement> getIdentifierElementList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleIdentifierElement.class);
-  }
-
-  @Override
-  @NotNull
-  public List<SimpleValue> getValueList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleValue.class);
+  public SimpleLoopHeader getLoopHeader() {
+    return findNotNullChildByClass(SimpleLoopHeader.class);
   }
 
 }
