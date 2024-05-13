@@ -24,19 +24,23 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+// SimpleFoldingBuilder类，实现代码折叠构建
 final class SimpleFoldingBuilder extends FoldingBuilderEx implements DumbAware {
 
+    // 构建折叠区域的方法
     @Override
     public FoldingDescriptor @NotNull [] buildFoldRegions(@NotNull PsiElement root,
                                                           @NotNull Document document,
                                                           boolean quick) {
-        // Initialize the group of folding regions that will expand/collapse together.
+        // 初始化折叠组，相同组的折叠区域会同时展开或折叠
         FoldingGroup group = FoldingGroup.newGroup(SimpleAnnotator.SIMPLE_PREFIX_STR);
-        // Initialize the list of folding regions
+        // 初始化折叠描述符列表
         List<FoldingDescriptor> descriptors = new ArrayList<>();
 
+        // 使用访问者模式递归遍历代码的AST节点
         root.accept(new JavaRecursiveElementWalkingVisitor() {
 
+            // 访问字面量表达式节点
             @Override
             public void visitLiteralExpression(@NotNull PsiLiteralExpression literalExpression) {
                 super.visitLiteralExpression(literalExpression);
@@ -48,10 +52,10 @@ final class SimpleFoldingBuilder extends FoldingBuilderEx implements DumbAware {
                     String key = value.substring(
                             SimpleAnnotator.SIMPLE_PREFIX_STR.length() + SimpleAnnotator.SIMPLE_SEPARATOR_STR.length()
                     );
-                    // find SimpleProperty for the given key in the project
+                    // 在项目中查找与键对应的SimpleProperty
                     SimpleProperty simpleProperty = ContainerUtil.getOnlyItem(SimpleUtil.findProperties(project, key));
                     if (simpleProperty != null) {
-                        // Add a folding descriptor for the literal expression at this node.
+                        // 为当前字面量表达式创建一个新的折叠描述符，并添加到列表中
                         descriptors.add(new FoldingDescriptor(literalExpression.getNode(),
                                 new TextRange(literalExpression.getTextRange().getStartOffset() + 1,
                                         literalExpression.getTextRange().getEndOffset() - 1),
@@ -61,8 +65,10 @@ final class SimpleFoldingBuilder extends FoldingBuilderEx implements DumbAware {
             }
         });
 
-        return descriptors.toArray(FoldingDescriptor.EMPTY_ARRAY);
+        return descriptors.toArray(new FoldingDescriptor[0]);
     }
+
+    // 获取占位文本的方法，通常用于显示折叠时的简略信息
 
     /**
      * Gets the Simple Language 'value' string corresponding to the 'key'
@@ -98,6 +104,7 @@ final class SimpleFoldingBuilder extends FoldingBuilderEx implements DumbAware {
                 return StringUtil.THREE_DOTS;
             }
 
+            // 将换行符和双引号进行转义，以确保文本格式正确
             return propertyValue
                     .replaceAll("\n", "\\n")
                     .replaceAll("\"", "\\\\\"");
@@ -105,6 +112,9 @@ final class SimpleFoldingBuilder extends FoldingBuilderEx implements DumbAware {
 
         return null;
     }
+
+    // 判断节点在初始化时是否应该默认折叠
+
 
     @Override
     public boolean isCollapsedByDefault(@NotNull ASTNode node) {
