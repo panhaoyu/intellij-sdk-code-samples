@@ -12,6 +12,7 @@ import com.intellij.psi.util.PsiTreeUtil;
 import org.intellij.sdk.language.psi.SimpleBlockDefine;
 import org.intellij.sdk.language.psi.SimpleFile;
 import org.intellij.sdk.language.psi.impl.SimpleBlockDefineImpl;
+import org.intellij.sdk.language.psi.impl.SimpleBlockFishImpl;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -64,9 +65,13 @@ public class SimpleStructureViewElement implements StructureViewTreeElement, Sor
         if (myElement instanceof SimpleFile) {
             List<SimpleBlockDefine> defines = PsiTreeUtil.getChildrenOfTypeAsList(myElement, SimpleBlockDefine.class);
             List<TreeElement> treeElements = new ArrayList<>(defines.size());
-            for (SimpleBlockDefine define : defines) {
-                treeElements.add(new SimpleStructureViewElement((SimpleBlockDefineImpl) define));
-            }
+            myElement.accept(new FishRecursiveElementWalkingVisitor() {
+                @Override
+                public void visitBlockDefine(@NotNull SimpleBlockDefine o) {
+                    super.visitBlockDefine(o);
+                    treeElements.add(new SimpleStructureViewElement((SimpleBlockDefineImpl) o));
+                }
+            });
             return treeElements.toArray(new TreeElement[0]);
         }
         return EMPTY_ARRAY;
