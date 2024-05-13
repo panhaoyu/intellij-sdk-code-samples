@@ -9,7 +9,6 @@ import com.intellij.ide.util.treeView.smartTree.Sorter;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.psi.PsiFile;
 import org.intellij.sdk.language.psi.SimpleBlockDefine;
-import org.intellij.sdk.language.psi.SimpleProperty;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -33,7 +32,7 @@ public class SimpleStructureViewModel extends StructureViewModelBase implements
 
     @Override
     public boolean isAlwaysLeaf(StructureViewTreeElement element) {
-        return element.getValue() instanceof SimpleProperty;
+        return element.getValue() instanceof SimpleBlockDefine;
     }
 
     @Override
