@@ -628,14 +628,12 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // tk_identifier | square_l | square_r | paren_l | paren_r | op_comma |
-  //     op_assign|
-  //     op_unary | op_binary| op_dot|op_at | tk_literal | cmd_tk_kw_all
+  // square_l | square_r | paren_l | paren_r | op_comma |    op_assign|    op_unary | op_binary| op_dot|op_at |
+  //      tk_literal | cmd_tk_kw_all | eol | tk_identifier
   static boolean cmd_tk_all(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "cmd_tk_all")) return false;
     boolean r;
-    r = tk_identifier(b, l + 1);
-    if (!r) r = square_l(b, l + 1);
+    r = square_l(b, l + 1);
     if (!r) r = square_r(b, l + 1);
     if (!r) r = paren_l(b, l + 1);
     if (!r) r = paren_r(b, l + 1);
@@ -647,6 +645,8 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     if (!r) r = op_at(b, l + 1);
     if (!r) r = tk_literal(b, l + 1);
     if (!r) r = cmd_tk_kw_all(b, l + 1);
+    if (!r) r = eol(b, l + 1);
+    if (!r) r = tk_identifier(b, l + 1);
     return r;
   }
 
