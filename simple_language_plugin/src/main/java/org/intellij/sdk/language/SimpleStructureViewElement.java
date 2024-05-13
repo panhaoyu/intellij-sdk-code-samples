@@ -12,7 +12,6 @@ import com.intellij.psi.util.PsiTreeUtil;
 import org.intellij.sdk.language.psi.SimpleBlockDefine;
 import org.intellij.sdk.language.psi.SimpleFile;
 import org.intellij.sdk.language.psi.impl.SimpleBlockDefineImpl;
-import org.intellij.sdk.language.psi.impl.SimpleBlockFishImpl;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
