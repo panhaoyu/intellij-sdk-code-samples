@@ -68,7 +68,8 @@ public class SimplePsiImplUtil {
 
 
     public static String getName(SimpleBlockDefine element) {
-        return element.getText();
+        SimpleTkIdentifier child = PsiTreeUtil.findChildOfType(element, SimpleTkIdentifier.class);
+        return Objects.requireNonNull(child).getName();
     }
 
     public static String getName(SimpleTkIdentifier element) {
@@ -93,7 +94,14 @@ public class SimplePsiImplUtil {
             @Nullable
             @Override
             public String getPresentableText() {
-                return element.getName();
+                @Nullable SimpleBlockDefine parent = PsiTreeUtil.getParentOfType(element, SimpleBlockDefine.class);
+                String name = element.getName();
+                if (parent == null) {
+                    return name;
+                } else {
+                    String parentName = parent.getName();
+                    return parentName + "/" + name;
+                }
             }
 
             @Nullable
