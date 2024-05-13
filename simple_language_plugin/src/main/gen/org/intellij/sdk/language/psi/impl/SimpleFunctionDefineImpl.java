@@ -28,6 +28,12 @@ public class SimpleFunctionDefineImpl extends ASTWrapperPsiElement implements Si
   }
 
   @Override
+  @NotNull
+  public List<SimpleEndOfLine> getEndOfLineList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleEndOfLine.class);
+  }
+
+  @Override
   @Nullable
   public SimpleFishBlock getFishBlock() {
     return findChildByClass(SimpleFishBlock.class);

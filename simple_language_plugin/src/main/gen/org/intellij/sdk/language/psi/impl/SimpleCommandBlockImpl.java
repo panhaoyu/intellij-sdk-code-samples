@@ -29,6 +29,12 @@ public class SimpleCommandBlockImpl extends ASTWrapperPsiElement implements Simp
 
   @Override
   @NotNull
+  public List<SimpleEndOfLine> getEndOfLineList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleEndOfLine.class);
+  }
+
+  @Override
+  @NotNull
   public List<SimpleIdentifierElement> getIdentifierElementList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleIdentifierElement.class);
   }

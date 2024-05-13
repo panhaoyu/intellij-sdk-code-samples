@@ -28,6 +28,12 @@ public class SimpleLoopBlockImpl extends ASTWrapperPsiElement implements SimpleL
   }
 
   @Override
+  @NotNull
+  public List<SimpleEndOfLine> getEndOfLineList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleEndOfLine.class);
+  }
+
+  @Override
   @Nullable
   public SimpleFishBlock getFishBlock() {
     return findChildByClass(SimpleFishBlock.class);

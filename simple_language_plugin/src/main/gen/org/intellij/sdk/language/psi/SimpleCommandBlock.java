@@ -8,6 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface SimpleCommandBlock extends PsiElement {
 
   @NotNull
+  List<SimpleEndOfLine> getEndOfLineList();
+
+  @NotNull
   List<SimpleIdentifierElement> getIdentifierElementList();
 
   @NotNull

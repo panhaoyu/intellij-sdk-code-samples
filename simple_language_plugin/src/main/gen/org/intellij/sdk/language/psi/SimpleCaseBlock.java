@@ -8,6 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface SimpleCaseBlock extends PsiElement {
 
   @NotNull
+  List<SimpleEndOfLine> getEndOfLineList();
+
+  @NotNull
   List<SimpleFishBlock> getFishBlockList();
 
   @NotNull

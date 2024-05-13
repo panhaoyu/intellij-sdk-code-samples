@@ -27,11 +27,15 @@ public class SimpleVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitElseIfStatement(@NotNull SimpleElseIfStatement o) {
+  public void visitElseBlock(@NotNull SimpleElseBlock o) {
     visitPsiElement(o);
   }
 
-  public void visitElseStatement(@NotNull SimpleElseStatement o) {
+  public void visitElseIfBlock(@NotNull SimpleElseIfBlock o) {
+    visitPsiElement(o);
+  }
+
+  public void visitEndOfLine(@NotNull SimpleEndOfLine o) {
     visitPsiElement(o);
   }
 

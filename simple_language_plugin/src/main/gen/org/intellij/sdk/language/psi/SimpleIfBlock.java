@@ -7,11 +7,14 @@ import com.intellij.psi.PsiElement;
 
 public interface SimpleIfBlock extends PsiElement {
 
-  @NotNull
-  List<SimpleElseIfStatement> getElseIfStatementList();
-
   @Nullable
-  SimpleElseStatement getElseStatement();
+  SimpleElseBlock getElseBlock();
+
+  @NotNull
+  List<SimpleElseIfBlock> getElseIfBlockList();
+
+  @NotNull
+  List<SimpleEndOfLine> getEndOfLineList();
 
   @Nullable
   SimpleFishBlock getFishBlock();

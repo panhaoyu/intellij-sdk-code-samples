@@ -41,6 +41,12 @@ public class SimpleFishBlockImpl extends ASTWrapperPsiElement implements SimpleF
 
   @Override
   @NotNull
+  public List<SimpleEndOfLine> getEndOfLineList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleEndOfLine.class);
+  }
+
+  @Override
+  @NotNull
   public List<SimpleFishStatement> getFishStatementList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleFishStatement.class);
   }

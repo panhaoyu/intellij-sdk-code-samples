@@ -29,6 +29,12 @@ public class SimpleCaseBlockImpl extends ASTWrapperPsiElement implements SimpleC
 
   @Override
   @NotNull
+  public List<SimpleEndOfLine> getEndOfLineList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleEndOfLine.class);
+  }
+
+  @Override
+  @NotNull
   public List<SimpleFishBlock> getFishBlockList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleFishBlock.class);
   }

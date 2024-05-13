@@ -13,8 +13,9 @@ public interface SimpleTypes {
   IElementType COMMAND_BLOCK = new SimpleElementType("COMMAND_BLOCK");
   IElementType COMMAND_SCOPE = new SimpleElementType("COMMAND_SCOPE");
   IElementType COMMAND_SCOPE_INLINE_FISH_STATEMENT = new SimpleElementType("COMMAND_SCOPE_INLINE_FISH_STATEMENT");
-  IElementType ELSE_IF_STATEMENT = new SimpleElementType("ELSE_IF_STATEMENT");
-  IElementType ELSE_STATEMENT = new SimpleElementType("ELSE_STATEMENT");
+  IElementType ELSE_BLOCK = new SimpleElementType("ELSE_BLOCK");
+  IElementType ELSE_IF_BLOCK = new SimpleElementType("ELSE_IF_BLOCK");
+  IElementType END_OF_LINE = new SimpleElementType("END_OF_LINE");
   IElementType FISH_BLOCK = new SimpleElementType("FISH_BLOCK");
   IElementType FISH_STATEMENT = new SimpleElementType("FISH_STATEMENT");
   IElementType FUNCTION_CALL_STATEMENT = new SimpleElementType("FUNCTION_CALL_STATEMENT");
@@ -93,11 +94,14 @@ public interface SimpleTypes {
       else if (type == COMMAND_SCOPE_INLINE_FISH_STATEMENT) {
         return new SimpleCommandScopeInlineFishStatementImpl(node);
       }
-      else if (type == ELSE_IF_STATEMENT) {
-        return new SimpleElseIfStatementImpl(node);
+      else if (type == ELSE_BLOCK) {
+        return new SimpleElseBlockImpl(node);
       }
-      else if (type == ELSE_STATEMENT) {
-        return new SimpleElseStatementImpl(node);
+      else if (type == ELSE_IF_BLOCK) {
+        return new SimpleElseIfBlockImpl(node);
+      }
+      else if (type == END_OF_LINE) {
+        return new SimpleEndOfLineImpl(node);
       }
       else if (type == FISH_BLOCK) {
         return new SimpleFishBlockImpl(node);

@@ -7,6 +7,9 @@ import com.intellij.psi.PsiElement;
 
 public interface SimpleLoopBlock extends PsiElement {
 
+  @NotNull
+  List<SimpleEndOfLine> getEndOfLineList();
+
   @Nullable
   SimpleFishBlock getFishBlock();
 
