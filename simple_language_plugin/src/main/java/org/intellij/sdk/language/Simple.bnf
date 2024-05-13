@@ -71,7 +71,7 @@
 
 simpleFile ::= newline* command_scope (newline command_scope)* newline*
 
-private command_scope ::= (
+command_scope ::= (
     command_scope_inline_fish_statement |
     function_define |
     comment_block |
@@ -89,11 +89,11 @@ private single_fish_block ::= if_block | loop_block | case_block | comment_block
 
 if_block ::= if expression then?
              (newline fish_block)?
-             (newline else_if_statement)*
-             (newline else_statement)?
+             (newline else_if_block)*
+             (newline else_block)?
              newline endif
-private else_if_statement ::= elseif expression then? (newline fish_block)?
-private else_statement ::=  else (newline fish_block)?
+else_if_block ::= elseif expression then? (newline fish_block)?
+else_block ::=  else (newline fish_block)?
 
 loop_block ::= loop_header (newline fish_block)? newline endloop
 private loop_header ::= loop (loop_each | loop_indexed | loop_for | loop_while)

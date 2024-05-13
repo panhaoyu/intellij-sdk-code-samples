@@ -19,7 +19,19 @@ public class SimpleVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitCommandScope(@NotNull SimpleCommandScope o) {
+    visitPsiElement(o);
+  }
+
   public void visitCommandScopeInlineFishStatement(@NotNull SimpleCommandScopeInlineFishStatement o) {
+    visitPsiElement(o);
+  }
+
+  public void visitElseIfStatement(@NotNull SimpleElseIfStatement o) {
+    visitPsiElement(o);
+  }
+
+  public void visitElseStatement(@NotNull SimpleElseStatement o) {
     visitPsiElement(o);
   }
 

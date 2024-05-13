@@ -488,14 +488,16 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   //     comment_block |
   //     function_call_statement |
   //     command_line
-  static boolean command_scope(PsiBuilder b, int l) {
+  public static boolean command_scope(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "command_scope")) return false;
     boolean r;
+    Marker m = enter_section_(b, l, _NONE_, COMMAND_SCOPE, "<command scope>");
     r = command_scope_inline_fish_statement(b, l + 1);
     if (!r) r = function_define(b, l + 1);
     if (!r) r = comment_block(b, l + 1);
     if (!r) r = function_call_statement(b, l + 1);
     if (!r) r = command_line(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
@@ -597,16 +599,16 @@ public class SimpleParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // elseif expression then? (newline fish_block)?
-  static boolean else_if_statement(PsiBuilder b, int l) {
+  public static boolean else_if_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "else_if_statement")) return false;
-    if (!nextTokenIs(b, "", ELSE, ELSEIF)) return false;
+    if (!nextTokenIs(b, "<else if statement>", ELSE, ELSEIF)) return false;
     boolean r;
-    Marker m = enter_section_(b);
+    Marker m = enter_section_(b, l, _NONE_, ELSE_IF_STATEMENT, "<else if statement>");
     r = elseif(b, l + 1);
     r = r && expression(b, l + 1);
     r = r && else_if_statement_2(b, l + 1);
     r = r && else_if_statement_3(b, l + 1);
-    exit_section_(b, m, null, r);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
@@ -637,14 +639,14 @@ public class SimpleParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // else (newline fish_block)?
-  static boolean else_statement(PsiBuilder b, int l) {
+  public static boolean else_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "else_statement")) return false;
     if (!nextTokenIs(b, ELSE)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = else_$(b, l + 1);
     r = r && else_statement_1(b, l + 1);
-    exit_section_(b, m, null, r);
+    exit_section_(b, m, ELSE_STATEMENT, r);
     return r;
   }
 

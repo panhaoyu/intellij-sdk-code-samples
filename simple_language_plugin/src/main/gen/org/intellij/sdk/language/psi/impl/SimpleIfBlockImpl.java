@@ -29,8 +29,20 @@ public class SimpleIfBlockImpl extends ASTWrapperPsiElement implements SimpleIfB
 
   @Override
   @NotNull
-  public List<SimpleFishBlock> getFishBlockList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleFishBlock.class);
+  public List<SimpleElseIfStatement> getElseIfStatementList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleElseIfStatement.class);
+  }
+
+  @Override
+  @Nullable
+  public SimpleElseStatement getElseStatement() {
+    return findChildByClass(SimpleElseStatement.class);
+  }
+
+  @Override
+  @Nullable
+  public SimpleFishBlock getFishBlock() {
+    return findChildByClass(SimpleFishBlock.class);
   }
 
   @Override

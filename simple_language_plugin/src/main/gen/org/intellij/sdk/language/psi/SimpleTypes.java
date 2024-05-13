@@ -11,7 +11,10 @@ public interface SimpleTypes {
   IElementType ASSIGNMENT_STATEMENT = new SimpleElementType("ASSIGNMENT_STATEMENT");
   IElementType CASE_BLOCK = new SimpleElementType("CASE_BLOCK");
   IElementType COMMAND_BLOCK = new SimpleElementType("COMMAND_BLOCK");
+  IElementType COMMAND_SCOPE = new SimpleElementType("COMMAND_SCOPE");
   IElementType COMMAND_SCOPE_INLINE_FISH_STATEMENT = new SimpleElementType("COMMAND_SCOPE_INLINE_FISH_STATEMENT");
+  IElementType ELSE_IF_STATEMENT = new SimpleElementType("ELSE_IF_STATEMENT");
+  IElementType ELSE_STATEMENT = new SimpleElementType("ELSE_STATEMENT");
   IElementType FISH_BLOCK = new SimpleElementType("FISH_BLOCK");
   IElementType FISH_STATEMENT = new SimpleElementType("FISH_STATEMENT");
   IElementType FUNCTION_CALL_STATEMENT = new SimpleElementType("FUNCTION_CALL_STATEMENT");
@@ -84,8 +87,17 @@ public interface SimpleTypes {
       else if (type == COMMAND_BLOCK) {
         return new SimpleCommandBlockImpl(node);
       }
+      else if (type == COMMAND_SCOPE) {
+        return new SimpleCommandScopeImpl(node);
+      }
       else if (type == COMMAND_SCOPE_INLINE_FISH_STATEMENT) {
         return new SimpleCommandScopeInlineFishStatementImpl(node);
+      }
+      else if (type == ELSE_IF_STATEMENT) {
+        return new SimpleElseIfStatementImpl(node);
+      }
+      else if (type == ELSE_STATEMENT) {
+        return new SimpleElseStatementImpl(node);
       }
       else if (type == FISH_BLOCK) {
         return new SimpleFishBlockImpl(node);
