@@ -12,8 +12,8 @@ final class SimpleFormattingModelBuilder implements FormattingModelBuilder {
     private static SpacingBuilder createSpaceBuilder(CodeStyleSettings settings) {
         return new SpacingBuilder(settings, SimpleLanguage.INSTANCE)
                 .around(SimpleTypes.BINARY_OPERATOR)
-                .spaceIf(settings.getCommonSettings(SimpleLanguage.INSTANCE.getID()).SPACE_AROUND_ASSIGNMENT_OPERATORS)
-                .before(SimpleTypes.LEFT_CURLY_BRACKET)
+                .spaces(1)
+                .before(SimpleTypes.IDENTIFIER)
                 .none();
     }
 
