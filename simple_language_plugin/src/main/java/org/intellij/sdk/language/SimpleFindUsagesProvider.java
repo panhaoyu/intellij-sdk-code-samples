@@ -6,7 +6,7 @@ import com.intellij.lang.cacheBuilder.DefaultWordsScanner;
 import com.intellij.lang.cacheBuilder.WordsScanner;
 import com.intellij.lang.findUsages.FindUsagesProvider;
 import com.intellij.psi.PsiElement;
-import org.intellij.sdk.language.psi.SimpleIdentifierElement;
+import org.intellij.sdk.language.psi.SimpleTkIdentifier;
 import org.intellij.sdk.language.psi.SimpleTokenSets;
 import org.jetbrains.annotations.NotNull;
 
@@ -21,7 +21,7 @@ final class SimpleFindUsagesProvider implements FindUsagesProvider {
 
     @Override
     public boolean canFindUsagesFor(@NotNull PsiElement psiElement) {
-        return psiElement instanceof SimpleIdentifierElement;
+        return psiElement instanceof SimpleTkIdentifier;
     }
 
     @Override
@@ -32,7 +32,7 @@ final class SimpleFindUsagesProvider implements FindUsagesProvider {
     @NotNull
     @Override
     public String getType(@NotNull PsiElement element) {
-        if (element instanceof SimpleIdentifierElement) {
+        if (element instanceof SimpleTkIdentifier) {
             return "identifier";
         }
         return "";
@@ -41,7 +41,7 @@ final class SimpleFindUsagesProvider implements FindUsagesProvider {
     @NotNull
     @Override
     public String getDescriptiveName(@NotNull PsiElement element) {
-        if (element instanceof SimpleIdentifierElement identifierElement) {
+        if (element instanceof SimpleTkIdentifier identifierElement) {
             return Objects.requireNonNull(identifierElement.getName());
         }
         return "";

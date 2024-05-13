@@ -69,105 +69,93 @@
   ]
 }
 
-simpleFile ::= eol* command_scope (eol command_scope)* eol*
+simpleFile ::= eol* cmd_block (eol cmd_block)* eol*
 
-command_scope ::= (
-    command_scope_inline_fish_statement |
-    function_define_block |
-    command_scope_function_call_statement |
-    command_statement
+//前缀为cmd的均表示作用于command作用域中
+cmd_block ::= (
+    cmd_stat_inline_fish |
+    block_define |
+    cmd_stat_func_call |
+    cmd_stat_other
 )
-command_scope_inline_fish_statement ::= command_scope_inline_fish_expression
+cmd_stat_inline_fish ::= cmd_expr_inline_fish
 
-function_define_block ::= function_define_header (eol fish_block)? eol end
-function_define_header ::= fish? define identifier_element function_parameter_list?
-private function_parameter_list ::= (left_parenthesis identifier_element (comma_operator identifier_element)* right_parenthesis)
+block_define ::= define_header (eol block_fish)? eol kw_end
+define_header ::= kw_fish? kw_def tk_identifier define_params?
+private define_params ::= (paren_l tk_identifier (op_comma tk_identifier)* paren_r)
 
-fish_block ::=  single_fish_block (eol single_fish_block)*
-single_fish_block ::= if_block | loop_block | case_of_block | command_block | fish_statement
+block_fish ::=  block_single_fish (eol block_single_fish)*
+block_single_fish ::= if_block | block_loop | block_case_of | block_cmd | stat_fish
 
-if_block ::= if expression then?
-             (eol fish_block)?
+if_block ::= kw_if expr kw_then?
+             (eol block_fish)?
              (eol else_if_block)*
              (eol else_block)?
-             eol endif
-else_if_block ::= elseif expression then? (eol fish_block)?
-else_block ::=  else (eol fish_block)?
+             eol kw_end_if
+else_if_block ::= kw_else_if expr kw_then? (eol block_fish)?
+else_block ::=  kw_else (eol block_fish)?
 
-loop_block ::= loop_header (eol fish_block)? eol endloop
-loop_header ::= loop (loop_each | loop_indexed | loop_for | loop_while)
-private loop_indexed ::= assignment_left_loop loop_indexed_range
+block_loop ::= block_header_loop (eol block_fish)? eol kw_endloop
+block_header_loop ::= kw_loop (loop_each | loop_indexed | loop_for | loop_while)
+private loop_indexed ::= assign_left_for_loop loop_indexed_range
 private loop_indexed_range ::=
-    left_parenthesis expression comma_operator
-    expression (comma_operator expression)? right_parenthesis
-private loop_while ::= while expression
-private loop_each ::= foreach assignment_left_loop expression
-private loop_for ::= for left_parenthesis local? expression comma_operator expression comma_operator expression right_parenthesis
+    paren_l expr op_comma
+    expr (op_comma expr)? paren_r
+private loop_while ::= kw_while expr
+private loop_each ::= kw_foreach assign_left_for_loop expr
+private loop_for ::= kw_for paren_l kw_local? expr op_comma expr op_comma expr paren_r
 
 
-case_of_block ::= case_of expression (eol fish_block)? (eol case_block)* eol end_case
-case_block ::= case expression (eol fish_block)?
+block_case_of ::= kw_case_of expr (eol block_fish)? (eol block_case_option)* eol kw_end_case
+block_case_option ::= kw_case expr (eol block_fish)?
 
-command_block ::= command (eol command_body)? eol end_command
-command_body ::= command_statement (eol command_statement)*
-command_statement ::= any_in_command+
-private any_in_command ::= (
-    identifier_element | left_square_bracket | right_square_bracket | left_parenthesis | right_parenthesis | comma_operator |
-    assignment_operator|
-    unary_operator | binary_operator| dot_operator|at_operator | literal | ellipsis | keywords_in_command_block
+block_cmd ::= kw_command (eol body_cmd)? eol kw_end_command
+body_cmd ::= cmd_stat_other (eol cmd_stat_other)*
+cmd_stat_other ::= cmd_tk_all+
+private cmd_tk_all ::= (
+    tk_identifier | square_l | square_r | paren_l | paren_r | op_comma |
+    op_assign|
+    op_unary | op_binary| op_dot|op_at | tk_literal | cmd_tk_kw_all
  )
-private keywords_in_command_block ::= (fish | case_of | case | end_case | define | end | exit | global | if | then |
-    elseif | else | endif | local | lock | loop | endloop | continue | return | section | end_section | struct )
+private cmd_tk_kw_all ::= (kw_fish | kw_case_of | kw_case | kw_end_case | kw_def | kw_end | kw_exit | kw_global | kw_if | kw_then |
+    kw_else_if | kw_else | kw_end_if | kw_local | kw_lock | kw_loop | kw_endloop | kw_continue | kw_return | kw_section | kw_end_section | kw_struct )
 
-fish_statement ::= (
-    array_declare_statement |
-    assignment_statement |
-    expression |
-    break |
-    continue |
-    exit
+stat_fish ::= (
+    stat_array_declare |
+    stat_assign |
+    expr |
+    kw_break |
+    kw_continue |
+    kw_exit
     )
 
-command_scope_function_call_statement ::= command_scope_function_call_expression
-private command_scope_function_call_expression ::= at_operator identifier_element parenthesis_csv_expression
+cmd_stat_func_call ::= cmd_expr_func_call
+private cmd_expr_func_call ::= op_at tk_identifier expr_paren_csv
 
 
-assignment_statement ::= (local | global)? assignment_expression (comma_operator assignment_expression)*
-private array_declare_statement ::= array identifier_element left_parenthesis number_literal right_parenthesis
-private assignment_expression ::= assignment_target assignment_right?
-private assignment_target ::= identifier_element parenthesis_csv_expression?
-private assignment_right ::= assignment_operator expression
-private assignment_left_loop ::= local? identifier_element
+stat_assign ::= (kw_local | kw_global)? expr_assign (op_comma expr_assign)*
+private stat_array_declare ::= kw_array tk_identifier paren_l literal_number paren_r
+private expr_assign ::= assign_target assign_right?
+private assign_target ::= tk_identifier expr_paren_csv?
+private assign_right ::= op_assign expr
+private assign_left_for_loop ::= kw_local? tk_identifier
 
 
-private expression ::= (left_square_bracket binary_expression right_square_bracket) |  binary_expression
-private parenthesis_expression ::= left_parenthesis expression right_parenthesis
-private function_call_expression ::= identifier_element parenthesis_csv_expression
-private csv_expression ::= expression (comma_operator expression)*
-private parenthesis_csv_expression ::= left_parenthesis csv_expression right_parenthesis
-private command_scope_inline_fish_expression ::= left_square_bracket fish_statement right_square_bracket
+private expr ::= (square_l expr_binary square_r) |  expr_binary
+private expr_paren ::= paren_l expr paren_r
+private expr_func_call ::= tk_identifier expr_paren_csv
+private expr_csv ::= expr (op_comma expr)*
+private expr_paren_csv ::= paren_l expr_csv paren_r
+private cmd_expr_inline_fish ::= square_l stat_fish square_r
 
-private binary_expression ::= non_binary_expression (binary_operator non_binary_expression)*
-private non_binary_expression ::=  parenthesis_expression | function_call_expression | unary_expression | value
-private unary_expression ::= unary_operator expression
+private expr_binary ::= expr_non_binary (op_binary expr_non_binary)*
+private expr_non_binary ::=  expr_paren | expr_func_call | expr_unary | tk_value
+private expr_unary ::= op_unary expr
 
 ////词汇之间的组合
-value ::= identifier_element | literal
-literal ::= string_literal | number_literal
-
-
-
-property ::= (identifier_element) {
-//  pin=3
-  recoverWhile="recover_property"
-  mixin="org.intellij.sdk.language.psi.impl.SimpleNamedElementImpl"
-  implements="org.intellij.sdk.language.psi.SimpleNamedElement"
-  methods=[getName setName getNameIdentifier getPresentation]
-}
-private recover_property ::= !(identifier_element)
-
-
-identifier_element ::= IDENTIFIER {
+tk_value ::= tk_identifier | tk_literal
+tk_literal ::= literal_string | literal_number
+tk_identifier ::= IDENTIFIER {
 ////  pin=3
 //  recoverWhile="recover_property"
   mixin="org.intellij.sdk.language.psi.impl.SimpleNamedElementImpl"
@@ -175,63 +163,75 @@ identifier_element ::= IDENTIFIER {
   methods=[getName setName getNameIdentifier getPresentation getReference getReferences getTextOffset]
 }
 
+property ::= (tk_identifier) {
+//  pin=3
+  recoverWhile="recover_property"
+  mixin="org.intellij.sdk.language.psi.impl.SimpleNamedElementImpl"
+  implements="org.intellij.sdk.language.psi.SimpleNamedElement"
+  methods=[getName setName getNameIdentifier getPresentation]
+}
+private recover_property ::= !(tk_identifier)
+
+
+
+
 //以下为读取的原始token
-private string_literal ::=  STRING_LITERAL
-private number_literal ::= NUMBER_LITERAL
-private binary_operator ::= BINARY_OPERATOR | MINUS_OPERATOR | ASSIGNMENT_OPERATOR
-private unary_operator ::= UNARY_OPERATOR | MINUS_OPERATOR
-private assignment_operator ::= ASSIGNMENT_OPERATOR
+private literal_string ::=  STRING_LITERAL
+private literal_number ::= NUMBER_LITERAL
+private op_binary ::= BINARY_OPERATOR | MINUS_OPERATOR | ASSIGNMENT_OPERATOR
+private op_unary ::= UNARY_OPERATOR | MINUS_OPERATOR
+private op_assign ::= ASSIGNMENT_OPERATOR
 eol ::= (NEWLINE|COMMENT)+
 
-private at_operator ::= FUNCTION_CALL_OPERATOR
-private comma_operator ::= COMMA_OPERATOR
-private dot_operator ::= DOT_OPERATOR
+private op_at ::= FUNCTION_CALL_OPERATOR
+private op_comma ::= COMMA_OPERATOR
+private op_dot ::= DOT_OPERATOR
 
 // Bracket Operators
-private left_parenthesis ::= LEFT_PARENTHESIS
-private right_parenthesis ::= RIGHT_PARENTHESIS
-private left_square_bracket ::= LEFT_SQUARE_BRACKET
-private right_square_bracket ::= RIGHT_SQUARE_BRACKET
-private left_curly_bracket ::= LEFT_CURLY_BRACKET
-private right_curly_bracket ::= RIGHT_CURLY_BRACKET
+private paren_l ::= LEFT_PARENTHESIS
+private paren_r ::= RIGHT_PARENTHESIS
+private square_l ::= LEFT_SQUARE_BRACKET
+private square_r ::= RIGHT_SQUARE_BRACKET
+private curly_l ::= LEFT_CURLY_BRACKET
+private curly_r ::= RIGHT_CURLY_BRACKET
 
 //keywords
-private fish ::= FISH
-private define ::= DEFINE
-private end ::= END
+private kw_fish ::= FISH
+private kw_def ::= DEFINE
+private kw_end ::= END
 
-private case_of ::= CASEOF
-private case ::= CASE
-private end_case ::= ENDCASE
+private kw_case_of ::= CASEOF
+private kw_case ::= CASE
+private kw_end_case ::= ENDCASE
 
-private command ::= COMMAND
-private end_command ::= ENDCOMMAND
+private kw_command ::= COMMAND
+private kw_end_command ::= ENDCOMMAND
 
-private exit ::= EXIT
+private kw_exit ::= EXIT
 
-private global ::= GLOBAL
-private local ::= LOCAL
+private kw_global ::= GLOBAL
+private kw_local ::= LOCAL
 
-private if ::= IF
-private then ::= THEN
-private elseif ::= ELSEIF | (else if)
-private else ::= ELSE
-private endif ::= ENDIF
+private kw_if ::= IF
+private kw_then ::= THEN
+private kw_else_if ::= ELSEIF | (kw_else kw_if)
+private kw_else ::= ELSE
+private kw_end_if ::= ENDIF
 
-private lock ::= LOCK
+private kw_lock ::= LOCK
 
-private loop ::= LOOP
-private foreach ::= FOREACH
-private endloop ::= ENDLOOP
-private continue ::= CONTINUE
-private break ::= BREAK | (exit loop)
-private while ::= WHILE
-private for ::= FOR
+private kw_loop ::= LOOP
+private kw_foreach ::= FOREACH
+private kw_endloop ::= ENDLOOP
+private kw_continue ::= CONTINUE
+private kw_break ::= BREAK | (kw_exit kw_loop)
+private kw_while ::= WHILE
+private kw_for ::= FOR
 
-private return ::= RETURN
+private kw_return ::= RETURN
 
-private section ::= SECTION
-private end_section ::= ENDSECTION
+private kw_section ::= SECTION
+private kw_end_section ::= ENDSECTION
 
-private struct ::= STRUCT
-private array ::= ARRAY
+private kw_struct ::= STRUCT
+private kw_array ::= ARRAY

@@ -11,7 +11,7 @@ import com.intellij.psi.PsiReference;
 import com.intellij.psi.impl.source.resolve.reference.impl.PsiMultiReference;
 import org.intellij.sdk.language.SimpleReference;
 import org.intellij.sdk.language.psi.SimpleElementFactory;
-import org.intellij.sdk.language.psi.SimpleIdentifierElement;
+import org.intellij.sdk.language.psi.SimpleTkIdentifier;
 import org.intellij.sdk.language.psi.SimpleProperty;
 import org.intellij.sdk.language.psi.SimpleTypes;
 import org.jetbrains.annotations.Nullable;
@@ -67,23 +67,23 @@ public class SimplePsiImplUtil {
     }
 
 
-    public static String getName(SimpleIdentifierElement element) {
+    public static String getName(SimpleTkIdentifier element) {
         return element.getText();
     }
 
-    public static PsiElement setName(SimpleIdentifierElement element, String newName) {
+    public static PsiElement setName(SimpleTkIdentifier element, String newName) {
         ASTNode node = element.getNode();
         ASTNode parent = node.getTreeParent();
-        SimpleIdentifierElement newElement = SimpleElementFactory.createIdentifier(element.getProject(), newName);
+        SimpleTkIdentifier newElement = SimpleElementFactory.createIdentifier(element.getProject(), newName);
         parent.replaceChild(node, newElement.getNode());
         return newElement;
     }
 
-    public static PsiElement getNameIdentifier(SimpleIdentifierElement element) {
+    public static PsiElement getNameIdentifier(SimpleTkIdentifier element) {
         return element;
     }
 
-    public static ItemPresentation getPresentation(final SimpleIdentifierElement element) {
+    public static ItemPresentation getPresentation(final SimpleTkIdentifier element) {
         return new ItemPresentation() {
             @Nullable
             @Override
@@ -106,13 +106,13 @@ public class SimplePsiImplUtil {
     }
 
 
-    public static SimpleReference[] getReferences(final SimpleIdentifierElement element) {
+    public static SimpleReference[] getReferences(final SimpleTkIdentifier element) {
         ArrayList<SimpleReference> references = new ArrayList<>();
         references.add(new SimpleReference(element, new TextRange(0, element.getTextLength())));
         return references.toArray(SimpleReference[]::new);
     }
 
-    public static PsiReference getReference(final SimpleIdentifierElement element) {
+    public static PsiReference getReference(final SimpleTkIdentifier element) {
         SimpleReference[] references = getReferences(element);
         if (references.length == 1) {
             return references[0];
@@ -123,7 +123,7 @@ public class SimplePsiImplUtil {
         }
     }
 
-    public static int getTextOffset(final SimpleIdentifierElement element) {
+    public static int getTextOffset(final SimpleTkIdentifier element) {
         return element.getTextRange().getStartOffset();
     }
 }

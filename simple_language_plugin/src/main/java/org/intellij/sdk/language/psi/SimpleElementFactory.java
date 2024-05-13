@@ -9,8 +9,8 @@ import org.intellij.sdk.language.SimpleFileType;
 
 public class SimpleElementFactory {
 
-    public static SimpleIdentifierElement createIdentifier(Project project, String name) {
-        return (SimpleIdentifierElement) createFile(project, "@" + name).getLastChild();
+    public static SimpleTkIdentifier createIdentifier(Project project, String name) {
+        return (SimpleTkIdentifier) createFile(project, "@" + name).getLastChild();
     }
 
     public static SimpleProperty createProperty(Project project, String name) {
