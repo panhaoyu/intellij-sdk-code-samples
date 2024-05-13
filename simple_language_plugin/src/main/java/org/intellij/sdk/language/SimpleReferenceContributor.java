@@ -15,27 +15,24 @@ final class SimpleReferenceContributor extends PsiReferenceContributor {
     // 重写registerReferenceProviders方法，用于注册引用提供者
     @Override
     public void registerReferenceProviders(@NotNull PsiReferenceRegistrar registrar) {
-        LOG.info("注册引用提供者，处理 SimpleIdentifierElement 类型的 PSI 元素");
-
         registrar.registerReferenceProvider(
                 PlatformPatterns.psiElement(),
                 new PsiReferenceProvider() {
                     @Override
                     public PsiReference @NotNull [] getReferencesByElement(@NotNull PsiElement element, @NotNull ProcessingContext context) {
-                        SimpleIdentifierElement identifier = (SimpleIdentifierElement) element;
+
+                        if (!(element instanceof SimpleIdentifierElement identifier)){
+                            return PsiReference.EMPTY_ARRAY;
+                        }
                         String value = identifier.getName();
 
                         if (value != null) {
-                            LOG.info("为元素 '" + identifier + "' 创建引用，其标识符为: " + value);
                             TextRange range = new TextRange(0, value.length());
                             return new PsiReference[]{new SimpleReference(identifier, range)};
-                        } else {
-                            LOG.warn("未找到标识符名称，无法为元素 '" + identifier + "' 创建引用");
                         }
                         return PsiReference.EMPTY_ARRAY;
                     }
                 }
         );
-        LOG.info("引用提供者注册完成");
     }
 }

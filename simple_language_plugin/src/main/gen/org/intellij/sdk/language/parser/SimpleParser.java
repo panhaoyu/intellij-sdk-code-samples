@@ -1327,19 +1327,28 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // NEWLINE+
+  // (NEWLINE|COMMENT)+
   static boolean newline(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "newline")) return false;
-    if (!nextTokenIs(b, NEWLINE)) return false;
+    if (!nextTokenIs(b, "", COMMENT, NEWLINE)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeToken(b, NEWLINE);
+    r = newline_0(b, l + 1);
     while (r) {
       int c = current_position_(b);
-      if (!consumeToken(b, NEWLINE)) break;
+      if (!newline_0(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "newline", c)) break;
     }
     exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // NEWLINE|COMMENT
+  private static boolean newline_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "newline_0")) return false;
+    boolean r;
+    r = consumeToken(b, NEWLINE);
+    if (!r) r = consumeToken(b, COMMENT);
     return r;
   }
 
