@@ -7,32 +7,32 @@ import org.jetbrains.annotations.Nullable;
 
 final class SimpleCommenter implements Commenter {
 
-  @Override
-  public String getLineCommentPrefix() {
-    return "#";
-  }
+    @Override
+    public String getLineCommentPrefix() {
+        return "; ";
+    }
 
-  @Override
-  public String getBlockCommentPrefix() {
-    return "";
-  }
+    @Override
+    public String getBlockCommentPrefix() {
+        return "";
+    }
 
-  @Nullable
-  @Override
-  public String getBlockCommentSuffix() {
-    return null;
-  }
+    @Nullable
+    @Override
+    public String getBlockCommentSuffix() {
+        return null;
+    }
 
-  @Nullable
-  @Override
-  public String getCommentedBlockCommentPrefix() {
-    return null;
-  }
+    @Nullable
+    @Override
+    public String getCommentedBlockCommentPrefix() {
+        return null;
+    }
 
-  @Nullable
-  @Override
-  public String getCommentedBlockCommentSuffix() {
-    return null;
-  }
+    @Nullable
+    @Override
+    public String getCommentedBlockCommentSuffix() {
+        return null;
+    }
 
 }
