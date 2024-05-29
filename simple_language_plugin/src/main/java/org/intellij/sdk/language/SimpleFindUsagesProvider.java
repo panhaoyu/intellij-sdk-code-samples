@@ -25,8 +25,9 @@ final class SimpleFindUsagesProvider implements FindUsagesProvider {
     }
 
     @Override
-    public @NotNull String getHelpId(@NotNull PsiElement psiElement) {
-        return psiElement.getTextRange().toString();
+    public String getHelpId(@NotNull PsiElement psiElement) {
+    //        return psiElement.getTextRange().toString();
+        return null;
     }
 
     @NotNull
