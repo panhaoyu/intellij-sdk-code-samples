@@ -1,15 +1,17 @@
 // This is a generated file. Not intended for manual editing.
 package org.intellij.sdk.language.psi.impl;
 
+import java.util.List;
+import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
-import com.intellij.navigation.ItemPresentation;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
+import com.intellij.psi.util.PsiTreeUtil;
+import static org.intellij.sdk.language.psi.SimpleTypes.*;
+import org.intellij.sdk.language.psi.*;
+import com.intellij.navigation.ItemPresentation;
 import com.intellij.psi.PsiReference;
 import org.intellij.sdk.language.SimpleReference;
-import org.intellij.sdk.language.psi.SimpleTkIdentifier;
-import org.intellij.sdk.language.psi.SimpleVisitor;
-import org.jetbrains.annotations.NotNull;
 
 public class SimpleTkIdentifierImpl extends SimpleNamedElementImpl implements SimpleTkIdentifier {
 
