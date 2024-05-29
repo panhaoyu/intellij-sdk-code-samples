@@ -32,12 +32,16 @@ public final class SimpleReference extends PsiReferenceBase<SimpleTkIdentifier> 
     @Override
     public ResolveResult @NotNull [] multiResolve(boolean incompleteCode) {
         Project project = myElement.getProject();
-        final List<SimpleTkIdentifier> identifiers = SimpleUtil.findIdentifiers(project, myElement.getName()); // 查找与键值相关的属性列表
+        String name = myElement.getName();
+        if (name == null) {
+            return ResolveResult.EMPTY_ARRAY;
+        }
+        final List<SimpleTkIdentifier> identifiers = SimpleUtil.findIdentifiers(project, name); // 查找与键值相关的属性列表
         List<ResolveResult> results = new ArrayList<>(); // 创建解析结果列表
         for (SimpleTkIdentifier identifier : identifiers) { // 遍历找到的属性
             results.add(new PsiElementResolveResult(identifier)); // 将属性封装为解析结果并添加到列表中
         }
-        LOG.info("Total identifiers resolved: " + results.size()); // 记录解析的数量
+        LOG.debug("Total identifiers resolved: " + results.size());
         return results.toArray(ResolveResult[]::new); // 将列表转换为数组并返回
     }
 
@@ -56,14 +60,15 @@ public final class SimpleReference extends PsiReferenceBase<SimpleTkIdentifier> 
         List<SimpleTkIdentifier> properties = SimpleUtil.findAllIdentifiers(project); // 获取所有属性
         List<LookupElement> variants = new ArrayList<>(); // 创建自动补全选项列表
         for (final SimpleTkIdentifier identifier : properties) { // 遍历所有属性
-            if (identifier.getName() != null && !identifier.getName().isEmpty()) { // 如果属性的键不为空
+            String name = identifier.getName();
+            if (name != null && !name.isEmpty()) { // 如果属性的键不为空
                 variants.add(LookupElementBuilder // 创建自动补全选项
                         .create(identifier).withIcon(SimpleIcons.FILE) // 设置图标
                         .withTypeText(identifier.getContainingFile().getName()) // 设置类型文本为文件名
                 );
             }
         }
-        LOG.info("Autocomplete variants count: " + variants.size()); // 记录自动补全候选数量
+        LOG.debug("Autocomplete variants count: " + variants.size());
         return variants.toArray(); // 将列表转换为数组并返回
     }
 
