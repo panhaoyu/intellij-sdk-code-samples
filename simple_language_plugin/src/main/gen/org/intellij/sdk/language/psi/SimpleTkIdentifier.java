@@ -20,7 +20,7 @@ public interface SimpleTkIdentifier extends SimpleNamedElement {
 
   PsiReference getReference();
 
-  SimpleReference[] getReferences();
+  @NotNull SimpleReference[] getReferences();
 
   int getTextOffset();
 
