@@ -144,7 +144,7 @@ public class SimplePsiImplUtil {
     }
 
 
-    public static @NotNull SimpleReference[] getReferences(final SimpleTkIdentifier element) {
+    public static SimpleReference @NotNull [] getReferences(final SimpleTkIdentifier element) {
         ArrayList<SimpleReference> references = new ArrayList<>();
         references.add(new SimpleReference(element, new TextRange(0, element.getTextLength())));
         return references.toArray(SimpleReference[]::new);

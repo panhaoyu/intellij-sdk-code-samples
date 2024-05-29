@@ -55,7 +55,7 @@ public class SimpleTkIdentifierImpl extends SimpleNamedElementImpl implements Si
   }
 
   @Override
-  public @NotNull SimpleReference[] getReferences() {
+  public SimpleReference @NotNull [] getReferences() {
     return SimplePsiImplUtil.getReferences(this);
   }
 
