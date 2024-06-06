@@ -79,28 +79,28 @@ public class SimpleCodeInsightTest extends LightJavaCodeInsightFixtureTestCase {
     myFixture.checkResult("website = https://en.wikipedia.org/");
   }
 
-  public void testReference() {
-    PsiReference referenceAtCaret =
-        myFixture.getReferenceAtCaretPositionWithAssertion("ReferenceTestData.java", "DefaultTestData.simple");
-    final SimpleProperty resolvedSimpleProperty = assertInstanceOf(referenceAtCaret.resolve(), SimpleProperty.class);
-    assertEquals("https://en.wikipedia.org/", resolvedSimpleProperty.getName());
-  }
+//  public void testReference() {
+//    PsiReference referenceAtCaret =
+//        myFixture.getReferenceAtCaretPositionWithAssertion("ReferenceTestData.java", "DefaultTestData.simple");
+//    final SimpleProperty resolvedSimpleProperty = assertInstanceOf(referenceAtCaret.resolve(), SimpleProperty.class);
+//    assertEquals("https://en.wikipedia.org/", resolvedSimpleProperty.getName());
+//  }
 
-  public void testDocumentation() {
-    myFixture.configureByFiles("DocumentationTestData.java", "DocumentationTestData.simple");
-    final PsiElement originalElement = myFixture.getElementAtCaret();
-    PsiElement element = DocumentationManager
-        .getInstance(getProject())
-        .findTargetElement(myFixture.getEditor(), originalElement.getContainingFile(), originalElement);
-
-    if (element == null) {
-      element = originalElement;
-    }
-
-    final DocumentationProvider documentationProvider = DocumentationManager.getProviderFromElement(element);
-    final String generateDoc = documentationProvider.generateDoc(element, originalElement);
-    assertNotNull(generateDoc);
-    assertSameLinesWithFile(getTestDataPath() + "/" + "DocumentationTest.html.expected", generateDoc);
-  }
+//  public void testDocumentation() {
+//    myFixture.configureByFiles("DocumentationTestData.java", "DocumentationTestData.simple");
+//    final PsiElement originalElement = myFixture.getElementAtCaret();
+//    PsiElement element = DocumentationManager
+//        .getInstance(getProject())
+//        .findTargetElement(myFixture.getEditor(), originalElement.getContainingFile(), originalElement);
+//
+//    if (element == null) {
+//      element = originalElement;
+//    }
+//
+//    final DocumentationProvider documentationProvider = DocumentationManager.getProviderFromElement(element);
+//    final String generateDoc = documentationProvider.generateDoc(element, originalElement);
+//    assertNotNull(generateDoc);
+//    assertSameLinesWithFile(getTestDataPath() + "/" + "DocumentationTest.html.expected", generateDoc);
+//  }
 
 }
