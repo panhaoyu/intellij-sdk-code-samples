@@ -14,7 +14,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 // 创建SimpleReference类，它是PsiReferenceBase的子类，实现了PsiPolyVariantReference接口
 public final class SimpleReference extends PsiReferenceBase<SimpleTkIdentifier> implements PsiPolyVariantReference {
@@ -59,9 +61,12 @@ public final class SimpleReference extends PsiReferenceBase<SimpleTkIdentifier> 
         Project project = myElement.getProject();
         List<SimpleTkIdentifier> identifiers = SimpleUtil.findIdentifiers(project); // 获取所有属性
         List<LookupElement> variants = new ArrayList<>(); // 创建自动补全选项列表
+        Set<String> seenNames = new HashSet<>(); // 用于跟踪已经添加的名称
+
         for (final SimpleTkIdentifier identifier : identifiers) { // 遍历所有属性
             String name = identifier.getName();
-            if (name != null && !name.isEmpty()) { // 如果属性的键不为空
+            if (name != null && !name.isEmpty() && !seenNames.contains(name)) { // 如果属性的键不为空且未被添加
+                seenNames.add(name); // 记录名称
                 variants.add(LookupElementBuilder // 创建自动补全选项
                         .create(identifier).withIcon(SimpleIcons.FILE) // 设置图标
                         .withTypeText(identifier.getContainingFile().getName()) // 设置类型文本为文件名
