@@ -20,62 +20,6 @@ import java.util.*;
 // SimpleUtil类提供了一系列静态方法，用于搜索和操作Simple语言文件
 public class SimpleUtil {
     /**
-     * 在整个项目中搜索含有特定键的Simple属性。
-     *
-     * @param project 当前项目
-     * @param key 要搜索的键
-     * @return 匹配的属性列表
-     */
-//    private static final Map<Project, List<SimpleIdentifierElement>> cachedKeys = new HashMap<>();
-    public static List<SimpleProperty> findProperties(Project project, String key) {
-        List<SimpleProperty> result = new ArrayList<>(); // 创建一个空列表用于存放找到的属性
-
-        // 搜索项目中所有的Simple文件
-        Collection<VirtualFile> virtualFiles =
-                FileTypeIndex.getFiles(SimpleFileType.INSTANCE, GlobalSearchScope.allScope(project));
-        // 遍历每一个文件
-        for (VirtualFile virtualFile : virtualFiles) {
-            // 通过PsiManager将VirtualFile转换成SimpleFile
-            SimpleFile simpleFile = (SimpleFile) PsiManager.getInstance(project).findFile(virtualFile);
-            if (simpleFile != null) { // 确保文件不为空
-                // 获取simpleFile中所有的SimpleProperty对象
-                SimpleProperty[] properties = PsiTreeUtil.getChildrenOfType(simpleFile, SimpleProperty.class);
-                if (properties != null) { // 确保属性列表不为空
-                    // 筛选出键与给定键相匹配的属性
-                    for (SimpleProperty property : properties) {
-                        if (key.equals(property.getName())) {
-                            result.add(property); // 将匹配的属性添加到结果列表中
-                        }
-                    }
-                }
-            }
-        }
-        return result; // 返回找到的所有匹配属性的列表
-    }
-
-    /**
-     * 获取项目中所有的Simple属性。
-     *
-     * @param project 当前项目
-     * @return 所有属性的列表
-     */
-    public static List<SimpleProperty> findProperties(Project project) {
-        List<SimpleProperty> result = new ArrayList<>();
-        Collection<VirtualFile> virtualFiles =
-                FileTypeIndex.getFiles(SimpleFileType.INSTANCE, GlobalSearchScope.allScope(project));
-        for (VirtualFile virtualFile : virtualFiles) {
-            SimpleFile simpleFile = (SimpleFile) PsiManager.getInstance(project).findFile(virtualFile);
-            if (simpleFile != null) {
-                SimpleProperty[] properties = PsiTreeUtil.getChildrenOfType(simpleFile, SimpleProperty.class);
-                if (properties != null) {
-                    Collections.addAll(result, properties);
-                }
-            }
-        }
-        return result;
-    }
-
-    /**
      * 收集Simple键/值对上方的所有注释元素。
      *
      * @param property Simple属性
