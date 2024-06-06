@@ -10,7 +10,7 @@ import com.intellij.util.Processor;
 import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.indexing.FindSymbolParameters;
 import com.intellij.util.indexing.IdFilter;
-import org.intellij.sdk.language.psi.SimpleProperty;
+import org.intellij.sdk.language.psi.SimpleTkIdentifier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -24,8 +24,7 @@ final class SimpleChooseByNameContributor implements ChooseByNameContributorEx {
                              @NotNull GlobalSearchScope scope,
                              @Nullable IdFilter filter) {
         Project project = Objects.requireNonNull(scope.getProject());
-        List<String> propertyKeys = ContainerUtil.map(
-                SimpleUtil.findProperties(project), SimpleProperty::getName);
+        List<String> propertyKeys = ContainerUtil.map(SimpleUtil.findIdentifiers(project), SimpleTkIdentifier::getName);
         ContainerUtil.process(propertyKeys, processor);
     }
 
@@ -34,7 +33,7 @@ final class SimpleChooseByNameContributor implements ChooseByNameContributorEx {
                                         @NotNull Processor<? super NavigationItem> processor,
                                         @NotNull FindSymbolParameters parameters) {
         List<NavigationItem> properties = ContainerUtil.map(
-                SimpleUtil.findProperties(parameters.getProject(), name),
+                SimpleUtil.findIdentifiers(parameters.getProject(), name),
                 property -> (NavigationItem) property);
         ContainerUtil.process(properties, processor);
     }
