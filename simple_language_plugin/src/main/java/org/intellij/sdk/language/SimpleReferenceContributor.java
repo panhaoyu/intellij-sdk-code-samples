@@ -8,11 +8,11 @@ import com.intellij.util.ProcessingContext;
 import org.intellij.sdk.language.psi.SimpleTkIdentifier;
 import org.jetbrains.annotations.NotNull;
 
-// ¶¨ÒåSimpleReferenceContributorÀà£¬¼Ì³Ğ×ÔPsiReferenceContributor
+// å®šä¹‰SimpleReferenceContributorç±»ï¼Œç»§æ‰¿è‡ªPsiReferenceContributor
 final class SimpleReferenceContributor extends PsiReferenceContributor {
-    private static final Logger LOG = Logger.getInstance(SimpleReferenceContributor.class); // ÈÕÖ¾¼ÇÂ¼Æ÷
+    private static final Logger LOG = Logger.getInstance(SimpleReferenceContributor.class); // æ—¥å¿—è®°å½•å™¨
 
-    // ÖØĞ´registerReferenceProviders·½·¨£¬ÓÃÓÚ×¢²áÒıÓÃÌá¹©Õß
+    // é‡å†™registerReferenceProvidersæ–¹æ³•ï¼Œç”¨äºæ³¨å†Œå¼•ç”¨æä¾›è€…
     @Override
     public void registerReferenceProviders(@NotNull PsiReferenceRegistrar registrar) {
         registrar.registerReferenceProvider(

@@ -20,34 +20,34 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
-// SimpleUtilÀàÌá¹©ÁËÒ»ÏµÁĞ¾²Ì¬·½·¨£¬ÓÃÓÚËÑË÷ºÍ²Ù×÷SimpleÓïÑÔÎÄ¼ş
+// SimpleUtilç±»æä¾›äº†ä¸€ç³»åˆ—é™æ€æ–¹æ³•ï¼Œç”¨äºæœç´¢å’Œæ“ä½œSimpleè¯­è¨€æ–‡ä»¶
 public class SimpleUtil {
     /**
-     * ÊÕ¼¯Simple¼ü/Öµ¶ÔÉÏ·½µÄËùÓĞ×¢ÊÍÔªËØ¡£
+     * æ”¶é›†Simpleé”®/å€¼å¯¹ä¸Šæ–¹çš„æ‰€æœ‰æ³¨é‡Šå…ƒç´ ã€‚
      *
-     * @param property SimpleÊôĞÔ
-     * @return ×éºÏºóµÄÎÄµµ×¢ÊÍ
+     * @param property Simpleå±æ€§
+     * @return ç»„åˆåçš„æ–‡æ¡£æ³¨é‡Š
      */
     public static @NotNull String findDocumentationComment(SimpleProperty property) {
         List<String> result = new LinkedList<>();
         PsiElement element = property.getPrevSibling();
         while (element instanceof PsiComment || element instanceof PsiWhiteSpace) {
             if (element instanceof PsiComment) {
-                // Çå³ı×¢ÊÍ·ûºÅ£¬²¢½«×¢ÊÍÌí¼Óµ½ÁĞ±íÖĞ
+                // æ¸…é™¤æ³¨é‡Šç¬¦å·ï¼Œå¹¶å°†æ³¨é‡Šæ·»åŠ åˆ°åˆ—è¡¨ä¸­
                 String commentText = element.getText().replaceFirst("[!# ]+", "");
                 result.add(commentText);
             }
             element = element.getPrevSibling();
         }
-        // ½«ËùÓĞ×¢ÊÍ·´ÏòÁ¬½Ó³Éµ¥¸ö×Ö·û´®
+        // å°†æ‰€æœ‰æ³¨é‡Šåå‘è¿æ¥æˆå•ä¸ªå­—ç¬¦ä¸²
         return StringUtil.join(Lists.reverse(result), "\n ");
     }
 
     /**
-     * ²éÕÒÕû¸öÏîÄ¿ÖĞËùÓĞ±êÊ¶·ûÔªËØ£¨SimpleNamedElement£©¡£
+     * æŸ¥æ‰¾æ•´ä¸ªé¡¹ç›®ä¸­æ‰€æœ‰æ ‡è¯†ç¬¦å…ƒç´ ï¼ˆSimpleNamedElementï¼‰ã€‚
      *
-     * @param project µ±Ç°ÏîÄ¿
-     * @return ÕÒµ½µÄËùÓĞ±êÊ¶·ûÔªËØµÄÁĞ±í
+     * @param project å½“å‰é¡¹ç›®
+     * @return æ‰¾åˆ°çš„æ‰€æœ‰æ ‡è¯†ç¬¦å…ƒç´ çš„åˆ—è¡¨
      */
     public static List<SimpleTkIdentifier> findIdentifiers(Project project) {
         List<SimpleTkIdentifier> result = new ArrayList<>();
@@ -64,10 +64,10 @@ public class SimpleUtil {
     }
 
     /**
-     * »ñÈ¡Ä³¸öÎÄ¼şÖĞµÄ±êÊ¶·ûÔªËØ£¬²¢½øĞĞ»º´æ¡£
+     * è·å–æŸä¸ªæ–‡ä»¶ä¸­çš„æ ‡è¯†ç¬¦å…ƒç´ ï¼Œå¹¶è¿›è¡Œç¼“å­˜ã€‚
      *
-     * @param simpleFile Òª´¦ÀíµÄÎÄ¼ş
-     * @return ÎÄ¼şÖĞµÄ±êÊ¶·ûÔªËØÁĞ±í
+     * @param simpleFile è¦å¤„ç†çš„æ–‡ä»¶
+     * @return æ–‡ä»¶ä¸­çš„æ ‡è¯†ç¬¦å…ƒç´ åˆ—è¡¨
      */
     private static List<SimpleTkIdentifier> getCachedIdentifiersForFile(SimpleFile simpleFile) {
         return CachedValuesManager.getCachedValue(simpleFile, () -> {
@@ -79,15 +79,15 @@ public class SimpleUtil {
     }
 
     /**
-     * ²éÕÒÕû¸öÏîÄ¿ÖĞËùÓĞ±êÊ¶·ûÔªËØ£¨SimpleNamedElement£©¡£
+     * æŸ¥æ‰¾æ•´ä¸ªé¡¹ç›®ä¸­æ‰€æœ‰æ ‡è¯†ç¬¦å…ƒç´ ï¼ˆSimpleNamedElementï¼‰ã€‚
      *
-     * @param project µ±Ç°ÏîÄ¿
-     * @return ÕÒµ½µÄËùÓĞ±êÊ¶·ûÔªËØµÄÁĞ±í
+     * @param project å½“å‰é¡¹ç›®
+     * @return æ‰¾åˆ°çš„æ‰€æœ‰æ ‡è¯†ç¬¦å…ƒç´ çš„åˆ—è¡¨
      */
     public static List<SimpleTkIdentifier> findIdentifiers(Project project, String key) {
-        final List<SimpleTkIdentifier> properties = findIdentifiers(project); // ²éÕÒÓë¼üÖµÏà¹ØµÄÊôĞÔÁĞ±í
-        List<SimpleTkIdentifier> results = new ArrayList<>(); // ´´½¨½âÎö½á¹ûÁĞ±í
-        for (SimpleTkIdentifier identifier : properties) { // ±éÀúÕÒµ½µÄÊôĞÔ
+        final List<SimpleTkIdentifier> properties = findIdentifiers(project); // æŸ¥æ‰¾ä¸é”®å€¼ç›¸å…³çš„å±æ€§åˆ—è¡¨
+        List<SimpleTkIdentifier> results = new ArrayList<>(); // åˆ›å»ºè§£æç»“æœåˆ—è¡¨
+        for (SimpleTkIdentifier identifier : properties) { // éå†æ‰¾åˆ°çš„å±æ€§
             if (Objects.equals(identifier.getName(), key)) {
                 results.add(identifier);
             }

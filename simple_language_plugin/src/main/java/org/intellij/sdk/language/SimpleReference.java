@@ -18,19 +18,19 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-// ´´½¨SimpleReferenceÀà£¬ËüÊÇPsiReferenceBaseµÄ×ÓÀà£¬ÊµÏÖÁËPsiPolyVariantReference½Ó¿Ú
+// åˆ›å»ºSimpleReferenceç±»ï¼Œå®ƒæ˜¯PsiReferenceBaseçš„å­ç±»ï¼Œå®ç°äº†PsiPolyVariantReferenceæ¥å£
 public final class SimpleReference extends PsiReferenceBase<SimpleTkIdentifier> implements PsiPolyVariantReference {
 
-    private static final Logger LOG = Logger.getInstance(SimpleReference.class); // ÈÕÖ¾¼ÇÂ¼Æ÷
-    // ¶¨ÒåÒ»¸ö×Ö·û´®³ÉÔ±±äÁ¿ÓÃÓÚ´æ´¢¼üÖµ
+    private static final Logger LOG = Logger.getInstance(SimpleReference.class); // æ—¥å¿—è®°å½•å™¨
+    // å®šä¹‰ä¸€ä¸ªå­—ç¬¦ä¸²æˆå‘˜å˜é‡ç”¨äºå­˜å‚¨é”®å€¼
 
 
-    // ¹¹Ôìº¯Êı£¬³õÊ¼»¯ÒıÓÃºÍ¼üÖµ
+    // æ„é€ å‡½æ•°ï¼Œåˆå§‹åŒ–å¼•ç”¨å’Œé”®å€¼
     public SimpleReference(@NotNull SimpleTkIdentifier element, TextRange textRange) {
         super(element, textRange);
     }
 
-    // ÖØĞ´multiResolve·½·¨£¬ÓÃÓÚ½âÎö¶à¸ö¿ÉÄÜµÄÒıÓÃ½á¹û
+    // é‡å†™multiResolveæ–¹æ³•ï¼Œç”¨äºè§£æå¤šä¸ªå¯èƒ½çš„å¼•ç”¨ç»“æœ
     @Override
     public ResolveResult @NotNull [] multiResolve(boolean incompleteCode) {
         Project project = myElement.getProject();
@@ -38,13 +38,13 @@ public final class SimpleReference extends PsiReferenceBase<SimpleTkIdentifier> 
         if (name == null) {
             return ResolveResult.EMPTY_ARRAY;
         }
-        final List<SimpleTkIdentifier> identifiers = SimpleUtil.findIdentifiers(project, name); // ²éÕÒÓë¼üÖµÏà¹ØµÄÊôĞÔÁĞ±í
-        List<ResolveResult> results = new ArrayList<>(); // ´´½¨½âÎö½á¹ûÁĞ±í
-        for (SimpleTkIdentifier identifier : identifiers) { // ±éÀúÕÒµ½µÄÊôĞÔ
-            results.add(new PsiElementResolveResult(identifier)); // ½«ÊôĞÔ·â×°Îª½âÎö½á¹û²¢Ìí¼Óµ½ÁĞ±íÖĞ
+        final List<SimpleTkIdentifier> identifiers = SimpleUtil.findIdentifiers(project, name); // æŸ¥æ‰¾ä¸é”®å€¼ç›¸å…³çš„å±æ€§åˆ—è¡¨
+        List<ResolveResult> results = new ArrayList<>(); // åˆ›å»ºè§£æç»“æœåˆ—è¡¨
+        for (SimpleTkIdentifier identifier : identifiers) { // éå†æ‰¾åˆ°çš„å±æ€§
+            results.add(new PsiElementResolveResult(identifier)); // å°†å±æ€§å°è£…ä¸ºè§£æç»“æœå¹¶æ·»åŠ åˆ°åˆ—è¡¨ä¸­
         }
         LOG.debug("Total identifiers resolved: " + results.size());
-        return results.toArray(ResolveResult[]::new); // ½«ÁĞ±í×ª»»ÎªÊı×é²¢·µ»Ø
+        return results.toArray(ResolveResult[]::new); // å°†åˆ—è¡¨è½¬æ¢ä¸ºæ•°ç»„å¹¶è¿”å›
     }
 
     @Nullable
@@ -55,26 +55,26 @@ public final class SimpleReference extends PsiReferenceBase<SimpleTkIdentifier> 
     }
 
 
-    // ÖØĞ´getVariants·½·¨£¬ÓÃÓÚ»ñÈ¡ËùÓĞ¿ÉÄÜµÄ×Ô¶¯²¹È«Ñ¡Ïî
+    // é‡å†™getVariantsæ–¹æ³•ï¼Œç”¨äºè·å–æ‰€æœ‰å¯èƒ½çš„è‡ªåŠ¨è¡¥å…¨é€‰é¡¹
     @Override
     public Object @NotNull [] getVariants() {
         Project project = myElement.getProject();
-        List<SimpleTkIdentifier> identifiers = SimpleUtil.findIdentifiers(project); // »ñÈ¡ËùÓĞÊôĞÔ
-        List<LookupElement> variants = new ArrayList<>(); // ´´½¨×Ô¶¯²¹È«Ñ¡ÏîÁĞ±í
-        Set<String> seenNames = new HashSet<>(); // ÓÃÓÚ¸ú×ÙÒÑ¾­Ìí¼ÓµÄÃû³Æ
+        List<SimpleTkIdentifier> identifiers = SimpleUtil.findIdentifiers(project); // è·å–æ‰€æœ‰å±æ€§
+        List<LookupElement> variants = new ArrayList<>(); // åˆ›å»ºè‡ªåŠ¨è¡¥å…¨é€‰é¡¹åˆ—è¡¨
+        Set<String> seenNames = new HashSet<>(); // ç”¨äºè·Ÿè¸ªå·²ç»æ·»åŠ çš„åç§°
 
-        for (final SimpleTkIdentifier identifier : identifiers) { // ±éÀúËùÓĞÊôĞÔ
+        for (final SimpleTkIdentifier identifier : identifiers) { // éå†æ‰€æœ‰å±æ€§
             String name = identifier.getName();
-            if (name != null && !name.isEmpty() && !seenNames.contains(name)) { // Èç¹ûÊôĞÔµÄ¼ü²»Îª¿ÕÇÒÎ´±»Ìí¼Ó
-                seenNames.add(name); // ¼ÇÂ¼Ãû³Æ
-                variants.add(LookupElementBuilder // ´´½¨×Ô¶¯²¹È«Ñ¡Ïî
-                        .create(identifier).withIcon(SimpleIcons.FILE) // ÉèÖÃÍ¼±ê
-                        .withTypeText(identifier.getContainingFile().getName()) // ÉèÖÃÀàĞÍÎÄ±¾ÎªÎÄ¼şÃû
+            if (name != null && !name.isEmpty() && !seenNames.contains(name)) { // å¦‚æœå±æ€§çš„é”®ä¸ä¸ºç©ºä¸”æœªè¢«æ·»åŠ 
+                seenNames.add(name); // è®°å½•åç§°
+                variants.add(LookupElementBuilder // åˆ›å»ºè‡ªåŠ¨è¡¥å…¨é€‰é¡¹
+                        .create(identifier).withIcon(SimpleIcons.FILE) // è®¾ç½®å›¾æ ‡
+                        .withTypeText(identifier.getContainingFile().getName()) // è®¾ç½®ç±»å‹æ–‡æœ¬ä¸ºæ–‡ä»¶å
                 );
             }
         }
         LOG.debug("Autocomplete variants count: " + variants.size());
-        return variants.toArray(); // ½«ÁĞ±í×ª»»ÎªÊı×é²¢·µ»Ø
+        return variants.toArray(); // å°†åˆ—è¡¨è½¬æ¢ä¸ºæ•°ç»„å¹¶è¿”å›
     }
 
 }

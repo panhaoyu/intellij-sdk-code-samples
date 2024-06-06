@@ -46,3 +46,7 @@ tasks {
         untilBuild.set("241.*")
     }
 }
+
+tasks.withType<JavaCompile> {
+    options.encoding = "UTF-8"
+}
