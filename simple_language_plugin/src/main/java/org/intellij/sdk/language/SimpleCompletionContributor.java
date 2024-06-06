@@ -1829,7 +1829,6 @@ final class SimpleCompletionContributor extends CompletionContributor {
         };
 
         extend(CompletionType.BASIC, PlatformPatterns.psiElement(SimpleTypes.IDENTIFIER), completionProvider);
-        extend(CompletionType.BASIC, PlatformPatterns.psiElement(SimpleTypes.IDENTIFIER), completionProvider);
     }
 
 }
