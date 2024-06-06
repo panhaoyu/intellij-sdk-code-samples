@@ -106,8 +106,8 @@ public class SimpleUtil {
         List<SimpleTkIdentifier> result = new ArrayList<>();
         Collection<VirtualFile> files = FileTypeIndex.getFiles(SimpleFileType.INSTANCE, GlobalSearchScope.allScope(project));
         for (VirtualFile virtualFile : files) {
-            PsiFile simpleFile = PsiManager.getInstance(project).findFile(virtualFile);
-            if (simpleFile != null) {
+            PsiFile psiFile = PsiManager.getInstance(project).findFile(virtualFile);
+            if (psiFile instanceof SimpleFile simpleFile) {
                 Collection<SimpleTkIdentifier> identifiers = PsiTreeUtil.findChildrenOfType(simpleFile, SimpleTkIdentifier.class);
                 result.addAll(identifiers);
             }
