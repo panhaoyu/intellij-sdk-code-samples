@@ -14,7 +14,6 @@ import com.intellij.psi.util.CachedValuesManager;
 import com.intellij.psi.util.PsiModificationTracker;
 import com.intellij.psi.util.PsiTreeUtil;
 import org.intellij.sdk.language.psi.SimpleFile;
-import org.intellij.sdk.language.psi.SimpleProperty;
 import org.intellij.sdk.language.psi.SimpleTkIdentifier;
 import org.jetbrains.annotations.NotNull;
 
@@ -25,12 +24,12 @@ public class SimpleUtil {
     /**
      * 收集Simple键/值对上方的所有注释元素。
      *
-     * @param property Simple属性
+     * @param identifier Simple属性
      * @return 组合后的文档注释
      */
-    public static @NotNull String findDocumentationComment(SimpleProperty property) {
+    public static @NotNull String findDocumentationComment(SimpleTkIdentifier identifier) {
         List<String> result = new LinkedList<>();
-        PsiElement element = property.getPrevSibling();
+        PsiElement element = identifier.getPrevSibling();
         while (element instanceof PsiComment || element instanceof PsiWhiteSpace) {
             if (element instanceof PsiComment) {
                 // 清除注释符号，并将注释添加到列表中

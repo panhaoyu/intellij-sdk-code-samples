@@ -1353,38 +1353,6 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (tk_identifier)
-  public static boolean property(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "property")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, PROPERTY, "<property>");
-    r = tk_identifier(b, l + 1);
-    exit_section_(b, l, m, r, false, SimpleParser::recover_property);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // !(tk_identifier)
-  static boolean recover_property(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "recover_property")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NOT_);
-    r = !recover_property_0(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // (tk_identifier)
-  private static boolean recover_property_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "recover_property_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = tk_identifier(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  /* ********************************************************** */
   // (eol? cmd_block)* eol?
   static boolean simpleFile(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "simpleFile")) return false;

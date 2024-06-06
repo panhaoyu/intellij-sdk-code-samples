@@ -12,7 +12,9 @@ import com.intellij.psi.PsiReference;
 import com.intellij.psi.impl.source.resolve.reference.impl.PsiMultiReference;
 import com.intellij.psi.util.PsiTreeUtil;
 import org.intellij.sdk.language.SimpleReference;
-import org.intellij.sdk.language.psi.*;
+import org.intellij.sdk.language.psi.SimpleBlockDefine;
+import org.intellij.sdk.language.psi.SimpleElementFactory;
+import org.intellij.sdk.language.psi.SimpleTkIdentifier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -21,53 +23,6 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class SimplePsiImplUtil {
-
-    public static String getName(SimpleProperty element) {
-        return element.getText();
-    }
-
-    public static PsiElement setName(SimpleProperty element, String newName) {
-        ASTNode keyNode = element.getNode().findChildByType(SimpleTypes.IF);
-        if (keyNode != null) {
-            SimpleProperty property = SimpleElementFactory.createProperty(element.getProject(), newName);
-            ASTNode newKeyNode = property.getFirstChild().getNode();
-            element.getNode().replaceChild(keyNode, newKeyNode);
-        }
-        return element;
-    }
-
-    public static PsiElement getNameIdentifier(SimpleProperty element) {
-        ASTNode keyNode = element.getNode().findChildByType(SimpleTypes.IF);
-        if (keyNode != null) {
-            return keyNode.getPsi();
-        } else {
-            return null;
-        }
-    }
-
-    public static ItemPresentation getPresentation(final SimpleProperty element) {
-        return new ItemPresentation() {
-            @Nullable
-            @Override
-            public String getPresentableText() {
-                return element.getName();
-            }
-
-            @Nullable
-            @Override
-            public String getLocationString() {
-                PsiFile containingFile = element.getContainingFile();
-                return containingFile == null ? null : containingFile.getName();
-            }
-
-            @Override
-            public Icon getIcon(boolean unused) {
-                return element.getIcon(0);
-            }
-        };
-    }
-
-
     public static String getName(SimpleBlockDefine element) {
         SimpleTkIdentifier child = PsiTreeUtil.findChildOfType(element, SimpleTkIdentifier.class);
         return Objects.requireNonNull(child).getName();

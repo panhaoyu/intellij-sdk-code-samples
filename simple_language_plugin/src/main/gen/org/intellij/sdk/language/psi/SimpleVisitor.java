@@ -79,10 +79,6 @@ public class SimpleVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitProperty(@NotNull SimpleProperty o) {
-    visitNamedElement(o);
-  }
-
   public void visitStatAssign(@NotNull SimpleStatAssign o) {
     visitPsiElement(o);
   }

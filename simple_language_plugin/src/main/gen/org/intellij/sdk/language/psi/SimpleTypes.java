@@ -26,7 +26,6 @@ public interface SimpleTypes {
   IElementType CMD_STAT_OTHER = new SimpleElementType("CMD_STAT_OTHER");
   IElementType DEFINE_HEADER = new SimpleElementType("DEFINE_HEADER");
   IElementType EOL = new SimpleElementType("EOL");
-  IElementType PROPERTY = new SimpleElementType("PROPERTY");
   IElementType STAT_ASSIGN = new SimpleElementType("STAT_ASSIGN");
   IElementType STAT_FISH = new SimpleElementType("STAT_FISH");
   IElementType TK_IDENTIFIER = new SimpleElementType("TK_IDENTIFIER");
@@ -137,9 +136,6 @@ public interface SimpleTypes {
       }
       else if (type == EOL) {
         return new SimpleEolImpl(node);
-      }
-      else if (type == PROPERTY) {
-        return new SimplePropertyImpl(node);
       }
       else if (type == STAT_ASSIGN) {
         return new SimpleStatAssignImpl(node);

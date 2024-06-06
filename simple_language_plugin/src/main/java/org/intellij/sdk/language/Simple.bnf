@@ -165,16 +165,16 @@ tk_identifier ::= IDENTIFIER {
   implements="org.intellij.sdk.language.psi.SimpleNamedElement"
   methods=[getName setName getNameIdentifier getPresentation getReference getReferences getTextOffset]
 }
-
-property ::= (tk_identifier) {
-//  pin=3
-  recoverWhile="recover_property"
-  mixin="org.intellij.sdk.language.psi.impl.SimpleNamedElementImpl"
-  implements="org.intellij.sdk.language.psi.SimpleNamedElement"
-  methods=[getName setName getNameIdentifier getPresentation]
-}
-private recover_property ::= !(tk_identifier)
-
+//
+//property ::= (tk_identifier) {
+////  pin=3
+//  recoverWhile="recover_property"
+//  mixin="org.intellij.sdk.language.psi.impl.SimpleNamedElementImpl"
+//  implements="org.intellij.sdk.language.psi.SimpleNamedElement"
+//  methods=[getName setName getNameIdentifier getPresentation]
+//}
+//private recover_property ::= !(tk_identifier)
+//
 
 
 

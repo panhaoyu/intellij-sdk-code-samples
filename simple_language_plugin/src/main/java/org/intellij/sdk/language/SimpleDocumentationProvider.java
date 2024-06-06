@@ -5,7 +5,7 @@ import com.intellij.lang.documentation.AbstractDocumentationProvider;
 import com.intellij.lang.documentation.DocumentationMarkup;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.presentation.java.SymbolPresentationUtil;
-import org.intellij.sdk.language.psi.SimpleProperty;
+import org.intellij.sdk.language.psi.SimpleTkIdentifier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -34,11 +34,11 @@ final class SimpleDocumentationProvider extends AbstractDocumentationProvider {
      */
     @Override
     public @Nullable String generateDoc(PsiElement element, @Nullable PsiElement originalElement) {
-        if (element instanceof SimpleProperty) {
-            final String key = ((SimpleProperty) element).getName();
-            final String value = ((SimpleProperty) element).getName();
+        if (element instanceof SimpleTkIdentifier identifier) {
+            final String key = identifier.getName();
+            final String value = identifier.getName();
             final String file = SymbolPresentationUtil.getFilePathPresentation(element.getContainingFile());
-            final String docComment = SimpleUtil.findDocumentationComment((SimpleProperty) element);
+            final String docComment = SimpleUtil.findDocumentationComment(identifier);
 
             return renderFullDoc(key, value, file, docComment);
         }
@@ -50,10 +50,11 @@ final class SimpleDocumentationProvider extends AbstractDocumentationProvider {
      */
     @Override
     public @Nullable String getQuickNavigateInfo(PsiElement element, PsiElement originalElement) {
-        if (element instanceof SimpleProperty) {
-            final String key = ((SimpleProperty) element).getName();
-            final String file = SymbolPresentationUtil.getFilePathPresentation(element.getContainingFile());
-            return "\"" + key + "\" in " + file;
+        if (element instanceof SimpleTkIdentifier) {
+//            final String key = ((SimpleProperty) element).getName();
+//            final String file = SymbolPresentationUtil.getFilePathPresentation(element.getContainingFile());
+//            return "\"" + key + "\" in " + file;
+            return "";
         }
         return null;
     }
@@ -85,18 +86,18 @@ final class SimpleDocumentationProvider extends AbstractDocumentationProvider {
      */
     private String renderFullDoc(String key, String value, String file, String docComment) {
         StringBuilder sb = new StringBuilder();
-        sb.append(DocumentationMarkup.DEFINITION_START);
-        sb.append("Simple Property");
-        sb.append(DocumentationMarkup.DEFINITION_END);
-        sb.append(DocumentationMarkup.CONTENT_START);
-        sb.append(value);
-        sb.append(DocumentationMarkup.CONTENT_END);
-        sb.append(DocumentationMarkup.SECTIONS_START);
-        addKeyValueSection("Key:", key, sb);
-        addKeyValueSection("Value:", value, sb);
-        addKeyValueSection("File:", file, sb);
-        addKeyValueSection("Comment:", docComment, sb);
-        sb.append(DocumentationMarkup.SECTIONS_END);
+//        sb.append(DocumentationMarkup.DEFINITION_START);
+//        sb.append("Simple Property");
+//        sb.append(DocumentationMarkup.DEFINITION_END);
+//        sb.append(DocumentationMarkup.CONTENT_START);
+//        sb.append(value);
+//        sb.append(DocumentationMarkup.CONTENT_END);
+//        sb.append(DocumentationMarkup.SECTIONS_START);
+//        addKeyValueSection("Key:", key, sb);
+//        addKeyValueSection("Value:", value, sb);
+//        addKeyValueSection("File:", file, sb);
+//        addKeyValueSection("Comment:", docComment, sb);
+//        sb.append(DocumentationMarkup.SECTIONS_END);
         return sb.toString();
     }
 

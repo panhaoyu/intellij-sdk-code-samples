@@ -13,19 +13,9 @@ public class SimpleElementFactory {
         return (SimpleTkIdentifier) createFile(project, "@" + name).getLastChild();
     }
 
-    public static SimpleProperty createProperty(Project project, String name) {
-        final SimpleFile file = createFile(project, name);
-        return (SimpleProperty) file.getFirstChild();
-    }
-
     public static SimpleFile createFile(Project project, String text) {
         String name = "dummy.fis";
         return (SimpleFile) PsiFileFactory.getInstance(project).createFileFromText(name, SimpleFileType.INSTANCE, text);
-    }
-
-    public static SimpleProperty createProperty(Project project, String name, String value) {
-        final SimpleFile file = createFile(project, name + " = " + value);
-        return (SimpleProperty) file.getFirstChild();
     }
 
     public static PsiElement createCRLF(Project project) {
