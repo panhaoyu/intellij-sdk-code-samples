@@ -51,7 +51,7 @@ public class SimpleUtil {
      */
     public static List<SimpleTkIdentifier> findIdentifiers(Project project) {
         List<SimpleTkIdentifier> result = new ArrayList<>();
-        Collection<VirtualFile> files = FileTypeIndex.getFiles(SimpleFileType.INSTANCE, GlobalSearchScope.allScope(project));
+        Collection<VirtualFile> files = FileTypeIndex.getFiles(SimpleFileType.INSTANCE, GlobalSearchScope.projectScope(project));
 
         for (VirtualFile virtualFile : files) {
             PsiFile psiFile = PsiManager.getInstance(project).findFile(virtualFile);
