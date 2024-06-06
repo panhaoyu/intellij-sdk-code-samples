@@ -7,8 +7,8 @@ import com.intellij.util.ProcessingContext;
 import org.intellij.sdk.language.psi.SimpleTypes;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 final class SimpleCompletionContributor extends CompletionContributor {
 
@@ -1813,19 +1813,21 @@ final class SimpleCompletionContributor extends CompletionContributor {
     };
 
     SimpleCompletionContributor() {
-        List<LookupElementBuilder> lookupElementBuilders = new ArrayList<>();
+        Set<LookupElementBuilder> lookupElementBuilders = new HashSet<>();
         for (String name : NAMES) {
             LookupElementBuilder lookupElementBuilder = LookupElementBuilder.create(name);
             lookupElementBuilders.add(lookupElementBuilder);
         }
 
         CompletionProvider<CompletionParameters> completionProvider = new CompletionProvider<>() {
+            @Override
             public void addCompletions(@NotNull CompletionParameters parameters,
                                        @NotNull ProcessingContext context,
                                        @NotNull CompletionResultSet resultSet) {
                 resultSet.addAllElements(lookupElementBuilders);
             }
         };
+
         extend(CompletionType.BASIC, PlatformPatterns.psiElement(SimpleTypes.IDENTIFIER), completionProvider);
         extend(CompletionType.BASIC, PlatformPatterns.psiElement(SimpleTypes.IDENTIFIER), completionProvider);
     }
