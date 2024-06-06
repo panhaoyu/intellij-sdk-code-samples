@@ -9,6 +9,9 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.*;
 import com.intellij.psi.search.FileTypeIndex;
 import com.intellij.psi.search.GlobalSearchScope;
+import com.intellij.psi.util.CachedValueProvider;
+import com.intellij.psi.util.CachedValuesManager;
+import com.intellij.psi.util.PsiModificationTracker;
 import com.intellij.psi.util.PsiTreeUtil;
 import org.intellij.sdk.language.psi.SimpleFile;
 import org.intellij.sdk.language.psi.SimpleProperty;
@@ -49,14 +52,30 @@ public class SimpleUtil {
     public static List<SimpleTkIdentifier> findIdentifiers(Project project) {
         List<SimpleTkIdentifier> result = new ArrayList<>();
         Collection<VirtualFile> files = FileTypeIndex.getFiles(SimpleFileType.INSTANCE, GlobalSearchScope.allScope(project));
+
         for (VirtualFile virtualFile : files) {
             PsiFile psiFile = PsiManager.getInstance(project).findFile(virtualFile);
             if (psiFile instanceof SimpleFile simpleFile) {
-                Collection<SimpleTkIdentifier> identifiers = PsiTreeUtil.findChildrenOfType(simpleFile, SimpleTkIdentifier.class);
+                List<SimpleTkIdentifier> identifiers = getCachedIdentifiersForFile(simpleFile);
                 result.addAll(identifiers);
             }
         }
         return result;
+    }
+
+    /**
+     * 获取某个文件中的标识符元素，并进行缓存。
+     *
+     * @param simpleFile 要处理的文件
+     * @return 文件中的标识符元素列表
+     */
+    private static List<SimpleTkIdentifier> getCachedIdentifiersForFile(SimpleFile simpleFile) {
+        return CachedValuesManager.getCachedValue(simpleFile, () -> {
+            Collection<SimpleTkIdentifier> identifiers = PsiTreeUtil.findChildrenOfType(simpleFile, SimpleTkIdentifier.class);
+            List<SimpleTkIdentifier> identifierList = new ArrayList<>(identifiers);
+
+            return CachedValueProvider.Result.create(identifierList, simpleFile, PsiModificationTracker.MODIFICATION_COUNT);
+        });
     }
 
     /**
