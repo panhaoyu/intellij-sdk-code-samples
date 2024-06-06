@@ -14,8 +14,8 @@ import com.intellij.psi.search.FileTypeIndex;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.util.PsiTreeUtil;
 import org.intellij.sdk.language.psi.SimpleFile;
-import org.intellij.sdk.language.psi.SimpleTkIdentifier;
 import org.intellij.sdk.language.psi.SimpleProperty;
+import org.intellij.sdk.language.psi.SimpleTkIdentifier;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -105,11 +105,10 @@ public class SimpleUtil {
      * @param project 当前项目
      * @return 找到的所有标识符元素的列表
      */
-    public static List<SimpleTkIdentifier> findAllIdentifiers(Project project) {
+    public static List<SimpleTkIdentifier> findIdentifiers(Project project) {
         List<SimpleTkIdentifier> result = new ArrayList<>();
-        Collection<VirtualFile> virtualFiles =
-                FileTypeIndex.getFiles(SimpleFileType.INSTANCE, GlobalSearchScope.allScope(project));
-        for (VirtualFile virtualFile : virtualFiles) {
+        Collection<VirtualFile> files = FileTypeIndex.getFiles(SimpleFileType.INSTANCE, GlobalSearchScope.allScope(project));
+        for (VirtualFile virtualFile : files) {
             SimpleFile simpleFile = (SimpleFile) PsiManager.getInstance(project).findFile(virtualFile);
             if (simpleFile != null) {
                 Collection<SimpleTkIdentifier> identifiers = PsiTreeUtil.findChildrenOfType(simpleFile, SimpleTkIdentifier.class);
@@ -126,7 +125,7 @@ public class SimpleUtil {
      * @return 找到的所有标识符元素的列表
      */
     public static List<SimpleTkIdentifier> findIdentifiers(Project project, String key) {
-        final List<SimpleTkIdentifier> properties = findAllIdentifiers(project); // 查找与键值相关的属性列表
+        final List<SimpleTkIdentifier> properties = findIdentifiers(project); // 查找与键值相关的属性列表
         List<SimpleTkIdentifier> results = new ArrayList<>(); // 创建解析结果列表
         for (SimpleTkIdentifier identifier : properties) { // 遍历找到的属性
             if (Objects.equals(identifier.getName(), key)) {
@@ -146,7 +145,7 @@ public class SimpleUtil {
         List<SimpleTkIdentifier> result = new ArrayList<>();
         Set<String> seenNames = new HashSet<>();
 
-        for (SimpleTkIdentifier element : findAllIdentifiers(project)) {
+        for (SimpleTkIdentifier element : findIdentifiers(project)) {
             if (!seenNames.contains(element.getName())) {
                 seenNames.add(element.getName());
                 result.add(element);
