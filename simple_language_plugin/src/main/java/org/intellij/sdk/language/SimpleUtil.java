@@ -106,10 +106,6 @@ public class SimpleUtil {
      * @return 找到的所有标识符元素的列表
      */
     public static List<SimpleTkIdentifier> findAllIdentifiers(Project project) {
-        // Check if the cache already contains the result
-//        if (cachedKeys.containsKey(project)) {
-//            return cachedKeys.get(project);
-//        }
         List<SimpleTkIdentifier> result = new ArrayList<>();
         Collection<VirtualFile> virtualFiles =
                 FileTypeIndex.getFiles(SimpleFileType.INSTANCE, GlobalSearchScope.allScope(project));
@@ -120,7 +116,6 @@ public class SimpleUtil {
                 result.addAll(identifiers);
             }
         }
-//        cachedKeys.put(project, result);
         return result;
     }
 
