@@ -57,9 +57,9 @@ public final class SimpleReference extends PsiReferenceBase<SimpleTkIdentifier> 
     @Override
     public Object @NotNull [] getVariants() {
         Project project = myElement.getProject();
-        List<SimpleTkIdentifier> properties = SimpleUtil.findIdentifiers(project); // 获取所有属性
+        List<SimpleTkIdentifier> identifiers = SimpleUtil.findIdentifiers(project); // 获取所有属性
         List<LookupElement> variants = new ArrayList<>(); // 创建自动补全选项列表
-        for (final SimpleTkIdentifier identifier : properties) { // 遍历所有属性
+        for (final SimpleTkIdentifier identifier : identifiers) { // 遍历所有属性
             String name = identifier.getName();
             if (name != null && !name.isEmpty()) { // 如果属性的键不为空
                 variants.add(LookupElementBuilder // 创建自动补全选项
