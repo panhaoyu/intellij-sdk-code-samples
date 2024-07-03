@@ -54,6 +54,7 @@ public interface SimpleTypes {
   IElementType ENDLOOP = new SimpleTokenType("ENDLOOP");
   IElementType ENDSECTION = new SimpleTokenType("ENDSECTION");
   IElementType EXIT = new SimpleTokenType("EXIT");
+  IElementType EXITLOOP = new SimpleTokenType("EXITLOOP");
   IElementType EXITSECTION = new SimpleTokenType("EXITSECTION");
   IElementType FISH = new SimpleTokenType("FISH");
   IElementType FOR = new SimpleTokenType("FOR");

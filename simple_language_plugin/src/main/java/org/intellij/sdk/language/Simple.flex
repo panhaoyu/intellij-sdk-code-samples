@@ -85,7 +85,8 @@ String = {StringA} | {StringB}
 
 //Keywords
 <YYINITIAL> {
-    "end section"|"endsection" { return SimpleTypes.ENDSECTION;}
+    "end section"| "endsection" | "endSection" { return SimpleTypes.ENDSECTION; }
+    "exitsection" | "exitSection" | "exit_section" {return SimpleTypes.EXITSECTION; }
     "fish" { return SimpleTypes.FISH; }
     "caseof" | "case_of"  { return SimpleTypes.CASEOF; }
     "case" { return SimpleTypes.CASE; }
@@ -107,12 +108,12 @@ String = {StringA} | {StringB}
     "foreach" { return SimpleTypes.FOREACH; }
     "while" { return SimpleTypes.WHILE; }
     "for" { return SimpleTypes.FOR; }
-    "endloop" | "endLoop" | "end_loop" | "exitloop" | "exit_loop"  { return SimpleTypes.ENDLOOP; }
+    "exitloop" | "exit_loop" | "exitLoop"  { return SimpleTypes.EXITLOOP; }
+    "endloop" | "endLoop" | "end_loop" { return SimpleTypes.ENDLOOP; }
     "continue" { return SimpleTypes.CONTINUE; }
     "break" { return SimpleTypes.BREAK; }
     "return" { return SimpleTypes.RETURN; }
     "section" { return SimpleTypes.SECTION; }
-    "endsection" | "end_section" |"exitsection" | "exit_section" { return SimpleTypes.ENDSECTION; }
     "struct" | "structure" { return SimpleTypes.STRUCT; }
     "then"  { return SimpleTypes.THEN; }
     "Array" {return SimpleTypes.ARRAY; }

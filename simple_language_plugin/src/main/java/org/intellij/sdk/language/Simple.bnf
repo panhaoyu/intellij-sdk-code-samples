@@ -133,8 +133,9 @@ stat_fish ::= (
     expr |
     kw_break |
     kw_continue |
-    kw_exit |
-    kw_exit_section
+    kw_exit_section |
+    kw_exit_loop |
+    kw_exit
     )
 
 
@@ -229,6 +230,7 @@ private kw_lock ::= LOCK
 private kw_loop ::= LOOP
 private kw_foreach ::= FOREACH
 private kw_endloop ::= ENDLOOP
+private kw_exit_loop ::= EXITLOOP
 private kw_continue ::= CONTINUE
 private kw_break ::= BREAK | (kw_exit kw_loop)
 private kw_while ::= WHILE

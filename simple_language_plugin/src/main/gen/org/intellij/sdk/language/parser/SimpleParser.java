@@ -1136,6 +1136,12 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // EXITLOOP
+  static boolean kw_exit_loop(PsiBuilder b, int l) {
+    return consumeToken(b, EXITLOOP);
+  }
+
+  /* ********************************************************** */
   // EXITSECTION
   static boolean kw_exit_section(PsiBuilder b, int l) {
     return consumeToken(b, EXITSECTION);
@@ -1525,8 +1531,9 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   //     expr |
   //     kw_break |
   //     kw_continue |
-  //     kw_exit |
-  //     kw_exit_section
+  //     kw_exit_section |
+  //     kw_exit_loop |
+  //     kw_exit
   public static boolean stat_fish(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "stat_fish")) return false;
     boolean r;
@@ -1536,8 +1543,9 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     if (!r) r = expr(b, l + 1);
     if (!r) r = kw_break(b, l + 1);
     if (!r) r = kw_continue(b, l + 1);
-    if (!r) r = kw_exit(b, l + 1);
     if (!r) r = kw_exit_section(b, l + 1);
+    if (!r) r = kw_exit_loop(b, l + 1);
+    if (!r) r = kw_exit(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
