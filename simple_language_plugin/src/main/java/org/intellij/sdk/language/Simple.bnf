@@ -128,14 +128,14 @@ block_cmd ::= kw_command (eol body_cmd)? eol kw_end_command
 body_cmd ::= cmd_stat_other (eol cmd_stat_other)*
 
 stat_fish ::= (
-    stat_array_declare |
-    stat_assign |
-    expr |
     kw_break |
     kw_continue |
     kw_exit_section |
     kw_exit_loop |
-    kw_exit
+    kw_exit |
+    stat_array_declare |
+    stat_assign |
+    expr
     )
 
 

@@ -1526,26 +1526,26 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // stat_array_declare |
-  //     stat_assign |
-  //     expr |
-  //     kw_break |
+  // kw_break |
   //     kw_continue |
   //     kw_exit_section |
   //     kw_exit_loop |
-  //     kw_exit
+  //     kw_exit |
+  //     stat_array_declare |
+  //     stat_assign |
+  //     expr
   public static boolean stat_fish(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "stat_fish")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, STAT_FISH, "<stat fish>");
-    r = stat_array_declare(b, l + 1);
-    if (!r) r = stat_assign(b, l + 1);
-    if (!r) r = expr(b, l + 1);
-    if (!r) r = kw_break(b, l + 1);
+    r = kw_break(b, l + 1);
     if (!r) r = kw_continue(b, l + 1);
     if (!r) r = kw_exit_section(b, l + 1);
     if (!r) r = kw_exit_loop(b, l + 1);
     if (!r) r = kw_exit(b, l + 1);
+    if (!r) r = stat_array_declare(b, l + 1);
+    if (!r) r = stat_assign(b, l + 1);
+    if (!r) r = expr(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
