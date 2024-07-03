@@ -121,6 +121,8 @@ public class SimpleSyntaxHighlighter extends SyntaxHighlighterBase {
         put(SimpleTypes.STRUCT, KEYWORD_KEYS);
         put(SimpleTypes.THEN, KEYWORD_KEYS);
         put(SimpleTypes.WHILE, KEYWORD_KEYS);
+        put(SimpleTypes.EXITSECTION, KEYWORD_KEYS);
+        put(SimpleTypes.EXITLOOP, KEYWORD_KEYS);
     }};
 
 

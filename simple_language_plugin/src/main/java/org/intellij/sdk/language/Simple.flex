@@ -85,8 +85,8 @@ String = {StringA} | {StringB}
 
 //Keywords
 <YYINITIAL> {
-    "end section"| "endsection" | "endSection" { return SimpleTypes.ENDSECTION; }
-    "exitsection" | "exitSection" | "exit_section" {return SimpleTypes.EXITSECTION; }
+    "end section"| "endsection" | "endSection" | "end_section" { return SimpleTypes.ENDSECTION; }
+    "exitsection" | "exitSection" | "exit_section" | "exit section" {return SimpleTypes.EXITSECTION; }
     "fish" { return SimpleTypes.FISH; }
     "caseof" | "case_of"  { return SimpleTypes.CASEOF; }
     "case" { return SimpleTypes.CASE; }
