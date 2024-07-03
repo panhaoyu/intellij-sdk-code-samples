@@ -47,6 +47,10 @@ public class SimpleVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitBlockSection(@NotNull SimpleBlockSection o) {
+    visitPsiElement(o);
+  }
+
   public void visitBlockSingleFish(@NotNull SimpleBlockSingleFish o) {
     visitPsiElement(o);
   }

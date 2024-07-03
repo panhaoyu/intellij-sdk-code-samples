@@ -494,7 +494,40 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // block_if | block_loop | block_case_of | block_cmd | stat_fish
+  // kw_section (eol block_fish)? eol kw_end_section
+  public static boolean block_section(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "block_section")) return false;
+    if (!nextTokenIs(b, SECTION)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = kw_section(b, l + 1);
+    r = r && block_section_1(b, l + 1);
+    r = r && eol(b, l + 1);
+    r = r && kw_end_section(b, l + 1);
+    exit_section_(b, m, BLOCK_SECTION, r);
+    return r;
+  }
+
+  // (eol block_fish)?
+  private static boolean block_section_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "block_section_1")) return false;
+    block_section_1_0(b, l + 1);
+    return true;
+  }
+
+  // eol block_fish
+  private static boolean block_section_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "block_section_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = eol(b, l + 1);
+    r = r && block_fish(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // block_if | block_loop | block_case_of | block_section | block_cmd | stat_fish
   public static boolean block_single_fish(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "block_single_fish")) return false;
     boolean r;
@@ -502,6 +535,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     r = block_if(b, l + 1);
     if (!r) r = block_loop(b, l + 1);
     if (!r) r = block_case_of(b, l + 1);
+    if (!r) r = block_section(b, l + 1);
     if (!r) r = block_cmd(b, l + 1);
     if (!r) r = stat_fish(b, l + 1);
     exit_section_(b, l, m, r, false, null);
@@ -1491,7 +1525,8 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   //     expr |
   //     kw_break |
   //     kw_continue |
-  //     kw_exit
+  //     kw_exit |
+  //     kw_exit_section
   public static boolean stat_fish(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "stat_fish")) return false;
     boolean r;
@@ -1502,6 +1537,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     if (!r) r = kw_break(b, l + 1);
     if (!r) r = kw_continue(b, l + 1);
     if (!r) r = kw_exit(b, l + 1);
+    if (!r) r = kw_exit_section(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }

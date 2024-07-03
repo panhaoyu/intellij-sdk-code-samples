@@ -53,6 +53,12 @@ public class SimpleBlockSingleFishImpl extends ASTWrapperPsiElement implements S
 
   @Override
   @Nullable
+  public SimpleBlockSection getBlockSection() {
+    return findChildByClass(SimpleBlockSection.class);
+  }
+
+  @Override
+  @Nullable
   public SimpleStatFish getStatFish() {
     return findChildByClass(SimpleStatFish.class);
   }

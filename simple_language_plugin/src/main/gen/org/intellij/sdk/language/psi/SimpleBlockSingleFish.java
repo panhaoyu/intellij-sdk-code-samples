@@ -20,6 +20,9 @@ public interface SimpleBlockSingleFish extends PsiElement {
   SimpleBlockLoop getBlockLoop();
 
   @Nullable
+  SimpleBlockSection getBlockSection();
+
+  @Nullable
   SimpleStatFish getStatFish();
 
 }

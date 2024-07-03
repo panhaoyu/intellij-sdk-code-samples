@@ -18,6 +18,7 @@ public interface SimpleTypes {
   IElementType BLOCK_HEADER_LOOP = new SimpleElementType("BLOCK_HEADER_LOOP");
   IElementType BLOCK_IF = new SimpleElementType("BLOCK_IF");
   IElementType BLOCK_LOOP = new SimpleElementType("BLOCK_LOOP");
+  IElementType BLOCK_SECTION = new SimpleElementType("BLOCK_SECTION");
   IElementType BLOCK_SINGLE_FISH = new SimpleElementType("BLOCK_SINGLE_FISH");
   IElementType BODY_CMD = new SimpleElementType("BODY_CMD");
   IElementType CMD_BLOCK = new SimpleElementType("CMD_BLOCK");
@@ -113,6 +114,9 @@ public interface SimpleTypes {
       }
       else if (type == BLOCK_LOOP) {
         return new SimpleBlockLoopImpl(node);
+      }
+      else if (type == BLOCK_SECTION) {
+        return new SimpleBlockSectionImpl(node);
       }
       else if (type == BLOCK_SINGLE_FISH) {
         return new SimpleBlockSingleFishImpl(node);
