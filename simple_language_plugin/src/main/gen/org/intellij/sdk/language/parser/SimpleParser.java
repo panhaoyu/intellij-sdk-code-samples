@@ -1102,6 +1102,12 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // EXITSECTION
+  static boolean kw_exit_section(PsiBuilder b, int l) {
+    return consumeToken(b, EXITSECTION);
+  }
+
+  /* ********************************************************** */
   // FISH
   static boolean kw_fish(PsiBuilder b, int l) {
     return consumeToken(b, FISH);

@@ -98,7 +98,7 @@ define_header ::= kw_fish? kw_def tk_identifier define_params?
 private define_params ::= (paren_l tk_identifier (op_comma tk_identifier)* paren_r)
 
 block_fish ::=  block_single_fish (eol block_single_fish)*
-block_single_fish ::= block_if | block_loop | block_case_of | block_cmd | stat_fish
+block_single_fish ::= block_if | block_loop | block_case_of | block_section | block_cmd | stat_fish
 
 block_if ::= kw_if expr kw_then?
              (eol block_fish)?
@@ -122,6 +122,8 @@ private loop_for ::= kw_for paren_l kw_local? expr op_comma expr op_comma expr p
 block_case_of ::= kw_case_of expr (eol block_fish)? (eol block_case_option)* eol kw_end_case
 block_case_option ::= kw_case expr (eol block_fish)?
 
+block_section ::= kw_section (eol block_fish)? eol kw_end_section
+
 block_cmd ::= kw_command (eol body_cmd)? eol kw_end_command
 body_cmd ::= cmd_stat_other (eol cmd_stat_other)*
 
@@ -131,7 +133,8 @@ stat_fish ::= (
     expr |
     kw_break |
     kw_continue |
-    kw_exit
+    kw_exit |
+    kw_exit_section
     )
 
 
@@ -235,6 +238,7 @@ private kw_return ::= RETURN
 
 private kw_section ::= SECTION
 private kw_end_section ::= ENDSECTION
+private kw_exit_section ::= EXITSECTION
 
 private kw_struct ::= STRUCT
 private kw_array ::= ARRAY
