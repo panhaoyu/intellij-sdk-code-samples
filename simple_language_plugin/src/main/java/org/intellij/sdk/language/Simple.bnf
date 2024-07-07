@@ -135,6 +135,7 @@ stat_fish ::= (
     kw_exit |
     stat_array_declare |
     stat_assign |
+    kw_return expr |
     expr
     )
 
