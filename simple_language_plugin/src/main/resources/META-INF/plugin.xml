@@ -72,6 +72,8 @@
                                     implementationClass="org.intellij.sdk.language.SimpleDocumentationProvider"/>
         <spellchecker.support language="Itasca Fish"
                               implementationClass="org.intellij.sdk.language.SimpleSpellcheckingStrategy"/>
+        <!-- 添加括号自动补全功能的 TypedHandler -->
+        <typedHandler implementation="org.intellij.sdk.language.BraceTypedHandler"/>
     </extensions>
 
 </idea-plugin>
