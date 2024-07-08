@@ -5,10 +5,8 @@ import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.PsiElementResolveResult;
-import com.intellij.psi.PsiPolyVariantReference;
-import com.intellij.psi.PsiReferenceBase;
-import com.intellij.psi.ResolveResult;
+import com.intellij.psi.*;
+import com.intellij.util.IncorrectOperationException;
 import org.intellij.sdk.language.psi.SimpleTkIdentifier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -77,4 +75,9 @@ public final class SimpleReference extends PsiReferenceBase<SimpleTkIdentifier> 
         return variants.toArray(); // 将列表转换为数组并返回
     }
 
+
+    @Override
+    public PsiElement handleElementRename(@NotNull String newElementName) throws IncorrectOperationException {
+        return myElement.setName(newElementName);
+    }
 }

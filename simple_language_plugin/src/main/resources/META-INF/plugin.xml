@@ -74,6 +74,10 @@
                               implementationClass="org.intellij.sdk.language.SimpleSpellcheckingStrategy"/>
         <!-- 添加括号自动补全功能的 TypedHandler -->
         <typedHandler implementation="org.intellij.sdk.language.BraceTypedHandler"/>
+        <!-- 重命名 -->
+        <psi.manipulator forClass="org.intellij.sdk.language.psi.impl.SimpleTkIdentifierImpl"
+                         implementation="org.intellij.sdk.language.psi.SimpleTkIdentifierManipulator"/>
+
     </extensions>
 
 </idea-plugin>

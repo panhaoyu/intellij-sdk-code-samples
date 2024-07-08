@@ -10,7 +10,11 @@ import org.intellij.sdk.language.SimpleFileType;
 public class SimpleElementFactory {
 
     public static SimpleTkIdentifier createIdentifier(Project project, String name) {
-        return (SimpleTkIdentifier) createFile(project, "@" + name).getLastChild();
+        PsiElement element = createFile(project, "@" + name);
+        while (!(element instanceof SimpleTkIdentifier)) {
+            element = element.getLastChild();
+        }
+        return (SimpleTkIdentifier) element;
     }
 
     public static SimpleFile createFile(Project project, String text) {
