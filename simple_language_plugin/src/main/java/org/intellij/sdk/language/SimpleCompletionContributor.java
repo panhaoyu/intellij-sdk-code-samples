@@ -13,15 +13,16 @@ import java.util.Set;
 final class SimpleCompletionContributor extends CompletionContributor {
 
     private static final String[] NAMES = {
-//            "section", "end_section", "exit_section",
-//            "case_of", "case", "end_case",
-//            "command", "end_command",
-//            "fish define", "fish operator", "end", "return",
+            //            "section", "end_section", "exit_section",
+            //            "case_of", "case", "end_case",
+            //            "command", "end_command",
+            //            "fish define", "fish operator", "end", "return",
             "exit",
             "global", "local",
-//            "if", "then", "else_if", "else", "end_if",
+            //            "if", "then", "else_if", "else", "end_if",
             "lock",
-//            "loop", "foreach", "while", "for", "exit_loop", "end_loop", "continue", "break",
+            //            "loop", "foreach", "while", "for", "end_loop",
+            "exit_loop", "continue", "break",
             "structure",
             "Array",
 
