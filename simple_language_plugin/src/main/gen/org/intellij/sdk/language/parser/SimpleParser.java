@@ -691,12 +691,14 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // kw_case_of | kw_case | kw_end_case | kw_end | kw_exit | kw_global | kw_if | kw_then |
+  // kw_fish_define | kw_fish_operator | kw_case_of | kw_case | kw_end_case | kw_end | kw_exit | kw_global | kw_if | kw_then |
   //     kw_else_if | kw_else | kw_end_if | kw_local | kw_lock | kw_loop | kw_endloop | kw_continue | kw_return | kw_section | kw_end_section | kw_struct
   static boolean cmd_tk_kw_all(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "cmd_tk_kw_all")) return false;
     boolean r;
-    r = kw_case_of(b, l + 1);
+    r = kw_fish_define(b, l + 1);
+    if (!r) r = kw_fish_operator(b, l + 1);
+    if (!r) r = kw_case_of(b, l + 1);
     if (!r) r = kw_case(b, l + 1);
     if (!r) r = kw_end_case(b, l + 1);
     if (!r) r = kw_end(b, l + 1);
