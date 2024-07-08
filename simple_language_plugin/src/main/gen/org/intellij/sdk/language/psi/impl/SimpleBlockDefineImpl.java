@@ -36,14 +36,14 @@ public class SimpleBlockDefineImpl extends ASTWrapperPsiElement implements Simpl
 
   @Override
   @NotNull
-  public SimpleDefineHeader getDefineHeader() {
-    return findNotNullChildByClass(SimpleDefineHeader.class);
+  public List<SimpleEol> getEolList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleEol.class);
   }
 
   @Override
   @NotNull
-  public List<SimpleEol> getEolList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleEol.class);
+  public SimpleFishDefineHeader getFishDefineHeader() {
+    return findNotNullChildByClass(SimpleFishDefineHeader.class);
   }
 
   @Override

@@ -5,7 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface SimpleDefineHeader extends PsiElement {
+public interface SimpleFishDefineHeader extends PsiElement {
 
   @NotNull
   List<SimpleTkIdentifier> getTkIdentifierList();

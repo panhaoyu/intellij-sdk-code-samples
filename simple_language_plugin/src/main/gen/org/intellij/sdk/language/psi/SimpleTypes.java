@@ -25,8 +25,8 @@ public interface SimpleTypes {
   IElementType CMD_STAT_FUNC_CALL = new SimpleElementType("CMD_STAT_FUNC_CALL");
   IElementType CMD_STAT_INLINE_FISH = new SimpleElementType("CMD_STAT_INLINE_FISH");
   IElementType CMD_STAT_OTHER = new SimpleElementType("CMD_STAT_OTHER");
-  IElementType DEFINE_HEADER = new SimpleElementType("DEFINE_HEADER");
   IElementType EOL = new SimpleElementType("EOL");
+  IElementType FISH_DEFINE_HEADER = new SimpleElementType("FISH_DEFINE_HEADER");
   IElementType STAT_ASSIGN = new SimpleElementType("STAT_ASSIGN");
   IElementType STAT_FISH = new SimpleElementType("STAT_FISH");
   IElementType TK_IDENTIFIER = new SimpleElementType("TK_IDENTIFIER");
@@ -43,7 +43,6 @@ public interface SimpleTypes {
   IElementType COMMA_OPERATOR = new SimpleTokenType("COMMA_OPERATOR");
   IElementType COMMENT = new SimpleTokenType("COMMENT");
   IElementType CONTINUE = new SimpleTokenType("CONTINUE");
-  IElementType DEFINE = new SimpleTokenType("DEFINE");
   IElementType DOT_OPERATOR = new SimpleTokenType("DOT_OPERATOR");
   IElementType ELSE = new SimpleTokenType("ELSE");
   IElementType ELSEIF = new SimpleTokenType("ELSEIF");
@@ -56,7 +55,8 @@ public interface SimpleTypes {
   IElementType EXIT = new SimpleTokenType("EXIT");
   IElementType EXITLOOP = new SimpleTokenType("EXITLOOP");
   IElementType EXITSECTION = new SimpleTokenType("EXITSECTION");
-  IElementType FISH = new SimpleTokenType("FISH");
+  IElementType FISH_DEFINE = new SimpleTokenType("FISH_DEFINE");
+  IElementType FISH_OPERATOR = new SimpleTokenType("FISH_OPERATOR");
   IElementType FOR = new SimpleTokenType("FOR");
   IElementType FOREACH = new SimpleTokenType("FOREACH");
   IElementType FUNCTION_CALL_OPERATOR = new SimpleTokenType("FUNCTION_CALL_OPERATOR");
@@ -137,11 +137,11 @@ public interface SimpleTypes {
       else if (type == CMD_STAT_OTHER) {
         return new SimpleCmdStatOtherImpl(node);
       }
-      else if (type == DEFINE_HEADER) {
-        return new SimpleDefineHeaderImpl(node);
-      }
       else if (type == EOL) {
         return new SimpleEolImpl(node);
+      }
+      else if (type == FISH_DEFINE_HEADER) {
+        return new SimpleFishDefineHeaderImpl(node);
       }
       else if (type == STAT_ASSIGN) {
         return new SimpleStatAssignImpl(node);

@@ -12,10 +12,10 @@ public interface SimpleBlockDefine extends PsiElement {
   SimpleBlockFish getBlockFish();
 
   @NotNull
-  SimpleDefineHeader getDefineHeader();
+  List<SimpleEol> getEolList();
 
   @NotNull
-  List<SimpleEol> getEolList();
+  SimpleFishDefineHeader getFishDefineHeader();
 
   String getName();
 

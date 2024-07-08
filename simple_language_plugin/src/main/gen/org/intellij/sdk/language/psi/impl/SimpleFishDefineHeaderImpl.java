@@ -11,14 +11,14 @@ import static org.intellij.sdk.language.psi.SimpleTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import org.intellij.sdk.language.psi.*;
 
-public class SimpleDefineHeaderImpl extends ASTWrapperPsiElement implements SimpleDefineHeader {
+public class SimpleFishDefineHeaderImpl extends ASTWrapperPsiElement implements SimpleFishDefineHeader {
 
-  public SimpleDefineHeaderImpl(@NotNull ASTNode node) {
+  public SimpleFishDefineHeaderImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull SimpleVisitor visitor) {
-    visitor.visitDefineHeader(this);
+    visitor.visitFishDefineHeader(this);
   }
 
   @Override

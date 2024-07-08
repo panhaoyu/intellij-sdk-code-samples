@@ -93,8 +93,10 @@ String = {StringA} | {StringB}
     "endcase" | "end_case" { return SimpleTypes.ENDCASE; }
     "command" { return SimpleTypes.COMMAND; }
     "endcommand" | "end_command"  { return SimpleTypes.ENDCOMMAND; }
-    "define" { return SimpleTypes.DEFINE; }
-    "def" { return SimpleTypes.DEFINE; }
+    "fish define" { return SimpleTypes.FISH_DEFINE; }
+    "def" { return SimpleTypes.FISH_DEFINE; }
+    "define" { return SimpleTypes.FISH_DEFINE; }
+    "fish operator" { return SimpleTypes.FISH_OPERATOR; }
     "end" { return SimpleTypes.END; }
     "exit" { return SimpleTypes.EXIT; }
     "global" { return SimpleTypes.GLOBAL; }

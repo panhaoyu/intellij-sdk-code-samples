@@ -75,11 +75,11 @@ public class SimpleVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitDefineHeader(@NotNull SimpleDefineHeader o) {
+  public void visitEol(@NotNull SimpleEol o) {
     visitPsiElement(o);
   }
 
-  public void visitEol(@NotNull SimpleEol o) {
+  public void visitFishDefineHeader(@NotNull SimpleFishDefineHeader o) {
     visitPsiElement(o);
   }
 

@@ -211,13 +211,13 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // define_header (eol block_fish)? eol kw_end
+  // fish_define_header (eol block_fish)? eol kw_end
   public static boolean block_define(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "block_define")) return false;
-    if (!nextTokenIs(b, "<block define>", DEFINE, FISH)) return false;
+    if (!nextTokenIs(b, "<block define>", FISH_DEFINE, FISH_OPERATOR)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, BLOCK_DEFINE, "<block define>");
-    r = define_header(b, l + 1);
+    r = fish_define_header(b, l + 1);
     r = r && block_define_1(b, l + 1);
     r = r && eol(b, l + 1);
     r = r && kw_end(b, l + 1);
@@ -691,16 +691,14 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // kw_fish | kw_case_of | kw_case | kw_end_case | kw_def | kw_end | kw_exit | kw_global | kw_if | kw_then |
+  // kw_case_of | kw_case | kw_end_case | kw_end | kw_exit | kw_global | kw_if | kw_then |
   //     kw_else_if | kw_else | kw_end_if | kw_local | kw_lock | kw_loop | kw_endloop | kw_continue | kw_return | kw_section | kw_end_section | kw_struct
   static boolean cmd_tk_kw_all(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "cmd_tk_kw_all")) return false;
     boolean r;
-    r = kw_fish(b, l + 1);
-    if (!r) r = kw_case_of(b, l + 1);
+    r = kw_case_of(b, l + 1);
     if (!r) r = kw_case(b, l + 1);
     if (!r) r = kw_end_case(b, l + 1);
-    if (!r) r = kw_def(b, l + 1);
     if (!r) r = kw_end(b, l + 1);
     if (!r) r = kw_exit(b, l + 1);
     if (!r) r = kw_global(b, l + 1);
@@ -731,35 +729,6 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   // RIGHT_CURLY_BRACKET
   static boolean curly_r(PsiBuilder b, int l) {
     return consumeToken(b, RIGHT_CURLY_BRACKET);
-  }
-
-  /* ********************************************************** */
-  // kw_fish? kw_def tk_identifier define_params?
-  public static boolean define_header(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "define_header")) return false;
-    if (!nextTokenIs(b, "<define header>", DEFINE, FISH)) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, DEFINE_HEADER, "<define header>");
-    r = define_header_0(b, l + 1);
-    r = r && kw_def(b, l + 1);
-    r = r && tk_identifier(b, l + 1);
-    r = r && define_header_3(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // kw_fish?
-  private static boolean define_header_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "define_header_0")) return false;
-    kw_fish(b, l + 1);
-    return true;
-  }
-
-  // define_params?
-  private static boolean define_header_3(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "define_header_3")) return false;
-    define_params(b, l + 1);
-    return true;
   }
 
   /* ********************************************************** */
@@ -1004,6 +973,36 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // (kw_fish_define | kw_fish_operator) tk_identifier define_params?
+  public static boolean fish_define_header(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_define_header")) return false;
+    if (!nextTokenIs(b, "<fish define header>", FISH_DEFINE, FISH_OPERATOR)) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, FISH_DEFINE_HEADER, "<fish define header>");
+    r = fish_define_header_0(b, l + 1);
+    r = r && tk_identifier(b, l + 1);
+    r = r && fish_define_header_2(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // kw_fish_define | kw_fish_operator
+  private static boolean fish_define_header_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_define_header_0")) return false;
+    boolean r;
+    r = kw_fish_define(b, l + 1);
+    if (!r) r = kw_fish_operator(b, l + 1);
+    return r;
+  }
+
+  // define_params?
+  private static boolean fish_define_header_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_define_header_2")) return false;
+    define_params(b, l + 1);
+    return true;
+  }
+
+  /* ********************************************************** */
   // ARRAY
   static boolean kw_array(PsiBuilder b, int l) {
     return consumeToken(b, ARRAY);
@@ -1055,12 +1054,6 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   // CONTINUE
   static boolean kw_continue(PsiBuilder b, int l) {
     return consumeToken(b, CONTINUE);
-  }
-
-  /* ********************************************************** */
-  // DEFINE
-  static boolean kw_def(PsiBuilder b, int l) {
-    return consumeToken(b, DEFINE);
   }
 
   /* ********************************************************** */
@@ -1148,9 +1141,15 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // FISH
-  static boolean kw_fish(PsiBuilder b, int l) {
-    return consumeToken(b, FISH);
+  // FISH_DEFINE
+  static boolean kw_fish_define(PsiBuilder b, int l) {
+    return consumeToken(b, FISH_DEFINE);
+  }
+
+  /* ********************************************************** */
+  // FISH_OPERATOR
+  static boolean kw_fish_operator(PsiBuilder b, int l) {
+    return consumeToken(b, FISH_OPERATOR);
   }
 
   /* ********************************************************** */
