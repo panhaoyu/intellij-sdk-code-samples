@@ -99,7 +99,8 @@ public class SimpleSyntaxHighlighter extends SyntaxHighlighterBase {
         put(SimpleTypes.COMMAND, KEYWORD_KEYS);
         put(SimpleTypes.ENDCOMMAND, KEYWORD_KEYS);
         put(SimpleTypes.CONTINUE, KEYWORD_KEYS);
-        put(SimpleTypes.DEFINE, KEYWORD_KEYS);
+        put(SimpleTypes.FISH_DEFINE, KEYWORD_KEYS);
+        put(SimpleTypes.FISH_OPERATOR, KEYWORD_KEYS);
         put(SimpleTypes.ELSE, KEYWORD_KEYS);
         put(SimpleTypes.ELSEIF, KEYWORD_KEYS);
         put(SimpleTypes.END, KEYWORD_KEYS);
@@ -108,7 +109,6 @@ public class SimpleSyntaxHighlighter extends SyntaxHighlighterBase {
         put(SimpleTypes.ENDLOOP, KEYWORD_KEYS);
         put(SimpleTypes.ENDSECTION, KEYWORD_KEYS);
         put(SimpleTypes.EXIT, KEYWORD_KEYS);
-        put(SimpleTypes.FISH, KEYWORD_KEYS);
         put(SimpleTypes.FOR, KEYWORD_KEYS);
         put(SimpleTypes.FOREACH, KEYWORD_KEYS);
         put(SimpleTypes.GLOBAL, KEYWORD_KEYS);
