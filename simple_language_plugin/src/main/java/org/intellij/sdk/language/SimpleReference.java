@@ -51,7 +51,7 @@ public final class SimpleReference extends PsiReferenceBase<SimpleTkIdentifier> 
     @Override
     public SimpleTkIdentifier resolve() {
         ResolveResult[] resolveResults = multiResolve(false);
-        return resolveResults.length == 1 ? (SimpleTkIdentifier) resolveResults[0].getElement() : null;
+        return resolveResults.length >= 1 ? (SimpleTkIdentifier) resolveResults[0].getElement() : null;
     }
 
 
