@@ -58,8 +58,9 @@ LogicalOperator = { AndOperator } | { OrOperator }
 AndOperator = "&"
 OrOperator = "|"
 
-UnaryOperator = { LogicalNotOperator }
+UnaryOperator = { LogicalNotOperator } | { MultithreadOperator}
 LogicalNotOperator = "~"
+MultithreadOperator = "::"
 
 AssignmentOperator = { DirectAssignmentOperator } | { AddAssignmentOperator } | { SubtractAssignmentOperator } | { MultiplyAssignmentOperator } | { DivideAssignmentOperator } | { ModulusAssignmentOperator }
 DirectAssignmentOperator = "="
