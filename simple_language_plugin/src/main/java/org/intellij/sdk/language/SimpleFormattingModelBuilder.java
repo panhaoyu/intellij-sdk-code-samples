@@ -12,19 +12,24 @@ final class SimpleFormattingModelBuilder implements FormattingModelBuilder {
 
     private static SpacingBuilder createSpaceBuilder(CodeStyleSettings settings) {
         return new SpacingBuilder(settings, SimpleLanguage.INSTANCE)
-//                .around(SimpleTypes.TK_VALUE).spaces(1)
+                // 关键词后面只有一个空格
+                .after(SimpleTokenSets.KeyWords).spaces(1)
                 .around(SimpleTypes.ASSIGNMENT_OPERATOR).spaces(1)
                 .around(SimpleTypes.BINARY_OPERATOR).spaces(1)
                 .around(SimpleTypes.UNARY_OPERATOR).spaces(1)
+                // @函数调用的时候，@前面要有空格
                 .before(SimpleTypes.FUNCTION_CALL_OPERATOR).spaces(1)
                 .after(SimpleTypes.FUNCTION_CALL_OPERATOR).none()
                 // 括号内侧不加空格，括号外侧加空格
+                .between(SimpleTokenSets.IDENTIFIERS, SimpleTokenSets.LeftBrackets).none() // 函数调用
                 .after(SimpleTokenSets.LeftBrackets).none()
                 .before(SimpleTokenSets.RightBrackets).none()
-                .between(SimpleTokenSets.RightBrackets, SimpleTokenSets.LeftBrackets).spaces(1)
+                .around(SimpleTokenSets.Brackets).spaces(1)
                 // 逗号前面没有空格，后面有空格
                 .before(SimpleTypes.COMMA_OPERATOR).none()
                 .after(SimpleTypes.COMMA_OPERATOR).spaces(1)
+                // 换行符前面不要有空格
+                .before(SimpleTokenSets.NewLine).none()
                 ;
     }
 

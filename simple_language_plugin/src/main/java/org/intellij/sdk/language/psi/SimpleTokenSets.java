@@ -53,7 +53,6 @@ public interface SimpleTokenSets {
             SimpleTypes.CASE,
             SimpleTypes.CASEOF,
             SimpleTypes.COMMAND,
-            SimpleTypes.COMMENT,
             SimpleTypes.CONTINUE,
             SimpleTypes.FISH_DEFINE,
             SimpleTypes.FISH_OPERATOR,
