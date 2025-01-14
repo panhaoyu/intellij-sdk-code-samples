@@ -10,13 +10,13 @@ import java.util.List;
 
 public class SimpleCodeInsightTest extends LightJavaCodeInsightFixtureTestCase {
 
-//    /**
-//     * @return path to test data file directory relative to working directory in the run configuration for this test.
-//     */
-//    @Override
-//    protected String getTestDataPath() {
-//        return "src/test/testData";
-//    }
+    /**
+     * @return path to test data file directory relative to working directory in the run configuration for this test.
+     */
+    @Override
+    protected String getTestDataPath() {
+        return "src/test/testData";
+    }
 //
 //    public void testCompletion() {
 //        myFixture.configureByFiles("CompleteTestData.java", "DefaultTestData.fis");
