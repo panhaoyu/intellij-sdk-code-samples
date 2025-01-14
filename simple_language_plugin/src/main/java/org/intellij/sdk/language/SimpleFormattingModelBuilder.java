@@ -22,7 +22,7 @@ final class SimpleFormattingModelBuilder implements FormattingModelBuilder {
                 .after(SimpleTokenSets.LeftBrackets).none()
                 .before(SimpleTokenSets.RightBrackets).none()
                 .between(SimpleTokenSets.RightBrackets, SimpleTokenSets.LeftBrackets).spaces(1)
-                // 符号与标识符之间要有一个空格
+                // 逗号前面没有空格，后面有空格
                 .before(SimpleTypes.COMMA_OPERATOR).none()
                 .after(SimpleTypes.COMMA_OPERATOR).spaces(1)
                 ;
