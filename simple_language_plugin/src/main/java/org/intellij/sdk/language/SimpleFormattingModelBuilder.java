@@ -12,6 +12,7 @@ final class SimpleFormattingModelBuilder implements FormattingModelBuilder {
 
     private static SpacingBuilder createSpaceBuilder(CodeStyleSettings settings) {
         return new SpacingBuilder(settings, SimpleLanguage.INSTANCE)
+                // 处理的过程是自下向上的
                 // 关键词后面只有一个空格
                 .after(SimpleTokenSets.KeyWords).spaces(1)
                 .around(SimpleTypes.ASSIGNMENT_OPERATOR).spaces(1)
