@@ -43,7 +43,7 @@ public class SimpleBlock extends AbstractBlock {
     // 重写getIndent方法，定义这个块的缩进规则
     @Override
     public Indent getIndent() {
-        return Indent.getNoneIndent();  // 返回无缩进
+        return Indent.getNoneIndent();
     }
 
     // 重写getSpacing方法，定义子块间的间隔

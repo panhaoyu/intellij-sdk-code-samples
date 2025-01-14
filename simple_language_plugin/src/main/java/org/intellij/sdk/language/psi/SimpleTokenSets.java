@@ -6,13 +6,23 @@ import com.intellij.psi.tree.TokenSet;
 
 public interface SimpleTokenSets {
 
-    TokenSet IDENTIFIERS = TokenSet.create(SimpleTypes.IDENTIFIER);
-
+    TokenSet IDENTIFIERS = TokenSet.create(
+            SimpleTypes.IDENTIFIER,
+            SimpleTypes.TK_IDENTIFIER
+    );
     TokenSet COMMENTS = TokenSet.create(SimpleTypes.COMMENT);
 
+    TokenSet STRING_LITERALS = TokenSet.create(SimpleTypes.STRING_LITERAL);
     TokenSet LITERALS = TokenSet.create(SimpleTypes.STRING_LITERAL, SimpleTypes.NUMBER_LITERAL);
 
-    TokenSet STRING_LITERALS = TokenSet.create(SimpleTypes.STRING_LITERAL);
+
+    TokenSet IDENTIFIERS_AND_LITERALS = TokenSet.create(
+            SimpleTypes.IDENTIFIER,
+            SimpleTypes.TK_IDENTIFIER,
+            SimpleTypes.STRING_LITERAL,
+            SimpleTypes.NUMBER_LITERAL
+    );
+
 
     TokenSet Operators = TokenSet.create(
             SimpleTypes.ASSIGNMENT_OPERATOR,
