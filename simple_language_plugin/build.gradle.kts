@@ -32,7 +32,7 @@ java {
 // See https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 intellij {
     version.set("2024.1.7")
-//  plugins.set(listOf("com.intellij.java"))
+    plugins.set(listOf("com.intellij.java"))
 }
 
 tasks {
@@ -42,8 +42,8 @@ tasks {
 
     patchPluginXml {
         version.set("${project.version}")
-        sinceBuild.set("232")
-        untilBuild.set("300.*")
+        sinceBuild.set("241")
+        untilBuild.set("243.*")
     }
 
     withType<JavaCompile> {
