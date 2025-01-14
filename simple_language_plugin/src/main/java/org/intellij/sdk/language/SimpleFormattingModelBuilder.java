@@ -14,14 +14,21 @@ final class SimpleFormattingModelBuilder implements FormattingModelBuilder {
         return new SpacingBuilder(settings, SimpleLanguage.INSTANCE)
                 // 处理的过程是自下向上的
                 // 换行符前面不要有空格
-                .before(SimpleTokenSets.NewLine).none().between(SimpleTypes.CMD_STAT_OTHER, SimpleTokenSets.COMMENTS).spaces(2).between(SimpleTypes.STAT_FISH, SimpleTokenSets.COMMENTS).spaces(2).between(SimpleTokenSets.IDENTIFIERS_AND_LITERALS, SimpleTokenSets.COMMENTS).spaces(2)
+                .before(SimpleTokenSets.NewLine).none()
+                .between(SimpleTypes.CMD_STAT_OTHER, SimpleTokenSets.COMMENTS).spaces(2)
+                .between(SimpleTypes.STAT_FISH, SimpleTokenSets.COMMENTS).spaces(2)
+                .between(SimpleTokenSets.IDENTIFIERS_AND_LITERALS, SimpleTokenSets.COMMENTS).spaces(2)
 
                 // 关键词
                 .between(SimpleTokenSets.IDENTIFIERS_AND_LITERALS, SimpleTokenSets.KeyWords).spaces(1)  // 关键词与标识符之间只有一个空格
 
                 // 括号内侧不加空格，括号外侧加空格
-                .betweenInside(SimpleTokenSets.IDENTIFIERS_AND_LITERALS, SimpleTokenSets.LeftBrackets, SimpleTypes.CMD_STAT_OTHER).spaces(1).between(SimpleTokenSets.IDENTIFIERS_AND_LITERALS, SimpleTokenSets.LeftBrackets).none() // 函数调用
-                .before(SimpleTokenSets.LeftBrackets).spaces(1).after(SimpleTokenSets.LeftBrackets).none().before(SimpleTokenSets.RightBrackets).none().after(SimpleTokenSets.RightBrackets).spaces(1)
+                .betweenInside(SimpleTokenSets.IDENTIFIERS_AND_LITERALS, SimpleTokenSets.LeftBrackets, SimpleTypes.CMD_STAT_OTHER).spaces(1)
+                .between(SimpleTokenSets.IDENTIFIERS_AND_LITERALS, SimpleTokenSets.LeftBrackets).none() // 函数调用
+                .before(SimpleTokenSets.LeftBrackets).spaces(1)
+                .after(SimpleTokenSets.LeftBrackets).none()
+                .before(SimpleTokenSets.RightBrackets).none()
+                .after(SimpleTokenSets.RightBrackets).spaces(1)
 
                 // 对一些特殊的符号进行调整
                 // 逗号前面没有空格，后面有空格
@@ -42,7 +49,13 @@ final class SimpleFormattingModelBuilder implements FormattingModelBuilder {
     @Override
     public @NotNull FormattingModel createModel(@NotNull FormattingContext formattingContext) {
         final CodeStyleSettings codeStyleSettings = formattingContext.getCodeStyleSettings();
-        return FormattingModelProvider.createFormattingModelForPsiFile(formattingContext.getContainingFile(), new SimpleBlock(formattingContext.getNode(), Wrap.createWrap(WrapType.NONE, false), Alignment.createAlignment(), createSpaceBuilder(codeStyleSettings)), codeStyleSettings);
+        return FormattingModelProvider
+                .createFormattingModelForPsiFile(formattingContext.getContainingFile(),
+                        new SimpleBlock(formattingContext.getNode(),
+                                Wrap.createWrap(WrapType.NONE, false),
+                                Alignment.createAlignment(),
+                                createSpaceBuilder(codeStyleSettings)),
+                        codeStyleSettings);
     }
 
 }
