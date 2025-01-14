@@ -45,6 +45,20 @@ public class SimpleCodeInsightTest extends LightJavaCodeInsightFixtureTestCase {
         myFixture.checkResultByFile(String.format("%s输出.fis", name));
     }
 
+    public void test函数缩进调整() {
+        String name = "函数缩进调整";
+        myFixture.configureByFile(String.format("%s输入.fis", name));
+//        CodeStyle.getLanguageSettings(myFixture.getFile()).SPACE_AROUND_ASSIGNMENT_OPERATORS = true;
+//        CodeStyle.getLanguageSettings(myFixture.getFile()).KEEP_BLANK_LINES_IN_CODE = 2;
+        WriteCommandAction.writeCommandAction(getProject()).run(() ->
+                CodeStyleManager.getInstance(getProject()).reformatText(
+                        myFixture.getFile(),
+                        List.of(myFixture.getFile().getTextRange())
+                )
+        );
+        myFixture.checkResultByFile(String.format("%s输出.fis", name));
+    }
+
 //    public void testRename() {
 //        myFixture.configureByFiles("RenameTestData.java", "RenameTestData.fis");
 //        myFixture.renameElementAtCaret("websiteUrl");
