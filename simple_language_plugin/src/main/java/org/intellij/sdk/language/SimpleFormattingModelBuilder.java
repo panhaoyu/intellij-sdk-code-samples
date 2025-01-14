@@ -17,12 +17,14 @@ final class SimpleFormattingModelBuilder implements FormattingModelBuilder {
                 .before(SimpleTokenSets.NewLine).none()
                 .between(SimpleTypes.CMD_STAT_OTHER, SimpleTokenSets.COMMENTS).spaces(2)
                 .between(SimpleTypes.STAT_FISH, SimpleTokenSets.COMMENTS).spaces(2)
+                .between(SimpleTypes.BLOCK_SINGLE_FISH, SimpleTokenSets.COMMENTS).spaces(2)
                 .between(SimpleTokenSets.IDENTIFIERS_AND_LITERALS, SimpleTokenSets.COMMENTS).spaces(2)
 
                 // 关键词
                 .between(SimpleTokenSets.IDENTIFIERS_AND_LITERALS, SimpleTokenSets.KeyWords).spaces(1)  // 关键词与标识符之间只有一个空格
 
                 // 括号内侧不加空格，括号外侧加空格
+                .between(SimpleTokenSets.RightBrackets, SimpleTypes.COMMA_OPERATOR).none()  // ")," 中间不要有空格
                 .betweenInside(SimpleTokenSets.IDENTIFIERS_AND_LITERALS, SimpleTokenSets.LeftBrackets, SimpleTypes.CMD_STAT_OTHER).spaces(1)
                 .between(SimpleTokenSets.IDENTIFIERS_AND_LITERALS, SimpleTokenSets.LeftBrackets).none() // 函数调用
                 .before(SimpleTokenSets.LeftBrackets).spaces(1)
