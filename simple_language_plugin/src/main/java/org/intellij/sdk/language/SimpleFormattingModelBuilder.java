@@ -19,6 +19,8 @@ final class SimpleFormattingModelBuilder implements FormattingModelBuilder {
                 .before(SimpleTypes.FUNCTION_CALL_OPERATOR).spaces(1)
                 .after(SimpleTypes.FUNCTION_CALL_OPERATOR).none()
                 .after(SimpleTokenSets.LeftBrackets).none()
+                .before(SimpleTokenSets.LeftBrackets).spaces(1)
+                .after(SimpleTokenSets.RightBrackets).spaces(1)
                 .before(SimpleTokenSets.RightBrackets).none()
                 .before(SimpleTypes.COMMA_OPERATOR).none()
                 .after(SimpleTypes.COMMA_OPERATOR).spaces(1)
