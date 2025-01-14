@@ -37,14 +37,14 @@ public class SimpleParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // kw_local? tk_identifier
-  static boolean assign_left_for_loop(PsiBuilder b, int l) {
+  public static boolean assign_left_for_loop(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "assign_left_for_loop")) return false;
-    if (!nextTokenIs(b, "", IDENTIFIER, LOCAL)) return false;
+    if (!nextTokenIs(b, "<assign left for loop>", IDENTIFIER, LOCAL)) return false;
     boolean r;
-    Marker m = enter_section_(b);
+    Marker m = enter_section_(b, l, _NONE_, ASSIGN_LEFT_FOR_LOOP, "<assign left for loop>");
     r = assign_left_for_loop_0(b, l + 1);
     r = r && tk_identifier(b, l + 1);
-    exit_section_(b, m, null, r);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
@@ -1295,7 +1295,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   /* ********************************************************** */
   // paren_l expr op_comma
   //     expr (op_comma expr)? paren_r
-  static boolean loop_indexed_range(PsiBuilder b, int l) {
+  public static boolean loop_indexed_range(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "loop_indexed_range")) return false;
     if (!nextTokenIs(b, LEFT_PARENTHESIS)) return false;
     boolean r;
@@ -1306,7 +1306,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     r = r && expr(b, l + 1);
     r = r && loop_indexed_range_4(b, l + 1);
     r = r && paren_r(b, l + 1);
-    exit_section_(b, m, null, r);
+    exit_section_(b, m, LOOP_INDEXED_RANGE, r);
     return r;
   }
 

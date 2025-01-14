@@ -64,7 +64,7 @@ block_else ::=  kw_else (eol block_fish)?
 block_loop ::= block_header_loop (eol block_fish)? eol kw_endloop
 block_header_loop ::= kw_loop (loop_each | loop_indexed | loop_for | loop_while)
 private loop_indexed ::= assign_left_for_loop loop_indexed_range
-private loop_indexed_range ::=
+loop_indexed_range ::=
     paren_l expr op_comma
     expr (op_comma expr)? paren_r
 private loop_while ::= kw_while expr
@@ -99,7 +99,7 @@ private stat_array_declare ::= kw_array tk_identifier paren_l literal_number par
 private expr_assign ::= assign_target assign_right?
 private assign_target ::= tk_identifier expr_paren_csv?
 private assign_right ::= op_assign expr
-private assign_left_for_loop ::= kw_local? tk_identifier
+assign_left_for_loop ::= kw_local? tk_identifier
 
 
 private expr ::= (square_l expr_binary square_r) |  expr_binary

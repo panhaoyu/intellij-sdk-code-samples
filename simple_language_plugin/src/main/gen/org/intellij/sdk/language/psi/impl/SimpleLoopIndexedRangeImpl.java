@@ -11,32 +11,20 @@ import static org.intellij.sdk.language.psi.SimpleTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import org.intellij.sdk.language.psi.*;
 
-public class SimpleBlockHeaderLoopImpl extends ASTWrapperPsiElement implements SimpleBlockHeaderLoop {
+public class SimpleLoopIndexedRangeImpl extends ASTWrapperPsiElement implements SimpleLoopIndexedRange {
 
-  public SimpleBlockHeaderLoopImpl(@NotNull ASTNode node) {
+  public SimpleLoopIndexedRangeImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull SimpleVisitor visitor) {
-    visitor.visitBlockHeaderLoop(this);
+    visitor.visitLoopIndexedRange(this);
   }
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof SimpleVisitor) accept((SimpleVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @Nullable
-  public SimpleAssignLeftForLoop getAssignLeftForLoop() {
-    return findChildByClass(SimpleAssignLeftForLoop.class);
-  }
-
-  @Override
-  @Nullable
-  public SimpleLoopIndexedRange getLoopIndexedRange() {
-    return findChildByClass(SimpleLoopIndexedRange.class);
   }
 
   @Override

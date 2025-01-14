@@ -13,6 +13,12 @@ final class SimpleFormattingModelBuilder implements FormattingModelBuilder {
     private static SpacingBuilder createSpaceBuilder(CodeStyleSettings settings) {
         return new SpacingBuilder(settings, SimpleLanguage.INSTANCE)
                 // 处理的过程是自下向上的
+                .between(SimpleTypes.ASSIGN_LEFT_FOR_LOOP, SimpleTypes.LOOP_INDEXED_RANGE).spaces(1)
+
+                .between(SimpleTokenSets.EndOfLine, SimpleTypes.CMD_BLOCK).spaces(0)
+                .between(SimpleTokenSets.EndOfLine, SimpleTypes.CMD_STAT_INLINE_FISH).spaces(0)
+                .between(SimpleTokenSets.EndOfLine, SimpleTypes.FISH_DEFINE).spaces(0)
+
                 // 换行符前面不要有空格
                 .before(SimpleTokenSets.NewLine).none()
                 .between(SimpleTypes.CMD_STAT_OTHER, SimpleTokenSets.COMMENTS).spaces(2)

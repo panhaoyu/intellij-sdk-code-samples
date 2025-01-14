@@ -71,6 +71,10 @@ public interface SimpleTokenSets {
             SimpleTypes.NEWLINE
     );
 
+    TokenSet EndOfLine = TokenSet.create(
+            SimpleTypes.EOL
+    );
+
     TokenSet KeyWords = TokenSet.create(
             SimpleTypes.ARRAY,
             SimpleTypes.BREAK,

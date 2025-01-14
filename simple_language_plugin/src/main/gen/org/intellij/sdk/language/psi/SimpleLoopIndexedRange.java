@@ -5,13 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface SimpleBlockHeaderLoop extends PsiElement {
-
-  @Nullable
-  SimpleAssignLeftForLoop getAssignLeftForLoop();
-
-  @Nullable
-  SimpleLoopIndexedRange getLoopIndexedRange();
+public interface SimpleLoopIndexedRange extends PsiElement {
 
   @NotNull
   List<SimpleTkIdentifier> getTkIdentifierList();

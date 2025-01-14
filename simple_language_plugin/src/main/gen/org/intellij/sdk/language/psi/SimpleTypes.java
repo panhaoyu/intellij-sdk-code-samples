@@ -8,6 +8,7 @@ import org.intellij.sdk.language.psi.impl.*;
 
 public interface SimpleTypes {
 
+  IElementType ASSIGN_LEFT_FOR_LOOP = new SimpleElementType("ASSIGN_LEFT_FOR_LOOP");
   IElementType BLOCK_CASE_OF = new SimpleElementType("BLOCK_CASE_OF");
   IElementType BLOCK_CASE_OPTION = new SimpleElementType("BLOCK_CASE_OPTION");
   IElementType BLOCK_CMD = new SimpleElementType("BLOCK_CMD");
@@ -27,6 +28,7 @@ public interface SimpleTypes {
   IElementType CMD_STAT_OTHER = new SimpleElementType("CMD_STAT_OTHER");
   IElementType EOL = new SimpleElementType("EOL");
   IElementType FISH_DEFINE_HEADER = new SimpleElementType("FISH_DEFINE_HEADER");
+  IElementType LOOP_INDEXED_RANGE = new SimpleElementType("LOOP_INDEXED_RANGE");
   IElementType STAT_ASSIGN = new SimpleElementType("STAT_ASSIGN");
   IElementType STAT_FISH = new SimpleElementType("STAT_FISH");
   IElementType TK_IDENTIFIER = new SimpleElementType("TK_IDENTIFIER");
@@ -86,7 +88,10 @@ public interface SimpleTypes {
   class Factory {
     public static PsiElement createElement(ASTNode node) {
       IElementType type = node.getElementType();
-      if (type == BLOCK_CASE_OF) {
+      if (type == ASSIGN_LEFT_FOR_LOOP) {
+        return new SimpleAssignLeftForLoopImpl(node);
+      }
+      else if (type == BLOCK_CASE_OF) {
         return new SimpleBlockCaseOfImpl(node);
       }
       else if (type == BLOCK_CASE_OPTION) {
@@ -142,6 +147,9 @@ public interface SimpleTypes {
       }
       else if (type == FISH_DEFINE_HEADER) {
         return new SimpleFishDefineHeaderImpl(node);
+      }
+      else if (type == LOOP_INDEXED_RANGE) {
+        return new SimpleLoopIndexedRangeImpl(node);
       }
       else if (type == STAT_ASSIGN) {
         return new SimpleStatAssignImpl(node);

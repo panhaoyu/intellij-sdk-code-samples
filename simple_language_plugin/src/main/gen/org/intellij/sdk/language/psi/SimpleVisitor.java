@@ -7,6 +7,10 @@ import com.intellij.psi.PsiElement;
 
 public class SimpleVisitor extends PsiElementVisitor {
 
+  public void visitAssignLeftForLoop(@NotNull SimpleAssignLeftForLoop o) {
+    visitPsiElement(o);
+  }
+
   public void visitBlockCaseOf(@NotNull SimpleBlockCaseOf o) {
     visitPsiElement(o);
   }
@@ -80,6 +84,10 @@ public class SimpleVisitor extends PsiElementVisitor {
   }
 
   public void visitFishDefineHeader(@NotNull SimpleFishDefineHeader o) {
+    visitPsiElement(o);
+  }
+
+  public void visitLoopIndexedRange(@NotNull SimpleLoopIndexedRange o) {
     visitPsiElement(o);
   }
 
