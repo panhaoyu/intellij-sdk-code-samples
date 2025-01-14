@@ -31,8 +31,8 @@ public class SimpleCodeInsightTest extends LightJavaCodeInsightFixtureTestCase {
 //        myFixture.checkHighlighting(false, false, true, true);
 //    }
 
-    public void testFormatter() {
-        myFixture.configureByFile("FormatterTestData.fis");
+    public void test全文格式化() {
+        myFixture.configureByFile("全文格式化输入.fis");
 //        CodeStyle.getLanguageSettings(myFixture.getFile()).SPACE_AROUND_ASSIGNMENT_OPERATORS = true;
 //        CodeStyle.getLanguageSettings(myFixture.getFile()).KEEP_BLANK_LINES_IN_CODE = 2;
         WriteCommandAction.writeCommandAction(getProject()).run(() ->
@@ -41,7 +41,7 @@ public class SimpleCodeInsightTest extends LightJavaCodeInsightFixtureTestCase {
                         List.of(myFixture.getFile().getTextRange())
                 )
         );
-        myFixture.checkResultByFile("FormatterTestDataResult.fis");
+        myFixture.checkResultByFile("全文格式化输出.fis");
     }
 
 //    public void testRename() {
