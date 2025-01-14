@@ -2,7 +2,7 @@
 
 plugins {
     id("java")
-    id("org.jetbrains.intellij") version "1.17.3"
+    id("org.jetbrains.intellij") version "1.17.4"
 }
 
 group = "org.intellij.sdk"
@@ -31,7 +31,7 @@ java {
 
 // See https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 intellij {
-    version.set("2023.2.6")
+    version.set("2024.1.7")
 //  plugins.set(listOf("com.intellij.java"))
 }
 
