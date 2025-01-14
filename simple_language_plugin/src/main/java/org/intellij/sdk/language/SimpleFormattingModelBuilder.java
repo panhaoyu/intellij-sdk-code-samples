@@ -15,6 +15,9 @@ final class SimpleFormattingModelBuilder implements FormattingModelBuilder {
                 // 处理的过程是自下向上的
                 // 换行符前面不要有空格
                 .before(SimpleTokenSets.NewLine).none()
+                .between(SimpleTypes.CMD_STAT_OTHER, SimpleTokenSets.COMMENTS).spaces(2)
+                .between(SimpleTypes.STAT_FISH, SimpleTokenSets.COMMENTS).spaces(2)
+                .between(SimpleTokenSets.IDENTIFIERS_AND_LITERALS, SimpleTokenSets.COMMENTS).spaces(2)
 
                 // 关键词
                 .after(SimpleTokenSets.KeyWords).spaces(1)  // 关键词后面只有一个空格
@@ -34,8 +37,12 @@ final class SimpleFormattingModelBuilder implements FormattingModelBuilder {
 
 
                 // 确保有且只有一个空格
-                .around(SimpleTokenSets.Operators).spaces(1)  // 运算符前后有空格
-                .around(SimpleTokenSets.IDENTIFIERS_AND_LITERALS).spaces(1)  // 标识符前后有一个空格
+                .aroundInside(SimpleTokenSets.OperatorsWithoutMinus, SimpleTypes.CMD_STAT_OTHER).spaces(1)  // 运算符前后有空格
+                .betweenInside(SimpleTokenSets.IDENTIFIERS_AND_LITERALS, SimpleTokenSets.IDENTIFIERS_AND_LITERALS, SimpleTypes.CMD_STAT_OTHER).spaces(1)  // 标识符前后有一个空格
+
+                .aroundInside(SimpleTypes.MINUS_OPERATOR, SimpleTypes.STAT_FISH).spaces(1)  // 运算符前后有空格
+                .around(SimpleTokenSets.OperatorsWithoutMinus).spaces(1)  // 运算符前后有空格
+                .aroundInside(SimpleTokenSets.IDENTIFIERS_AND_LITERALS, SimpleTypes.STAT_FISH).spaces(1)  // 标识符前后有一个空格
                 ;
     }
 
