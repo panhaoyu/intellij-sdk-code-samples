@@ -41,7 +41,7 @@ public class SimpleCodeInsightTest extends LightJavaCodeInsightFixtureTestCase {
                         List.of(myFixture.getFile().getTextRange())
                 )
         );
-        myFixture.checkResultByFile("DefaultTestData.fis");
+        myFixture.checkResultByFile("FormatterTestDataResult.fis");
     }
 
 //    public void testRename() {
