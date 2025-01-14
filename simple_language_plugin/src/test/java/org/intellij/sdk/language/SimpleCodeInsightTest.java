@@ -24,7 +24,7 @@ public class SimpleCodeInsightTest extends LightJavaCodeInsightFixtureTestCase {
     }
 
     public void testCompletion() {
-        myFixture.configureByFiles("CompleteTestData.java", "DefaultTestData.simple");
+        myFixture.configureByFiles("CompleteTestData.java", "DefaultTestData.fis");
         myFixture.complete(CompletionType.BASIC);
         List<String> lookupElementStrings = myFixture.getLookupElementStrings();
         assertNotNull(lookupElementStrings);
@@ -32,12 +32,12 @@ public class SimpleCodeInsightTest extends LightJavaCodeInsightFixtureTestCase {
     }
 
     public void testAnnotator() {
-        myFixture.configureByFiles("AnnotatorTestData.java", "DefaultTestData.simple");
+        myFixture.configureByFiles("AnnotatorTestData.java", "DefaultTestData.fis");
         myFixture.checkHighlighting(false, false, true, true);
     }
 
     public void testFormatter() {
-        myFixture.configureByFile("FormatterTestData.simple");
+        myFixture.configureByFile("FormatterTestData.fis");
         CodeStyle.getLanguageSettings(myFixture.getFile()).SPACE_AROUND_ASSIGNMENT_OPERATORS = true;
         CodeStyle.getLanguageSettings(myFixture.getFile()).KEEP_BLANK_LINES_IN_CODE = 2;
         WriteCommandAction.writeCommandAction(getProject()).run(() ->
@@ -46,22 +46,22 @@ public class SimpleCodeInsightTest extends LightJavaCodeInsightFixtureTestCase {
                         List.of(myFixture.getFile().getTextRange())
                 )
         );
-        myFixture.checkResultByFile("DefaultTestData.simple");
+        myFixture.checkResultByFile("DefaultTestData.fis");
     }
 
     public void testRename() {
-        myFixture.configureByFiles("RenameTestData.java", "RenameTestData.simple");
+        myFixture.configureByFiles("RenameTestData.java", "RenameTestData.fis");
         myFixture.renameElementAtCaret("websiteUrl");
-        myFixture.checkResultByFile("RenameTestData.simple", "RenameTestDataAfter.simple", false);
+        myFixture.checkResultByFile("RenameTestData.fis", "RenameTestDataAfter.fis", false);
     }
 
     public void testFolding() {
-        myFixture.configureByFile("DefaultTestData.simple");
+        myFixture.configureByFile("DefaultTestData.fis");
         myFixture.testFolding(getTestDataPath() + "/FoldingTestData.java");
     }
 
     public void testFindUsages() {
-        Collection<UsageInfo> usageInfos = myFixture.testFindUsages("FindUsagesTestData.simple", "FindUsagesTestData.java");
+        Collection<UsageInfo> usageInfos = myFixture.testFindUsages("FindUsagesTestData.fis", "FindUsagesTestData.java");
         assertEquals(1, usageInfos.size());
     }
 
@@ -76,13 +76,13 @@ public class SimpleCodeInsightTest extends LightJavaCodeInsightFixtureTestCase {
 
 //  public void testReference() {
 //    PsiReference referenceAtCaret =
-//        myFixture.getReferenceAtCaretPositionWithAssertion("ReferenceTestData.java", "DefaultTestData.simple");
+//        myFixture.getReferenceAtCaretPositionWithAssertion("ReferenceTestData.java", "DefaultTestData.fis");
 //    final SimpleProperty resolvedSimpleProperty = assertInstanceOf(referenceAtCaret.resolve(), SimpleProperty.class);
 //    assertEquals("https://en.wikipedia.org/", resolvedSimpleProperty.getName());
 //  }
 
 //  public void testDocumentation() {
-//    myFixture.configureByFiles("DocumentationTestData.java", "DocumentationTestData.simple");
+//    myFixture.configureByFiles("DocumentationTestData.java", "DocumentationTestData.fis");
 //    final PsiElement originalElement = myFixture.getElementAtCaret();
 //    PsiElement element = DocumentationManager
 //        .getInstance(getProject())
