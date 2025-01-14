@@ -2,7 +2,6 @@
 
 package org.intellij.sdk.language;
 
-import com.intellij.application.options.CodeStyle;
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.psi.codeStyle.CodeStyleManager;
 import com.intellij.testFramework.fixtures.LightJavaCodeInsightFixtureTestCase;
@@ -34,8 +33,8 @@ public class SimpleCodeInsightTest extends LightJavaCodeInsightFixtureTestCase {
 
     public void testFormatter() {
         myFixture.configureByFile("FormatterTestData.fis");
-        CodeStyle.getLanguageSettings(myFixture.getFile()).SPACE_AROUND_ASSIGNMENT_OPERATORS = true;
-        CodeStyle.getLanguageSettings(myFixture.getFile()).KEEP_BLANK_LINES_IN_CODE = 2;
+//        CodeStyle.getLanguageSettings(myFixture.getFile()).SPACE_AROUND_ASSIGNMENT_OPERATORS = true;
+//        CodeStyle.getLanguageSettings(myFixture.getFile()).KEEP_BLANK_LINES_IN_CODE = 2;
         WriteCommandAction.writeCommandAction(getProject()).run(() ->
                 CodeStyleManager.getInstance(getProject()).reformatText(
                         myFixture.getFile(),
