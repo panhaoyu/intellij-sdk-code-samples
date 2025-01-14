@@ -18,10 +18,11 @@ final class SimpleFormattingModelBuilder implements FormattingModelBuilder {
                 .around(SimpleTypes.UNARY_OPERATOR).spaces(1)
                 .before(SimpleTypes.FUNCTION_CALL_OPERATOR).spaces(1)
                 .after(SimpleTypes.FUNCTION_CALL_OPERATOR).none()
+                // 括号内侧不加空格，括号外侧加空格
                 .after(SimpleTokenSets.LeftBrackets).none()
-                .before(SimpleTokenSets.LeftBrackets).spaces(1)
-                .after(SimpleTokenSets.RightBrackets).spaces(1)
                 .before(SimpleTokenSets.RightBrackets).none()
+                .between(SimpleTokenSets.RightBrackets, SimpleTokenSets.LeftBrackets).spaces(1)
+                // 符号与标识符之间要有一个空格
                 .before(SimpleTypes.COMMA_OPERATOR).none()
                 .after(SimpleTypes.COMMA_OPERATOR).spaces(1)
                 ;

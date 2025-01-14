@@ -54,7 +54,7 @@ tasks {
 // 定义复制任务
 val copyToNetworkShare by tasks.registering(Copy::class) {
     from(layout.buildDirectory.dir("distributions"))
-    into("D:/局域网共享")
+    into("D:/局域网共享/pfc")
     include("*.zip")
 }
 
