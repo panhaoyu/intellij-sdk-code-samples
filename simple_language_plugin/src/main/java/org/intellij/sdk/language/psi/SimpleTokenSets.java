@@ -19,8 +19,10 @@ public interface SimpleTokenSets {
 
 
     TokenSet IDENTIFIERS_AND_LITERALS = TokenSet.create(
-            SimpleTypes.IDENTIFIER,
+            SimpleTypes.TK_VALUE,
             SimpleTypes.TK_IDENTIFIER,
+            SimpleTypes.TK_LITERAL,
+            SimpleTypes.IDENTIFIER,
             SimpleTypes.STRING_LITERAL,
             SimpleTypes.NUMBER_LITERAL
     );
