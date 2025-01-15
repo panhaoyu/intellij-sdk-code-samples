@@ -34,9 +34,9 @@ public class SimpleCommandTokenAllImpl extends ASTWrapperPsiElement implements S
   }
 
   @Override
-  @Nullable
-  public SimpleCommandTokenAll getCommandTokenAll() {
-    return findChildByClass(SimpleCommandTokenAll.class);
+  @NotNull
+  public List<SimpleCommandTokenAll> getCommandTokenAllList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleCommandTokenAll.class);
   }
 
   @Override
@@ -76,9 +76,9 @@ public class SimpleCommandTokenAllImpl extends ASTWrapperPsiElement implements S
   }
 
   @Override
-  @Nullable
-  public SimpleOpComma getOpComma() {
-    return findChildByClass(SimpleOpComma.class);
+  @NotNull
+  public List<SimpleOpComma> getOpCommaList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleOpComma.class);
   }
 
   @Override

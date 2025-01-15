@@ -3,5 +3,6 @@ fish define    _ctApplyAxialStrain
 command
 fish add  fish-halt     @   _ctUpdate_wsdMax  [  42.11 ]
 end-1 end-2
+v1 v2 (   3,   4,  5.0   ) v6 ; comment
 end_command
 end

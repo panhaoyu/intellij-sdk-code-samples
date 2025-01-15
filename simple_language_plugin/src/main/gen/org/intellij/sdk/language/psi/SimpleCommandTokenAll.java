@@ -10,8 +10,8 @@ public interface SimpleCommandTokenAll extends PsiElement {
   @Nullable
   SimpleCommandExprFuncCall getCommandExprFuncCall();
 
-  @Nullable
-  SimpleCommandTokenAll getCommandTokenAll();
+  @NotNull
+  List<SimpleCommandTokenAll> getCommandTokenAllList();
 
   @Nullable
   SimpleCommandTokenIdentifier getCommandTokenIdentifier();
@@ -31,8 +31,8 @@ public interface SimpleCommandTokenAll extends PsiElement {
   @Nullable
   SimpleOpBinaryWithoutMinus getOpBinaryWithoutMinus();
 
-  @Nullable
-  SimpleOpComma getOpComma();
+  @NotNull
+  List<SimpleOpComma> getOpCommaList();
 
   @Nullable
   SimpleOpDot getOpDot();

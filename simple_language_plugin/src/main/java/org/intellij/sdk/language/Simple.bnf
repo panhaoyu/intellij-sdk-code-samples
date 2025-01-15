@@ -32,9 +32,9 @@ command_block_single ::= (
 )
 command_line ::= (command_token_all+ tk_comment?) | tk_comment
 command_token_all ::= (
-    paren_l command_token_all? paren_r |
-    square_l command_token_all? square_r |
-    curly_l command_token_all? curly_r |
+    paren_l (command_token_all (op_comma command_token_all)*)? paren_r |
+    square_l (command_token_all (op_comma command_token_all)*)? square_r |
+    curly_l (command_token_all (op_comma command_token_all)*)? curly_r |
     command_token_identifier |
     command_token_inline_fish |
     command_expr_func_call |

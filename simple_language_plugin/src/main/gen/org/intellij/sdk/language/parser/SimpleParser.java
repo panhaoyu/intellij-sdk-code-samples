@@ -262,9 +262,9 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // paren_l command_token_all? paren_r |
-  //     square_l command_token_all? square_r |
-  //     curly_l command_token_all? curly_r |
+  // paren_l (command_token_all (op_comma command_token_all)*)? paren_r |
+  //     square_l (command_token_all (op_comma command_token_all)*)? square_r |
+  //     curly_l (command_token_all (op_comma command_token_all)*)? curly_r |
   //     command_token_identifier |
   //     command_token_inline_fish |
   //     command_expr_func_call |
@@ -290,7 +290,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // paren_l command_token_all? paren_r
+  // paren_l (command_token_all (op_comma command_token_all)*)? paren_r
   private static boolean command_token_all_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "command_token_all_0")) return false;
     boolean r;
@@ -302,14 +302,47 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // command_token_all?
+  // (command_token_all (op_comma command_token_all)*)?
   private static boolean command_token_all_0_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "command_token_all_0_1")) return false;
-    command_token_all(b, l + 1);
+    command_token_all_0_1_0(b, l + 1);
     return true;
   }
 
-  // square_l command_token_all? square_r
+  // command_token_all (op_comma command_token_all)*
+  private static boolean command_token_all_0_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "command_token_all_0_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = command_token_all(b, l + 1);
+    r = r && command_token_all_0_1_0_1(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // (op_comma command_token_all)*
+  private static boolean command_token_all_0_1_0_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "command_token_all_0_1_0_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!command_token_all_0_1_0_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "command_token_all_0_1_0_1", c)) break;
+    }
+    return true;
+  }
+
+  // op_comma command_token_all
+  private static boolean command_token_all_0_1_0_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "command_token_all_0_1_0_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = op_comma(b, l + 1);
+    r = r && command_token_all(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // square_l (command_token_all (op_comma command_token_all)*)? square_r
   private static boolean command_token_all_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "command_token_all_1")) return false;
     boolean r;
@@ -321,14 +354,47 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // command_token_all?
+  // (command_token_all (op_comma command_token_all)*)?
   private static boolean command_token_all_1_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "command_token_all_1_1")) return false;
-    command_token_all(b, l + 1);
+    command_token_all_1_1_0(b, l + 1);
     return true;
   }
 
-  // curly_l command_token_all? curly_r
+  // command_token_all (op_comma command_token_all)*
+  private static boolean command_token_all_1_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "command_token_all_1_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = command_token_all(b, l + 1);
+    r = r && command_token_all_1_1_0_1(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // (op_comma command_token_all)*
+  private static boolean command_token_all_1_1_0_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "command_token_all_1_1_0_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!command_token_all_1_1_0_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "command_token_all_1_1_0_1", c)) break;
+    }
+    return true;
+  }
+
+  // op_comma command_token_all
+  private static boolean command_token_all_1_1_0_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "command_token_all_1_1_0_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = op_comma(b, l + 1);
+    r = r && command_token_all(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // curly_l (command_token_all (op_comma command_token_all)*)? curly_r
   private static boolean command_token_all_2(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "command_token_all_2")) return false;
     boolean r;
@@ -340,11 +406,44 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // command_token_all?
+  // (command_token_all (op_comma command_token_all)*)?
   private static boolean command_token_all_2_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "command_token_all_2_1")) return false;
-    command_token_all(b, l + 1);
+    command_token_all_2_1_0(b, l + 1);
     return true;
+  }
+
+  // command_token_all (op_comma command_token_all)*
+  private static boolean command_token_all_2_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "command_token_all_2_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = command_token_all(b, l + 1);
+    r = r && command_token_all_2_1_0_1(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // (op_comma command_token_all)*
+  private static boolean command_token_all_2_1_0_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "command_token_all_2_1_0_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!command_token_all_2_1_0_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "command_token_all_2_1_0_1", c)) break;
+    }
+    return true;
+  }
+
+  // op_comma command_token_all
+  private static boolean command_token_all_2_1_0_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "command_token_all_2_1_0_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = op_comma(b, l + 1);
+    r = r && command_token_all(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
   }
 
   /* ********************************************************** */
