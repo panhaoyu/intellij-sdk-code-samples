@@ -18,14 +18,15 @@
 
   tokens=[
     WHITESPACE="regexp: +"
-    NEWLINE="(\R( \t)*)"
+    NEWLINE="regexp:(\R( \t)*)"
   ]
 }
 
-simpleFile ::= command_block? (eol command_block)*
+simpleFile ::= command_block eol?
 
+command_block ::= eol* command_block_single? (eol command_block_single)*
 //前缀为cmd的均表示作用于command作用域中
-command_block ::= (
+command_block_single ::= (
     command_block_define |
     command_line
 )
@@ -33,19 +34,19 @@ command_line ::= (
     command_line_inline_fish |
     command_line_func_call |
     command_line_other_words |
-    command_line_comment |
-    eol
+    command_line_comment
 )
 command_line_comment ::= tk_comment
 command_line_other_words ::= command_token_all+ tk_comment?
 command_line_func_call ::= op_at tk_identifier expr_paren_csv? tk_comment?
-command_line_inline_fish ::= square_l fish_line square_r tk_comment?
+command_line_inline_fish ::= square_l command_inline_fish_line square_r tk_comment?
 command_token_all ::= (
      square_l | square_r | paren_l | paren_r | op_comma | op_assign | op_unary | op_binary| op_dot | op_at |
      tk_literal | command_token_keyword_all | tk_value
  )
+// 可以在 Command 空间中作为普通字符串使用的关键字
 command_token_keyword_all ::= (
-    kw_fish_define | kw_fish_operator | kw_end | kw_return |
+    kw_return |
     kw_case_of | kw_case | kw_end_case |
     kw_exit | kw_global |  kw_local |
     kw_if | kw_then | kw_else_if | kw_else | kw_end_if |
@@ -62,14 +63,14 @@ command_block_define ::= (
 ) {
     methods=[getName getPresentation]
 }
-private fish_line_define_header ::= (kw_fish_define | kw_fish_operator) tk_identifier fish_expr_define_params? tk_comment?
+fish_line_define_header ::= (kw_fish_define | kw_fish_operator) tk_identifier fish_expr_define_params? tk_comment?
 fish_block_body_define ::= fish_block
-private fish_line_define_footer ::= kw_end tk_comment?
-private fish_expr_define_params ::= (paren_l tk_identifier (op_comma tk_identifier)* paren_r)
+fish_line_define_footer ::= kw_end tk_comment?
+fish_expr_define_params ::= (paren_l tk_identifier (op_comma tk_identifier)* paren_r)
 
 // 全部的可能的 Fish 语句块
-fish_block ::=  block_single_fish? (eol block_single_fish)*
-block_single_fish ::= (
+fish_block ::=  fish_block_single? (eol fish_block_single)*
+fish_block_single ::= (
     fish_block_if |
     fish_block_loop |
     fish_block_case_of |
@@ -93,7 +94,7 @@ fish_block_body_else_if ::= fish_block
 fish_block_body_else ::= fish_block
 
 // Loop 语法
-fish_block_loop ::= fish_line_loop_block_header (eol fish_block_body_loop)? fish_line_loop_block_footer
+fish_block_loop ::= fish_line_loop_block_header (eol fish_block_body_loop)? eol fish_line_loop_block_footer
 fish_line_loop_block_header ::= kw_loop (loop_each | fish_expr_loop_indexed | loop_for | loop_while) tk_comment?
 fish_line_loop_block_footer ::= kw_endloop tk_comment?
 fish_block_body_loop ::= fish_block
@@ -123,11 +124,12 @@ fish_block_body_section ::= fish_block
 fish_block_command ::= (
     fish_line_command_header
     (eol fish_block_body_command)?
-    eol fish_line_command_footer)
+    eol fish_line_command_footer
+)
 fish_line_command_header ::= kw_command tk_comment?
 fish_line_command_footer ::= kw_end_command tk_comment?
 fish_block_body_command ::= command_block
-    
+
 fish_line ::= (
     fish_line_break |
     fish_line_continue |
@@ -150,6 +152,16 @@ fish_line_array_declare ::= kw_array tk_identifier paren_l literal_number paren_
 fish_line_assign ::= (kw_local | kw_global)? fish_expr_assign (op_comma fish_expr_assign)* tk_comment?
 fish_line_expr ::= expr tk_comment?
 fish_line_comment ::= tk_comment
+
+// 在 Command 里面可以行内调用的语句
+command_inline_fish_line ::= (
+    command_inline_fish_line_array_declare |
+    command_inline_fish_line_assign |
+    command_inline_fish_line_expr
+)
+command_inline_fish_line_array_declare ::= kw_array tk_identifier paren_l literal_number paren_r
+command_inline_fish_line_assign ::= (kw_local | kw_global)? fish_expr_assign (op_comma fish_expr_assign)*
+command_inline_fish_line_expr ::= expr
 
 fish_expr_assign ::= fish_expr_assign_target fish_expr_assign_right?
 fish_expr_assign_target ::= tk_identifier expr_paren_csv?

@@ -22,7 +22,7 @@ final class SimpleFormattingModelBuilder implements FormattingModelBuilder {
                 .before(SimpleTokenSets.NewLine).none()
                 .between(SimpleTypes.COMMAND_LINE_OTHER_WORDS, SimpleTokenSets.COMMENTS).spaces(2)
                 .between(SimpleTypes.FISH_LINE, SimpleTokenSets.COMMENTS).spaces(2)
-                .between(SimpleTypes.BLOCK_SINGLE_FISH, SimpleTokenSets.COMMENTS).spaces(2)
+                .between(SimpleTypes.FISH_BLOCK_SINGLE, SimpleTokenSets.COMMENTS).spaces(2)
                 .between(SimpleTokenSets.IDENTIFIERS_AND_LITERALS, SimpleTokenSets.COMMENTS).spaces(2)
 
                 // 关键词
