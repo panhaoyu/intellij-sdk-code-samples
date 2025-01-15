@@ -33,7 +33,7 @@ public class SimpleCodeInsightTest extends LightJavaCodeInsightFixtureTestCase {
 
 
     private void 校验一组文件(String name) {
-        myFixture.configureByFile(String.format("%s 输入.fis", name));
+        myFixture.configureByFile(String.format("%s/输入.fis", name));
 //        CodeStyle.getLanguageSettings(myFixture.getFile()).SPACE_AROUND_ASSIGNMENT_OPERATORS = true;
 //        CodeStyle.getLanguageSettings(myFixture.getFile()).KEEP_BLANK_LINES_IN_CODE = 2;
         WriteCommandAction.writeCommandAction(getProject()).run(() ->
@@ -42,7 +42,7 @@ public class SimpleCodeInsightTest extends LightJavaCodeInsightFixtureTestCase {
                         List.of(myFixture.getFile().getTextRange())
                 )
         );
-        myFixture.checkResultByFile(String.format("%s 输出.fis", name));
+        myFixture.checkResultByFile(String.format("%s/输出.fis", name));
     }
 
     public void test_全文格式化() {
