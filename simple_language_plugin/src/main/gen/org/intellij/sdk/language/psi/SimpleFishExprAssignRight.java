@@ -8,9 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface SimpleFishExprAssignRight extends PsiElement {
 
   @NotNull
-  List<SimpleTkIdentifier> getTkIdentifierList();
-
-  @NotNull
-  List<SimpleTkValue> getTkValueList();
+  SimpleFishExpr getFishExpr();
 
 }

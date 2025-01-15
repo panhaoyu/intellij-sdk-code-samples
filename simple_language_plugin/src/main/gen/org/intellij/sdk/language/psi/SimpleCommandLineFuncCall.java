@@ -8,12 +8,12 @@ import com.intellij.psi.PsiElement;
 public interface SimpleCommandLineFuncCall extends PsiElement {
 
   @Nullable
+  SimpleExprParenCsv getExprParenCsv();
+
+  @Nullable
   SimpleTkComment getTkComment();
 
   @NotNull
-  List<SimpleTkIdentifier> getTkIdentifierList();
-
-  @NotNull
-  List<SimpleTkValue> getTkValueList();
+  SimpleTkIdentifier getTkIdentifier();
 
 }

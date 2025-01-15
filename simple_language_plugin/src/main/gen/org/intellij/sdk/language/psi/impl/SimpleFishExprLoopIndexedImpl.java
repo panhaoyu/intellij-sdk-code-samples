@@ -29,20 +29,14 @@ public class SimpleFishExprLoopIndexedImpl extends ASTWrapperPsiElement implemen
 
   @Override
   @NotNull
+  public List<SimpleFishExpr> getFishExprList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleFishExpr.class);
+  }
+
+  @Override
+  @NotNull
   public SimpleFishExprAssignLeftForLoop getFishExprAssignLeftForLoop() {
     return findNotNullChildByClass(SimpleFishExprAssignLeftForLoop.class);
-  }
-
-  @Override
-  @NotNull
-  public List<SimpleTkIdentifier> getTkIdentifierList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleTkIdentifier.class);
-  }
-
-  @Override
-  @NotNull
-  public List<SimpleTkValue> getTkValueList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleTkValue.class);
   }
 
 }

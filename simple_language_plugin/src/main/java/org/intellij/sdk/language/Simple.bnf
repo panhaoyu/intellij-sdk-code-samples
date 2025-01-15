@@ -85,9 +85,9 @@ fish_block_if ::= fish_line_if_block_header
              (eol fish_line_if_block_else_if (eol fish_block_body_else_if)?)*
              (eol fish_line_if_block_else (eol fish_block_body_else)?)?
              eol fish_line_if_block_footer
-fish_line_if_block_header ::= kw_if expr kw_then? tk_comment?
+fish_line_if_block_header ::= kw_if fish_expr kw_then? tk_comment?
 fish_line_if_block_else ::= kw_else tk_comment?
-fish_line_if_block_else_if ::= kw_else_if expr kw_then? tk_comment?
+fish_line_if_block_else_if ::= kw_else_if fish_expr kw_then? tk_comment?
 fish_line_if_block_footer ::= kw_end_if tk_comment?
 fish_block_body_if ::= fish_block
 fish_block_body_else_if ::= fish_block
@@ -98,10 +98,10 @@ fish_block_loop ::= fish_line_loop_block_header (eol fish_block_body_loop)? eol 
 fish_line_loop_block_header ::= kw_loop (loop_each | fish_expr_loop_indexed | loop_for | loop_while) tk_comment?
 fish_line_loop_block_footer ::= kw_endloop tk_comment?
 fish_block_body_loop ::= fish_block
-fish_expr_loop_indexed ::= fish_expr_assign_left_for_loop paren_l expr op_comma expr (op_comma expr)? paren_r
-loop_while ::= kw_while expr
-loop_each ::= kw_foreach fish_expr_assign_left_for_loop expr
-loop_for ::= kw_for paren_l kw_local? expr op_comma expr op_comma expr paren_r
+fish_expr_loop_indexed ::= fish_expr_assign_left_for_loop paren_l fish_expr op_comma fish_expr (op_comma fish_expr)? paren_r
+loop_while ::= kw_while fish_expr
+loop_each ::= kw_foreach fish_expr_assign_left_for_loop fish_expr
+loop_for ::= kw_for paren_l kw_local? fish_expr op_comma fish_expr op_comma fish_expr paren_r
 
 // Case of 语法
 fish_block_case_of ::= (
@@ -109,8 +109,8 @@ fish_block_case_of ::= (
     (eol fish_block_body_case_of)?
     (eol fish_line_case_of_block_option eol fish_block_body_case_of)*
     eol fish_line_case_of_block_footer)
-fish_line_case_of_block_header ::= kw_case_of expr tk_comment?
-fish_line_case_of_block_option ::= kw_case expr tk_comment?
+fish_line_case_of_block_header ::= kw_case_of fish_expr tk_comment?
+fish_line_case_of_block_option ::= kw_case fish_expr tk_comment?
 fish_line_case_of_block_footer ::= kw_end_case tk_comment?
 fish_block_body_case_of ::= fish_block
 
@@ -147,10 +147,10 @@ fish_line_continue ::= kw_continue tk_comment?
 fish_line_exit ::= kw_exit tk_comment?
 fish_line_exit_section ::= kw_exit_section tk_comment?
 fish_line_exit_loop ::= kw_exit_loop tk_comment?
-fish_line_return ::= kw_return expr? tk_comment?
+fish_line_return ::= kw_return fish_expr? tk_comment?
 fish_line_array_declare ::= kw_array tk_identifier paren_l literal_number paren_r tk_comment?
 fish_line_assign ::= (kw_local | kw_global)? fish_expr_assign (op_comma fish_expr_assign)* tk_comment?
-fish_line_expr ::= expr tk_comment?
+fish_line_expr ::= fish_expr tk_comment?
 fish_line_comment ::= tk_comment
 
 // 在 Command 里面可以行内调用的语句
@@ -161,24 +161,25 @@ command_inline_fish_line ::= (
 )
 command_inline_fish_line_array_declare ::= kw_array tk_identifier paren_l literal_number paren_r
 command_inline_fish_line_assign ::= (kw_local | kw_global)? fish_expr_assign (op_comma fish_expr_assign)*
-command_inline_fish_line_expr ::= expr
+command_inline_fish_line_expr ::= fish_expr
 
 fish_expr_assign ::= fish_expr_assign_target fish_expr_assign_right?
 fish_expr_assign_target ::= tk_identifier expr_paren_csv?
-fish_expr_assign_right ::= op_assign expr
+fish_expr_assign_right ::= op_assign fish_expr
 fish_expr_assign_left_for_loop ::= kw_local? tk_identifier
 
 
-private expr ::= (square_l expr_binary square_r) |  expr_binary
-private expr_paren ::= paren_l expr paren_r
-private expr_func_call ::= tk_identifier expr_paren_csv
-private expr_csv ::= expr (op_comma expr)*
-private expr_paren_csv ::= paren_l expr_csv paren_r
+fish_expr ::= (square_l expr_binary square_r) |  expr_binary
+fish_expr_paren ::= paren_l fish_expr paren_r
+fish_expr_func_call ::= fish_expr_func_call_func_name expr_paren_csv
+fish_expr_func_call_func_name ::= tk_identifier
+expr_csv ::= fish_expr (op_comma fish_expr)*
+expr_paren_csv ::= paren_l expr_csv paren_r
 
 
 private expr_binary ::= expr_non_binary (op_binary expr_non_binary)*
-private expr_non_binary ::=  expr_paren | expr_func_call | expr_unary | tk_value
-private expr_unary ::= op_unary expr
+private expr_non_binary ::=  fish_expr_paren | fish_expr_func_call | expr_unary | tk_value
+private expr_unary ::= op_unary fish_expr
 
 ////词汇之间的组合
 tk_value ::= tk_identifier | tk_literal

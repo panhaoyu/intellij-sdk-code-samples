@@ -11,14 +11,14 @@ import static org.intellij.sdk.language.psi.SimpleTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import org.intellij.sdk.language.psi.*;
 
-public class SimpleFishExprAssignTargetImpl extends ASTWrapperPsiElement implements SimpleFishExprAssignTarget {
+public class SimpleFishExprFuncCallImpl extends ASTWrapperPsiElement implements SimpleFishExprFuncCall {
 
-  public SimpleFishExprAssignTargetImpl(@NotNull ASTNode node) {
+  public SimpleFishExprFuncCallImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull SimpleVisitor visitor) {
-    visitor.visitFishExprAssignTarget(this);
+    visitor.visitFishExprFuncCall(this);
   }
 
   @Override
@@ -28,15 +28,15 @@ public class SimpleFishExprAssignTargetImpl extends ASTWrapperPsiElement impleme
   }
 
   @Override
-  @Nullable
+  @NotNull
   public SimpleExprParenCsv getExprParenCsv() {
-    return findChildByClass(SimpleExprParenCsv.class);
+    return findNotNullChildByClass(SimpleExprParenCsv.class);
   }
 
   @Override
   @NotNull
-  public SimpleTkIdentifier getTkIdentifier() {
-    return findNotNullChildByClass(SimpleTkIdentifier.class);
+  public SimpleFishExprFuncCallFuncName getFishExprFuncCallFuncName() {
+    return findNotNullChildByClass(SimpleFishExprFuncCallFuncName.class);
   }
 
 }

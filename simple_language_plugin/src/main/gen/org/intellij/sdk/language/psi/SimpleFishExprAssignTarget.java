@@ -7,10 +7,10 @@ import com.intellij.psi.PsiElement;
 
 public interface SimpleFishExprAssignTarget extends PsiElement {
 
-  @NotNull
-  List<SimpleTkIdentifier> getTkIdentifierList();
+  @Nullable
+  SimpleExprParenCsv getExprParenCsv();
 
   @NotNull
-  List<SimpleTkValue> getTkValueList();
+  SimpleTkIdentifier getTkIdentifier();
 
 }

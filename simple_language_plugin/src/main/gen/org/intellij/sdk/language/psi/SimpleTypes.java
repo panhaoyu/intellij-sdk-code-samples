@@ -23,6 +23,8 @@ public interface SimpleTypes {
   IElementType COMMAND_TOKEN_ALL = new SimpleElementType("COMMAND_TOKEN_ALL");
   IElementType COMMAND_TOKEN_KEYWORD_ALL = new SimpleElementType("COMMAND_TOKEN_KEYWORD_ALL");
   IElementType EOL = new SimpleElementType("EOL");
+  IElementType EXPR_CSV = new SimpleElementType("EXPR_CSV");
+  IElementType EXPR_PAREN_CSV = new SimpleElementType("EXPR_PAREN_CSV");
   IElementType FISH_BLOCK = new SimpleElementType("FISH_BLOCK");
   IElementType FISH_BLOCK_BODY_CASE_OF = new SimpleElementType("FISH_BLOCK_BODY_CASE_OF");
   IElementType FISH_BLOCK_BODY_COMMAND = new SimpleElementType("FISH_BLOCK_BODY_COMMAND");
@@ -38,12 +40,16 @@ public interface SimpleTypes {
   IElementType FISH_BLOCK_LOOP = new SimpleElementType("FISH_BLOCK_LOOP");
   IElementType FISH_BLOCK_SECTION = new SimpleElementType("FISH_BLOCK_SECTION");
   IElementType FISH_BLOCK_SINGLE = new SimpleElementType("FISH_BLOCK_SINGLE");
+  IElementType FISH_EXPR = new SimpleElementType("FISH_EXPR");
   IElementType FISH_EXPR_ASSIGN = new SimpleElementType("FISH_EXPR_ASSIGN");
   IElementType FISH_EXPR_ASSIGN_LEFT_FOR_LOOP = new SimpleElementType("FISH_EXPR_ASSIGN_LEFT_FOR_LOOP");
   IElementType FISH_EXPR_ASSIGN_RIGHT = new SimpleElementType("FISH_EXPR_ASSIGN_RIGHT");
   IElementType FISH_EXPR_ASSIGN_TARGET = new SimpleElementType("FISH_EXPR_ASSIGN_TARGET");
   IElementType FISH_EXPR_DEFINE_PARAMS = new SimpleElementType("FISH_EXPR_DEFINE_PARAMS");
+  IElementType FISH_EXPR_FUNC_CALL = new SimpleElementType("FISH_EXPR_FUNC_CALL");
+  IElementType FISH_EXPR_FUNC_CALL_FUNC_NAME = new SimpleElementType("FISH_EXPR_FUNC_CALL_FUNC_NAME");
   IElementType FISH_EXPR_LOOP_INDEXED = new SimpleElementType("FISH_EXPR_LOOP_INDEXED");
+  IElementType FISH_EXPR_PAREN = new SimpleElementType("FISH_EXPR_PAREN");
   IElementType FISH_LINE = new SimpleElementType("FISH_LINE");
   IElementType FISH_LINE_ARRAY_DECLARE = new SimpleElementType("FISH_LINE_ARRAY_DECLARE");
   IElementType FISH_LINE_ASSIGN = new SimpleElementType("FISH_LINE_ASSIGN");
@@ -180,6 +186,12 @@ public interface SimpleTypes {
       else if (type == EOL) {
         return new SimpleEolImpl(node);
       }
+      else if (type == EXPR_CSV) {
+        return new SimpleExprCsvImpl(node);
+      }
+      else if (type == EXPR_PAREN_CSV) {
+        return new SimpleExprParenCsvImpl(node);
+      }
       else if (type == FISH_BLOCK) {
         return new SimpleFishBlockImpl(node);
       }
@@ -225,6 +237,9 @@ public interface SimpleTypes {
       else if (type == FISH_BLOCK_SINGLE) {
         return new SimpleFishBlockSingleImpl(node);
       }
+      else if (type == FISH_EXPR) {
+        return new SimpleFishExprImpl(node);
+      }
       else if (type == FISH_EXPR_ASSIGN) {
         return new SimpleFishExprAssignImpl(node);
       }
@@ -240,8 +255,17 @@ public interface SimpleTypes {
       else if (type == FISH_EXPR_DEFINE_PARAMS) {
         return new SimpleFishExprDefineParamsImpl(node);
       }
+      else if (type == FISH_EXPR_FUNC_CALL) {
+        return new SimpleFishExprFuncCallImpl(node);
+      }
+      else if (type == FISH_EXPR_FUNC_CALL_FUNC_NAME) {
+        return new SimpleFishExprFuncCallFuncNameImpl(node);
+      }
       else if (type == FISH_EXPR_LOOP_INDEXED) {
         return new SimpleFishExprLoopIndexedImpl(node);
+      }
+      else if (type == FISH_EXPR_PAREN) {
+        return new SimpleFishExprParenImpl(node);
       }
       else if (type == FISH_LINE) {
         return new SimpleFishLineImpl(node);

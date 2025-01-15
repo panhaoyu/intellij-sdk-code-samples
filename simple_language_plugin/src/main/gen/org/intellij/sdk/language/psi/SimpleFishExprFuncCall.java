@@ -5,12 +5,12 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface SimpleFishExprLoopIndexed extends PsiElement {
+public interface SimpleFishExprFuncCall extends PsiElement {
 
   @NotNull
-  List<SimpleFishExpr> getFishExprList();
+  SimpleExprParenCsv getExprParenCsv();
 
   @NotNull
-  SimpleFishExprAssignLeftForLoop getFishExprAssignLeftForLoop();
+  SimpleFishExprFuncCallFuncName getFishExprFuncCallFuncName();
 
 }

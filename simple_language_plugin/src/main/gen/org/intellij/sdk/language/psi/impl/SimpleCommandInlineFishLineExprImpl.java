@@ -29,14 +29,8 @@ public class SimpleCommandInlineFishLineExprImpl extends ASTWrapperPsiElement im
 
   @Override
   @NotNull
-  public List<SimpleTkIdentifier> getTkIdentifierList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleTkIdentifier.class);
-  }
-
-  @Override
-  @NotNull
-  public List<SimpleTkValue> getTkValueList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleTkValue.class);
+  public SimpleFishExpr getFishExpr() {
+    return findNotNullChildByClass(SimpleFishExpr.class);
   }
 
 }

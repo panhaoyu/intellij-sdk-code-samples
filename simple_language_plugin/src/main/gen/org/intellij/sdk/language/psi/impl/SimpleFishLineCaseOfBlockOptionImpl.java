@@ -28,21 +28,15 @@ public class SimpleFishLineCaseOfBlockOptionImpl extends ASTWrapperPsiElement im
   }
 
   @Override
+  @NotNull
+  public SimpleFishExpr getFishExpr() {
+    return findNotNullChildByClass(SimpleFishExpr.class);
+  }
+
+  @Override
   @Nullable
   public SimpleTkComment getTkComment() {
     return findChildByClass(SimpleTkComment.class);
-  }
-
-  @Override
-  @NotNull
-  public List<SimpleTkIdentifier> getTkIdentifierList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleTkIdentifier.class);
-  }
-
-  @Override
-  @NotNull
-  public List<SimpleTkValue> getTkValueList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleTkValue.class);
   }
 
 }

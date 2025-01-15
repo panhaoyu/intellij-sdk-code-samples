@@ -5,12 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface SimpleFishExprLoopIndexed extends PsiElement {
+public interface SimpleFishExprFuncCallFuncName extends PsiElement {
 
   @NotNull
-  List<SimpleFishExpr> getFishExprList();
-
-  @NotNull
-  SimpleFishExprAssignLeftForLoop getFishExprAssignLeftForLoop();
+  SimpleTkIdentifier getTkIdentifier();
 
 }

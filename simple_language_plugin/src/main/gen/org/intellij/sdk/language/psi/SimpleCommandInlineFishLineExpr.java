@@ -8,9 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface SimpleCommandInlineFishLineExpr extends PsiElement {
 
   @NotNull
-  List<SimpleTkIdentifier> getTkIdentifierList();
-
-  @NotNull
-  List<SimpleTkValue> getTkValueList();
+  SimpleFishExpr getFishExpr();
 
 }

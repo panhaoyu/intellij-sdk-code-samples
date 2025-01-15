@@ -8,9 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface SimpleLoopFor extends PsiElement {
 
   @NotNull
-  List<SimpleTkIdentifier> getTkIdentifierList();
-
-  @NotNull
-  List<SimpleTkValue> getTkValueList();
+  List<SimpleFishExpr> getFishExprList();
 
 }

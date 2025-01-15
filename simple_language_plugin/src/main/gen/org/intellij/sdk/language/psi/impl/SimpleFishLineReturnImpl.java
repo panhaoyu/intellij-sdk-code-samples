@@ -29,20 +29,14 @@ public class SimpleFishLineReturnImpl extends ASTWrapperPsiElement implements Si
 
   @Override
   @Nullable
+  public SimpleFishExpr getFishExpr() {
+    return findChildByClass(SimpleFishExpr.class);
+  }
+
+  @Override
+  @Nullable
   public SimpleTkComment getTkComment() {
     return findChildByClass(SimpleTkComment.class);
-  }
-
-  @Override
-  @NotNull
-  public List<SimpleTkIdentifier> getTkIdentifierList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleTkIdentifier.class);
-  }
-
-  @Override
-  @NotNull
-  public List<SimpleTkValue> getTkValueList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleTkValue.class);
   }
 
 }

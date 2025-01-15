@@ -29,14 +29,8 @@ public class SimpleLoopForImpl extends ASTWrapperPsiElement implements SimpleLoo
 
   @Override
   @NotNull
-  public List<SimpleTkIdentifier> getTkIdentifierList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleTkIdentifier.class);
-  }
-
-  @Override
-  @NotNull
-  public List<SimpleTkValue> getTkValueList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleTkValue.class);
+  public List<SimpleFishExpr> getFishExprList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleFishExpr.class);
   }
 
 }

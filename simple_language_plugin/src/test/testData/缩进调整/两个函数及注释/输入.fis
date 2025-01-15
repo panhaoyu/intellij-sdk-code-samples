@@ -11,7 +11,7 @@ end  ; comment
 
 ; comment
 
-fish define func2  ; comment 
+fish define func2  ; comment
 fish_statement  ; comment
 end  ; comment
 

@@ -7,13 +7,10 @@ import com.intellij.psi.PsiElement;
 
 public interface SimpleFishLineCaseOfBlockOption extends PsiElement {
 
+  @NotNull
+  SimpleFishExpr getFishExpr();
+
   @Nullable
   SimpleTkComment getTkComment();
-
-  @NotNull
-  List<SimpleTkIdentifier> getTkIdentifierList();
-
-  @NotNull
-  List<SimpleTkValue> getTkValueList();
 
 }

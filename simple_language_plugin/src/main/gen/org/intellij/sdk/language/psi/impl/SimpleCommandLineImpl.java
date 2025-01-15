@@ -11,14 +11,14 @@ import static org.intellij.sdk.language.psi.SimpleTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import org.intellij.sdk.language.psi.*;
 
-public class SimpleFishExprAssignTargetImpl extends ASTWrapperPsiElement implements SimpleFishExprAssignTarget {
+public class SimpleCommandLineImpl extends ASTWrapperPsiElement implements SimpleCommandLine {
 
-  public SimpleFishExprAssignTargetImpl(@NotNull ASTNode node) {
+  public SimpleCommandLineImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull SimpleVisitor visitor) {
-    visitor.visitFishExprAssignTarget(this);
+    visitor.visitCommandLine(this);
   }
 
   @Override
@@ -29,14 +29,26 @@ public class SimpleFishExprAssignTargetImpl extends ASTWrapperPsiElement impleme
 
   @Override
   @Nullable
-  public SimpleExprParenCsv getExprParenCsv() {
-    return findChildByClass(SimpleExprParenCsv.class);
+  public SimpleCommandLineComment getCommandLineComment() {
+    return findChildByClass(SimpleCommandLineComment.class);
   }
 
   @Override
-  @NotNull
-  public SimpleTkIdentifier getTkIdentifier() {
-    return findNotNullChildByClass(SimpleTkIdentifier.class);
+  @Nullable
+  public SimpleCommandLineFuncCall getCommandLineFuncCall() {
+    return findChildByClass(SimpleCommandLineFuncCall.class);
+  }
+
+  @Override
+  @Nullable
+  public SimpleCommandLineInlineFish getCommandLineInlineFish() {
+    return findChildByClass(SimpleCommandLineInlineFish.class);
+  }
+
+  @Override
+  @Nullable
+  public SimpleCommandLineOtherWords getCommandLineOtherWords() {
+    return findChildByClass(SimpleCommandLineOtherWords.class);
   }
 
 }

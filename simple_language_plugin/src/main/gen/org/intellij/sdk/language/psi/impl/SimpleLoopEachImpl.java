@@ -29,20 +29,14 @@ public class SimpleLoopEachImpl extends ASTWrapperPsiElement implements SimpleLo
 
   @Override
   @NotNull
+  public SimpleFishExpr getFishExpr() {
+    return findNotNullChildByClass(SimpleFishExpr.class);
+  }
+
+  @Override
+  @NotNull
   public SimpleFishExprAssignLeftForLoop getFishExprAssignLeftForLoop() {
     return findNotNullChildByClass(SimpleFishExprAssignLeftForLoop.class);
-  }
-
-  @Override
-  @NotNull
-  public List<SimpleTkIdentifier> getTkIdentifierList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleTkIdentifier.class);
-  }
-
-  @Override
-  @NotNull
-  public List<SimpleTkValue> getTkValueList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleTkValue.class);
   }
 
 }

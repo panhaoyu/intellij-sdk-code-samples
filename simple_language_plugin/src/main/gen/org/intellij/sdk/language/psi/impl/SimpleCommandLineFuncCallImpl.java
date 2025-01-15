@@ -29,20 +29,20 @@ public class SimpleCommandLineFuncCallImpl extends ASTWrapperPsiElement implemen
 
   @Override
   @Nullable
+  public SimpleExprParenCsv getExprParenCsv() {
+    return findChildByClass(SimpleExprParenCsv.class);
+  }
+
+  @Override
+  @Nullable
   public SimpleTkComment getTkComment() {
     return findChildByClass(SimpleTkComment.class);
   }
 
   @Override
   @NotNull
-  public List<SimpleTkIdentifier> getTkIdentifierList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleTkIdentifier.class);
-  }
-
-  @Override
-  @NotNull
-  public List<SimpleTkValue> getTkValueList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleTkValue.class);
+  public SimpleTkIdentifier getTkIdentifier() {
+    return findNotNullChildByClass(SimpleTkIdentifier.class);
   }
 
 }

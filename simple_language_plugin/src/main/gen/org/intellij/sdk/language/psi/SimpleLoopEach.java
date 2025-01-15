@@ -8,12 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface SimpleLoopEach extends PsiElement {
 
   @NotNull
+  SimpleFishExpr getFishExpr();
+
+  @NotNull
   SimpleFishExprAssignLeftForLoop getFishExprAssignLeftForLoop();
-
-  @NotNull
-  List<SimpleTkIdentifier> getTkIdentifierList();
-
-  @NotNull
-  List<SimpleTkValue> getTkValueList();
 
 }
