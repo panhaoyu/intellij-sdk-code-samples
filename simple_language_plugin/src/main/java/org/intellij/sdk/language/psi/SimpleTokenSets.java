@@ -112,11 +112,11 @@ public interface SimpleTokenSets {
             SimpleTypes.FISH_BLOCK_BODY_IF,
             SimpleTypes.FISH_BLOCK_BODY_ELSE_IF,
             SimpleTypes.FISH_BLOCK_BODY_ELSE,
-            SimpleTypes.FISH_BLOCK_DEFINE_BODY,
+            SimpleTypes.FISH_BLOCK_BODY_DEFINE,
             SimpleTypes.FISH_BLOCK_BODY_LOOP,
             SimpleTypes.FISH_BLOCK_BODY_SECTION,
             SimpleTypes.FISH_BLOCK_BODY_CASE_OF,
-            SimpleTypes.FISH_BLOCK_COMMAND_BODY
+            SimpleTypes.FISH_BLOCK_BODY_COMMAND
     );
 
     TokenSet BlockSkip = TokenSet.create(

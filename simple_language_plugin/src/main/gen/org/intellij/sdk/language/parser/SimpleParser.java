@@ -72,7 +72,9 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // fish_line_define_header (eol fish_block_define_body)? tk_comment? eol fish_line_define_footer
+  // fish_line_define_header
+  //     (eol fish_block_body_define)?
+  //     eol fish_line_define_footer
   public static boolean command_block_define(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "command_block_define")) return false;
     if (!nextTokenIs(b, "<command block define>", FISH_DEFINE, FISH_OPERATOR)) return false;
@@ -80,36 +82,28 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b, l, _NONE_, COMMAND_BLOCK_DEFINE, "<command block define>");
     r = fish_line_define_header(b, l + 1);
     r = r && command_block_define_1(b, l + 1);
-    r = r && command_block_define_2(b, l + 1);
     r = r && eol(b, l + 1);
     r = r && fish_line_define_footer(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
-  // (eol fish_block_define_body)?
+  // (eol fish_block_body_define)?
   private static boolean command_block_define_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "command_block_define_1")) return false;
     command_block_define_1_0(b, l + 1);
     return true;
   }
 
-  // eol fish_block_define_body
+  // eol fish_block_body_define
   private static boolean command_block_define_1_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "command_block_define_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = eol(b, l + 1);
-    r = r && fish_block_define_body(b, l + 1);
+    r = r && fish_block_body_define(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
-  }
-
-  // tk_comment?
-  private static boolean command_block_define_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "command_block_define_2")) return false;
-    tk_comment(b, l + 1);
-    return true;
   }
 
   /* ********************************************************** */
@@ -518,6 +512,28 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // command_block
+  public static boolean fish_block_body_command(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_block_body_command")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, FISH_BLOCK_BODY_COMMAND, "<fish block body command>");
+    r = command_block(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // fish_block
+  public static boolean fish_block_body_define(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_block_body_define")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, FISH_BLOCK_BODY_DEFINE, "<fish block body define>");
+    r = fish_block(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
   // fish_block
   public static boolean fish_block_body_else(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "fish_block_body_else")) return false;
@@ -635,7 +651,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // fish_line_command_header
-  //     (eol fish_block_command_body)?
+  //     (eol fish_block_body_command)?
   //     eol fish_line_command_footer
   public static boolean fish_block_command(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "fish_block_command")) return false;
@@ -650,43 +666,21 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // (eol fish_block_command_body)?
+  // (eol fish_block_body_command)?
   private static boolean fish_block_command_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "fish_block_command_1")) return false;
     fish_block_command_1_0(b, l + 1);
     return true;
   }
 
-  // eol fish_block_command_body
+  // eol fish_block_body_command
   private static boolean fish_block_command_1_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "fish_block_command_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = eol(b, l + 1);
-    r = r && fish_block_command_body(b, l + 1);
+    r = r && fish_block_body_command(b, l + 1);
     exit_section_(b, m, null, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // command_block
-  public static boolean fish_block_command_body(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "fish_block_command_body")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, FISH_BLOCK_COMMAND_BODY, "<fish block command body>");
-    r = command_block(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // fish_block
-  public static boolean fish_block_define_body(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "fish_block_define_body")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, FISH_BLOCK_DEFINE_BODY, "<fish block define body>");
-    r = fish_block(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
     return r;
   }
 

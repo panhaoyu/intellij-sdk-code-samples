@@ -48,11 +48,15 @@ command_token_keyword_all ::= (kw_fish_define | kw_fish_operator | kw_case_of | 
     kw_else_if | kw_else | kw_end_if | kw_local | kw_lock | kw_loop | kw_endloop | kw_continue | kw_return | kw_section | kw_end_section | kw_struct )
 
 //函数的定义是在command空间里面的，而不是fish空间里面
-command_block_define ::= (fish_line_define_header (eol fish_block_define_body)? tk_comment? eol fish_line_define_footer) {
+command_block_define ::= (
+    fish_line_define_header
+    (eol fish_block_body_define)?
+    eol fish_line_define_footer
+) {
     methods=[getName getPresentation]
 }
 private fish_line_define_header ::= (kw_fish_define | kw_fish_operator) tk_identifier fish_expr_define_params? tk_comment?
-fish_block_define_body ::= fish_block
+fish_block_body_define ::= fish_block
 private fish_line_define_footer ::= kw_end tk_comment?
 private fish_expr_define_params ::= (paren_l tk_identifier (op_comma tk_identifier)* paren_r)
 
@@ -112,11 +116,11 @@ fish_block_body_section ::= fish_block
 // Command 语法块
 fish_block_command ::= (
     fish_line_command_header
-    (eol fish_block_command_body)?
+    (eol fish_block_body_command)?
     eol fish_line_command_footer)
 fish_line_command_header ::= kw_command tk_comment?
 fish_line_command_footer ::= kw_end_command tk_comment?
-fish_block_command_body ::= command_block
+fish_block_body_command ::= command_block
     
 fish_line ::= (
     fish_line_break |
