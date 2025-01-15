@@ -35,8 +35,8 @@ public class SimpleBlockCaseOfImpl extends ASTWrapperPsiElement implements Simpl
 
   @Override
   @Nullable
-  public SimpleBlockFish getBlockFish() {
-    return findChildByClass(SimpleBlockFish.class);
+  public SimpleBodyCaseOf getBodyCaseOf() {
+    return findChildByClass(SimpleBodyCaseOf.class);
   }
 
   @Override

@@ -31,9 +31,9 @@ public class SimpleCodeInsightTest extends LightJavaCodeInsightFixtureTestCase {
 //        myFixture.checkHighlighting(false, false, true, true);
 //    }
 
-    public void test全文格式化() {
-        String name = "全文格式化";
-        myFixture.configureByFile(String.format("%s输入.fis", name));
+
+    private void 校验一组文件(String name) {
+        myFixture.configureByFile(String.format("%s 输入.fis", name));
 //        CodeStyle.getLanguageSettings(myFixture.getFile()).SPACE_AROUND_ASSIGNMENT_OPERATORS = true;
 //        CodeStyle.getLanguageSettings(myFixture.getFile()).KEEP_BLANK_LINES_IN_CODE = 2;
         WriteCommandAction.writeCommandAction(getProject()).run(() ->
@@ -42,21 +42,19 @@ public class SimpleCodeInsightTest extends LightJavaCodeInsightFixtureTestCase {
                         List.of(myFixture.getFile().getTextRange())
                 )
         );
-        myFixture.checkResultByFile(String.format("%s输出.fis", name));
+        myFixture.checkResultByFile(String.format("%s 输出.fis", name));
     }
 
-    public void test函数缩进调整() {
-        String name = "函数缩进调整";
-        myFixture.configureByFile(String.format("%s输入.fis", name));
-//        CodeStyle.getLanguageSettings(myFixture.getFile()).SPACE_AROUND_ASSIGNMENT_OPERATORS = true;
-//        CodeStyle.getLanguageSettings(myFixture.getFile()).KEEP_BLANK_LINES_IN_CODE = 2;
-        WriteCommandAction.writeCommandAction(getProject()).run(() ->
-                CodeStyleManager.getInstance(getProject()).reformatText(
-                        myFixture.getFile(),
-                        List.of(myFixture.getFile().getTextRange())
-                )
-        );
-        myFixture.checkResultByFile(String.format("%s输出.fis", name));
+    public void test_全文格式化() {
+        校验一组文件("全文格式化");
+    }
+
+    public void test_函数缩进调整() {
+        校验一组文件("函数缩进调整");
+    }
+
+    public void test_函数及注释缩进调整() {
+        校验一组文件("函数及注释缩进调整");
     }
 
 //    public void testRename() {

@@ -29,8 +29,8 @@ public class SimpleBlockSectionImpl extends ASTWrapperPsiElement implements Simp
 
   @Override
   @Nullable
-  public SimpleBlockFish getBlockFish() {
-    return findChildByClass(SimpleBlockFish.class);
+  public SimpleBodySection getBodySection() {
+    return findChildByClass(SimpleBodySection.class);
   }
 
   @Override

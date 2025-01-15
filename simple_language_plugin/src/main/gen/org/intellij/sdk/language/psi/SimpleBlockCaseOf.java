@@ -11,7 +11,7 @@ public interface SimpleBlockCaseOf extends PsiElement {
   List<SimpleBlockCaseOption> getBlockCaseOptionList();
 
   @Nullable
-  SimpleBlockFish getBlockFish();
+  SimpleBodyCaseOf getBodyCaseOf();
 
   @NotNull
   List<SimpleEol> getEolList();

@@ -11,14 +11,14 @@ import static org.intellij.sdk.language.psi.SimpleTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import org.intellij.sdk.language.psi.*;
 
-public class SimpleBlockCaseOptionImpl extends ASTWrapperPsiElement implements SimpleBlockCaseOption {
+public class SimpleBodyIfImpl extends ASTWrapperPsiElement implements SimpleBodyIf {
 
-  public SimpleBlockCaseOptionImpl(@NotNull ASTNode node) {
+  public SimpleBodyIfImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull SimpleVisitor visitor) {
-    visitor.visitBlockCaseOption(this);
+    visitor.visitBodyIf(this);
   }
 
   @Override
@@ -28,27 +28,9 @@ public class SimpleBlockCaseOptionImpl extends ASTWrapperPsiElement implements S
   }
 
   @Override
-  @Nullable
-  public SimpleBodyCaseOf getBodyCaseOf() {
-    return findChildByClass(SimpleBodyCaseOf.class);
-  }
-
-  @Override
-  @Nullable
-  public SimpleEol getEol() {
-    return findChildByClass(SimpleEol.class);
-  }
-
-  @Override
   @NotNull
-  public List<SimpleTkIdentifier> getTkIdentifierList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleTkIdentifier.class);
-  }
-
-  @Override
-  @NotNull
-  public List<SimpleTkValue> getTkValueList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleTkValue.class);
+  public SimpleBlockFish getBlockFish() {
+    return findNotNullChildByClass(SimpleBlockFish.class);
   }
 
 }

@@ -59,7 +59,35 @@ public class SimpleVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitBodyCaseOf(@NotNull SimpleBodyCaseOf o) {
+    visitPsiElement(o);
+  }
+
   public void visitBodyCmd(@NotNull SimpleBodyCmd o) {
+    visitPsiElement(o);
+  }
+
+  public void visitBodyElse(@NotNull SimpleBodyElse o) {
+    visitPsiElement(o);
+  }
+
+  public void visitBodyElseIf(@NotNull SimpleBodyElseIf o) {
+    visitPsiElement(o);
+  }
+
+  public void visitBodyFishDefine(@NotNull SimpleBodyFishDefine o) {
+    visitPsiElement(o);
+  }
+
+  public void visitBodyIf(@NotNull SimpleBodyIf o) {
+    visitPsiElement(o);
+  }
+
+  public void visitBodyLoop(@NotNull SimpleBodyLoop o) {
+    visitPsiElement(o);
+  }
+
+  public void visitBodySection(@NotNull SimpleBodySection o) {
     visitPsiElement(o);
   }
 

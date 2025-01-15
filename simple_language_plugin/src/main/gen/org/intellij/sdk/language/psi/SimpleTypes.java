@@ -21,7 +21,14 @@ public interface SimpleTypes {
   IElementType BLOCK_LOOP = new SimpleElementType("BLOCK_LOOP");
   IElementType BLOCK_SECTION = new SimpleElementType("BLOCK_SECTION");
   IElementType BLOCK_SINGLE_FISH = new SimpleElementType("BLOCK_SINGLE_FISH");
+  IElementType BODY_CASE_OF = new SimpleElementType("BODY_CASE_OF");
   IElementType BODY_CMD = new SimpleElementType("BODY_CMD");
+  IElementType BODY_ELSE = new SimpleElementType("BODY_ELSE");
+  IElementType BODY_ELSE_IF = new SimpleElementType("BODY_ELSE_IF");
+  IElementType BODY_FISH_DEFINE = new SimpleElementType("BODY_FISH_DEFINE");
+  IElementType BODY_IF = new SimpleElementType("BODY_IF");
+  IElementType BODY_LOOP = new SimpleElementType("BODY_LOOP");
+  IElementType BODY_SECTION = new SimpleElementType("BODY_SECTION");
   IElementType CMD_BLOCK = new SimpleElementType("CMD_BLOCK");
   IElementType CMD_STAT_FUNC_CALL = new SimpleElementType("CMD_STAT_FUNC_CALL");
   IElementType CMD_STAT_INLINE_FISH = new SimpleElementType("CMD_STAT_INLINE_FISH");
@@ -127,8 +134,29 @@ public interface SimpleTypes {
       else if (type == BLOCK_SINGLE_FISH) {
         return new SimpleBlockSingleFishImpl(node);
       }
+      else if (type == BODY_CASE_OF) {
+        return new SimpleBodyCaseOfImpl(node);
+      }
       else if (type == BODY_CMD) {
         return new SimpleBodyCmdImpl(node);
+      }
+      else if (type == BODY_ELSE) {
+        return new SimpleBodyElseImpl(node);
+      }
+      else if (type == BODY_ELSE_IF) {
+        return new SimpleBodyElseIfImpl(node);
+      }
+      else if (type == BODY_FISH_DEFINE) {
+        return new SimpleBodyFishDefineImpl(node);
+      }
+      else if (type == BODY_IF) {
+        return new SimpleBodyIfImpl(node);
+      }
+      else if (type == BODY_LOOP) {
+        return new SimpleBodyLoopImpl(node);
+      }
+      else if (type == BODY_SECTION) {
+        return new SimpleBodySectionImpl(node);
       }
       else if (type == CMD_BLOCK) {
         return new SimpleCmdBlockImpl(node);

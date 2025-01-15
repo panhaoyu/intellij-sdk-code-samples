@@ -4,8 +4,9 @@ package org.intellij.sdk.language;
 
 import com.intellij.formatting.*;
 import com.intellij.lang.ASTNode;
-import com.intellij.psi.TokenType;
 import com.intellij.psi.formatter.common.AbstractBlock;
+import com.intellij.psi.tree.IElementType;
+import org.intellij.sdk.language.psi.SimpleTokenSets;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -30,11 +31,12 @@ public class SimpleBlock extends AbstractBlock {
         List<Block> blocks = new ArrayList<>();  // 创建一个列表用于存储子块
         ASTNode child = myNode.getFirstChildNode();  // 获取当前节点的第一个子节点
         while (child != null) {  // 遍历所有子节点
-            if (child.getElementType() != TokenType.WHITE_SPACE) {  // 如果子节点不是空白节点
-                // 为每个非空白的子节点创建一个新的SimpleBlock实例
-                Block block = new SimpleBlock(child, Wrap.createWrap(WrapType.NONE, false), Alignment.createAlignment(), spacingBuilder);
-                blocks.add(block);  // 将新创建的块添加到列表中
+            if (SimpleTokenSets.BlockSkip.contains(child.getElementType())) {  // 如果子节点不是空白节点
+                child = child.getTreeNext();
+                continue;
             }
+            Block block = new SimpleBlock(child, Wrap.createWrap(WrapType.NONE, false), Alignment.createAlignment(), spacingBuilder);
+            blocks.add(block);  // 将新创建的块添加到列表中
             child = child.getTreeNext();  // 移动到下一个兄弟节点
         }
         return blocks;  // 返回构建的子块列表
@@ -43,6 +45,10 @@ public class SimpleBlock extends AbstractBlock {
     // 重写getIndent方法，定义这个块的缩进规则
     @Override
     public Indent getIndent() {
+        IElementType elementType = myNode.getElementType();
+        if (SimpleTokenSets.BlockBody.contains(elementType)) {
+            return Indent.getNormalIndent();
+        }
         return Indent.getNoneIndent();
     }
 
@@ -59,4 +65,8 @@ public class SimpleBlock extends AbstractBlock {
         return myNode.getFirstChildNode() == null;  // 如果第一个子节点为null，则为叶子节点
     }
 
+    @Override
+    public @Nullable String getDebugName() {
+        return myNode.getElementType().toString();
+    }
 }

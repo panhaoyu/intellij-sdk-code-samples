@@ -29,8 +29,8 @@ public class SimpleBlockElseImpl extends ASTWrapperPsiElement implements SimpleB
 
   @Override
   @Nullable
-  public SimpleBlockFish getBlockFish() {
-    return findChildByClass(SimpleBlockFish.class);
+  public SimpleBodyElse getBodyElse() {
+    return findChildByClass(SimpleBodyElse.class);
   }
 
   @Override

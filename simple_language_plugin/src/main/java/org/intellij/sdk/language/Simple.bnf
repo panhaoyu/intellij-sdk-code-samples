@@ -44,24 +44,29 @@ private cmd_expr_func_call ::= op_at tk_identifier expr_paren_csv?
 private cmd_expr_inline_fish ::= square_l stat_fish square_r
 
 
-block_define ::= (fish_define_header (eol block_fish)? eol kw_end) {
+block_define ::= (fish_define_header (eol body_fish_define)? eol kw_end) {
     methods=[getName getPresentation]
 }
 fish_define_header ::= (kw_fish_define | kw_fish_operator) tk_identifier define_params?
+body_fish_define ::= block_fish
 private define_params ::= (paren_l tk_identifier (op_comma tk_identifier)* paren_r)
 
 block_fish ::=  block_single_fish (eol block_single_fish)*
 block_single_fish ::= block_if | block_loop | block_case_of | block_section | block_cmd | stat_fish
 
 block_if ::= kw_if expr kw_then?
-             (eol block_fish)?
+             (eol body_if)?
              (eol block_else_if)*
              (eol block_else)?
              eol kw_end_if
-block_else_if ::= kw_else_if expr kw_then? (eol block_fish)?
-block_else ::=  kw_else (eol block_fish)?
+block_else_if ::= kw_else_if expr kw_then? (eol body_else_if)?
+block_else ::=  kw_else (eol body_else)?
+body_if ::= block_fish
+body_else_if ::= block_fish
+body_else ::= block_fish
 
-block_loop ::= block_header_loop (eol block_fish)? eol kw_endloop
+block_loop ::= block_header_loop (eol body_loop)? eol kw_endloop
+body_loop ::= block_fish
 block_header_loop ::= kw_loop (loop_each | loop_indexed | loop_for | loop_while)
 private loop_indexed ::= assign_left_for_loop loop_indexed_range
 loop_indexed_range ::=
@@ -72,10 +77,12 @@ private loop_each ::= kw_foreach assign_left_for_loop expr
 private loop_for ::= kw_for paren_l kw_local? expr op_comma expr op_comma expr paren_r
 
 
-block_case_of ::= kw_case_of expr (eol block_fish)? (eol block_case_option)* eol kw_end_case
-block_case_option ::= kw_case expr (eol block_fish)?
+block_case_of ::= kw_case_of expr (eol body_case_of)? (eol block_case_option)* eol kw_end_case
+block_case_option ::= kw_case expr (eol body_case_of)?
+body_case_of ::= block_fish
 
-block_section ::= kw_section (eol block_fish)? eol kw_end_section
+block_section ::= kw_section (eol body_section)? eol kw_end_section
+body_section ::= block_fish
 
 block_cmd ::= kw_command (eol body_cmd)? eol kw_end_command
 body_cmd ::= cmd_stat_other (eol cmd_stat_other)*
@@ -142,7 +149,7 @@ private literal_number ::= NUMBER_LITERAL
 private op_binary ::= BINARY_OPERATOR | MINUS_OPERATOR | ASSIGNMENT_OPERATOR
 private op_unary ::= UNARY_OPERATOR | MINUS_OPERATOR
 private op_assign ::= ASSIGNMENT_OPERATOR
-eol ::= ( NEWLINE | COMMENT )+
+eol ::= (COMMENT? NEWLINE)+
 
 private op_at ::= FUNCTION_CALL_OPERATOR
 private op_comma ::= COMMA_OPERATOR

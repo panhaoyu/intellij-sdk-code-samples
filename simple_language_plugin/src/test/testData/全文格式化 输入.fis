@@ -1,0 +1,55 @@
+; todo 顶格书写
+[global a = 123]
+
+; todo 需要被格式化，以使得括号内部没有空格
+fish define _ctApplyAxialStrain( e_incr )
+; Apply axial strain to the specimen by moving the axial walls (at ct_eRate) until either:
+;   the load-termination criterion is met (ct_loadCode = 0, ct_loadFac used) or
+;   the strain increment has been applied (ct_loadCode = 1, e_incr used).
+; Set axial wall velocities to zero at end of strain application.
+; There is no acceleration stage. The wall-based axial strain is used.
+; PARAMS:
+;   e_incr    : defined in _ctPerformStage
+; IN: ct_eRate, ct_loadCode, ct_loadFac, _ctLoadTermSteps
+;     mv_H
+;
+io.out('** _ctApplyAxialStrain (entering) with')
+; todo 需要被格式化，以使得加号、减号左右有空格
+io.out('     v = '+string(ct_loadCode))
+io.out('     v = '-string(ct_loadCode))
+; todo 删除 then 前面的空格
+if global.dim == 3  then
+mvs_BCz = 0  ; todo 缩进需要调整为前一级+4空格
+mvs_BCzVal = math.sgn(e_incr) * (0.5 * ct_eRate * mv_H)
+else ; 2D model
+mvs_BCy = 0
+mvs_BCyVal = math.sgn(e_incr)*(0.5*ct_eRate * mv_H)
+end_if
+mvs_setBCs
+;
+if ct_loadCode == 0 then
+ct_wsdMax = -1.0e20
+_ctUpdate_wsdMax
+ct_wsdMax0 = ct_wsdMax
+command
+a         ; todo 删除注释前面多余的空格
+123       ; todo 删除注释前面多余的空格
+; todo 删除一些额外的空格，并确保fish-halt没有被拆分
+fish add  fish-halt     @   _ctUpdate_wsdMax  [  42.11 ]
+end_command
+else    ; todo 删除注释前面多余的空格
+_aASwea0   = mv_wea     ; todo 删除注释前面多余的空格
+_aASeincr  = e_incr
+command
+model solve fish-halt @_aASdone ;{i: mv_wea, _aASwea0, _aASeincr}
+end_command
+end_if
+;
+
+; todo 循环变量不可以与后面的括号合并
+loop local slt(2, numBins + 1)
+a(b ,  c)  ; todo 删除逗号前面的空格
+a(b(4) ,  c)  ; todo 删除逗号前面的空格
+io.out(  '** _ctApplyAxialStrain (exiting).'    )
+end_loop
+end

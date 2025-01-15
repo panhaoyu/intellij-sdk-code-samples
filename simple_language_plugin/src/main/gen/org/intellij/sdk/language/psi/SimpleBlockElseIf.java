@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface SimpleBlockElseIf extends PsiElement {
 
   @Nullable
-  SimpleBlockFish getBlockFish();
+  SimpleBodyElseIf getBodyElseIf();
 
   @Nullable
   SimpleEol getEol();

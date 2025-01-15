@@ -9,7 +9,7 @@ import com.intellij.navigation.ItemPresentation;
 public interface SimpleBlockDefine extends PsiElement {
 
   @Nullable
-  SimpleBlockFish getBlockFish();
+  SimpleBodyFishDefine getBodyFishDefine();
 
   @NotNull
   List<SimpleEol> getEolList();

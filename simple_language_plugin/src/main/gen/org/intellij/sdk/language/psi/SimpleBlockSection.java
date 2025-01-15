@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface SimpleBlockSection extends PsiElement {
 
   @Nullable
-  SimpleBlockFish getBlockFish();
+  SimpleBodySection getBodySection();
 
   @NotNull
   List<SimpleEol> getEolList();

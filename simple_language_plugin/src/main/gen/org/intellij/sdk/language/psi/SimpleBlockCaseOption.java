@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface SimpleBlockCaseOption extends PsiElement {
 
   @Nullable
-  SimpleBlockFish getBlockFish();
+  SimpleBodyCaseOf getBodyCaseOf();
 
   @Nullable
   SimpleEol getEol();

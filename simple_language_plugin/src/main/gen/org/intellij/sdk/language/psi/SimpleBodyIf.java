@@ -5,15 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface SimpleBlockLoop extends PsiElement {
+public interface SimpleBodyIf extends PsiElement {
 
   @NotNull
-  SimpleBlockHeaderLoop getBlockHeaderLoop();
-
-  @Nullable
-  SimpleBodyLoop getBodyLoop();
-
-  @NotNull
-  List<SimpleEol> getEolList();
+  SimpleBlockFish getBlockFish();
 
 }

@@ -2,6 +2,7 @@
 
 package org.intellij.sdk.language.psi;
 
+import com.intellij.psi.TokenType;
 import com.intellij.psi.tree.TokenSet;
 
 public interface SimpleTokenSets {
@@ -105,5 +106,20 @@ public interface SimpleTokenSets {
             SimpleTypes.STRUCT,
             SimpleTypes.THEN,
             SimpleTypes.WHILE
+    );
+
+    TokenSet BlockBody = TokenSet.create(
+            SimpleTypes.BODY_IF,
+            SimpleTypes.BODY_ELSE_IF,
+            SimpleTypes.BODY_ELSE,
+            SimpleTypes.BODY_FISH_DEFINE,
+            SimpleTypes.BODY_LOOP,
+            SimpleTypes.BODY_SECTION,
+            SimpleTypes.BODY_CASE_OF
+    );
+
+    TokenSet BlockSkip = TokenSet.create(
+            SimpleTypes.EOL,
+            TokenType.WHITE_SPACE
     );
 }

@@ -28,15 +28,15 @@ public class SimpleBlockLoopImpl extends ASTWrapperPsiElement implements SimpleB
   }
 
   @Override
-  @Nullable
-  public SimpleBlockFish getBlockFish() {
-    return findChildByClass(SimpleBlockFish.class);
-  }
-
-  @Override
   @NotNull
   public SimpleBlockHeaderLoop getBlockHeaderLoop() {
     return findNotNullChildByClass(SimpleBlockHeaderLoop.class);
+  }
+
+  @Override
+  @Nullable
+  public SimpleBodyLoop getBodyLoop() {
+    return findChildByClass(SimpleBodyLoop.class);
   }
 
   @Override

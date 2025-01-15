@@ -30,8 +30,8 @@ public class SimpleBlockDefineImpl extends ASTWrapperPsiElement implements Simpl
 
   @Override
   @Nullable
-  public SimpleBlockFish getBlockFish() {
-    return findChildByClass(SimpleBlockFish.class);
+  public SimpleBodyFishDefine getBodyFishDefine() {
+    return findChildByClass(SimpleBodyFishDefine.class);
   }
 
   @Override

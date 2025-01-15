@@ -14,7 +14,7 @@ public interface SimpleBlockIf extends PsiElement {
   List<SimpleBlockElseIf> getBlockElseIfList();
 
   @Nullable
-  SimpleBlockFish getBlockFish();
+  SimpleBodyIf getBodyIf();
 
   @NotNull
   List<SimpleEol> getEolList();
