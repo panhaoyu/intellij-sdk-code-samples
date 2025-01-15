@@ -22,9 +22,9 @@
   ]
 }
 
-simpleFile ::= command_block eol?
+simpleFile ::= eol* command_block eol*
 
-command_block ::= eol* command_block_single? (eol command_block_single)*
+command_block ::= command_block_single (eol command_block_single)*
 //前缀为cmd的均表示作用于command作用域中
 command_block_single ::= (
     command_block_define |
@@ -69,7 +69,7 @@ fish_line_define_footer ::= kw_end tk_comment?
 fish_expr_define_params ::= (paren_l tk_identifier (op_comma tk_identifier)* paren_r)
 
 // 全部的可能的 Fish 语句块
-fish_block ::=  fish_block_single? (eol fish_block_single)*
+fish_block ::= fish_block_single (eol fish_block_single)*
 fish_block_single ::= (
     fish_block_if |
     fish_block_loop |
