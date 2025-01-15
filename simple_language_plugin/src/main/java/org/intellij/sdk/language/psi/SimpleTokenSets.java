@@ -77,12 +77,12 @@ public interface SimpleTokenSets {
             SimpleTypes.LEFT_SQUARE_BRACKET
     );
     TokenSet NEW_LINE = TokenSet.create(
-            TokenType.NEW_LINE_INDENT
+            TokenType.NEW_LINE_INDENT,
+            SimpleTypes.EOL,
+            SimpleTypes.NEWLINE,
+            SimpleTypes.TK_NEWLINE
     );
 
-    TokenSet END_OF_LINE = TokenSet.create(
-            SimpleTypes.EOL
-    );
 
     TokenSet KEYWORDS = TokenSet.create(
             SimpleTypes.ARRAY,

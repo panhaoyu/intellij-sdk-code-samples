@@ -35,26 +35,8 @@ public class SimpleCommandBlockSingleImpl extends ASTWrapperPsiElement implement
 
   @Override
   @Nullable
-  public SimpleCommandLineComment getCommandLineComment() {
-    return findChildByClass(SimpleCommandLineComment.class);
-  }
-
-  @Override
-  @Nullable
-  public SimpleCommandLineFuncCall getCommandLineFuncCall() {
-    return findChildByClass(SimpleCommandLineFuncCall.class);
-  }
-
-  @Override
-  @Nullable
-  public SimpleCommandLineInlineFish getCommandLineInlineFish() {
-    return findChildByClass(SimpleCommandLineInlineFish.class);
-  }
-
-  @Override
-  @Nullable
-  public SimpleCommandLineOtherWords getCommandLineOtherWords() {
-    return findChildByClass(SimpleCommandLineOtherWords.class);
+  public SimpleCommandLine getCommandLine() {
+    return findChildByClass(SimpleCommandLine.class);
   }
 
 }

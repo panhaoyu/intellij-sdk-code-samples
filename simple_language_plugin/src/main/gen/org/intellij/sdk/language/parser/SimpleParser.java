@@ -105,20 +105,14 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // command_line_comment |
-  //     command_block_define |
-  //     command_line_inline_fish |
-  //     command_line_func_call |
-  //     command_line_other_words
+  // command_block_define |
+  //     command_line
   public static boolean command_block_single(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "command_block_single")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, COMMAND_BLOCK_SINGLE, "<command block single>");
-    r = command_line_comment(b, l + 1);
-    if (!r) r = command_block_define(b, l + 1);
-    if (!r) r = command_line_inline_fish(b, l + 1);
-    if (!r) r = command_line_func_call(b, l + 1);
-    if (!r) r = command_line_other_words(b, l + 1);
+    r = command_block_define(b, l + 1);
+    if (!r) r = command_line(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
@@ -212,6 +206,23 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, COMMAND_INLINE_FISH_LINE_EXPR, "<command inline fish line expr>");
     r = expr(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // command_line_comment |
+  //     command_line_inline_fish |
+  //     command_line_func_call |
+  //     command_line_other_words
+  public static boolean command_line(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "command_line")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, COMMAND_LINE, "<command line>");
+    r = command_line_comment(b, l + 1);
+    if (!r) r = command_line_inline_fish(b, l + 1);
+    if (!r) r = command_line_func_call(b, l + 1);
+    if (!r) r = command_line_other_words(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }

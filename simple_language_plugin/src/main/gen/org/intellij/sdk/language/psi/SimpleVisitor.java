@@ -35,6 +35,10 @@ public class SimpleVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitCommandLine(@NotNull SimpleCommandLine o) {
+    visitPsiElement(o);
+  }
+
   public void visitCommandLineComment(@NotNull SimpleCommandLineComment o) {
     visitPsiElement(o);
   }

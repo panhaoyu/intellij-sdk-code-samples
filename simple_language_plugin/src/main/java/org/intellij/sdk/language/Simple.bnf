@@ -27,8 +27,11 @@ simpleFile ::= tk_newline* command_block? tk_newline*
 command_block ::= command_block_single (eol command_block_single)*
 //前缀为cmd的均表示作用于command作用域中
 command_block_single ::= (
-    command_line_comment |
     command_block_define |
+    command_line
+)
+command_line ::= (
+    command_line_comment |
     command_line_inline_fish |
     command_line_func_call |
     command_line_other_words

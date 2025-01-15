@@ -15,6 +15,7 @@ public interface SimpleTypes {
   IElementType COMMAND_INLINE_FISH_LINE_ARRAY_DECLARE = new SimpleElementType("COMMAND_INLINE_FISH_LINE_ARRAY_DECLARE");
   IElementType COMMAND_INLINE_FISH_LINE_ASSIGN = new SimpleElementType("COMMAND_INLINE_FISH_LINE_ASSIGN");
   IElementType COMMAND_INLINE_FISH_LINE_EXPR = new SimpleElementType("COMMAND_INLINE_FISH_LINE_EXPR");
+  IElementType COMMAND_LINE = new SimpleElementType("COMMAND_LINE");
   IElementType COMMAND_LINE_COMMENT = new SimpleElementType("COMMAND_LINE_COMMENT");
   IElementType COMMAND_LINE_FUNC_CALL = new SimpleElementType("COMMAND_LINE_FUNC_CALL");
   IElementType COMMAND_LINE_INLINE_FISH = new SimpleElementType("COMMAND_LINE_INLINE_FISH");
@@ -154,6 +155,9 @@ public interface SimpleTypes {
       }
       else if (type == COMMAND_INLINE_FISH_LINE_EXPR) {
         return new SimpleCommandInlineFishLineExprImpl(node);
+      }
+      else if (type == COMMAND_LINE) {
+        return new SimpleCommandLineImpl(node);
       }
       else if (type == COMMAND_LINE_COMMENT) {
         return new SimpleCommandLineCommentImpl(node);

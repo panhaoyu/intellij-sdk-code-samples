@@ -14,6 +14,7 @@ import com.intellij.psi.util.PsiTreeUtil;
 import org.intellij.sdk.language.SimpleReference;
 import org.intellij.sdk.language.psi.SimpleCommandBlockDefine;
 import org.intellij.sdk.language.psi.SimpleElementFactory;
+import org.intellij.sdk.language.psi.SimpleTkCommentText;
 import org.intellij.sdk.language.psi.SimpleTkIdentifier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

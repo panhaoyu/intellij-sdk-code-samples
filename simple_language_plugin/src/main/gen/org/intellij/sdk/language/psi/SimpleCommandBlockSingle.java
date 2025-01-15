@@ -11,15 +11,6 @@ public interface SimpleCommandBlockSingle extends PsiElement {
   SimpleCommandBlockDefine getCommandBlockDefine();
 
   @Nullable
-  SimpleCommandLineComment getCommandLineComment();
-
-  @Nullable
-  SimpleCommandLineFuncCall getCommandLineFuncCall();
-
-  @Nullable
-  SimpleCommandLineInlineFish getCommandLineInlineFish();
-
-  @Nullable
-  SimpleCommandLineOtherWords getCommandLineOtherWords();
+  SimpleCommandLine getCommandLine();
 
 }

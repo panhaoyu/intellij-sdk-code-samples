@@ -19,9 +19,9 @@ fish define _ctApplyAxialStrain(e_incr)
     io.out('     v = '-string(ct_loadCode))
     ; todo 删除 then 前面的空格
     if global.dim == 3 then
-        mvs_BCz = 0  ; todo 缩进需要调整为前一级+4空格
+        mvs_BCz = 0  ;    todo 缩进需要调整为前一级+4空格
         mvs_BCzVal = math.sgn(e_incr) * (0.5 * ct_eRate * mv_H)
-    else ; 2D model
+    else  ; 2D model
         mvs_BCy = 0
         mvs_BCyVal = math.sgn(e_incr) * (0.5 * ct_eRate * mv_H)
     end_if
@@ -37,11 +37,11 @@ fish define _ctApplyAxialStrain(e_incr)
             ; todo 删除一些额外的空格，并确保fish-halt没有被拆分
             fish add fish-halt @_ctUpdate_wsdMax [42.11]
         end_command
-    else    ; todo 删除注释前面多余的空格
+    else  ; todo 删除注释前面多余的空格
         _aASwea0 = mv_wea  ; todo 删除注释前面多余的空格
         _aASeincr = e_incr
         command
-            model solve fish-halt @_aASdone ;{i: mv_wea, _aASwea0, _aASeincr}
+            model solve fish-halt @_aASdone  ;{i: mv_wea, _aASwea0, _aASeincr}
         end_command
     end_if
     ;
