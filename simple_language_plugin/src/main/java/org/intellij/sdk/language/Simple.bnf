@@ -22,21 +22,18 @@
   ]
 }
 
-simpleFile ::= eol* command_block? eol*
+simpleFile ::= eol? command_block? eol?
 
 command_block ::= command_block_single (eol command_block_single)*
 //前缀为cmd的均表示作用于command作用域中
 command_block_single ::= (
+    command_line_comment |
     command_block_define |
-    command_line
-)
-command_line ::= (
     command_line_inline_fish |
     command_line_func_call |
-    command_line_other_words |
-    command_line_comment
+    command_line_other_words
 )
-command_line_comment ::= tk_comment
+command_line_comment ::= tk_comment (eol tk_comment)*
 command_line_other_words ::= command_token_all+ tk_comment?
 command_line_func_call ::= op_at tk_identifier expr_paren_csv? tk_comment?
 command_line_inline_fish ::= square_l command_inline_fish_line square_r tk_comment?

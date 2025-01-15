@@ -105,14 +105,20 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // command_block_define |
-  //     command_line
+  // command_line_comment |
+  //     command_block_define |
+  //     command_line_inline_fish |
+  //     command_line_func_call |
+  //     command_line_other_words
   public static boolean command_block_single(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "command_block_single")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, COMMAND_BLOCK_SINGLE, "<command block single>");
-    r = command_block_define(b, l + 1);
-    if (!r) r = command_line(b, l + 1);
+    r = command_line_comment(b, l + 1);
+    if (!r) r = command_block_define(b, l + 1);
+    if (!r) r = command_line_inline_fish(b, l + 1);
+    if (!r) r = command_line_func_call(b, l + 1);
+    if (!r) r = command_line_other_words(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
@@ -211,31 +217,37 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // command_line_inline_fish |
-  //     command_line_func_call |
-  //     command_line_other_words |
-  //     command_line_comment
-  public static boolean command_line(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "command_line")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, COMMAND_LINE, "<command line>");
-    r = command_line_inline_fish(b, l + 1);
-    if (!r) r = command_line_func_call(b, l + 1);
-    if (!r) r = command_line_other_words(b, l + 1);
-    if (!r) r = command_line_comment(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // tk_comment
+  // tk_comment (eol tk_comment)*
   public static boolean command_line_comment(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "command_line_comment")) return false;
     if (!nextTokenIs(b, COMMENT)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = tk_comment(b, l + 1);
+    r = r && command_line_comment_1(b, l + 1);
     exit_section_(b, m, COMMAND_LINE_COMMENT, r);
+    return r;
+  }
+
+  // (eol tk_comment)*
+  private static boolean command_line_comment_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "command_line_comment_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!command_line_comment_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "command_line_comment_1", c)) break;
+    }
+    return true;
+  }
+
+  // eol tk_comment
+  private static boolean command_line_comment_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "command_line_comment_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = eol(b, l + 1);
+    r = r && tk_comment(b, l + 1);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -2106,7 +2118,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // eol* command_block? eol*
+  // eol? command_block? eol?
   static boolean simpleFile(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "simpleFile")) return false;
     boolean r;
@@ -2118,14 +2130,10 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // eol*
+  // eol?
   private static boolean simpleFile_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "simpleFile_0")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!eol(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "simpleFile_0", c)) break;
-    }
+    eol(b, l + 1);
     return true;
   }
 
@@ -2136,14 +2144,10 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // eol*
+  // eol?
   private static boolean simpleFile_2(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "simpleFile_2")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!eol(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "simpleFile_2", c)) break;
-    }
+    eol(b, l + 1);
     return true;
   }
 
