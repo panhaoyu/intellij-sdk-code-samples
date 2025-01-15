@@ -28,15 +28,15 @@ public class SimpleFishLineAssignImpl extends ASTWrapperPsiElement implements Si
   }
 
   @Override
-  @NotNull
-  public List<SimpleFishExprAssign> getFishExprAssignList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleFishExprAssign.class);
+  @Nullable
+  public SimpleFishAssignScope getFishAssignScope() {
+    return findChildByClass(SimpleFishAssignScope.class);
   }
 
   @Override
-  @Nullable
-  public SimpleFishLineAssignScope getFishLineAssignScope() {
-    return findChildByClass(SimpleFishLineAssignScope.class);
+  @NotNull
+  public List<SimpleFishExprAssign> getFishExprAssignList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleFishExprAssign.class);
   }
 
   @Override

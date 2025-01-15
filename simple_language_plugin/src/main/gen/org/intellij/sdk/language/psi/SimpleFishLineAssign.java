@@ -7,11 +7,11 @@ import com.intellij.psi.PsiElement;
 
 public interface SimpleFishLineAssign extends PsiElement {
 
+  @Nullable
+  SimpleFishAssignScope getFishAssignScope();
+
   @NotNull
   List<SimpleFishExprAssign> getFishExprAssignList();
-
-  @Nullable
-  SimpleFishLineAssignScope getFishLineAssignScope();
 
   @NotNull
   List<SimpleOpComma> getOpCommaList();

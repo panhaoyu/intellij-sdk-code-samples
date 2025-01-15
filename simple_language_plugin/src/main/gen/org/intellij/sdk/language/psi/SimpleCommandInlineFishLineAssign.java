@@ -8,6 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface SimpleCommandInlineFishLineAssign extends PsiElement {
 
   @NotNull
+  SimpleFishAssignScope getFishAssignScope();
+
+  @NotNull
   List<SimpleFishExprAssign> getFishExprAssignList();
 
   @NotNull

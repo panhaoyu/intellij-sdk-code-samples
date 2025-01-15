@@ -26,6 +26,7 @@ public interface SimpleTypes {
   IElementType EOL = new SimpleElementType("EOL");
   IElementType EXPR_CSV = new SimpleElementType("EXPR_CSV");
   IElementType EXPR_PAREN_CSV = new SimpleElementType("EXPR_PAREN_CSV");
+  IElementType FISH_ASSIGN_SCOPE = new SimpleElementType("FISH_ASSIGN_SCOPE");
   IElementType FISH_BLOCK = new SimpleElementType("FISH_BLOCK");
   IElementType FISH_BLOCK_BODY_CASE_OF = new SimpleElementType("FISH_BLOCK_BODY_CASE_OF");
   IElementType FISH_BLOCK_BODY_COMMAND = new SimpleElementType("FISH_BLOCK_BODY_COMMAND");
@@ -54,7 +55,6 @@ public interface SimpleTypes {
   IElementType FISH_LINE = new SimpleElementType("FISH_LINE");
   IElementType FISH_LINE_ARRAY_DECLARE = new SimpleElementType("FISH_LINE_ARRAY_DECLARE");
   IElementType FISH_LINE_ASSIGN = new SimpleElementType("FISH_LINE_ASSIGN");
-  IElementType FISH_LINE_ASSIGN_SCOPE = new SimpleElementType("FISH_LINE_ASSIGN_SCOPE");
   IElementType FISH_LINE_BREAK = new SimpleElementType("FISH_LINE_BREAK");
   IElementType FISH_LINE_CASE_OF_BLOCK_FOOTER = new SimpleElementType("FISH_LINE_CASE_OF_BLOCK_FOOTER");
   IElementType FISH_LINE_CASE_OF_BLOCK_HEADER = new SimpleElementType("FISH_LINE_CASE_OF_BLOCK_HEADER");
@@ -210,6 +210,9 @@ public interface SimpleTypes {
       else if (type == EXPR_PAREN_CSV) {
         return new SimpleExprParenCsvImpl(node);
       }
+      else if (type == FISH_ASSIGN_SCOPE) {
+        return new SimpleFishAssignScopeImpl(node);
+      }
       else if (type == FISH_BLOCK) {
         return new SimpleFishBlockImpl(node);
       }
@@ -293,9 +296,6 @@ public interface SimpleTypes {
       }
       else if (type == FISH_LINE_ASSIGN) {
         return new SimpleFishLineAssignImpl(node);
-      }
-      else if (type == FISH_LINE_ASSIGN_SCOPE) {
-        return new SimpleFishLineAssignScopeImpl(node);
       }
       else if (type == FISH_LINE_BREAK) {
         return new SimpleFishLineBreakImpl(node);

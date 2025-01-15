@@ -11,38 +11,20 @@ import static org.intellij.sdk.language.psi.SimpleTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import org.intellij.sdk.language.psi.*;
 
-public class SimpleCommandInlineFishLineAssignImpl extends ASTWrapperPsiElement implements SimpleCommandInlineFishLineAssign {
+public class SimpleFishAssignScopeImpl extends ASTWrapperPsiElement implements SimpleFishAssignScope {
 
-  public SimpleCommandInlineFishLineAssignImpl(@NotNull ASTNode node) {
+  public SimpleFishAssignScopeImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull SimpleVisitor visitor) {
-    visitor.visitCommandInlineFishLineAssign(this);
+    visitor.visitFishAssignScope(this);
   }
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof SimpleVisitor) accept((SimpleVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @NotNull
-  public SimpleFishAssignScope getFishAssignScope() {
-    return findNotNullChildByClass(SimpleFishAssignScope.class);
-  }
-
-  @Override
-  @NotNull
-  public List<SimpleFishExprAssign> getFishExprAssignList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleFishExprAssign.class);
-  }
-
-  @Override
-  @NotNull
-  public List<SimpleOpComma> getOpCommaList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleOpComma.class);
   }
 
 }
