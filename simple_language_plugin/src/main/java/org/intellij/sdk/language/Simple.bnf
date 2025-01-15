@@ -22,7 +22,7 @@
   ]
 }
 
-simpleFile ::= command_block*
+simpleFile ::= command_block? (eol command_block)*
 
 //前缀为cmd的均表示作用于command作用域中
 command_block ::= (
@@ -68,15 +68,14 @@ private fish_line_define_footer ::= kw_end tk_comment?
 private fish_expr_define_params ::= (paren_l tk_identifier (op_comma tk_identifier)* paren_r)
 
 // 全部的可能的 Fish 语句块
-fish_block ::=  block_single_fish (eol block_single_fish)*
+fish_block ::=  block_single_fish? (eol block_single_fish)*
 block_single_fish ::= (
     fish_block_if |
     fish_block_loop |
     fish_block_case_of |
     fish_block_section |
     fish_block_command |
-    fish_line |
-    eol
+    fish_line
 )
 
 // If 语法
@@ -138,7 +137,8 @@ fish_line ::= (
     fish_line_array_declare |
     fish_line_assign |
     fish_line_return |
-    fish_line_expr
+    fish_line_expr |
+    fish_line_comment
     )
 fish_line_break ::= kw_break tk_comment?
 fish_line_continue ::= kw_continue tk_comment?
@@ -149,6 +149,7 @@ fish_line_return ::= kw_return expr? tk_comment?
 fish_line_array_declare ::= kw_array tk_identifier paren_l literal_number paren_r tk_comment?
 fish_line_assign ::= (kw_local | kw_global)? fish_expr_assign (op_comma fish_expr_assign)* tk_comment?
 fish_line_expr ::= expr tk_comment?
+fish_line_comment ::= tk_comment
 
 fish_expr_assign ::= fish_expr_assign_target fish_expr_assign_right?
 fish_expr_assign_target ::= tk_identifier expr_paren_csv?
