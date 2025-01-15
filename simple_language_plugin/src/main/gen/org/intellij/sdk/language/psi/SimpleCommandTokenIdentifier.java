@@ -5,10 +5,10 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface SimpleCommandTokenConnectedWithMinus extends PsiElement {
+public interface SimpleCommandTokenIdentifier extends PsiElement {
 
   @NotNull
-  List<SimpleCommandTokenIdentifier> getCommandTokenIdentifierList();
+  List<SimpleCommandTokenIdentifierWithoutMinus> getCommandTokenIdentifierWithoutMinusList();
 
   @NotNull
   List<SimpleLiteralNumber> getLiteralNumberList();

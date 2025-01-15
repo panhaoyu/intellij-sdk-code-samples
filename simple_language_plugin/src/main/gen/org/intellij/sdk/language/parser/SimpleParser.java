@@ -262,87 +262,140 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // command_token_connected_with_minus |
+  // paren_l command_token_all? paren_r |
+  //     square_l command_token_all? square_r |
+  //     curly_l command_token_all? curly_r |
+  //     command_token_identifier |
   //     command_token_inline_fish |
   //     command_expr_func_call |
-  //     square_l | square_r | paren_l | paren_r | op_comma | op_assign | op_unary | op_binary_without_minus | op_dot |
-  //     tk_literal | command_token_keyword_all | tk_value
+  //     op_comma | op_assign | op_unary | op_binary_without_minus | op_dot |
+  //     tk_literal
   public static boolean command_token_all(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "command_token_all")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, COMMAND_TOKEN_ALL, "<command token all>");
-    r = command_token_connected_with_minus(b, l + 1);
+    r = command_token_all_0(b, l + 1);
+    if (!r) r = command_token_all_1(b, l + 1);
+    if (!r) r = command_token_all_2(b, l + 1);
+    if (!r) r = command_token_identifier(b, l + 1);
     if (!r) r = command_token_inline_fish(b, l + 1);
     if (!r) r = command_expr_func_call(b, l + 1);
-    if (!r) r = square_l(b, l + 1);
-    if (!r) r = square_r(b, l + 1);
-    if (!r) r = paren_l(b, l + 1);
-    if (!r) r = paren_r(b, l + 1);
     if (!r) r = op_comma(b, l + 1);
     if (!r) r = op_assign(b, l + 1);
     if (!r) r = op_unary(b, l + 1);
     if (!r) r = op_binary_without_minus(b, l + 1);
     if (!r) r = op_dot(b, l + 1);
     if (!r) r = tk_literal(b, l + 1);
-    if (!r) r = command_token_keyword_all(b, l + 1);
-    if (!r) r = tk_value(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
+  }
+
+  // paren_l command_token_all? paren_r
+  private static boolean command_token_all_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "command_token_all_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = paren_l(b, l + 1);
+    r = r && command_token_all_0_1(b, l + 1);
+    r = r && paren_r(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // command_token_all?
+  private static boolean command_token_all_0_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "command_token_all_0_1")) return false;
+    command_token_all(b, l + 1);
+    return true;
+  }
+
+  // square_l command_token_all? square_r
+  private static boolean command_token_all_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "command_token_all_1")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = square_l(b, l + 1);
+    r = r && command_token_all_1_1(b, l + 1);
+    r = r && square_r(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // command_token_all?
+  private static boolean command_token_all_1_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "command_token_all_1_1")) return false;
+    command_token_all(b, l + 1);
+    return true;
+  }
+
+  // curly_l command_token_all? curly_r
+  private static boolean command_token_all_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "command_token_all_2")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = curly_l(b, l + 1);
+    r = r && command_token_all_2_1(b, l + 1);
+    r = r && curly_r(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // command_token_all?
+  private static boolean command_token_all_2_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "command_token_all_2_1")) return false;
+    command_token_all(b, l + 1);
+    return true;
   }
 
   /* ********************************************************** */
-  // command_token_identifier (op_minus (command_token_identifier | literal_number))+
-  public static boolean command_token_connected_with_minus(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "command_token_connected_with_minus")) return false;
+  // command_token_identifier_without_minus (op_minus (command_token_identifier_without_minus | literal_number))*
+  public static boolean command_token_identifier(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "command_token_identifier")) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, COMMAND_TOKEN_CONNECTED_WITH_MINUS, "<command token connected with minus>");
-    r = command_token_identifier(b, l + 1);
-    r = r && command_token_connected_with_minus_1(b, l + 1);
+    Marker m = enter_section_(b, l, _NONE_, COMMAND_TOKEN_IDENTIFIER, "<command token identifier>");
+    r = command_token_identifier_without_minus(b, l + 1);
+    r = r && command_token_identifier_1(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
-  // (op_minus (command_token_identifier | literal_number))+
-  private static boolean command_token_connected_with_minus_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "command_token_connected_with_minus_1")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = command_token_connected_with_minus_1_0(b, l + 1);
-    while (r) {
+  // (op_minus (command_token_identifier_without_minus | literal_number))*
+  private static boolean command_token_identifier_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "command_token_identifier_1")) return false;
+    while (true) {
       int c = current_position_(b);
-      if (!command_token_connected_with_minus_1_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "command_token_connected_with_minus_1", c)) break;
+      if (!command_token_identifier_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "command_token_identifier_1", c)) break;
     }
-    exit_section_(b, m, null, r);
-    return r;
+    return true;
   }
 
-  // op_minus (command_token_identifier | literal_number)
-  private static boolean command_token_connected_with_minus_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "command_token_connected_with_minus_1_0")) return false;
+  // op_minus (command_token_identifier_without_minus | literal_number)
+  private static boolean command_token_identifier_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "command_token_identifier_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = op_minus(b, l + 1);
-    r = r && command_token_connected_with_minus_1_0_1(b, l + 1);
+    r = r && command_token_identifier_1_0_1(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
 
-  // command_token_identifier | literal_number
-  private static boolean command_token_connected_with_minus_1_0_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "command_token_connected_with_minus_1_0_1")) return false;
+  // command_token_identifier_without_minus | literal_number
+  private static boolean command_token_identifier_1_0_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "command_token_identifier_1_0_1")) return false;
     boolean r;
-    r = command_token_identifier(b, l + 1);
+    r = command_token_identifier_without_minus(b, l + 1);
     if (!r) r = literal_number(b, l + 1);
     return r;
   }
 
   /* ********************************************************** */
   // command_token_keyword_all | tk_identifier
-  public static boolean command_token_identifier(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "command_token_identifier")) return false;
+  public static boolean command_token_identifier_without_minus(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "command_token_identifier_without_minus")) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, COMMAND_TOKEN_IDENTIFIER, "<command token identifier>");
+    Marker m = enter_section_(b, l, _NONE_, COMMAND_TOKEN_IDENTIFIER_WITHOUT_MINUS, "<command token identifier without minus>");
     r = command_token_keyword_all(b, l + 1);
     if (!r) r = tk_identifier(b, l + 1);
     exit_section_(b, l, m, r, false, null);

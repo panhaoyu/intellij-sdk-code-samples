@@ -35,8 +35,14 @@ public class SimpleCommandTokenAllImpl extends ASTWrapperPsiElement implements S
 
   @Override
   @Nullable
-  public SimpleCommandTokenConnectedWithMinus getCommandTokenConnectedWithMinus() {
-    return findChildByClass(SimpleCommandTokenConnectedWithMinus.class);
+  public SimpleCommandTokenAll getCommandTokenAll() {
+    return findChildByClass(SimpleCommandTokenAll.class);
+  }
+
+  @Override
+  @Nullable
+  public SimpleCommandTokenIdentifier getCommandTokenIdentifier() {
+    return findChildByClass(SimpleCommandTokenIdentifier.class);
   }
 
   @Override
@@ -47,8 +53,14 @@ public class SimpleCommandTokenAllImpl extends ASTWrapperPsiElement implements S
 
   @Override
   @Nullable
-  public SimpleCommandTokenKeywordAll getCommandTokenKeywordAll() {
-    return findChildByClass(SimpleCommandTokenKeywordAll.class);
+  public SimpleCurlyL getCurlyL() {
+    return findChildByClass(SimpleCurlyL.class);
+  }
+
+  @Override
+  @Nullable
+  public SimpleCurlyR getCurlyR() {
+    return findChildByClass(SimpleCurlyR.class);
   }
 
   @Override
@@ -109,12 +121,6 @@ public class SimpleCommandTokenAllImpl extends ASTWrapperPsiElement implements S
   @Nullable
   public SimpleTkLiteral getTkLiteral() {
     return findChildByClass(SimpleTkLiteral.class);
-  }
-
-  @Override
-  @Nullable
-  public SimpleTkValue getTkValue() {
-    return findChildByClass(SimpleTkValue.class);
   }
 
 }

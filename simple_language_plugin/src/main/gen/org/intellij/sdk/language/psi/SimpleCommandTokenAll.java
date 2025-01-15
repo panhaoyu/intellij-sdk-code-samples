@@ -11,13 +11,19 @@ public interface SimpleCommandTokenAll extends PsiElement {
   SimpleCommandExprFuncCall getCommandExprFuncCall();
 
   @Nullable
-  SimpleCommandTokenConnectedWithMinus getCommandTokenConnectedWithMinus();
+  SimpleCommandTokenAll getCommandTokenAll();
+
+  @Nullable
+  SimpleCommandTokenIdentifier getCommandTokenIdentifier();
 
   @Nullable
   SimpleCommandTokenInlineFish getCommandTokenInlineFish();
 
   @Nullable
-  SimpleCommandTokenKeywordAll getCommandTokenKeywordAll();
+  SimpleCurlyL getCurlyL();
+
+  @Nullable
+  SimpleCurlyR getCurlyR();
 
   @Nullable
   SimpleOpAssign getOpAssign();
@@ -48,8 +54,5 @@ public interface SimpleCommandTokenAll extends PsiElement {
 
   @Nullable
   SimpleTkLiteral getTkLiteral();
-
-  @Nullable
-  SimpleTkValue getTkValue();
 
 }

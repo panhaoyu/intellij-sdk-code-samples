@@ -11,14 +11,14 @@ import static org.intellij.sdk.language.psi.SimpleTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import org.intellij.sdk.language.psi.*;
 
-public class SimpleCommandTokenConnectedWithMinusImpl extends ASTWrapperPsiElement implements SimpleCommandTokenConnectedWithMinus {
+public class SimpleCommandTokenIdentifierWithoutMinusImpl extends ASTWrapperPsiElement implements SimpleCommandTokenIdentifierWithoutMinus {
 
-  public SimpleCommandTokenConnectedWithMinusImpl(@NotNull ASTNode node) {
+  public SimpleCommandTokenIdentifierWithoutMinusImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull SimpleVisitor visitor) {
-    visitor.visitCommandTokenConnectedWithMinus(this);
+    visitor.visitCommandTokenIdentifierWithoutMinus(this);
   }
 
   @Override
@@ -28,21 +28,15 @@ public class SimpleCommandTokenConnectedWithMinusImpl extends ASTWrapperPsiEleme
   }
 
   @Override
-  @NotNull
-  public List<SimpleCommandTokenIdentifier> getCommandTokenIdentifierList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleCommandTokenIdentifier.class);
+  @Nullable
+  public SimpleCommandTokenKeywordAll getCommandTokenKeywordAll() {
+    return findChildByClass(SimpleCommandTokenKeywordAll.class);
   }
 
   @Override
-  @NotNull
-  public List<SimpleLiteralNumber> getLiteralNumberList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleLiteralNumber.class);
-  }
-
-  @Override
-  @NotNull
-  public List<SimpleOpMinus> getOpMinusList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleOpMinus.class);
+  @Nullable
+  public SimpleTkIdentifier getTkIdentifier() {
+    return findChildByClass(SimpleTkIdentifier.class);
   }
 
 }

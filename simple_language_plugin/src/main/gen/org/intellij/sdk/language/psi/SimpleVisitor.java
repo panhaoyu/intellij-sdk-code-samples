@@ -47,11 +47,11 @@ public class SimpleVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitCommandTokenConnectedWithMinus(@NotNull SimpleCommandTokenConnectedWithMinus o) {
+  public void visitCommandTokenIdentifier(@NotNull SimpleCommandTokenIdentifier o) {
     visitPsiElement(o);
   }
 
-  public void visitCommandTokenIdentifier(@NotNull SimpleCommandTokenIdentifier o) {
+  public void visitCommandTokenIdentifierWithoutMinus(@NotNull SimpleCommandTokenIdentifierWithoutMinus o) {
     visitPsiElement(o);
   }
 

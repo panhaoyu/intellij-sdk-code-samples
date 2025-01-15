@@ -14,6 +14,11 @@ final class SimpleFormattingModelBuilder implements FormattingModelBuilder {
         return new SpacingBuilder(settings, SimpleLanguage.INSTANCE)
                 // 处理的过程是自下向上的
 
+                // python calculate (value1, value2)  Command 里面，也是可以支持函数调用的，保证括号的显示正常即可
+                .afterInside(SimpleTokenSets.LEFT_BRACKETS, SimpleTypes.COMMAND_LINE).spaces(0)
+                .beforeInside(SimpleTokenSets.RIGHT_BRACKETS, SimpleTypes.COMMAND_LINE).spaces(0)
+                .beforeInside(SimpleTypes.OP_COMMA, SimpleTypes.COMMAND_LINE).spaces(0)
+                .afterInside(SimpleTypes.OP_COMMA, SimpleTypes.COMMAND_LINE).spaces(0)
                 // [abc]                    Command 里面，行内调用的 fish 的两侧不必有空格
                 .afterInside(SimpleTypes.SQUARE_L, SimpleTypes.COMMAND_TOKEN_INLINE_FISH).spaces(0)
                 .beforeInside(SimpleTypes.SQUARE_R, SimpleTypes.COMMAND_TOKEN_INLINE_FISH).spaces(0)

@@ -32,15 +32,18 @@ command_block_single ::= (
 )
 command_line ::= (command_token_all+ tk_comment?) | tk_comment
 command_token_all ::= (
-    command_token_connected_with_minus |
+    paren_l command_token_all? paren_r |
+    square_l command_token_all? square_r |
+    curly_l command_token_all? curly_r |
+    command_token_identifier |
     command_token_inline_fish |
     command_expr_func_call |
-    square_l | square_r | paren_l | paren_r | op_comma | op_assign | op_unary | op_binary_without_minus | op_dot |
-    tk_literal | command_token_keyword_all | tk_value
+    op_comma | op_assign | op_unary | op_binary_without_minus | op_dot |
+    tk_literal
 )
 command_token_inline_fish ::= square_l command_inline_fish_line square_r
-command_token_connected_with_minus ::= command_token_identifier (op_minus (command_token_identifier | literal_number))+
-command_token_identifier ::= command_token_keyword_all | tk_identifier
+command_token_identifier ::= command_token_identifier_without_minus (op_minus (command_token_identifier_without_minus | literal_number))*
+command_token_identifier_without_minus ::= command_token_keyword_all | tk_identifier
 command_expr_func_call ::= op_at tk_identifier expr_paren_csv?
 // 可以在 Command 空间中作为普通字符串使用的关键字
 command_token_keyword_all ::= (

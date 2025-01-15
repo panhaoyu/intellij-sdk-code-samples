@@ -18,8 +18,8 @@ public interface SimpleTypes {
   IElementType COMMAND_INLINE_FISH_LINE_EXPR = new SimpleElementType("COMMAND_INLINE_FISH_LINE_EXPR");
   IElementType COMMAND_LINE = new SimpleElementType("COMMAND_LINE");
   IElementType COMMAND_TOKEN_ALL = new SimpleElementType("COMMAND_TOKEN_ALL");
-  IElementType COMMAND_TOKEN_CONNECTED_WITH_MINUS = new SimpleElementType("COMMAND_TOKEN_CONNECTED_WITH_MINUS");
   IElementType COMMAND_TOKEN_IDENTIFIER = new SimpleElementType("COMMAND_TOKEN_IDENTIFIER");
+  IElementType COMMAND_TOKEN_IDENTIFIER_WITHOUT_MINUS = new SimpleElementType("COMMAND_TOKEN_IDENTIFIER_WITHOUT_MINUS");
   IElementType COMMAND_TOKEN_INLINE_FISH = new SimpleElementType("COMMAND_TOKEN_INLINE_FISH");
   IElementType COMMAND_TOKEN_KEYWORD_ALL = new SimpleElementType("COMMAND_TOKEN_KEYWORD_ALL");
   IElementType CURLY_L = new SimpleElementType("CURLY_L");
@@ -219,11 +219,11 @@ public interface SimpleTypes {
       else if (type == COMMAND_TOKEN_ALL) {
         return new SimpleCommandTokenAllImpl(node);
       }
-      else if (type == COMMAND_TOKEN_CONNECTED_WITH_MINUS) {
-        return new SimpleCommandTokenConnectedWithMinusImpl(node);
-      }
       else if (type == COMMAND_TOKEN_IDENTIFIER) {
         return new SimpleCommandTokenIdentifierImpl(node);
+      }
+      else if (type == COMMAND_TOKEN_IDENTIFIER_WITHOUT_MINUS) {
+        return new SimpleCommandTokenIdentifierWithoutMinusImpl(node);
       }
       else if (type == COMMAND_TOKEN_INLINE_FISH) {
         return new SimpleCommandTokenInlineFishImpl(node);

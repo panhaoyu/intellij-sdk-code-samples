@@ -1,0 +1,6 @@
+fish define a
+    command
+        python calculate_a (value)
+        python calculate_a (value)
+    end_command
+end
