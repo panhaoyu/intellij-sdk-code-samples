@@ -33,4 +33,16 @@ public class SimpleFishExprParenImpl extends ASTWrapperPsiElement implements Sim
     return findNotNullChildByClass(SimpleFishExpr.class);
   }
 
+  @Override
+  @NotNull
+  public SimpleParenL getParenL() {
+    return findNotNullChildByClass(SimpleParenL.class);
+  }
+
+  @Override
+  @NotNull
+  public SimpleParenR getParenR() {
+    return findNotNullChildByClass(SimpleParenR.class);
+  }
+
 }

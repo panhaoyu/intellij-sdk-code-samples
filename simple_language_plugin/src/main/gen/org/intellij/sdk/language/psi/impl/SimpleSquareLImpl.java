@@ -11,38 +11,20 @@ import static org.intellij.sdk.language.psi.SimpleTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import org.intellij.sdk.language.psi.*;
 
-public class SimpleCommandLineFuncCallImpl extends ASTWrapperPsiElement implements SimpleCommandLineFuncCall {
+public class SimpleSquareLImpl extends ASTWrapperPsiElement implements SimpleSquareL {
 
-  public SimpleCommandLineFuncCallImpl(@NotNull ASTNode node) {
+  public SimpleSquareLImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull SimpleVisitor visitor) {
-    visitor.visitCommandLineFuncCall(this);
+    visitor.visitSquareL(this);
   }
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof SimpleVisitor) accept((SimpleVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @Nullable
-  public SimpleExprParenCsv getExprParenCsv() {
-    return findChildByClass(SimpleExprParenCsv.class);
-  }
-
-  @Override
-  @Nullable
-  public SimpleTkComment getTkComment() {
-    return findChildByClass(SimpleTkComment.class);
-  }
-
-  @Override
-  @NotNull
-  public SimpleTkIdentifier getTkIdentifier() {
-    return findNotNullChildByClass(SimpleTkIdentifier.class);
   }
 
 }

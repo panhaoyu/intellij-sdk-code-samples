@@ -33,4 +33,10 @@ public class SimpleFishExprAssignRightImpl extends ASTWrapperPsiElement implemen
     return findNotNullChildByClass(SimpleFishExpr.class);
   }
 
+  @Override
+  @NotNull
+  public SimpleOpAssign getOpAssign() {
+    return findNotNullChildByClass(SimpleOpAssign.class);
+  }
+
 }

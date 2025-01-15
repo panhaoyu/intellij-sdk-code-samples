@@ -8,6 +8,15 @@ import com.intellij.psi.PsiElement;
 public interface SimpleFishExprDefineParams extends PsiElement {
 
   @NotNull
+  List<SimpleOpComma> getOpCommaList();
+
+  @NotNull
+  SimpleParenL getParenL();
+
+  @NotNull
+  SimpleParenR getParenR();
+
+  @NotNull
   List<SimpleTkIdentifier> getTkIdentifierList();
 
 }

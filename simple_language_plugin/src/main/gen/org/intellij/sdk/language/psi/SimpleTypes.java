@@ -11,17 +11,18 @@ public interface SimpleTypes {
   IElementType COMMAND_BLOCK = new SimpleElementType("COMMAND_BLOCK");
   IElementType COMMAND_BLOCK_DEFINE = new SimpleElementType("COMMAND_BLOCK_DEFINE");
   IElementType COMMAND_BLOCK_SINGLE = new SimpleElementType("COMMAND_BLOCK_SINGLE");
+  IElementType COMMAND_EXPR_FUNC_CALL = new SimpleElementType("COMMAND_EXPR_FUNC_CALL");
   IElementType COMMAND_INLINE_FISH_LINE = new SimpleElementType("COMMAND_INLINE_FISH_LINE");
   IElementType COMMAND_INLINE_FISH_LINE_ARRAY_DECLARE = new SimpleElementType("COMMAND_INLINE_FISH_LINE_ARRAY_DECLARE");
   IElementType COMMAND_INLINE_FISH_LINE_ASSIGN = new SimpleElementType("COMMAND_INLINE_FISH_LINE_ASSIGN");
   IElementType COMMAND_INLINE_FISH_LINE_EXPR = new SimpleElementType("COMMAND_INLINE_FISH_LINE_EXPR");
   IElementType COMMAND_LINE = new SimpleElementType("COMMAND_LINE");
-  IElementType COMMAND_LINE_COMMENT = new SimpleElementType("COMMAND_LINE_COMMENT");
-  IElementType COMMAND_LINE_FUNC_CALL = new SimpleElementType("COMMAND_LINE_FUNC_CALL");
-  IElementType COMMAND_LINE_INLINE_FISH = new SimpleElementType("COMMAND_LINE_INLINE_FISH");
-  IElementType COMMAND_LINE_OTHER_WORDS = new SimpleElementType("COMMAND_LINE_OTHER_WORDS");
   IElementType COMMAND_TOKEN_ALL = new SimpleElementType("COMMAND_TOKEN_ALL");
+  IElementType COMMAND_TOKEN_CONNECTED_WITH_MINUS = new SimpleElementType("COMMAND_TOKEN_CONNECTED_WITH_MINUS");
+  IElementType COMMAND_TOKEN_INLINE_FISH = new SimpleElementType("COMMAND_TOKEN_INLINE_FISH");
   IElementType COMMAND_TOKEN_KEYWORD_ALL = new SimpleElementType("COMMAND_TOKEN_KEYWORD_ALL");
+  IElementType CURLY_L = new SimpleElementType("CURLY_L");
+  IElementType CURLY_R = new SimpleElementType("CURLY_R");
   IElementType EOL = new SimpleElementType("EOL");
   IElementType EXPR_CSV = new SimpleElementType("EXPR_CSV");
   IElementType EXPR_PAREN_CSV = new SimpleElementType("EXPR_PAREN_CSV");
@@ -76,10 +77,23 @@ public interface SimpleTypes {
   IElementType FISH_LINE_RETURN = new SimpleElementType("FISH_LINE_RETURN");
   IElementType FISH_LINE_SECTION_FOOTER = new SimpleElementType("FISH_LINE_SECTION_FOOTER");
   IElementType FISH_LINE_SECTION_HEADER = new SimpleElementType("FISH_LINE_SECTION_HEADER");
+  IElementType LITERAL_NUMBER = new SimpleElementType("LITERAL_NUMBER");
+  IElementType LITERAL_STRING = new SimpleElementType("LITERAL_STRING");
   IElementType LOOP_EACH = new SimpleElementType("LOOP_EACH");
   IElementType LOOP_FOR = new SimpleElementType("LOOP_FOR");
   IElementType LOOP_WHILE = new SimpleElementType("LOOP_WHILE");
+  IElementType OP_ASSIGN = new SimpleElementType("OP_ASSIGN");
+  IElementType OP_AT = new SimpleElementType("OP_AT");
+  IElementType OP_BINARY = new SimpleElementType("OP_BINARY");
+  IElementType OP_COMMA = new SimpleElementType("OP_COMMA");
   IElementType OP_COMMENT = new SimpleElementType("OP_COMMENT");
+  IElementType OP_DOT = new SimpleElementType("OP_DOT");
+  IElementType OP_MINUS = new SimpleElementType("OP_MINUS");
+  IElementType OP_UNARY = new SimpleElementType("OP_UNARY");
+  IElementType PAREN_L = new SimpleElementType("PAREN_L");
+  IElementType PAREN_R = new SimpleElementType("PAREN_R");
+  IElementType SQUARE_L = new SimpleElementType("SQUARE_L");
+  IElementType SQUARE_R = new SimpleElementType("SQUARE_R");
   IElementType TK_COMMENT = new SimpleElementType("TK_COMMENT");
   IElementType TK_COMMENT_TEXT = new SimpleElementType("TK_COMMENT_TEXT");
   IElementType TK_IDENTIFIER = new SimpleElementType("TK_IDENTIFIER");
@@ -150,6 +164,9 @@ public interface SimpleTypes {
       else if (type == COMMAND_BLOCK_SINGLE) {
         return new SimpleCommandBlockSingleImpl(node);
       }
+      else if (type == COMMAND_EXPR_FUNC_CALL) {
+        return new SimpleCommandExprFuncCallImpl(node);
+      }
       else if (type == COMMAND_INLINE_FISH_LINE) {
         return new SimpleCommandInlineFishLineImpl(node);
       }
@@ -165,23 +182,23 @@ public interface SimpleTypes {
       else if (type == COMMAND_LINE) {
         return new SimpleCommandLineImpl(node);
       }
-      else if (type == COMMAND_LINE_COMMENT) {
-        return new SimpleCommandLineCommentImpl(node);
-      }
-      else if (type == COMMAND_LINE_FUNC_CALL) {
-        return new SimpleCommandLineFuncCallImpl(node);
-      }
-      else if (type == COMMAND_LINE_INLINE_FISH) {
-        return new SimpleCommandLineInlineFishImpl(node);
-      }
-      else if (type == COMMAND_LINE_OTHER_WORDS) {
-        return new SimpleCommandLineOtherWordsImpl(node);
-      }
       else if (type == COMMAND_TOKEN_ALL) {
         return new SimpleCommandTokenAllImpl(node);
       }
+      else if (type == COMMAND_TOKEN_CONNECTED_WITH_MINUS) {
+        return new SimpleCommandTokenConnectedWithMinusImpl(node);
+      }
+      else if (type == COMMAND_TOKEN_INLINE_FISH) {
+        return new SimpleCommandTokenInlineFishImpl(node);
+      }
       else if (type == COMMAND_TOKEN_KEYWORD_ALL) {
         return new SimpleCommandTokenKeywordAllImpl(node);
+      }
+      else if (type == CURLY_L) {
+        return new SimpleCurlyLImpl(node);
+      }
+      else if (type == CURLY_R) {
+        return new SimpleCurlyRImpl(node);
       }
       else if (type == EOL) {
         return new SimpleEolImpl(node);
@@ -345,6 +362,12 @@ public interface SimpleTypes {
       else if (type == FISH_LINE_SECTION_HEADER) {
         return new SimpleFishLineSectionHeaderImpl(node);
       }
+      else if (type == LITERAL_NUMBER) {
+        return new SimpleLiteralNumberImpl(node);
+      }
+      else if (type == LITERAL_STRING) {
+        return new SimpleLiteralStringImpl(node);
+      }
       else if (type == LOOP_EACH) {
         return new SimpleLoopEachImpl(node);
       }
@@ -354,8 +377,41 @@ public interface SimpleTypes {
       else if (type == LOOP_WHILE) {
         return new SimpleLoopWhileImpl(node);
       }
+      else if (type == OP_ASSIGN) {
+        return new SimpleOpAssignImpl(node);
+      }
+      else if (type == OP_AT) {
+        return new SimpleOpAtImpl(node);
+      }
+      else if (type == OP_BINARY) {
+        return new SimpleOpBinaryImpl(node);
+      }
+      else if (type == OP_COMMA) {
+        return new SimpleOpCommaImpl(node);
+      }
       else if (type == OP_COMMENT) {
         return new SimpleOpCommentImpl(node);
+      }
+      else if (type == OP_DOT) {
+        return new SimpleOpDotImpl(node);
+      }
+      else if (type == OP_MINUS) {
+        return new SimpleOpMinusImpl(node);
+      }
+      else if (type == OP_UNARY) {
+        return new SimpleOpUnaryImpl(node);
+      }
+      else if (type == PAREN_L) {
+        return new SimpleParenLImpl(node);
+      }
+      else if (type == PAREN_R) {
+        return new SimpleParenRImpl(node);
+      }
+      else if (type == SQUARE_L) {
+        return new SimpleSquareLImpl(node);
+      }
+      else if (type == SQUARE_R) {
+        return new SimpleSquareRImpl(node);
       }
       else if (type == TK_COMMENT) {
         return new SimpleTkCommentImpl(node);

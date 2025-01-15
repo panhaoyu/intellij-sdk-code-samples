@@ -28,27 +28,15 @@ public class SimpleCommandLineImpl extends ASTWrapperPsiElement implements Simpl
   }
 
   @Override
-  @Nullable
-  public SimpleCommandLineComment getCommandLineComment() {
-    return findChildByClass(SimpleCommandLineComment.class);
+  @NotNull
+  public List<SimpleCommandTokenAll> getCommandTokenAllList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleCommandTokenAll.class);
   }
 
   @Override
   @Nullable
-  public SimpleCommandLineFuncCall getCommandLineFuncCall() {
-    return findChildByClass(SimpleCommandLineFuncCall.class);
-  }
-
-  @Override
-  @Nullable
-  public SimpleCommandLineInlineFish getCommandLineInlineFish() {
-    return findChildByClass(SimpleCommandLineInlineFish.class);
-  }
-
-  @Override
-  @Nullable
-  public SimpleCommandLineOtherWords getCommandLineOtherWords() {
-    return findChildByClass(SimpleCommandLineOtherWords.class);
+  public SimpleTkComment getTkComment() {
+    return findChildByClass(SimpleTkComment.class);
   }
 
 }

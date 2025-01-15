@@ -33,4 +33,16 @@ public class SimpleExprParenCsvImpl extends ASTWrapperPsiElement implements Simp
     return findNotNullChildByClass(SimpleExprCsv.class);
   }
 
+  @Override
+  @NotNull
+  public SimpleParenL getParenL() {
+    return findNotNullChildByClass(SimpleParenL.class);
+  }
+
+  @Override
+  @NotNull
+  public SimpleParenR getParenR() {
+    return findNotNullChildByClass(SimpleParenR.class);
+  }
+
 }

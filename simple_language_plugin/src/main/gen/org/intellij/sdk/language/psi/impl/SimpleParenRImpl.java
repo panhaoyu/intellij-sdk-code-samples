@@ -11,32 +11,20 @@ import static org.intellij.sdk.language.psi.SimpleTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import org.intellij.sdk.language.psi.*;
 
-public class SimpleCommandLineOtherWordsImpl extends ASTWrapperPsiElement implements SimpleCommandLineOtherWords {
+public class SimpleParenRImpl extends ASTWrapperPsiElement implements SimpleParenR {
 
-  public SimpleCommandLineOtherWordsImpl(@NotNull ASTNode node) {
+  public SimpleParenRImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull SimpleVisitor visitor) {
-    visitor.visitCommandLineOtherWords(this);
+    visitor.visitParenR(this);
   }
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof SimpleVisitor) accept((SimpleVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @NotNull
-  public List<SimpleCommandTokenAll> getCommandTokenAllList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleCommandTokenAll.class);
-  }
-
-  @Override
-  @Nullable
-  public SimpleTkComment getTkComment() {
-    return findChildByClass(SimpleTkComment.class);
   }
 
 }

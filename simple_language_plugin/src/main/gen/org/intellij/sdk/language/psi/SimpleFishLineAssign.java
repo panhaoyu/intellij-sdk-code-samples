@@ -10,6 +10,9 @@ public interface SimpleFishLineAssign extends PsiElement {
   @NotNull
   List<SimpleFishExprAssign> getFishExprAssignList();
 
+  @NotNull
+  List<SimpleOpComma> getOpCommaList();
+
   @Nullable
   SimpleTkComment getTkComment();
 

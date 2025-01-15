@@ -11,32 +11,20 @@ import static org.intellij.sdk.language.psi.SimpleTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import org.intellij.sdk.language.psi.*;
 
-public class SimpleCommandLineCommentImpl extends ASTWrapperPsiElement implements SimpleCommandLineComment {
+public class SimpleOpCommaImpl extends ASTWrapperPsiElement implements SimpleOpComma {
 
-  public SimpleCommandLineCommentImpl(@NotNull ASTNode node) {
+  public SimpleOpCommaImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull SimpleVisitor visitor) {
-    visitor.visitCommandLineComment(this);
+    visitor.visitOpComma(this);
   }
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof SimpleVisitor) accept((SimpleVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @NotNull
-  public List<SimpleEol> getEolList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleEol.class);
-  }
-
-  @Override
-  @NotNull
-  public List<SimpleTkComment> getTkCommentList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleTkComment.class);
   }
 
 }

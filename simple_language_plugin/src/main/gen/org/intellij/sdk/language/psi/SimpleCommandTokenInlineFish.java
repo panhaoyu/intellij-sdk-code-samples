@@ -5,12 +5,15 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface SimpleCommandLineComment extends PsiElement {
+public interface SimpleCommandTokenInlineFish extends PsiElement {
 
   @NotNull
-  List<SimpleEol> getEolList();
+  SimpleCommandInlineFishLine getCommandInlineFishLine();
 
   @NotNull
-  List<SimpleTkComment> getTkCommentList();
+  SimpleSquareL getSquareL();
+
+  @NotNull
+  SimpleSquareR getSquareR();
 
 }

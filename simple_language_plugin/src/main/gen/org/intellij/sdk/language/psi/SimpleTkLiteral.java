@@ -7,4 +7,10 @@ import com.intellij.psi.PsiElement;
 
 public interface SimpleTkLiteral extends PsiElement {
 
+  @Nullable
+  SimpleLiteralNumber getLiteralNumber();
+
+  @Nullable
+  SimpleLiteralString getLiteralString();
+
 }

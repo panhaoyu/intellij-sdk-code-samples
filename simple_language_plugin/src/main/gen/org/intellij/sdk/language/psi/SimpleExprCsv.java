@@ -10,4 +10,7 @@ public interface SimpleExprCsv extends PsiElement {
   @NotNull
   List<SimpleFishExpr> getFishExprList();
 
+  @NotNull
+  List<SimpleOpComma> getOpCommaList();
+
 }

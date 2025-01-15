@@ -10,4 +10,10 @@ public interface SimpleExprParenCsv extends PsiElement {
   @NotNull
   SimpleExprCsv getExprCsv();
 
+  @NotNull
+  SimpleParenL getParenL();
+
+  @NotNull
+  SimpleParenR getParenR();
+
 }

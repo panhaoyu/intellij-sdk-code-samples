@@ -13,4 +13,13 @@ public interface SimpleFishExprLoopIndexed extends PsiElement {
   @NotNull
   SimpleFishExprAssignLeftForLoop getFishExprAssignLeftForLoop();
 
+  @NotNull
+  List<SimpleOpComma> getOpCommaList();
+
+  @NotNull
+  SimpleParenL getParenL();
+
+  @NotNull
+  SimpleParenR getParenR();
+
 }

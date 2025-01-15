@@ -5,12 +5,6 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface SimpleCommandLineInlineFish extends PsiElement {
-
-  @NotNull
-  SimpleCommandInlineFishLine getCommandInlineFishLine();
-
-  @Nullable
-  SimpleTkComment getTkComment();
+public interface SimpleCurlyL extends PsiElement {
 
 }

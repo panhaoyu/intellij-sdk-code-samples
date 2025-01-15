@@ -33,4 +33,22 @@ public class SimpleLoopForImpl extends ASTWrapperPsiElement implements SimpleLoo
     return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleFishExpr.class);
   }
 
+  @Override
+  @NotNull
+  public List<SimpleOpComma> getOpCommaList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleOpComma.class);
+  }
+
+  @Override
+  @NotNull
+  public SimpleParenL getParenL() {
+    return findNotNullChildByClass(SimpleParenL.class);
+  }
+
+  @Override
+  @NotNull
+  public SimpleParenR getParenR() {
+    return findNotNullChildByClass(SimpleParenR.class);
+  }
+
 }

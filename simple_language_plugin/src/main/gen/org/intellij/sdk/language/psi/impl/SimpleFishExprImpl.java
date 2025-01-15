@@ -47,6 +47,30 @@ public class SimpleFishExprImpl extends ASTWrapperPsiElement implements SimpleFi
 
   @Override
   @NotNull
+  public List<SimpleOpBinary> getOpBinaryList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleOpBinary.class);
+  }
+
+  @Override
+  @NotNull
+  public List<SimpleOpUnary> getOpUnaryList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleOpUnary.class);
+  }
+
+  @Override
+  @Nullable
+  public SimpleSquareL getSquareL() {
+    return findChildByClass(SimpleSquareL.class);
+  }
+
+  @Override
+  @Nullable
+  public SimpleSquareR getSquareR() {
+    return findChildByClass(SimpleSquareR.class);
+  }
+
+  @Override
+  @NotNull
   public List<SimpleTkValue> getTkValueList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleTkValue.class);
   }

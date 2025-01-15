@@ -11,32 +11,20 @@ import static org.intellij.sdk.language.psi.SimpleTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import org.intellij.sdk.language.psi.*;
 
-public class SimpleCommandLineInlineFishImpl extends ASTWrapperPsiElement implements SimpleCommandLineInlineFish {
+public class SimpleCurlyLImpl extends ASTWrapperPsiElement implements SimpleCurlyL {
 
-  public SimpleCommandLineInlineFishImpl(@NotNull ASTNode node) {
+  public SimpleCurlyLImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull SimpleVisitor visitor) {
-    visitor.visitCommandLineInlineFish(this);
+    visitor.visitCurlyL(this);
   }
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof SimpleVisitor) accept((SimpleVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @NotNull
-  public SimpleCommandInlineFishLine getCommandInlineFishLine() {
-    return findNotNullChildByClass(SimpleCommandInlineFishLine.class);
-  }
-
-  @Override
-  @Nullable
-  public SimpleTkComment getTkComment() {
-    return findChildByClass(SimpleTkComment.class);
   }
 
 }

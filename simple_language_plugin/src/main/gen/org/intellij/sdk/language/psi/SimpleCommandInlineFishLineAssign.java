@@ -10,4 +10,7 @@ public interface SimpleCommandInlineFishLineAssign extends PsiElement {
   @NotNull
   List<SimpleFishExprAssign> getFishExprAssignList();
 
+  @NotNull
+  List<SimpleOpComma> getOpCommaList();
+
 }

@@ -29,8 +29,86 @@ public class SimpleCommandTokenAllImpl extends ASTWrapperPsiElement implements S
 
   @Override
   @Nullable
+  public SimpleCommandExprFuncCall getCommandExprFuncCall() {
+    return findChildByClass(SimpleCommandExprFuncCall.class);
+  }
+
+  @Override
+  @Nullable
+  public SimpleCommandTokenConnectedWithMinus getCommandTokenConnectedWithMinus() {
+    return findChildByClass(SimpleCommandTokenConnectedWithMinus.class);
+  }
+
+  @Override
+  @Nullable
+  public SimpleCommandTokenInlineFish getCommandTokenInlineFish() {
+    return findChildByClass(SimpleCommandTokenInlineFish.class);
+  }
+
+  @Override
+  @Nullable
   public SimpleCommandTokenKeywordAll getCommandTokenKeywordAll() {
     return findChildByClass(SimpleCommandTokenKeywordAll.class);
+  }
+
+  @Override
+  @Nullable
+  public SimpleOpAssign getOpAssign() {
+    return findChildByClass(SimpleOpAssign.class);
+  }
+
+  @Override
+  @Nullable
+  public SimpleOpAt getOpAt() {
+    return findChildByClass(SimpleOpAt.class);
+  }
+
+  @Override
+  @Nullable
+  public SimpleOpBinary getOpBinary() {
+    return findChildByClass(SimpleOpBinary.class);
+  }
+
+  @Override
+  @Nullable
+  public SimpleOpComma getOpComma() {
+    return findChildByClass(SimpleOpComma.class);
+  }
+
+  @Override
+  @Nullable
+  public SimpleOpDot getOpDot() {
+    return findChildByClass(SimpleOpDot.class);
+  }
+
+  @Override
+  @Nullable
+  public SimpleOpUnary getOpUnary() {
+    return findChildByClass(SimpleOpUnary.class);
+  }
+
+  @Override
+  @Nullable
+  public SimpleParenL getParenL() {
+    return findChildByClass(SimpleParenL.class);
+  }
+
+  @Override
+  @Nullable
+  public SimpleParenR getParenR() {
+    return findChildByClass(SimpleParenR.class);
+  }
+
+  @Override
+  @Nullable
+  public SimpleSquareL getSquareL() {
+    return findChildByClass(SimpleSquareL.class);
+  }
+
+  @Override
+  @Nullable
+  public SimpleSquareR getSquareR() {
+    return findChildByClass(SimpleSquareR.class);
   }
 
   @Override

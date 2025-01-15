@@ -27,4 +27,16 @@ public class SimpleTkLiteralImpl extends ASTWrapperPsiElement implements SimpleT
     else super.accept(visitor);
   }
 
+  @Override
+  @Nullable
+  public SimpleLiteralNumber getLiteralNumber() {
+    return findChildByClass(SimpleLiteralNumber.class);
+  }
+
+  @Override
+  @Nullable
+  public SimpleLiteralString getLiteralString() {
+    return findChildByClass(SimpleLiteralString.class);
+  }
+
 }

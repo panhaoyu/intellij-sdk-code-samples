@@ -29,6 +29,24 @@ public class SimpleFishExprDefineParamsImpl extends ASTWrapperPsiElement impleme
 
   @Override
   @NotNull
+  public List<SimpleOpComma> getOpCommaList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleOpComma.class);
+  }
+
+  @Override
+  @NotNull
+  public SimpleParenL getParenL() {
+    return findNotNullChildByClass(SimpleParenL.class);
+  }
+
+  @Override
+  @NotNull
+  public SimpleParenR getParenR() {
+    return findNotNullChildByClass(SimpleParenR.class);
+  }
+
+  @Override
+  @NotNull
   public List<SimpleTkIdentifier> getTkIdentifierList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleTkIdentifier.class);
   }

@@ -10,4 +10,10 @@ public interface SimpleFishExprParen extends PsiElement {
   @NotNull
   SimpleFishExpr getFishExpr();
 
+  @NotNull
+  SimpleParenL getParenL();
+
+  @NotNull
+  SimpleParenR getParenR();
+
 }

@@ -7,16 +7,10 @@ import com.intellij.psi.PsiElement;
 
 public interface SimpleCommandLine extends PsiElement {
 
-  @Nullable
-  SimpleCommandLineComment getCommandLineComment();
+  @NotNull
+  List<SimpleCommandTokenAll> getCommandTokenAllList();
 
   @Nullable
-  SimpleCommandLineFuncCall getCommandLineFuncCall();
-
-  @Nullable
-  SimpleCommandLineInlineFish getCommandLineInlineFish();
-
-  @Nullable
-  SimpleCommandLineOtherWords getCommandLineOtherWords();
+  SimpleTkComment getTkComment();
 
 }

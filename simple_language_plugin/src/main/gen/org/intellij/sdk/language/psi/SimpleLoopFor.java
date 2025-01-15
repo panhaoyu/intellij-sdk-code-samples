@@ -10,4 +10,13 @@ public interface SimpleLoopFor extends PsiElement {
   @NotNull
   List<SimpleFishExpr> getFishExprList();
 
+  @NotNull
+  List<SimpleOpComma> getOpCommaList();
+
+  @NotNull
+  SimpleParenL getParenL();
+
+  @NotNull
+  SimpleParenR getParenR();
+
 }

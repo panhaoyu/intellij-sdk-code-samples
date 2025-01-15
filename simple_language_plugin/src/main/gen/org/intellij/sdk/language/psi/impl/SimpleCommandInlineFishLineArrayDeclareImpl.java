@@ -29,6 +29,24 @@ public class SimpleCommandInlineFishLineArrayDeclareImpl extends ASTWrapperPsiEl
 
   @Override
   @NotNull
+  public SimpleLiteralNumber getLiteralNumber() {
+    return findNotNullChildByClass(SimpleLiteralNumber.class);
+  }
+
+  @Override
+  @NotNull
+  public SimpleParenL getParenL() {
+    return findNotNullChildByClass(SimpleParenL.class);
+  }
+
+  @Override
+  @NotNull
+  public SimpleParenR getParenR() {
+    return findNotNullChildByClass(SimpleParenR.class);
+  }
+
+  @Override
+  @NotNull
   public SimpleTkIdentifier getTkIdentifier() {
     return findNotNullChildByClass(SimpleTkIdentifier.class);
   }

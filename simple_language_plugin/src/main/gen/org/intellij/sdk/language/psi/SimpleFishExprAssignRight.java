@@ -10,4 +10,7 @@ public interface SimpleFishExprAssignRight extends PsiElement {
   @NotNull
   SimpleFishExpr getFishExpr();
 
+  @NotNull
+  SimpleOpAssign getOpAssign();
+
 }

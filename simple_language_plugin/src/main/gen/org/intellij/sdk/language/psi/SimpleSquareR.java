@@ -5,12 +5,6 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface SimpleCommandLineOtherWords extends PsiElement {
-
-  @NotNull
-  List<SimpleCommandTokenAll> getCommandTokenAllList();
-
-  @Nullable
-  SimpleTkComment getTkComment();
+public interface SimpleSquareR extends PsiElement {
 
 }

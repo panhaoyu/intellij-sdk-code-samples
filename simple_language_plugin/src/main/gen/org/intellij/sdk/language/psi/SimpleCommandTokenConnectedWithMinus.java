@@ -5,15 +5,12 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface SimpleCommandLineFuncCall extends PsiElement {
-
-  @Nullable
-  SimpleExprParenCsv getExprParenCsv();
-
-  @Nullable
-  SimpleTkComment getTkComment();
+public interface SimpleCommandTokenConnectedWithMinus extends PsiElement {
 
   @NotNull
-  SimpleTkIdentifier getTkIdentifier();
+  List<SimpleOpMinus> getOpMinusList();
+
+  @NotNull
+  List<SimpleTkIdentifier> getTkIdentifierList();
 
 }

@@ -7,6 +7,15 @@ import com.intellij.psi.PsiElement;
 
 public interface SimpleFishLineArrayDeclare extends PsiElement {
 
+  @NotNull
+  SimpleLiteralNumber getLiteralNumber();
+
+  @NotNull
+  SimpleParenL getParenL();
+
+  @NotNull
+  SimpleParenR getParenR();
+
   @Nullable
   SimpleTkComment getTkComment();
 

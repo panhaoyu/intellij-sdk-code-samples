@@ -33,4 +33,10 @@ public class SimpleCommandInlineFishLineAssignImpl extends ASTWrapperPsiElement 
     return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleFishExprAssign.class);
   }
 
+  @Override
+  @NotNull
+  public List<SimpleOpComma> getOpCommaList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleOpComma.class);
+  }
+
 }

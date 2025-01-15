@@ -19,6 +19,10 @@ public class SimpleVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitCommandExprFuncCall(@NotNull SimpleCommandExprFuncCall o) {
+    visitPsiElement(o);
+  }
+
   public void visitCommandInlineFishLine(@NotNull SimpleCommandInlineFishLine o) {
     visitPsiElement(o);
   }
@@ -39,27 +43,27 @@ public class SimpleVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitCommandLineComment(@NotNull SimpleCommandLineComment o) {
-    visitPsiElement(o);
-  }
-
-  public void visitCommandLineFuncCall(@NotNull SimpleCommandLineFuncCall o) {
-    visitPsiElement(o);
-  }
-
-  public void visitCommandLineInlineFish(@NotNull SimpleCommandLineInlineFish o) {
-    visitPsiElement(o);
-  }
-
-  public void visitCommandLineOtherWords(@NotNull SimpleCommandLineOtherWords o) {
-    visitPsiElement(o);
-  }
-
   public void visitCommandTokenAll(@NotNull SimpleCommandTokenAll o) {
     visitPsiElement(o);
   }
 
+  public void visitCommandTokenConnectedWithMinus(@NotNull SimpleCommandTokenConnectedWithMinus o) {
+    visitPsiElement(o);
+  }
+
+  public void visitCommandTokenInlineFish(@NotNull SimpleCommandTokenInlineFish o) {
+    visitPsiElement(o);
+  }
+
   public void visitCommandTokenKeywordAll(@NotNull SimpleCommandTokenKeywordAll o) {
+    visitPsiElement(o);
+  }
+
+  public void visitCurlyL(@NotNull SimpleCurlyL o) {
+    visitPsiElement(o);
+  }
+
+  public void visitCurlyR(@NotNull SimpleCurlyR o) {
     visitPsiElement(o);
   }
 
@@ -279,6 +283,14 @@ public class SimpleVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitLiteralNumber(@NotNull SimpleLiteralNumber o) {
+    visitPsiElement(o);
+  }
+
+  public void visitLiteralString(@NotNull SimpleLiteralString o) {
+    visitPsiElement(o);
+  }
+
   public void visitLoopEach(@NotNull SimpleLoopEach o) {
     visitPsiElement(o);
   }
@@ -291,7 +303,51 @@ public class SimpleVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitOpAssign(@NotNull SimpleOpAssign o) {
+    visitPsiElement(o);
+  }
+
+  public void visitOpAt(@NotNull SimpleOpAt o) {
+    visitPsiElement(o);
+  }
+
+  public void visitOpBinary(@NotNull SimpleOpBinary o) {
+    visitPsiElement(o);
+  }
+
+  public void visitOpComma(@NotNull SimpleOpComma o) {
+    visitPsiElement(o);
+  }
+
   public void visitOpComment(@NotNull SimpleOpComment o) {
+    visitPsiElement(o);
+  }
+
+  public void visitOpDot(@NotNull SimpleOpDot o) {
+    visitPsiElement(o);
+  }
+
+  public void visitOpMinus(@NotNull SimpleOpMinus o) {
+    visitPsiElement(o);
+  }
+
+  public void visitOpUnary(@NotNull SimpleOpUnary o) {
+    visitPsiElement(o);
+  }
+
+  public void visitParenL(@NotNull SimpleParenL o) {
+    visitPsiElement(o);
+  }
+
+  public void visitParenR(@NotNull SimpleParenR o) {
+    visitPsiElement(o);
+  }
+
+  public void visitSquareL(@NotNull SimpleSquareL o) {
+    visitPsiElement(o);
+  }
+
+  public void visitSquareR(@NotNull SimpleSquareR o) {
     visitPsiElement(o);
   }
 

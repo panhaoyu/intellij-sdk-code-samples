@@ -30,20 +30,17 @@ command_block_single ::= (
     command_block_define |
     command_line
 )
-command_line ::= (
-    command_line_comment |
-    command_line_inline_fish |
-    command_line_func_call |
-    command_line_other_words
-)
-command_line_comment ::= tk_comment (eol tk_comment)*
-command_line_other_words ::= command_token_all+ tk_comment?
-command_line_func_call ::= op_at tk_identifier expr_paren_csv? tk_comment?
-command_line_inline_fish ::= square_l command_inline_fish_line square_r tk_comment?
+command_line ::= command_token_all* tk_comment?
 command_token_all ::= (
-     square_l | square_r | paren_l | paren_r | op_comma | op_assign | op_unary | op_binary| op_dot | op_at |
-     tk_literal | command_token_keyword_all | tk_value
- )
+    command_token_connected_with_minus |
+    command_token_inline_fish |
+    command_expr_func_call |
+    square_l | square_r | paren_l | paren_r | op_comma | op_assign | op_unary | op_binary| op_dot | op_at |
+    tk_literal | command_token_keyword_all | tk_value
+)
+command_token_inline_fish ::= square_l command_inline_fish_line square_r
+command_token_connected_with_minus ::= tk_identifier (op_minus tk_identifier)+
+command_expr_func_call ::= op_at tk_identifier expr_paren_csv?
 // 可以在 Command 空间中作为普通字符串使用的关键字
 command_token_keyword_all ::= (
     kw_return |
@@ -209,24 +206,25 @@ tk_identifier ::= IDENTIFIER {
 
 
 //以下为读取的原始token
-private literal_string ::=  STRING_LITERAL
-private literal_number ::= NUMBER_LITERAL
-private op_binary ::= BINARY_OPERATOR | MINUS_OPERATOR | ASSIGNMENT_OPERATOR
-private op_unary ::= UNARY_OPERATOR | MINUS_OPERATOR
-private op_assign ::= ASSIGNMENT_OPERATOR
+literal_string ::=  STRING_LITERAL
+literal_number ::= NUMBER_LITERAL
+op_binary ::= BINARY_OPERATOR | op_minus | ASSIGNMENT_OPERATOR
+op_unary ::= UNARY_OPERATOR | op_minus
+op_minus ::= MINUS_OPERATOR
+op_assign ::= ASSIGNMENT_OPERATOR
 eol ::= tk_newline+
 
-private op_at ::= FUNCTION_CALL_OPERATOR
-private op_comma ::= COMMA_OPERATOR
-private op_dot ::= DOT_OPERATOR
+op_at ::= FUNCTION_CALL_OPERATOR
+op_comma ::= COMMA_OPERATOR
+op_dot ::= DOT_OPERATOR
 
 // Bracket Operators
-private paren_l ::= LEFT_PARENTHESIS
-private paren_r ::= RIGHT_PARENTHESIS
-private square_l ::= LEFT_SQUARE_BRACKET
-private square_r ::= RIGHT_SQUARE_BRACKET
-private curly_l ::= LEFT_CURLY_BRACKET
-private curly_r ::= RIGHT_CURLY_BRACKET
+paren_l ::= LEFT_PARENTHESIS
+paren_r ::= RIGHT_PARENTHESIS
+square_l ::= LEFT_SQUARE_BRACKET
+square_r ::= RIGHT_SQUARE_BRACKET
+curly_l ::= LEFT_CURLY_BRACKET
+curly_r ::= RIGHT_CURLY_BRACKET
 
 //keywords
 private kw_fish_define ::= FISH_DEFINE

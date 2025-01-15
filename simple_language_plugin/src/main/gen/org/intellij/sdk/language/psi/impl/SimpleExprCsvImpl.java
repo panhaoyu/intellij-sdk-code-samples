@@ -33,4 +33,10 @@ public class SimpleExprCsvImpl extends ASTWrapperPsiElement implements SimpleExp
     return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleFishExpr.class);
   }
 
+  @Override
+  @NotNull
+  public List<SimpleOpComma> getOpCommaList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleOpComma.class);
+  }
+
 }

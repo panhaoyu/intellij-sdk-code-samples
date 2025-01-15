@@ -34,6 +34,12 @@ public class SimpleFishLineAssignImpl extends ASTWrapperPsiElement implements Si
   }
 
   @Override
+  @NotNull
+  public List<SimpleOpComma> getOpCommaList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleOpComma.class);
+  }
+
+  @Override
   @Nullable
   public SimpleTkComment getTkComment() {
     return findChildByClass(SimpleTkComment.class);

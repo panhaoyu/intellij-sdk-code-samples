@@ -17,6 +17,18 @@ public interface SimpleFishExpr extends PsiElement {
   List<SimpleFishExprParen> getFishExprParenList();
 
   @NotNull
+  List<SimpleOpBinary> getOpBinaryList();
+
+  @NotNull
+  List<SimpleOpUnary> getOpUnaryList();
+
+  @Nullable
+  SimpleSquareL getSquareL();
+
+  @Nullable
+  SimpleSquareR getSquareR();
+
+  @NotNull
   List<SimpleTkValue> getTkValueList();
 
 }
