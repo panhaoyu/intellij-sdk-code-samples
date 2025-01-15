@@ -7,4 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface SimpleTkNewline extends PsiElement {
 
+  @NotNull
+  PsiElement getNewline();
+
 }

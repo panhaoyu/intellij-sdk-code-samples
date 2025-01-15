@@ -408,13 +408,18 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // tk_newline
+  // tk_newline+
   public static boolean eol(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "eol")) return false;
     if (!nextTokenIs(b, NEWLINE)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = tk_newline(b, l + 1);
+    while (r) {
+      int c = current_position_(b);
+      if (!tk_newline(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "eol", c)) break;
+    }
     exit_section_(b, m, EOL, r);
     return r;
   }
@@ -2204,18 +2209,13 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // NEWLINE+
+  // NEWLINE
   public static boolean tk_newline(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "tk_newline")) return false;
     if (!nextTokenIs(b, NEWLINE)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, NEWLINE);
-    while (r) {
-      int c = current_position_(b);
-      if (!consumeToken(b, NEWLINE)) break;
-      if (!empty_element_parsed_guard_(b, "tk_newline", c)) break;
-    }
     exit_section_(b, m, TK_NEWLINE, r);
     return r;
   }
