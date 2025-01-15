@@ -247,31 +247,36 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // kw_fish_define | kw_fish_operator | kw_case_of | kw_case | kw_end_case | kw_end | kw_exit | kw_global | kw_if | kw_then |
-  //     kw_else_if | kw_else | kw_end_if | kw_local | kw_lock | kw_loop | kw_endloop | kw_continue | kw_return | kw_section | kw_end_section | kw_struct
+  // kw_fish_define | kw_fish_operator | kw_end | kw_return |
+  //     kw_case_of | kw_case | kw_end_case |
+  //     kw_exit | kw_global |  kw_local |
+  //     kw_if | kw_then | kw_else_if | kw_else | kw_end_if |
+  //     kw_lock | 
+  //     kw_loop | kw_endloop | kw_continue |
+  //     kw_section | kw_end_section | kw_struct
   public static boolean command_token_keyword_all(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "command_token_keyword_all")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, COMMAND_TOKEN_KEYWORD_ALL, "<command token keyword all>");
     r = kw_fish_define(b, l + 1);
     if (!r) r = kw_fish_operator(b, l + 1);
+    if (!r) r = kw_end(b, l + 1);
+    if (!r) r = kw_return(b, l + 1);
     if (!r) r = kw_case_of(b, l + 1);
     if (!r) r = kw_case(b, l + 1);
     if (!r) r = kw_end_case(b, l + 1);
-    if (!r) r = kw_end(b, l + 1);
     if (!r) r = kw_exit(b, l + 1);
     if (!r) r = kw_global(b, l + 1);
+    if (!r) r = kw_local(b, l + 1);
     if (!r) r = kw_if(b, l + 1);
     if (!r) r = kw_then(b, l + 1);
     if (!r) r = kw_else_if(b, l + 1);
     if (!r) r = kw_else(b, l + 1);
     if (!r) r = kw_end_if(b, l + 1);
-    if (!r) r = kw_local(b, l + 1);
     if (!r) r = kw_lock(b, l + 1);
     if (!r) r = kw_loop(b, l + 1);
     if (!r) r = kw_endloop(b, l + 1);
     if (!r) r = kw_continue(b, l + 1);
-    if (!r) r = kw_return(b, l + 1);
     if (!r) r = kw_section(b, l + 1);
     if (!r) r = kw_end_section(b, l + 1);
     if (!r) r = kw_struct(b, l + 1);
