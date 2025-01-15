@@ -13,7 +13,10 @@ public interface SimpleTokenSets {
     );
     TokenSet NOTHING = TokenSet.create();
     TokenSet COMMENTS = TokenSet.create(
-            SimpleTypes.COMMENT,
+            SimpleTypes.COMMENT_TEXT,
+            SimpleTypes.COMMENT_OPERATOR,
+            SimpleTypes.OP_COMMENT,
+            SimpleTypes.TK_COMMENT_TEXT,
             SimpleTypes.TK_COMMENT
     );
 

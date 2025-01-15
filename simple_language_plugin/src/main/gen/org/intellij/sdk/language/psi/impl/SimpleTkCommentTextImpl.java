@@ -11,32 +11,20 @@ import static org.intellij.sdk.language.psi.SimpleTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import org.intellij.sdk.language.psi.*;
 
-public class SimpleTkCommentImpl extends ASTWrapperPsiElement implements SimpleTkComment {
+public class SimpleTkCommentTextImpl extends ASTWrapperPsiElement implements SimpleTkCommentText {
 
-  public SimpleTkCommentImpl(@NotNull ASTNode node) {
+  public SimpleTkCommentTextImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull SimpleVisitor visitor) {
-    visitor.visitTkComment(this);
+    visitor.visitTkCommentText(this);
   }
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof SimpleVisitor) accept((SimpleVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @NotNull
-  public SimpleOpComment getOpComment() {
-    return findNotNullChildByClass(SimpleOpComment.class);
-  }
-
-  @Override
-  @Nullable
-  public SimpleTkCommentText getTkCommentText() {
-    return findChildByClass(SimpleTkCommentText.class);
   }
 
 }

@@ -220,7 +220,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   // tk_comment (eol tk_comment)*
   public static boolean command_line_comment(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "command_line_comment")) return false;
-    if (!nextTokenIs(b, COMMENT)) return false;
+    if (!nextTokenIs(b, COMMENT_OPERATOR)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = tk_comment(b, l + 1);
@@ -1388,7 +1388,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   // tk_comment
   public static boolean fish_line_comment(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "fish_line_comment")) return false;
-    if (!nextTokenIs(b, COMMENT)) return false;
+    if (!nextTokenIs(b, COMMENT_OPERATOR)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = tk_comment(b, l + 1);
@@ -2089,6 +2089,18 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // COMMENT_OPERATOR
+  public static boolean op_comment(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "op_comment")) return false;
+    if (!nextTokenIs(b, COMMENT_OPERATOR)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, COMMENT_OPERATOR);
+    exit_section_(b, m, OP_COMMENT, r);
+    return r;
+  }
+
+  /* ********************************************************** */
   // DOT_OPERATOR
   static boolean op_dot(PsiBuilder b, int l) {
     return consumeToken(b, DOT_OPERATOR);
@@ -2172,14 +2184,34 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // COMMENT
+  // op_comment tk_comment_text?
   public static boolean tk_comment(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "tk_comment")) return false;
-    if (!nextTokenIs(b, COMMENT)) return false;
+    if (!nextTokenIs(b, COMMENT_OPERATOR)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeToken(b, COMMENT);
+    r = op_comment(b, l + 1);
+    r = r && tk_comment_1(b, l + 1);
     exit_section_(b, m, TK_COMMENT, r);
+    return r;
+  }
+
+  // tk_comment_text?
+  private static boolean tk_comment_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "tk_comment_1")) return false;
+    tk_comment_text(b, l + 1);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // COMMENT_TEXT
+  public static boolean tk_comment_text(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "tk_comment_text")) return false;
+    if (!nextTokenIs(b, COMMENT_TEXT)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, COMMENT_TEXT);
+    exit_section_(b, m, TK_COMMENT_TEXT, r);
     return r;
   }
 

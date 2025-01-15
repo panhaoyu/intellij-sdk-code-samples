@@ -263,7 +263,15 @@ public class SimpleVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitOpComment(@NotNull SimpleOpComment o) {
+    visitPsiElement(o);
+  }
+
   public void visitTkComment(@NotNull SimpleTkComment o) {
+    visitPsiElement(o);
+  }
+
+  public void visitTkCommentText(@NotNull SimpleTkCommentText o) {
     visitPsiElement(o);
   }
 

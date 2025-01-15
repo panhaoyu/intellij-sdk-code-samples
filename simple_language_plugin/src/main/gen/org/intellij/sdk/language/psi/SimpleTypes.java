@@ -72,7 +72,9 @@ public interface SimpleTypes {
   IElementType LOOP_EACH = new SimpleElementType("LOOP_EACH");
   IElementType LOOP_FOR = new SimpleElementType("LOOP_FOR");
   IElementType LOOP_WHILE = new SimpleElementType("LOOP_WHILE");
+  IElementType OP_COMMENT = new SimpleElementType("OP_COMMENT");
   IElementType TK_COMMENT = new SimpleElementType("TK_COMMENT");
+  IElementType TK_COMMENT_TEXT = new SimpleElementType("TK_COMMENT_TEXT");
   IElementType TK_IDENTIFIER = new SimpleElementType("TK_IDENTIFIER");
   IElementType TK_LITERAL = new SimpleElementType("TK_LITERAL");
   IElementType TK_NEWLINE = new SimpleElementType("TK_NEWLINE");
@@ -86,7 +88,8 @@ public interface SimpleTypes {
   IElementType CASEOF = new SimpleTokenType("CASEOF");
   IElementType COMMAND = new SimpleTokenType("COMMAND");
   IElementType COMMA_OPERATOR = new SimpleTokenType("COMMA_OPERATOR");
-  IElementType COMMENT = new SimpleTokenType("COMMENT");
+  IElementType COMMENT_OPERATOR = new SimpleTokenType("COMMENT_OPERATOR");
+  IElementType COMMENT_TEXT = new SimpleTokenType("COMMENT_TEXT");
   IElementType CONTINUE = new SimpleTokenType("CONTINUE");
   IElementType DOT_OPERATOR = new SimpleTokenType("DOT_OPERATOR");
   IElementType ELSE = new SimpleTokenType("ELSE");
@@ -323,8 +326,14 @@ public interface SimpleTypes {
       else if (type == LOOP_WHILE) {
         return new SimpleLoopWhileImpl(node);
       }
+      else if (type == OP_COMMENT) {
+        return new SimpleOpCommentImpl(node);
+      }
       else if (type == TK_COMMENT) {
         return new SimpleTkCommentImpl(node);
+      }
+      else if (type == TK_COMMENT_TEXT) {
+        return new SimpleTkCommentTextImpl(node);
       }
       else if (type == TK_IDENTIFIER) {
         return new SimpleTkIdentifierImpl(node);

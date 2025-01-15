@@ -49,9 +49,6 @@ Whitespace = [ \t\x0B\f]+
 Ellipsis = "..."
 
 
-// 注释模式（以 ';' 开头）。
-Comment = ;.*
-
 /*
  * 标识符模式。
  * 标识符以字母或下划线开头，后跟字母、数字或点。
@@ -118,10 +115,43 @@ String = {StringA} | {StringB}
 // 定义一个用于处理字符串的特定状态。
 %state STRING
 
+// 定义一个用于记录当前是否在注释里面的状态，以用于把分号与注释内容分割为两个部分分别进行处理
+%state COMMENT
+
+
 %%
+
+
+<COMMENT> {
+    // 规则1：如果下一字符是换行（或者文件结束），结束注释并切换回初始状态
+    \n {
+        yybegin(YYINITIAL);
+        // 如果你想把换行本身也视作一个 token，可以在这里 return SimpleTypes.NEWLINE
+        // 也可以什么都不返回，让它自动跳过（在 IntelliJ 平台的 Lexer 通常必须 return 一个token，
+        // 或者将它识别为 white space，看你的需求）
+        return SimpleTypes.NEWLINE;
+    }
+    <<EOF>> {
+        yybegin(YYINITIAL);
+        return null;
+        // 代表注释到文件末尾都没有再出现换行，
+        // 或者根据你自己的需求定义返回啥 token
+    }
+
+    // 规则2：匹配至少一个非换行字符
+    [^\n]+ {
+        // 把这段文字当成注释文本 token
+        return SimpleTypes.COMMENT_TEXT;
+    }
+}
+
 
 // 关键字的标记模式。
 <YYINITIAL> {
+    ";" {
+          yybegin(COMMENT);
+          return SimpleTypes.COMMENT_OPERATOR;
+      }
     "end section"| "endsection" | "endSection" | "end_section" { return SimpleTypes.ENDSECTION; }
     "exitsection" | "exitSection" | "exit_section" | "exit section" {return SimpleTypes.EXITSECTION; }
     "caseof" | "case_of"  { return SimpleTypes.CASEOF; }
@@ -166,7 +196,6 @@ String = {StringA} | {StringB}
     {AssignmentOperator} {return SimpleTypes.ASSIGNMENT_OPERATOR;}
     {UnaryOperator} {return SimpleTypes.UNARY_OPERATOR;}
     {Whitespace} {return TokenType.WHITE_SPACE;}
-    {Comment} {return SimpleTypes.COMMENT;}
     {NewlineIndent} {return SimpleTypes.NEWLINE;}
     \{ {return SimpleTypes.LEFT_CURLY_BRACKET; }
     \} {return SimpleTypes.RIGHT_CURLY_BRACKET; }
@@ -181,6 +210,8 @@ String = {StringA} | {StringB}
     {Ellipsis} {Whitespace}* {NewlineIndent} {return TokenType.WHITE_SPACE; }
     {Ellipsis} {return TokenType.WHITE_SPACE; }
 }
+
+
 
 /* 处理所有未识别的字符作为错误标记。 */
 [^] { return TokenType.BAD_CHARACTER; }
