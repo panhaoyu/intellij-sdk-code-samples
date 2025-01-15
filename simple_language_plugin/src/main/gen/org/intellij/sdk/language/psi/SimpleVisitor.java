@@ -191,6 +191,10 @@ public class SimpleVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitFishLineAssignScope(@NotNull SimpleFishLineAssignScope o) {
+    visitPsiElement(o);
+  }
+
   public void visitFishLineBreak(@NotNull SimpleFishLineBreak o) {
     visitPsiElement(o);
   }

@@ -1212,7 +1212,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (kw_local | kw_global)? fish_expr_assign (op_comma fish_expr_assign)* tk_comment?
+  // fish_line_assign_scope? fish_expr_assign (op_comma fish_expr_assign)* tk_comment?
   public static boolean fish_line_assign(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "fish_line_assign")) return false;
     boolean r;
@@ -1225,20 +1225,11 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // (kw_local | kw_global)?
+  // fish_line_assign_scope?
   private static boolean fish_line_assign_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "fish_line_assign_0")) return false;
-    fish_line_assign_0_0(b, l + 1);
+    fish_line_assign_scope(b, l + 1);
     return true;
-  }
-
-  // kw_local | kw_global
-  private static boolean fish_line_assign_0_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "fish_line_assign_0_0")) return false;
-    boolean r;
-    r = kw_local(b, l + 1);
-    if (!r) r = kw_global(b, l + 1);
-    return r;
   }
 
   // (op_comma fish_expr_assign)*
@@ -1268,6 +1259,19 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     if (!recursion_guard_(b, l, "fish_line_assign_3")) return false;
     tk_comment(b, l + 1);
     return true;
+  }
+
+  /* ********************************************************** */
+  // kw_local | kw_global
+  public static boolean fish_line_assign_scope(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_assign_scope")) return false;
+    if (!nextTokenIs(b, "<fish line assign scope>", GLOBAL, LOCAL)) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, FISH_LINE_ASSIGN_SCOPE, "<fish line assign scope>");
+    r = kw_local(b, l + 1);
+    if (!r) r = kw_global(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
   }
 
   /* ********************************************************** */

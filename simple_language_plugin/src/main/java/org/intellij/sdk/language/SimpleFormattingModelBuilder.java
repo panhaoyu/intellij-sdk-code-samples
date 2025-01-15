@@ -65,6 +65,8 @@ final class SimpleFormattingModelBuilder implements FormattingModelBuilder {
                 .around(SimpleTokenSets.OPERATORS_WITHOUT_MINUS).spaces(1)
                 // 两个标识符或者字面量之间只有一个空格
                 .between(SimpleTokenSets.IDENTIFIERS_AND_LITERALS, SimpleTokenSets.IDENTIFIERS_AND_LITERALS).spaces(1)  // 标识符前后有一个空格
+
+                .after(SimpleTypes.FISH_LINE_ASSIGN_SCOPE).spaces(1)
                 ;
     }
 

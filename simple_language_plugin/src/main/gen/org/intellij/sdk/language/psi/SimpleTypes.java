@@ -54,6 +54,7 @@ public interface SimpleTypes {
   IElementType FISH_LINE = new SimpleElementType("FISH_LINE");
   IElementType FISH_LINE_ARRAY_DECLARE = new SimpleElementType("FISH_LINE_ARRAY_DECLARE");
   IElementType FISH_LINE_ASSIGN = new SimpleElementType("FISH_LINE_ASSIGN");
+  IElementType FISH_LINE_ASSIGN_SCOPE = new SimpleElementType("FISH_LINE_ASSIGN_SCOPE");
   IElementType FISH_LINE_BREAK = new SimpleElementType("FISH_LINE_BREAK");
   IElementType FISH_LINE_CASE_OF_BLOCK_FOOTER = new SimpleElementType("FISH_LINE_CASE_OF_BLOCK_FOOTER");
   IElementType FISH_LINE_CASE_OF_BLOCK_HEADER = new SimpleElementType("FISH_LINE_CASE_OF_BLOCK_HEADER");
@@ -292,6 +293,9 @@ public interface SimpleTypes {
       }
       else if (type == FISH_LINE_ASSIGN) {
         return new SimpleFishLineAssignImpl(node);
+      }
+      else if (type == FISH_LINE_ASSIGN_SCOPE) {
+        return new SimpleFishLineAssignScopeImpl(node);
       }
       else if (type == FISH_LINE_BREAK) {
         return new SimpleFishLineBreakImpl(node);
