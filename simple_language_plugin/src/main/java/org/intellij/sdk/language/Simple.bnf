@@ -15,11 +15,6 @@
   tokenTypeClass="org.intellij.sdk.language.psi.SimpleTokenType"
 
   psiImplUtilClass="org.intellij.sdk.language.psi.impl.SimplePsiImplUtil"
-
-  tokens = [
-    space="regexp: +"
-    NEWLINE='regexp:(\R( \t)*)'
-  ]
 }
 
 simpleFile ::= (eol? cmd_block)* eol?

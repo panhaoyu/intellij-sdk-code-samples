@@ -6,25 +6,25 @@ import com.intellij.testFramework.ParsingTestCase;
 
 public class SimpleParsingTest extends ParsingTestCase {
 
-  public SimpleParsingTest() {
-    super("", "fis", new SimpleParserDefinition());
-  }
+    public SimpleParsingTest() {
+        super("", "fis", new SimpleParserDefinition());
+    }
 
-  public void testParsingTestData() {
-    doTest(true);
-  }
+    public void testParsingTestData() {
+        doTest(true);
+    }
 
-  /**
-   * @return path to test data file directory relative to root of this module.
-   */
-  @Override
-  protected String getTestDataPath() {
-    return "src/test/testData";
-  }
+    /**
+     * @return path to test data file directory relative to root of this module.
+     */
+    @Override
+    protected String getTestDataPath() {
+        return "src/test/testData/语义分析";
+    }
 
-  @Override
-  protected boolean includeRanges() {
-    return true;
-  }
+    @Override
+    protected boolean includeRanges() {
+        return true;
+    }
 
 }
