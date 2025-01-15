@@ -168,8 +168,8 @@ String = {StringA} | {StringB}
     {Whitespace} {return TokenType.WHITE_SPACE;}
     {NewlineIndent} {return SimpleTypes.NEWLINE;}
     {Comment} {return SimpleTypes.COMMENT;}
-    \} {return SimpleTypes.LEFT_CURLY_BRACKET; }
-    \{ {return SimpleTypes.RIGHT_CURLY_BRACKET; }
+    \{ {return SimpleTypes.LEFT_CURLY_BRACKET; }
+    \} {return SimpleTypes.RIGHT_CURLY_BRACKET; }
     \( {return SimpleTypes.LEFT_PARENTHESIS; }
     \) {return SimpleTypes.RIGHT_PARENTHESIS; }
     \[ {return SimpleTypes.LEFT_SQUARE_BRACKET; }

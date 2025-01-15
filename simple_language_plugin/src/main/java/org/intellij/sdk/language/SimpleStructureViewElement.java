@@ -9,9 +9,9 @@ import com.intellij.ide.util.treeView.smartTree.TreeElement;
 import com.intellij.navigation.ItemPresentation;
 import com.intellij.psi.NavigatablePsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
-import org.intellij.sdk.language.psi.SimpleBlockDefine;
+import org.intellij.sdk.language.psi.SimpleCommandBlockDefine;
 import org.intellij.sdk.language.psi.SimpleFile;
-import org.intellij.sdk.language.psi.impl.SimpleBlockDefineImpl;
+import org.intellij.sdk.language.psi.impl.SimpleCommandBlockDefineImpl;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -62,13 +62,13 @@ public class SimpleStructureViewElement implements StructureViewTreeElement, Sor
     @Override
     public TreeElement @NotNull [] getChildren() {
         if (myElement instanceof SimpleFile) {
-            List<SimpleBlockDefine> defines = PsiTreeUtil.getChildrenOfTypeAsList(myElement, SimpleBlockDefine.class);
+            List<SimpleCommandBlockDefine> defines = PsiTreeUtil.getChildrenOfTypeAsList(myElement, SimpleCommandBlockDefine.class);
             List<TreeElement> treeElements = new ArrayList<>(defines.size());
             myElement.accept(new FishRecursiveElementWalkingVisitor() {
                 @Override
-                public void visitBlockDefine(@NotNull SimpleBlockDefine o) {
-                    super.visitBlockDefine(o);
-                    treeElements.add(new SimpleStructureViewElement((SimpleBlockDefineImpl) o));
+                public void visitCommandBlockDefine(@NotNull SimpleCommandBlockDefine o) {
+                    super.visitCommandBlockDefine(o);
+                    treeElements.add(new SimpleStructureViewElement((SimpleCommandBlockDefineImpl) o));
                 }
             });
             return treeElements.toArray(new TreeElement[0]);

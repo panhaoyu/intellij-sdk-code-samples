@@ -8,21 +8,24 @@ import com.intellij.psi.PsiElement;
 public interface SimpleBlockSingleFish extends PsiElement {
 
   @Nullable
-  SimpleBlockCaseOf getBlockCaseOf();
+  SimpleEol getEol();
 
   @Nullable
-  SimpleBlockCmd getBlockCmd();
+  SimpleFishBlockCaseOf getFishBlockCaseOf();
 
   @Nullable
-  SimpleBlockIf getBlockIf();
+  SimpleFishBlockCommand getFishBlockCommand();
 
   @Nullable
-  SimpleBlockLoop getBlockLoop();
+  SimpleFishBlockIf getFishBlockIf();
 
   @Nullable
-  SimpleBlockSection getBlockSection();
+  SimpleFishBlockLoop getFishBlockLoop();
 
   @Nullable
-  SimpleStatFish getStatFish();
+  SimpleFishBlockSection getFishBlockSection();
+
+  @Nullable
+  SimpleFishLine getFishLine();
 
 }

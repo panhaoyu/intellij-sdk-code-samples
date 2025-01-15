@@ -12,7 +12,7 @@ import com.intellij.psi.PsiReference;
 import com.intellij.psi.impl.source.resolve.reference.impl.PsiMultiReference;
 import com.intellij.psi.util.PsiTreeUtil;
 import org.intellij.sdk.language.SimpleReference;
-import org.intellij.sdk.language.psi.SimpleBlockDefine;
+import org.intellij.sdk.language.psi.SimpleCommandBlockDefine;
 import org.intellij.sdk.language.psi.SimpleElementFactory;
 import org.intellij.sdk.language.psi.SimpleTkIdentifier;
 import org.jetbrains.annotations.NotNull;
@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class SimplePsiImplUtil {
-    public static String getName(SimpleBlockDefine element) {
+    public static String getName(SimpleCommandBlockDefine element) {
         SimpleTkIdentifier child = PsiTreeUtil.findChildOfType(element, SimpleTkIdentifier.class);
         return Objects.requireNonNull(child).getName();
     }
@@ -50,7 +50,7 @@ public class SimplePsiImplUtil {
             @Nullable
             @Override
             public String getPresentableText() {
-                @Nullable SimpleBlockDefine parent = PsiTreeUtil.getParentOfType(element, SimpleBlockDefine.class);
+                @Nullable SimpleCommandBlockDefine parent = PsiTreeUtil.getParentOfType(element, SimpleCommandBlockDefine.class);
                 String name = element.getName();
                 if (parent == null) {
                     return name;
@@ -74,7 +74,7 @@ public class SimplePsiImplUtil {
         };
     }
 
-    public static ItemPresentation getPresentation(final SimpleBlockDefine element) {
+    public static ItemPresentation getPresentation(final SimpleCommandBlockDefine element) {
         return new ItemPresentation() {
             final SimpleTkIdentifier identifier = PsiTreeUtil.findChildOfType(element, SimpleTkIdentifier.class);
 

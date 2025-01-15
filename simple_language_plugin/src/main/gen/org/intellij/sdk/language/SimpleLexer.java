@@ -1172,12 +1172,12 @@ class SimpleLexer implements FlexLexer {
           // fall through
           case 67: break;
           case 17:
-            { return SimpleTypes.RIGHT_CURLY_BRACKET;
+            { return SimpleTypes.LEFT_CURLY_BRACKET;
             }
           // fall through
           case 68: break;
           case 18:
-            { return SimpleTypes.LEFT_CURLY_BRACKET;
+            { return SimpleTypes.RIGHT_CURLY_BRACKET;
             }
           // fall through
           case 69: break;

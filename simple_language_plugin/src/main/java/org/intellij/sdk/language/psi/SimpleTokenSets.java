@@ -109,18 +109,20 @@ public interface SimpleTokenSets {
     );
 
     TokenSet BlockBody = TokenSet.create(
-            SimpleTypes.BODY_IF,
-            SimpleTypes.BODY_ELSE_IF,
-            SimpleTypes.BODY_ELSE,
-            SimpleTypes.BODY_FISH_DEFINE,
-            SimpleTypes.BODY_LOOP,
-            SimpleTypes.BODY_SECTION,
-            SimpleTypes.BODY_CASE_OF
+            SimpleTypes.FISH_BLOCK_BODY_IF,
+            SimpleTypes.FISH_BLOCK_BODY_ELSE_IF,
+            SimpleTypes.FISH_BLOCK_BODY_ELSE,
+            SimpleTypes.FISH_BLOCK_DEFINE_BODY,
+            SimpleTypes.FISH_BLOCK_BODY_LOOP,
+            SimpleTypes.FISH_BLOCK_BODY_SECTION,
+            SimpleTypes.FISH_BLOCK_BODY_CASE_OF,
+            SimpleTypes.FISH_BLOCK_COMMAND_BODY
     );
 
     TokenSet BlockSkip = TokenSet.create(
             TokenType.NEW_LINE_INDENT,
             TokenType.WHITE_SPACE,
-            SimpleTypes.NEWLINE
+            SimpleTypes.NEWLINE,
+            SimpleTypes.EOL
     );
 }

@@ -22,93 +22,127 @@
   ]
 }
 
-simpleFile ::= cmd_block*
+simpleFile ::= command_block*
 
 //前缀为cmd的均表示作用于command作用域中
-private cmd_block ::= (
-    cmd_stat_inline_fish |
-    block_define |
-    cmd_stat_func_call |
-    cmd_stat_other |
-    tk_comment |
+command_block ::= (
+    command_block_define |
+    command_line
+)
+command_line ::= (
+    command_line_inline_fish |
+    command_line_func_call |
+    command_line_other_words |
+    command_line_comment |
     eol
 )
-cmd_stat_inline_fish ::= cmd_expr_inline_fish
-cmd_stat_other ::= cmd_tk_all+
-private cmd_tk_all ::= (
+command_line_comment ::= tk_comment
+command_line_other_words ::= command_token_all+ tk_comment?
+command_line_func_call ::= op_at tk_identifier expr_paren_csv? tk_comment?
+command_line_inline_fish ::= square_l fish_line square_r tk_comment?
+command_token_all ::= (
      square_l | square_r | paren_l | paren_r | op_comma | op_assign | op_unary | op_binary| op_dot | op_at |
-     tk_literal | cmd_tk_kw_all | tk_identifier
+     tk_literal | command_token_keyword_all | tk_identifier
  )
-private cmd_tk_kw_all ::= (kw_fish_define | kw_fish_operator | kw_case_of | kw_case | kw_end_case | kw_end | kw_exit | kw_global | kw_if | kw_then |
+command_token_keyword_all ::= (kw_fish_define | kw_fish_operator | kw_case_of | kw_case | kw_end_case | kw_end | kw_exit | kw_global | kw_if | kw_then |
     kw_else_if | kw_else | kw_end_if | kw_local | kw_lock | kw_loop | kw_endloop | kw_continue | kw_return | kw_section | kw_end_section | kw_struct )
-cmd_stat_func_call ::= cmd_expr_func_call
-private cmd_expr_func_call ::= op_at tk_identifier expr_paren_csv?
-private cmd_expr_inline_fish ::= square_l stat_fish square_r
 
-
-block_define ::= (fish_define_header (eol body_fish_define)? eol kw_end) {
+//函数的定义是在command空间里面的，而不是fish空间里面
+command_block_define ::= (fish_line_define_header (eol fish_block_define_body)? tk_comment? eol fish_line_define_footer) {
     methods=[getName getPresentation]
 }
-fish_define_header ::= (kw_fish_define | kw_fish_operator) tk_identifier define_params?
-body_fish_define ::= block_fish
-private define_params ::= (paren_l tk_identifier (op_comma tk_identifier)* paren_r)
+private fish_line_define_header ::= (kw_fish_define | kw_fish_operator) tk_identifier fish_expr_define_params? tk_comment?
+fish_block_define_body ::= fish_block
+private fish_line_define_footer ::= kw_end tk_comment?
+private fish_expr_define_params ::= (paren_l tk_identifier (op_comma tk_identifier)* paren_r)
 
-block_fish ::=  block_single_fish (eol block_single_fish)*
-block_single_fish ::= block_if | block_loop | block_case_of | block_section | block_cmd | stat_fish
+// 全部的可能的 Fish 语句块
+fish_block ::=  block_single_fish (eol block_single_fish)*
+block_single_fish ::= (
+    fish_block_if |
+    fish_block_loop |
+    fish_block_case_of |
+    fish_block_section |
+    fish_block_command |
+    fish_line |
+    eol
+)
 
-block_if ::= kw_if expr kw_then?
-             (eol body_if)?
-             (eol block_else_if)*
-             (eol block_else)?
-             eol kw_end_if
-block_else_if ::= kw_else_if expr kw_then? (eol body_else_if)?
-block_else ::=  kw_else (eol body_else)?
-body_if ::= block_fish
-body_else_if ::= block_fish
-body_else ::= block_fish
+// If 语法
+fish_block_if ::= fish_line_if_block_header
+             (eol fish_block_body_if)?
+             (eol fish_line_if_block_else_if (eol fish_block_body_else_if)?)*
+             (eol fish_line_if_block_else (eol fish_block_body_else)?)?
+             eol fish_line_if_block_footer
+fish_line_if_block_header ::= kw_if expr kw_then? tk_comment?
+fish_line_if_block_else ::= kw_else tk_comment?
+fish_line_if_block_else_if ::= kw_else_if expr kw_then? tk_comment?
+fish_line_if_block_footer ::= kw_end_if tk_comment?
+fish_block_body_if ::= fish_block
+fish_block_body_else_if ::= fish_block
+fish_block_body_else ::= fish_block
 
-block_loop ::= block_header_loop (eol body_loop)? eol kw_endloop
-body_loop ::= block_fish
-block_header_loop ::= kw_loop (loop_each | loop_indexed | loop_for | loop_while)
-private loop_indexed ::= assign_left_for_loop loop_indexed_range
-loop_indexed_range ::=
-    paren_l expr op_comma
-    expr (op_comma expr)? paren_r
-private loop_while ::= kw_while expr
-private loop_each ::= kw_foreach assign_left_for_loop expr
-private loop_for ::= kw_for paren_l kw_local? expr op_comma expr op_comma expr paren_r
+// Loop 语法
+fish_block_loop ::= fish_line_loop_block_header (eol fish_block_body_loop)? fish_line_loop_block_footer
+fish_line_loop_block_header ::= kw_loop (loop_each | fish_expr_loop_indexed | loop_for | loop_while) tk_comment?
+fish_line_loop_block_footer ::= kw_endloop tk_comment?
+fish_block_body_loop ::= fish_block
+fish_expr_loop_indexed ::= fish_expr_assign_left_for_loop paren_l expr op_comma expr (op_comma expr)? paren_r
+loop_while ::= kw_while expr
+loop_each ::= kw_foreach fish_expr_assign_left_for_loop expr
+loop_for ::= kw_for paren_l kw_local? expr op_comma expr op_comma expr paren_r
 
+// Case of 语法
+fish_block_case_of ::= (
+    fish_line_case_of_block_header
+    (eol fish_block_body_case_of)?
+    (eol fish_line_case_of_block_option eol fish_block_body_case_of)*
+    eol fish_line_case_of_block_footer)
+fish_line_case_of_block_header ::= kw_case_of expr tk_comment?
+fish_line_case_of_block_option ::= kw_case expr tk_comment?
+fish_line_case_of_block_footer ::= kw_end_case tk_comment?
+fish_block_body_case_of ::= fish_block
 
-block_case_of ::= kw_case_of expr (eol body_case_of)? (eol block_case_option)* eol kw_end_case
-block_case_option ::= kw_case expr (eol body_case_of)?
-body_case_of ::= block_fish
+// Section 语法块
+fish_block_section ::= fish_line_section_header (eol fish_block_body_section)? eol fish_line_section_footer
+fish_line_section_header ::= kw_section tk_comment?
+fish_line_section_footer ::= kw_end_section tk_comment?
+fish_block_body_section ::= fish_block
 
-block_section ::= kw_section (eol body_section)? eol kw_end_section
-body_section ::= block_fish
-
-block_cmd ::= kw_command (eol body_cmd)? eol kw_end_command
-body_cmd ::= cmd_stat_other (eol cmd_stat_other)*
+// Command 语法块
+fish_block_command ::= (
+    fish_line_command_header
+    (eol fish_block_command_body)?
+    eol fish_line_command_footer)
+fish_line_command_header ::= kw_command tk_comment?
+fish_line_command_footer ::= kw_end_command tk_comment?
+fish_block_command_body ::= command_block
     
-stat_fish ::= (
-    kw_break |
-    kw_continue |
-    kw_exit_section |
-    kw_exit_loop |
-    kw_exit |
-    stat_array_declare |
-    stat_assign |
-    kw_return expr |
-    expr
+fish_line ::= (
+    fish_line_break |
+    fish_line_continue |
+    fish_line_exit_section |
+    fish_line_exit_loop |
+    fish_line_exit |
+    fish_line_array_declare |
+    fish_line_assign |
+    fish_line_return |
+    fish_line_expr
     )
+fish_line_break ::= kw_break tk_comment?
+fish_line_continue ::= kw_continue tk_comment?
+fish_line_exit ::= kw_exit tk_comment?
+fish_line_exit_section ::= kw_exit_section tk_comment?
+fish_line_exit_loop ::= kw_exit_loop tk_comment?
+fish_line_return ::= kw_return expr? tk_comment?
+fish_line_array_declare ::= kw_array tk_identifier paren_l literal_number paren_r tk_comment?
+fish_line_assign ::= (kw_local | kw_global)? fish_expr_assign (op_comma fish_expr_assign)* tk_comment?
+fish_line_expr ::= expr tk_comment?
 
-
-
-stat_assign ::= (kw_local | kw_global)? expr_assign (op_comma expr_assign)*
-private stat_array_declare ::= kw_array tk_identifier paren_l literal_number paren_r
-private expr_assign ::= assign_target assign_right?
-private assign_target ::= tk_identifier expr_paren_csv?
-private assign_right ::= op_assign expr
-assign_left_for_loop ::= kw_local? tk_identifier
+fish_expr_assign ::= fish_expr_assign_target fish_expr_assign_right?
+fish_expr_assign_target ::= tk_identifier expr_paren_csv?
+fish_expr_assign_right ::= op_assign expr
+fish_expr_assign_left_for_loop ::= kw_local? tk_identifier
 
 
 private expr ::= (square_l expr_binary square_r) |  expr_binary
@@ -125,8 +159,8 @@ private expr_unary ::= op_unary expr
 ////词汇之间的组合
 tk_value ::= tk_identifier | tk_literal
 tk_literal ::= literal_string | literal_number
-tk_comment ::= COMMENT
 tk_newline ::= NEWLINE
+tk_comment ::= COMMENT
 tk_identifier ::= IDENTIFIER {
 ////  pin=3
 //  recoverWhile="recover_property"
@@ -153,7 +187,7 @@ private literal_number ::= NUMBER_LITERAL
 private op_binary ::= BINARY_OPERATOR | MINUS_OPERATOR | ASSIGNMENT_OPERATOR
 private op_unary ::= UNARY_OPERATOR | MINUS_OPERATOR
 private op_assign ::= ASSIGNMENT_OPERATOR
-eol ::= (tk_comment? tk_newline)+
+eol ::= tk_newline+
 
 private op_at ::= FUNCTION_CALL_OPERATOR
 private op_comma ::= COMMA_OPERATOR

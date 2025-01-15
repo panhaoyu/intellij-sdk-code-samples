@@ -32,32 +32,32 @@ final class SimpleFoldingBuilder extends FoldingBuilderEx implements DumbAware {
         List<FoldingDescriptor> descriptors = new ArrayList<>();
         root.accept(new FishRecursiveElementWalkingVisitor() {
             @Override
-            public void visitBlockCmd(@NotNull SimpleBlockCmd o) {
-                super.visitBlockCmd(o);
+            public void visitFishBlockCommand(@NotNull SimpleFishBlockCommand o) {
+                super.visitFishBlockCommand(o);
                 descriptors.add(createFold(o));
             }
 
             @Override
-            public void visitBlockDefine(@NotNull SimpleBlockDefine o) {
-                super.visitBlockDefine(o);
+            public void visitCommandBlockDefine(@NotNull SimpleCommandBlockDefine o) {
+                super.visitCommandBlockDefine(o);
                 descriptors.add(createFold(o));
             }
 
             @Override
-            public void visitBlockElse(@NotNull SimpleBlockElse o) {
-                super.visitBlockElse(o);
+            public void visitFishBlockBodyElse(@NotNull SimpleFishBlockBodyElse o) {
+                super.visitFishBlockBodyElse(o);
                 descriptors.add(createFold(o));
             }
 
             @Override
-            public void visitBlockLoop(@NotNull SimpleBlockLoop o) {
-                super.visitBlockLoop(o);
+            public void visitFishBlockLoop(@NotNull SimpleFishBlockLoop o) {
+                super.visitFishBlockLoop(o);
                 descriptors.add(createFold(o));
             }
 
             @Override
-            public void visitBlockIf(@NotNull SimpleBlockIf o) {
-                super.visitBlockIf(o);
+            public void visitFishBlockIf(@NotNull SimpleFishBlockIf o) {
+                super.visitFishBlockIf(o);
                 descriptors.add(createFold(o));
             }
         });

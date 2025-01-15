@@ -29,38 +29,44 @@ public class SimpleBlockSingleFishImpl extends ASTWrapperPsiElement implements S
 
   @Override
   @Nullable
-  public SimpleBlockCaseOf getBlockCaseOf() {
-    return findChildByClass(SimpleBlockCaseOf.class);
+  public SimpleEol getEol() {
+    return findChildByClass(SimpleEol.class);
   }
 
   @Override
   @Nullable
-  public SimpleBlockCmd getBlockCmd() {
-    return findChildByClass(SimpleBlockCmd.class);
+  public SimpleFishBlockCaseOf getFishBlockCaseOf() {
+    return findChildByClass(SimpleFishBlockCaseOf.class);
   }
 
   @Override
   @Nullable
-  public SimpleBlockIf getBlockIf() {
-    return findChildByClass(SimpleBlockIf.class);
+  public SimpleFishBlockCommand getFishBlockCommand() {
+    return findChildByClass(SimpleFishBlockCommand.class);
   }
 
   @Override
   @Nullable
-  public SimpleBlockLoop getBlockLoop() {
-    return findChildByClass(SimpleBlockLoop.class);
+  public SimpleFishBlockIf getFishBlockIf() {
+    return findChildByClass(SimpleFishBlockIf.class);
   }
 
   @Override
   @Nullable
-  public SimpleBlockSection getBlockSection() {
-    return findChildByClass(SimpleBlockSection.class);
+  public SimpleFishBlockLoop getFishBlockLoop() {
+    return findChildByClass(SimpleFishBlockLoop.class);
   }
 
   @Override
   @Nullable
-  public SimpleStatFish getStatFish() {
-    return findChildByClass(SimpleStatFish.class);
+  public SimpleFishBlockSection getFishBlockSection() {
+    return findChildByClass(SimpleFishBlockSection.class);
+  }
+
+  @Override
+  @Nullable
+  public SimpleFishLine getFishLine() {
+    return findChildByClass(SimpleFishLine.class);
   }
 
 }

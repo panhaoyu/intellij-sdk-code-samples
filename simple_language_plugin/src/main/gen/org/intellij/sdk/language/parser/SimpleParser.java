@@ -36,723 +36,205 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // kw_local? tk_identifier
-  public static boolean assign_left_for_loop(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "assign_left_for_loop")) return false;
-    if (!nextTokenIs(b, "<assign left for loop>", IDENTIFIER, LOCAL)) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, ASSIGN_LEFT_FOR_LOOP, "<assign left for loop>");
-    r = assign_left_for_loop_0(b, l + 1);
-    r = r && tk_identifier(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // kw_local?
-  private static boolean assign_left_for_loop_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "assign_left_for_loop_0")) return false;
-    kw_local(b, l + 1);
-    return true;
-  }
-
-  /* ********************************************************** */
-  // op_assign expr
-  static boolean assign_right(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "assign_right")) return false;
-    if (!nextTokenIs(b, ASSIGNMENT_OPERATOR)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = op_assign(b, l + 1);
-    r = r && expr(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // tk_identifier expr_paren_csv?
-  static boolean assign_target(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "assign_target")) return false;
-    if (!nextTokenIs(b, IDENTIFIER)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = tk_identifier(b, l + 1);
-    r = r && assign_target_1(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // expr_paren_csv?
-  private static boolean assign_target_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "assign_target_1")) return false;
-    expr_paren_csv(b, l + 1);
-    return true;
-  }
-
-  /* ********************************************************** */
-  // kw_case_of expr (eol body_case_of)? (eol block_case_option)* eol kw_end_case
-  public static boolean block_case_of(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "block_case_of")) return false;
-    if (!nextTokenIs(b, CASEOF)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = kw_case_of(b, l + 1);
-    r = r && expr(b, l + 1);
-    r = r && block_case_of_2(b, l + 1);
-    r = r && block_case_of_3(b, l + 1);
-    r = r && eol(b, l + 1);
-    r = r && kw_end_case(b, l + 1);
-    exit_section_(b, m, BLOCK_CASE_OF, r);
-    return r;
-  }
-
-  // (eol body_case_of)?
-  private static boolean block_case_of_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "block_case_of_2")) return false;
-    block_case_of_2_0(b, l + 1);
-    return true;
-  }
-
-  // eol body_case_of
-  private static boolean block_case_of_2_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "block_case_of_2_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = eol(b, l + 1);
-    r = r && body_case_of(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // (eol block_case_option)*
-  private static boolean block_case_of_3(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "block_case_of_3")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!block_case_of_3_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "block_case_of_3", c)) break;
-    }
-    return true;
-  }
-
-  // eol block_case_option
-  private static boolean block_case_of_3_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "block_case_of_3_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = eol(b, l + 1);
-    r = r && block_case_option(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // kw_case expr (eol body_case_of)?
-  public static boolean block_case_option(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "block_case_option")) return false;
-    if (!nextTokenIs(b, CASE)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = kw_case(b, l + 1);
-    r = r && expr(b, l + 1);
-    r = r && block_case_option_2(b, l + 1);
-    exit_section_(b, m, BLOCK_CASE_OPTION, r);
-    return r;
-  }
-
-  // (eol body_case_of)?
-  private static boolean block_case_option_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "block_case_option_2")) return false;
-    block_case_option_2_0(b, l + 1);
-    return true;
-  }
-
-  // eol body_case_of
-  private static boolean block_case_option_2_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "block_case_option_2_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = eol(b, l + 1);
-    r = r && body_case_of(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // kw_command (eol body_cmd)? eol kw_end_command
-  public static boolean block_cmd(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "block_cmd")) return false;
-    if (!nextTokenIs(b, COMMAND)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = kw_command(b, l + 1);
-    r = r && block_cmd_1(b, l + 1);
-    r = r && eol(b, l + 1);
-    r = r && kw_end_command(b, l + 1);
-    exit_section_(b, m, BLOCK_CMD, r);
-    return r;
-  }
-
-  // (eol body_cmd)?
-  private static boolean block_cmd_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "block_cmd_1")) return false;
-    block_cmd_1_0(b, l + 1);
-    return true;
-  }
-
-  // eol body_cmd
-  private static boolean block_cmd_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "block_cmd_1_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = eol(b, l + 1);
-    r = r && body_cmd(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // fish_define_header (eol body_fish_define)? eol kw_end
-  public static boolean block_define(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "block_define")) return false;
-    if (!nextTokenIs(b, "<block define>", FISH_DEFINE, FISH_OPERATOR)) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, BLOCK_DEFINE, "<block define>");
-    r = fish_define_header(b, l + 1);
-    r = r && block_define_1(b, l + 1);
-    r = r && eol(b, l + 1);
-    r = r && kw_end(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // (eol body_fish_define)?
-  private static boolean block_define_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "block_define_1")) return false;
-    block_define_1_0(b, l + 1);
-    return true;
-  }
-
-  // eol body_fish_define
-  private static boolean block_define_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "block_define_1_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = eol(b, l + 1);
-    r = r && body_fish_define(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // kw_else (eol body_else)?
-  public static boolean block_else(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "block_else")) return false;
-    if (!nextTokenIs(b, ELSE)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = kw_else(b, l + 1);
-    r = r && block_else_1(b, l + 1);
-    exit_section_(b, m, BLOCK_ELSE, r);
-    return r;
-  }
-
-  // (eol body_else)?
-  private static boolean block_else_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "block_else_1")) return false;
-    block_else_1_0(b, l + 1);
-    return true;
-  }
-
-  // eol body_else
-  private static boolean block_else_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "block_else_1_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = eol(b, l + 1);
-    r = r && body_else(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // kw_else_if expr kw_then? (eol body_else_if)?
-  public static boolean block_else_if(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "block_else_if")) return false;
-    if (!nextTokenIs(b, "<block else if>", ELSE, ELSEIF)) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, BLOCK_ELSE_IF, "<block else if>");
-    r = kw_else_if(b, l + 1);
-    r = r && expr(b, l + 1);
-    r = r && block_else_if_2(b, l + 1);
-    r = r && block_else_if_3(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // kw_then?
-  private static boolean block_else_if_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "block_else_if_2")) return false;
-    kw_then(b, l + 1);
-    return true;
-  }
-
-  // (eol body_else_if)?
-  private static boolean block_else_if_3(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "block_else_if_3")) return false;
-    block_else_if_3_0(b, l + 1);
-    return true;
-  }
-
-  // eol body_else_if
-  private static boolean block_else_if_3_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "block_else_if_3_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = eol(b, l + 1);
-    r = r && body_else_if(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // block_single_fish (eol block_single_fish)*
-  public static boolean block_fish(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "block_fish")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, BLOCK_FISH, "<block fish>");
-    r = block_single_fish(b, l + 1);
-    r = r && block_fish_1(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // (eol block_single_fish)*
-  private static boolean block_fish_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "block_fish_1")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!block_fish_1_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "block_fish_1", c)) break;
-    }
-    return true;
-  }
-
-  // eol block_single_fish
-  private static boolean block_fish_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "block_fish_1_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = eol(b, l + 1);
-    r = r && block_single_fish(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // kw_loop (loop_each | loop_indexed | loop_for | loop_while)
-  public static boolean block_header_loop(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "block_header_loop")) return false;
-    if (!nextTokenIs(b, LOOP)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = kw_loop(b, l + 1);
-    r = r && block_header_loop_1(b, l + 1);
-    exit_section_(b, m, BLOCK_HEADER_LOOP, r);
-    return r;
-  }
-
-  // loop_each | loop_indexed | loop_for | loop_while
-  private static boolean block_header_loop_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "block_header_loop_1")) return false;
-    boolean r;
-    r = loop_each(b, l + 1);
-    if (!r) r = loop_indexed(b, l + 1);
-    if (!r) r = loop_for(b, l + 1);
-    if (!r) r = loop_while(b, l + 1);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // kw_if expr kw_then?
-  //              (eol body_if)?
-  //              (eol block_else_if)*
-  //              (eol block_else)?
-  //              eol kw_end_if
-  public static boolean block_if(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "block_if")) return false;
-    if (!nextTokenIs(b, IF)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = kw_if(b, l + 1);
-    r = r && expr(b, l + 1);
-    r = r && block_if_2(b, l + 1);
-    r = r && block_if_3(b, l + 1);
-    r = r && block_if_4(b, l + 1);
-    r = r && block_if_5(b, l + 1);
-    r = r && eol(b, l + 1);
-    r = r && kw_end_if(b, l + 1);
-    exit_section_(b, m, BLOCK_IF, r);
-    return r;
-  }
-
-  // kw_then?
-  private static boolean block_if_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "block_if_2")) return false;
-    kw_then(b, l + 1);
-    return true;
-  }
-
-  // (eol body_if)?
-  private static boolean block_if_3(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "block_if_3")) return false;
-    block_if_3_0(b, l + 1);
-    return true;
-  }
-
-  // eol body_if
-  private static boolean block_if_3_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "block_if_3_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = eol(b, l + 1);
-    r = r && body_if(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // (eol block_else_if)*
-  private static boolean block_if_4(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "block_if_4")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!block_if_4_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "block_if_4", c)) break;
-    }
-    return true;
-  }
-
-  // eol block_else_if
-  private static boolean block_if_4_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "block_if_4_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = eol(b, l + 1);
-    r = r && block_else_if(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // (eol block_else)?
-  private static boolean block_if_5(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "block_if_5")) return false;
-    block_if_5_0(b, l + 1);
-    return true;
-  }
-
-  // eol block_else
-  private static boolean block_if_5_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "block_if_5_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = eol(b, l + 1);
-    r = r && block_else(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // block_header_loop (eol body_loop)? eol kw_endloop
-  public static boolean block_loop(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "block_loop")) return false;
-    if (!nextTokenIs(b, LOOP)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = block_header_loop(b, l + 1);
-    r = r && block_loop_1(b, l + 1);
-    r = r && eol(b, l + 1);
-    r = r && kw_endloop(b, l + 1);
-    exit_section_(b, m, BLOCK_LOOP, r);
-    return r;
-  }
-
-  // (eol body_loop)?
-  private static boolean block_loop_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "block_loop_1")) return false;
-    block_loop_1_0(b, l + 1);
-    return true;
-  }
-
-  // eol body_loop
-  private static boolean block_loop_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "block_loop_1_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = eol(b, l + 1);
-    r = r && body_loop(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // kw_section (eol body_section)? eol kw_end_section
-  public static boolean block_section(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "block_section")) return false;
-    if (!nextTokenIs(b, SECTION)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = kw_section(b, l + 1);
-    r = r && block_section_1(b, l + 1);
-    r = r && eol(b, l + 1);
-    r = r && kw_end_section(b, l + 1);
-    exit_section_(b, m, BLOCK_SECTION, r);
-    return r;
-  }
-
-  // (eol body_section)?
-  private static boolean block_section_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "block_section_1")) return false;
-    block_section_1_0(b, l + 1);
-    return true;
-  }
-
-  // eol body_section
-  private static boolean block_section_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "block_section_1_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = eol(b, l + 1);
-    r = r && body_section(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // block_if | block_loop | block_case_of | block_section | block_cmd | stat_fish
+  // fish_block_if |
+  //     fish_block_loop |
+  //     fish_block_case_of |
+  //     fish_block_section |
+  //     fish_block_command |
+  //     fish_line |
+  //     eol
   public static boolean block_single_fish(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "block_single_fish")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, BLOCK_SINGLE_FISH, "<block single fish>");
-    r = block_if(b, l + 1);
-    if (!r) r = block_loop(b, l + 1);
-    if (!r) r = block_case_of(b, l + 1);
-    if (!r) r = block_section(b, l + 1);
-    if (!r) r = block_cmd(b, l + 1);
-    if (!r) r = stat_fish(b, l + 1);
+    r = fish_block_if(b, l + 1);
+    if (!r) r = fish_block_loop(b, l + 1);
+    if (!r) r = fish_block_case_of(b, l + 1);
+    if (!r) r = fish_block_section(b, l + 1);
+    if (!r) r = fish_block_command(b, l + 1);
+    if (!r) r = fish_line(b, l + 1);
+    if (!r) r = eol(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
   /* ********************************************************** */
-  // block_fish
-  public static boolean body_case_of(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "body_case_of")) return false;
+  // command_block_define |
+  //     command_line
+  public static boolean command_block(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "command_block")) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, BODY_CASE_OF, "<body case of>");
-    r = block_fish(b, l + 1);
+    Marker m = enter_section_(b, l, _NONE_, COMMAND_BLOCK, "<command block>");
+    r = command_block_define(b, l + 1);
+    if (!r) r = command_line(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
   /* ********************************************************** */
-  // cmd_stat_other (eol cmd_stat_other)*
-  public static boolean body_cmd(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "body_cmd")) return false;
+  // fish_line_define_header (eol fish_block_define_body)? tk_comment? eol fish_line_define_footer
+  public static boolean command_block_define(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "command_block_define")) return false;
+    if (!nextTokenIs(b, "<command block define>", FISH_DEFINE, FISH_OPERATOR)) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, BODY_CMD, "<body cmd>");
-    r = cmd_stat_other(b, l + 1);
-    r = r && body_cmd_1(b, l + 1);
+    Marker m = enter_section_(b, l, _NONE_, COMMAND_BLOCK_DEFINE, "<command block define>");
+    r = fish_line_define_header(b, l + 1);
+    r = r && command_block_define_1(b, l + 1);
+    r = r && command_block_define_2(b, l + 1);
+    r = r && eol(b, l + 1);
+    r = r && fish_line_define_footer(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
-  // (eol cmd_stat_other)*
-  private static boolean body_cmd_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "body_cmd_1")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!body_cmd_1_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "body_cmd_1", c)) break;
-    }
+  // (eol fish_block_define_body)?
+  private static boolean command_block_define_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "command_block_define_1")) return false;
+    command_block_define_1_0(b, l + 1);
     return true;
   }
 
-  // eol cmd_stat_other
-  private static boolean body_cmd_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "body_cmd_1_0")) return false;
+  // eol fish_block_define_body
+  private static boolean command_block_define_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "command_block_define_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = eol(b, l + 1);
-    r = r && cmd_stat_other(b, l + 1);
+    r = r && fish_block_define_body(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
 
-  /* ********************************************************** */
-  // block_fish
-  public static boolean body_else(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "body_else")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, BODY_ELSE, "<body else>");
-    r = block_fish(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
+  // tk_comment?
+  private static boolean command_block_define_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "command_block_define_2")) return false;
+    tk_comment(b, l + 1);
+    return true;
   }
 
   /* ********************************************************** */
-  // block_fish
-  public static boolean body_else_if(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "body_else_if")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, BODY_ELSE_IF, "<body else if>");
-    r = block_fish(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // block_fish
-  public static boolean body_fish_define(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "body_fish_define")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, BODY_FISH_DEFINE, "<body fish define>");
-    r = block_fish(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // block_fish
-  public static boolean body_if(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "body_if")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, BODY_IF, "<body if>");
-    r = block_fish(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // block_fish
-  public static boolean body_loop(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "body_loop")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, BODY_LOOP, "<body loop>");
-    r = block_fish(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // block_fish
-  public static boolean body_section(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "body_section")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, BODY_SECTION, "<body section>");
-    r = block_fish(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // cmd_stat_inline_fish |
-  //     block_define |
-  //     cmd_stat_func_call |
-  //     cmd_stat_other |
-  //     tk_comment |
+  // command_line_inline_fish |
+  //     command_line_func_call |
+  //     command_line_other_words |
+  //     command_line_comment |
   //     eol
-  static boolean cmd_block(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "cmd_block")) return false;
+  public static boolean command_line(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "command_line")) return false;
     boolean r;
-    r = cmd_stat_inline_fish(b, l + 1);
-    if (!r) r = block_define(b, l + 1);
-    if (!r) r = cmd_stat_func_call(b, l + 1);
-    if (!r) r = cmd_stat_other(b, l + 1);
-    if (!r) r = tk_comment(b, l + 1);
+    Marker m = enter_section_(b, l, _NONE_, COMMAND_LINE, "<command line>");
+    r = command_line_inline_fish(b, l + 1);
+    if (!r) r = command_line_func_call(b, l + 1);
+    if (!r) r = command_line_other_words(b, l + 1);
+    if (!r) r = command_line_comment(b, l + 1);
     if (!r) r = eol(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
   /* ********************************************************** */
-  // op_at tk_identifier expr_paren_csv?
-  static boolean cmd_expr_func_call(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "cmd_expr_func_call")) return false;
+  // tk_comment
+  public static boolean command_line_comment(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "command_line_comment")) return false;
+    if (!nextTokenIs(b, COMMENT)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = tk_comment(b, l + 1);
+    exit_section_(b, m, COMMAND_LINE_COMMENT, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // op_at tk_identifier expr_paren_csv? tk_comment?
+  public static boolean command_line_func_call(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "command_line_func_call")) return false;
     if (!nextTokenIs(b, FUNCTION_CALL_OPERATOR)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = op_at(b, l + 1);
     r = r && tk_identifier(b, l + 1);
-    r = r && cmd_expr_func_call_2(b, l + 1);
-    exit_section_(b, m, null, r);
+    r = r && command_line_func_call_2(b, l + 1);
+    r = r && command_line_func_call_3(b, l + 1);
+    exit_section_(b, m, COMMAND_LINE_FUNC_CALL, r);
     return r;
   }
 
   // expr_paren_csv?
-  private static boolean cmd_expr_func_call_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "cmd_expr_func_call_2")) return false;
+  private static boolean command_line_func_call_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "command_line_func_call_2")) return false;
     expr_paren_csv(b, l + 1);
     return true;
   }
 
+  // tk_comment?
+  private static boolean command_line_func_call_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "command_line_func_call_3")) return false;
+    tk_comment(b, l + 1);
+    return true;
+  }
+
   /* ********************************************************** */
-  // square_l stat_fish square_r
-  static boolean cmd_expr_inline_fish(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "cmd_expr_inline_fish")) return false;
+  // square_l fish_line square_r tk_comment?
+  public static boolean command_line_inline_fish(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "command_line_inline_fish")) return false;
     if (!nextTokenIs(b, LEFT_SQUARE_BRACKET)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = square_l(b, l + 1);
-    r = r && stat_fish(b, l + 1);
+    r = r && fish_line(b, l + 1);
     r = r && square_r(b, l + 1);
-    exit_section_(b, m, null, r);
+    r = r && command_line_inline_fish_3(b, l + 1);
+    exit_section_(b, m, COMMAND_LINE_INLINE_FISH, r);
     return r;
   }
 
-  /* ********************************************************** */
-  // cmd_expr_func_call
-  public static boolean cmd_stat_func_call(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "cmd_stat_func_call")) return false;
-    if (!nextTokenIs(b, FUNCTION_CALL_OPERATOR)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = cmd_expr_func_call(b, l + 1);
-    exit_section_(b, m, CMD_STAT_FUNC_CALL, r);
-    return r;
+  // tk_comment?
+  private static boolean command_line_inline_fish_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "command_line_inline_fish_3")) return false;
+    tk_comment(b, l + 1);
+    return true;
   }
 
   /* ********************************************************** */
-  // cmd_expr_inline_fish
-  public static boolean cmd_stat_inline_fish(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "cmd_stat_inline_fish")) return false;
-    if (!nextTokenIs(b, LEFT_SQUARE_BRACKET)) return false;
+  // command_token_all+ tk_comment?
+  public static boolean command_line_other_words(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "command_line_other_words")) return false;
     boolean r;
-    Marker m = enter_section_(b);
-    r = cmd_expr_inline_fish(b, l + 1);
-    exit_section_(b, m, CMD_STAT_INLINE_FISH, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // cmd_tk_all+
-  public static boolean cmd_stat_other(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "cmd_stat_other")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, CMD_STAT_OTHER, "<cmd stat other>");
-    r = cmd_tk_all(b, l + 1);
-    while (r) {
-      int c = current_position_(b);
-      if (!cmd_tk_all(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "cmd_stat_other", c)) break;
-    }
+    Marker m = enter_section_(b, l, _NONE_, COMMAND_LINE_OTHER_WORDS, "<command line other words>");
+    r = command_line_other_words_0(b, l + 1);
+    r = r && command_line_other_words_1(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
+  // command_token_all+
+  private static boolean command_line_other_words_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "command_line_other_words_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = command_token_all(b, l + 1);
+    while (r) {
+      int c = current_position_(b);
+      if (!command_token_all(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "command_line_other_words_0", c)) break;
+    }
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // tk_comment?
+  private static boolean command_line_other_words_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "command_line_other_words_1")) return false;
+    tk_comment(b, l + 1);
+    return true;
+  }
+
   /* ********************************************************** */
   // square_l | square_r | paren_l | paren_r | op_comma | op_assign | op_unary | op_binary| op_dot | op_at |
-  //      tk_literal | cmd_tk_kw_all | tk_identifier
-  static boolean cmd_tk_all(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "cmd_tk_all")) return false;
+  //      tk_literal | command_token_keyword_all | tk_identifier
+  public static boolean command_token_all(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "command_token_all")) return false;
     boolean r;
+    Marker m = enter_section_(b, l, _NONE_, COMMAND_TOKEN_ALL, "<command token all>");
     r = square_l(b, l + 1);
     if (!r) r = square_r(b, l + 1);
     if (!r) r = paren_l(b, l + 1);
@@ -764,17 +246,19 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     if (!r) r = op_dot(b, l + 1);
     if (!r) r = op_at(b, l + 1);
     if (!r) r = tk_literal(b, l + 1);
-    if (!r) r = cmd_tk_kw_all(b, l + 1);
+    if (!r) r = command_token_keyword_all(b, l + 1);
     if (!r) r = tk_identifier(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
   /* ********************************************************** */
   // kw_fish_define | kw_fish_operator | kw_case_of | kw_case | kw_end_case | kw_end | kw_exit | kw_global | kw_if | kw_then |
   //     kw_else_if | kw_else | kw_end_if | kw_local | kw_lock | kw_loop | kw_endloop | kw_continue | kw_return | kw_section | kw_end_section | kw_struct
-  static boolean cmd_tk_kw_all(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "cmd_tk_kw_all")) return false;
+  public static boolean command_token_keyword_all(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "command_token_keyword_all")) return false;
     boolean r;
+    Marker m = enter_section_(b, l, _NONE_, COMMAND_TOKEN_KEYWORD_ALL, "<command token keyword all>");
     r = kw_fish_define(b, l + 1);
     if (!r) r = kw_fish_operator(b, l + 1);
     if (!r) r = kw_case_of(b, l + 1);
@@ -797,6 +281,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     if (!r) r = kw_section(b, l + 1);
     if (!r) r = kw_end_section(b, l + 1);
     if (!r) r = kw_struct(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
@@ -813,75 +298,20 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // paren_l tk_identifier (op_comma tk_identifier)* paren_r
-  static boolean define_params(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "define_params")) return false;
-    if (!nextTokenIs(b, LEFT_PARENTHESIS)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = paren_l(b, l + 1);
-    r = r && tk_identifier(b, l + 1);
-    r = r && define_params_2(b, l + 1);
-    r = r && paren_r(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // (op_comma tk_identifier)*
-  private static boolean define_params_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "define_params_2")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!define_params_2_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "define_params_2", c)) break;
-    }
-    return true;
-  }
-
-  // op_comma tk_identifier
-  private static boolean define_params_2_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "define_params_2_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = op_comma(b, l + 1);
-    r = r && tk_identifier(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // (tk_comment? tk_newline)+
+  // tk_newline+
   public static boolean eol(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "eol")) return false;
-    if (!nextTokenIs(b, "<eol>", COMMENT, NEWLINE)) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, EOL, "<eol>");
-    r = eol_0(b, l + 1);
-    while (r) {
-      int c = current_position_(b);
-      if (!eol_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "eol", c)) break;
-    }
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // tk_comment? tk_newline
-  private static boolean eol_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "eol_0")) return false;
+    if (!nextTokenIs(b, NEWLINE)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = eol_0_0(b, l + 1);
-    r = r && tk_newline(b, l + 1);
-    exit_section_(b, m, null, r);
+    r = tk_newline(b, l + 1);
+    while (r) {
+      int c = current_position_(b);
+      if (!tk_newline(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "eol", c)) break;
+    }
+    exit_section_(b, m, EOL, r);
     return r;
-  }
-
-  // tk_comment?
-  private static boolean eol_0_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "eol_0_0")) return false;
-    tk_comment(b, l + 1);
-    return true;
   }
 
   /* ********************************************************** */
@@ -906,26 +336,6 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     r = r && square_r(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
-  }
-
-  /* ********************************************************** */
-  // assign_target assign_right?
-  static boolean expr_assign(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "expr_assign")) return false;
-    if (!nextTokenIs(b, IDENTIFIER)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = assign_target(b, l + 1);
-    r = r && expr_assign_1(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // assign_right?
-  private static boolean expr_assign_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "expr_assign_1")) return false;
-    assign_right(b, l + 1);
-    return true;
   }
 
   /* ********************************************************** */
@@ -1063,32 +473,1155 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (kw_fish_define | kw_fish_operator) tk_identifier define_params?
-  public static boolean fish_define_header(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "fish_define_header")) return false;
-    if (!nextTokenIs(b, "<fish define header>", FISH_DEFINE, FISH_OPERATOR)) return false;
+  // block_single_fish (eol block_single_fish)*
+  public static boolean fish_block(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_block")) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, FISH_DEFINE_HEADER, "<fish define header>");
-    r = fish_define_header_0(b, l + 1);
-    r = r && tk_identifier(b, l + 1);
-    r = r && fish_define_header_2(b, l + 1);
+    Marker m = enter_section_(b, l, _NONE_, FISH_BLOCK, "<fish block>");
+    r = block_single_fish(b, l + 1);
+    r = r && fish_block_1(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
+  // (eol block_single_fish)*
+  private static boolean fish_block_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_block_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!fish_block_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "fish_block_1", c)) break;
+    }
+    return true;
+  }
+
+  // eol block_single_fish
+  private static boolean fish_block_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_block_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = eol(b, l + 1);
+    r = r && block_single_fish(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // fish_block
+  public static boolean fish_block_body_case_of(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_block_body_case_of")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, FISH_BLOCK_BODY_CASE_OF, "<fish block body case of>");
+    r = fish_block(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // fish_block
+  public static boolean fish_block_body_else(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_block_body_else")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, FISH_BLOCK_BODY_ELSE, "<fish block body else>");
+    r = fish_block(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // fish_block
+  public static boolean fish_block_body_else_if(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_block_body_else_if")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, FISH_BLOCK_BODY_ELSE_IF, "<fish block body else if>");
+    r = fish_block(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // fish_block
+  public static boolean fish_block_body_if(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_block_body_if")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, FISH_BLOCK_BODY_IF, "<fish block body if>");
+    r = fish_block(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // fish_block
+  public static boolean fish_block_body_loop(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_block_body_loop")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, FISH_BLOCK_BODY_LOOP, "<fish block body loop>");
+    r = fish_block(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // fish_block
+  public static boolean fish_block_body_section(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_block_body_section")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, FISH_BLOCK_BODY_SECTION, "<fish block body section>");
+    r = fish_block(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // fish_line_case_of_block_header
+  //     (eol fish_block_body_case_of)?
+  //     (eol fish_line_case_of_block_option eol fish_block_body_case_of)*
+  //     eol fish_line_case_of_block_footer
+  public static boolean fish_block_case_of(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_block_case_of")) return false;
+    if (!nextTokenIs(b, CASEOF)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = fish_line_case_of_block_header(b, l + 1);
+    r = r && fish_block_case_of_1(b, l + 1);
+    r = r && fish_block_case_of_2(b, l + 1);
+    r = r && eol(b, l + 1);
+    r = r && fish_line_case_of_block_footer(b, l + 1);
+    exit_section_(b, m, FISH_BLOCK_CASE_OF, r);
+    return r;
+  }
+
+  // (eol fish_block_body_case_of)?
+  private static boolean fish_block_case_of_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_block_case_of_1")) return false;
+    fish_block_case_of_1_0(b, l + 1);
+    return true;
+  }
+
+  // eol fish_block_body_case_of
+  private static boolean fish_block_case_of_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_block_case_of_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = eol(b, l + 1);
+    r = r && fish_block_body_case_of(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // (eol fish_line_case_of_block_option eol fish_block_body_case_of)*
+  private static boolean fish_block_case_of_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_block_case_of_2")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!fish_block_case_of_2_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "fish_block_case_of_2", c)) break;
+    }
+    return true;
+  }
+
+  // eol fish_line_case_of_block_option eol fish_block_body_case_of
+  private static boolean fish_block_case_of_2_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_block_case_of_2_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = eol(b, l + 1);
+    r = r && fish_line_case_of_block_option(b, l + 1);
+    r = r && eol(b, l + 1);
+    r = r && fish_block_body_case_of(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // fish_line_command_header
+  //     (eol fish_block_command_body)?
+  //     eol fish_line_command_footer
+  public static boolean fish_block_command(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_block_command")) return false;
+    if (!nextTokenIs(b, COMMAND)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = fish_line_command_header(b, l + 1);
+    r = r && fish_block_command_1(b, l + 1);
+    r = r && eol(b, l + 1);
+    r = r && fish_line_command_footer(b, l + 1);
+    exit_section_(b, m, FISH_BLOCK_COMMAND, r);
+    return r;
+  }
+
+  // (eol fish_block_command_body)?
+  private static boolean fish_block_command_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_block_command_1")) return false;
+    fish_block_command_1_0(b, l + 1);
+    return true;
+  }
+
+  // eol fish_block_command_body
+  private static boolean fish_block_command_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_block_command_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = eol(b, l + 1);
+    r = r && fish_block_command_body(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // command_block
+  public static boolean fish_block_command_body(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_block_command_body")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, FISH_BLOCK_COMMAND_BODY, "<fish block command body>");
+    r = command_block(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // fish_block
+  public static boolean fish_block_define_body(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_block_define_body")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, FISH_BLOCK_DEFINE_BODY, "<fish block define body>");
+    r = fish_block(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // fish_line_if_block_header
+  //              (eol fish_block_body_if)?
+  //              (eol fish_line_if_block_else_if (eol fish_block_body_else_if)?)*
+  //              (eol fish_line_if_block_else (eol fish_block_body_else)?)?
+  //              eol fish_line_if_block_footer
+  public static boolean fish_block_if(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_block_if")) return false;
+    if (!nextTokenIs(b, IF)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = fish_line_if_block_header(b, l + 1);
+    r = r && fish_block_if_1(b, l + 1);
+    r = r && fish_block_if_2(b, l + 1);
+    r = r && fish_block_if_3(b, l + 1);
+    r = r && eol(b, l + 1);
+    r = r && fish_line_if_block_footer(b, l + 1);
+    exit_section_(b, m, FISH_BLOCK_IF, r);
+    return r;
+  }
+
+  // (eol fish_block_body_if)?
+  private static boolean fish_block_if_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_block_if_1")) return false;
+    fish_block_if_1_0(b, l + 1);
+    return true;
+  }
+
+  // eol fish_block_body_if
+  private static boolean fish_block_if_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_block_if_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = eol(b, l + 1);
+    r = r && fish_block_body_if(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // (eol fish_line_if_block_else_if (eol fish_block_body_else_if)?)*
+  private static boolean fish_block_if_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_block_if_2")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!fish_block_if_2_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "fish_block_if_2", c)) break;
+    }
+    return true;
+  }
+
+  // eol fish_line_if_block_else_if (eol fish_block_body_else_if)?
+  private static boolean fish_block_if_2_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_block_if_2_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = eol(b, l + 1);
+    r = r && fish_line_if_block_else_if(b, l + 1);
+    r = r && fish_block_if_2_0_2(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // (eol fish_block_body_else_if)?
+  private static boolean fish_block_if_2_0_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_block_if_2_0_2")) return false;
+    fish_block_if_2_0_2_0(b, l + 1);
+    return true;
+  }
+
+  // eol fish_block_body_else_if
+  private static boolean fish_block_if_2_0_2_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_block_if_2_0_2_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = eol(b, l + 1);
+    r = r && fish_block_body_else_if(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // (eol fish_line_if_block_else (eol fish_block_body_else)?)?
+  private static boolean fish_block_if_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_block_if_3")) return false;
+    fish_block_if_3_0(b, l + 1);
+    return true;
+  }
+
+  // eol fish_line_if_block_else (eol fish_block_body_else)?
+  private static boolean fish_block_if_3_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_block_if_3_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = eol(b, l + 1);
+    r = r && fish_line_if_block_else(b, l + 1);
+    r = r && fish_block_if_3_0_2(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // (eol fish_block_body_else)?
+  private static boolean fish_block_if_3_0_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_block_if_3_0_2")) return false;
+    fish_block_if_3_0_2_0(b, l + 1);
+    return true;
+  }
+
+  // eol fish_block_body_else
+  private static boolean fish_block_if_3_0_2_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_block_if_3_0_2_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = eol(b, l + 1);
+    r = r && fish_block_body_else(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // fish_line_loop_block_header (eol fish_block_body_loop)? fish_line_loop_block_footer
+  public static boolean fish_block_loop(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_block_loop")) return false;
+    if (!nextTokenIs(b, LOOP)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = fish_line_loop_block_header(b, l + 1);
+    r = r && fish_block_loop_1(b, l + 1);
+    r = r && fish_line_loop_block_footer(b, l + 1);
+    exit_section_(b, m, FISH_BLOCK_LOOP, r);
+    return r;
+  }
+
+  // (eol fish_block_body_loop)?
+  private static boolean fish_block_loop_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_block_loop_1")) return false;
+    fish_block_loop_1_0(b, l + 1);
+    return true;
+  }
+
+  // eol fish_block_body_loop
+  private static boolean fish_block_loop_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_block_loop_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = eol(b, l + 1);
+    r = r && fish_block_body_loop(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // fish_line_section_header (eol fish_block_body_section)? eol fish_line_section_footer
+  public static boolean fish_block_section(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_block_section")) return false;
+    if (!nextTokenIs(b, SECTION)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = fish_line_section_header(b, l + 1);
+    r = r && fish_block_section_1(b, l + 1);
+    r = r && eol(b, l + 1);
+    r = r && fish_line_section_footer(b, l + 1);
+    exit_section_(b, m, FISH_BLOCK_SECTION, r);
+    return r;
+  }
+
+  // (eol fish_block_body_section)?
+  private static boolean fish_block_section_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_block_section_1")) return false;
+    fish_block_section_1_0(b, l + 1);
+    return true;
+  }
+
+  // eol fish_block_body_section
+  private static boolean fish_block_section_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_block_section_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = eol(b, l + 1);
+    r = r && fish_block_body_section(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // fish_expr_assign_target fish_expr_assign_right?
+  public static boolean fish_expr_assign(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_expr_assign")) return false;
+    if (!nextTokenIs(b, IDENTIFIER)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = fish_expr_assign_target(b, l + 1);
+    r = r && fish_expr_assign_1(b, l + 1);
+    exit_section_(b, m, FISH_EXPR_ASSIGN, r);
+    return r;
+  }
+
+  // fish_expr_assign_right?
+  private static boolean fish_expr_assign_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_expr_assign_1")) return false;
+    fish_expr_assign_right(b, l + 1);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // kw_local? tk_identifier
+  public static boolean fish_expr_assign_left_for_loop(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_expr_assign_left_for_loop")) return false;
+    if (!nextTokenIs(b, "<fish expr assign left for loop>", IDENTIFIER, LOCAL)) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, FISH_EXPR_ASSIGN_LEFT_FOR_LOOP, "<fish expr assign left for loop>");
+    r = fish_expr_assign_left_for_loop_0(b, l + 1);
+    r = r && tk_identifier(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // kw_local?
+  private static boolean fish_expr_assign_left_for_loop_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_expr_assign_left_for_loop_0")) return false;
+    kw_local(b, l + 1);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // op_assign expr
+  public static boolean fish_expr_assign_right(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_expr_assign_right")) return false;
+    if (!nextTokenIs(b, ASSIGNMENT_OPERATOR)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = op_assign(b, l + 1);
+    r = r && expr(b, l + 1);
+    exit_section_(b, m, FISH_EXPR_ASSIGN_RIGHT, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // tk_identifier expr_paren_csv?
+  public static boolean fish_expr_assign_target(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_expr_assign_target")) return false;
+    if (!nextTokenIs(b, IDENTIFIER)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = tk_identifier(b, l + 1);
+    r = r && fish_expr_assign_target_1(b, l + 1);
+    exit_section_(b, m, FISH_EXPR_ASSIGN_TARGET, r);
+    return r;
+  }
+
+  // expr_paren_csv?
+  private static boolean fish_expr_assign_target_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_expr_assign_target_1")) return false;
+    expr_paren_csv(b, l + 1);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // paren_l tk_identifier (op_comma tk_identifier)* paren_r
+  static boolean fish_expr_define_params(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_expr_define_params")) return false;
+    if (!nextTokenIs(b, LEFT_PARENTHESIS)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = paren_l(b, l + 1);
+    r = r && tk_identifier(b, l + 1);
+    r = r && fish_expr_define_params_2(b, l + 1);
+    r = r && paren_r(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // (op_comma tk_identifier)*
+  private static boolean fish_expr_define_params_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_expr_define_params_2")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!fish_expr_define_params_2_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "fish_expr_define_params_2", c)) break;
+    }
+    return true;
+  }
+
+  // op_comma tk_identifier
+  private static boolean fish_expr_define_params_2_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_expr_define_params_2_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = op_comma(b, l + 1);
+    r = r && tk_identifier(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // fish_expr_assign_left_for_loop paren_l expr op_comma expr (op_comma expr)? paren_r
+  public static boolean fish_expr_loop_indexed(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_expr_loop_indexed")) return false;
+    if (!nextTokenIs(b, "<fish expr loop indexed>", IDENTIFIER, LOCAL)) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, FISH_EXPR_LOOP_INDEXED, "<fish expr loop indexed>");
+    r = fish_expr_assign_left_for_loop(b, l + 1);
+    r = r && paren_l(b, l + 1);
+    r = r && expr(b, l + 1);
+    r = r && op_comma(b, l + 1);
+    r = r && expr(b, l + 1);
+    r = r && fish_expr_loop_indexed_5(b, l + 1);
+    r = r && paren_r(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // (op_comma expr)?
+  private static boolean fish_expr_loop_indexed_5(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_expr_loop_indexed_5")) return false;
+    fish_expr_loop_indexed_5_0(b, l + 1);
+    return true;
+  }
+
+  // op_comma expr
+  private static boolean fish_expr_loop_indexed_5_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_expr_loop_indexed_5_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = op_comma(b, l + 1);
+    r = r && expr(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // fish_line_break |
+  //     fish_line_continue |
+  //     fish_line_exit_section |
+  //     fish_line_exit_loop |
+  //     fish_line_exit |
+  //     fish_line_array_declare |
+  //     fish_line_assign |
+  //     fish_line_return |
+  //     fish_line_expr
+  public static boolean fish_line(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, FISH_LINE, "<fish line>");
+    r = fish_line_break(b, l + 1);
+    if (!r) r = fish_line_continue(b, l + 1);
+    if (!r) r = fish_line_exit_section(b, l + 1);
+    if (!r) r = fish_line_exit_loop(b, l + 1);
+    if (!r) r = fish_line_exit(b, l + 1);
+    if (!r) r = fish_line_array_declare(b, l + 1);
+    if (!r) r = fish_line_assign(b, l + 1);
+    if (!r) r = fish_line_return(b, l + 1);
+    if (!r) r = fish_line_expr(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // kw_array tk_identifier paren_l literal_number paren_r tk_comment?
+  public static boolean fish_line_array_declare(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_array_declare")) return false;
+    if (!nextTokenIs(b, ARRAY)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = kw_array(b, l + 1);
+    r = r && tk_identifier(b, l + 1);
+    r = r && paren_l(b, l + 1);
+    r = r && literal_number(b, l + 1);
+    r = r && paren_r(b, l + 1);
+    r = r && fish_line_array_declare_5(b, l + 1);
+    exit_section_(b, m, FISH_LINE_ARRAY_DECLARE, r);
+    return r;
+  }
+
+  // tk_comment?
+  private static boolean fish_line_array_declare_5(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_array_declare_5")) return false;
+    tk_comment(b, l + 1);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // (kw_local | kw_global)? fish_expr_assign (op_comma fish_expr_assign)* tk_comment?
+  public static boolean fish_line_assign(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_assign")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, FISH_LINE_ASSIGN, "<fish line assign>");
+    r = fish_line_assign_0(b, l + 1);
+    r = r && fish_expr_assign(b, l + 1);
+    r = r && fish_line_assign_2(b, l + 1);
+    r = r && fish_line_assign_3(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // (kw_local | kw_global)?
+  private static boolean fish_line_assign_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_assign_0")) return false;
+    fish_line_assign_0_0(b, l + 1);
+    return true;
+  }
+
+  // kw_local | kw_global
+  private static boolean fish_line_assign_0_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_assign_0_0")) return false;
+    boolean r;
+    r = kw_local(b, l + 1);
+    if (!r) r = kw_global(b, l + 1);
+    return r;
+  }
+
+  // (op_comma fish_expr_assign)*
+  private static boolean fish_line_assign_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_assign_2")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!fish_line_assign_2_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "fish_line_assign_2", c)) break;
+    }
+    return true;
+  }
+
+  // op_comma fish_expr_assign
+  private static boolean fish_line_assign_2_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_assign_2_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = op_comma(b, l + 1);
+    r = r && fish_expr_assign(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // tk_comment?
+  private static boolean fish_line_assign_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_assign_3")) return false;
+    tk_comment(b, l + 1);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // kw_break tk_comment?
+  public static boolean fish_line_break(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_break")) return false;
+    if (!nextTokenIs(b, "<fish line break>", BREAK, EXIT)) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, FISH_LINE_BREAK, "<fish line break>");
+    r = kw_break(b, l + 1);
+    r = r && fish_line_break_1(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // tk_comment?
+  private static boolean fish_line_break_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_break_1")) return false;
+    tk_comment(b, l + 1);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // kw_end_case tk_comment?
+  public static boolean fish_line_case_of_block_footer(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_case_of_block_footer")) return false;
+    if (!nextTokenIs(b, ENDCASE)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = kw_end_case(b, l + 1);
+    r = r && fish_line_case_of_block_footer_1(b, l + 1);
+    exit_section_(b, m, FISH_LINE_CASE_OF_BLOCK_FOOTER, r);
+    return r;
+  }
+
+  // tk_comment?
+  private static boolean fish_line_case_of_block_footer_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_case_of_block_footer_1")) return false;
+    tk_comment(b, l + 1);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // kw_case_of expr tk_comment?
+  public static boolean fish_line_case_of_block_header(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_case_of_block_header")) return false;
+    if (!nextTokenIs(b, CASEOF)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = kw_case_of(b, l + 1);
+    r = r && expr(b, l + 1);
+    r = r && fish_line_case_of_block_header_2(b, l + 1);
+    exit_section_(b, m, FISH_LINE_CASE_OF_BLOCK_HEADER, r);
+    return r;
+  }
+
+  // tk_comment?
+  private static boolean fish_line_case_of_block_header_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_case_of_block_header_2")) return false;
+    tk_comment(b, l + 1);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // kw_case expr tk_comment?
+  public static boolean fish_line_case_of_block_option(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_case_of_block_option")) return false;
+    if (!nextTokenIs(b, CASE)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = kw_case(b, l + 1);
+    r = r && expr(b, l + 1);
+    r = r && fish_line_case_of_block_option_2(b, l + 1);
+    exit_section_(b, m, FISH_LINE_CASE_OF_BLOCK_OPTION, r);
+    return r;
+  }
+
+  // tk_comment?
+  private static boolean fish_line_case_of_block_option_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_case_of_block_option_2")) return false;
+    tk_comment(b, l + 1);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // kw_end_command tk_comment?
+  public static boolean fish_line_command_footer(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_command_footer")) return false;
+    if (!nextTokenIs(b, ENDCOMMAND)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = kw_end_command(b, l + 1);
+    r = r && fish_line_command_footer_1(b, l + 1);
+    exit_section_(b, m, FISH_LINE_COMMAND_FOOTER, r);
+    return r;
+  }
+
+  // tk_comment?
+  private static boolean fish_line_command_footer_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_command_footer_1")) return false;
+    tk_comment(b, l + 1);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // kw_command tk_comment?
+  public static boolean fish_line_command_header(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_command_header")) return false;
+    if (!nextTokenIs(b, COMMAND)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = kw_command(b, l + 1);
+    r = r && fish_line_command_header_1(b, l + 1);
+    exit_section_(b, m, FISH_LINE_COMMAND_HEADER, r);
+    return r;
+  }
+
+  // tk_comment?
+  private static boolean fish_line_command_header_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_command_header_1")) return false;
+    tk_comment(b, l + 1);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // kw_continue tk_comment?
+  public static boolean fish_line_continue(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_continue")) return false;
+    if (!nextTokenIs(b, CONTINUE)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = kw_continue(b, l + 1);
+    r = r && fish_line_continue_1(b, l + 1);
+    exit_section_(b, m, FISH_LINE_CONTINUE, r);
+    return r;
+  }
+
+  // tk_comment?
+  private static boolean fish_line_continue_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_continue_1")) return false;
+    tk_comment(b, l + 1);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // kw_end tk_comment?
+  static boolean fish_line_define_footer(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_define_footer")) return false;
+    if (!nextTokenIs(b, END)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = kw_end(b, l + 1);
+    r = r && fish_line_define_footer_1(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // tk_comment?
+  private static boolean fish_line_define_footer_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_define_footer_1")) return false;
+    tk_comment(b, l + 1);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // (kw_fish_define | kw_fish_operator) tk_identifier fish_expr_define_params? tk_comment?
+  static boolean fish_line_define_header(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_define_header")) return false;
+    if (!nextTokenIs(b, "", FISH_DEFINE, FISH_OPERATOR)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = fish_line_define_header_0(b, l + 1);
+    r = r && tk_identifier(b, l + 1);
+    r = r && fish_line_define_header_2(b, l + 1);
+    r = r && fish_line_define_header_3(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
   // kw_fish_define | kw_fish_operator
-  private static boolean fish_define_header_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "fish_define_header_0")) return false;
+  private static boolean fish_line_define_header_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_define_header_0")) return false;
     boolean r;
     r = kw_fish_define(b, l + 1);
     if (!r) r = kw_fish_operator(b, l + 1);
     return r;
   }
 
-  // define_params?
-  private static boolean fish_define_header_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "fish_define_header_2")) return false;
-    define_params(b, l + 1);
+  // fish_expr_define_params?
+  private static boolean fish_line_define_header_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_define_header_2")) return false;
+    fish_expr_define_params(b, l + 1);
+    return true;
+  }
+
+  // tk_comment?
+  private static boolean fish_line_define_header_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_define_header_3")) return false;
+    tk_comment(b, l + 1);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // kw_exit tk_comment?
+  public static boolean fish_line_exit(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_exit")) return false;
+    if (!nextTokenIs(b, EXIT)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = kw_exit(b, l + 1);
+    r = r && fish_line_exit_1(b, l + 1);
+    exit_section_(b, m, FISH_LINE_EXIT, r);
+    return r;
+  }
+
+  // tk_comment?
+  private static boolean fish_line_exit_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_exit_1")) return false;
+    tk_comment(b, l + 1);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // kw_exit_loop tk_comment?
+  public static boolean fish_line_exit_loop(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_exit_loop")) return false;
+    if (!nextTokenIs(b, EXITLOOP)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = kw_exit_loop(b, l + 1);
+    r = r && fish_line_exit_loop_1(b, l + 1);
+    exit_section_(b, m, FISH_LINE_EXIT_LOOP, r);
+    return r;
+  }
+
+  // tk_comment?
+  private static boolean fish_line_exit_loop_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_exit_loop_1")) return false;
+    tk_comment(b, l + 1);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // kw_exit_section tk_comment?
+  public static boolean fish_line_exit_section(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_exit_section")) return false;
+    if (!nextTokenIs(b, EXITSECTION)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = kw_exit_section(b, l + 1);
+    r = r && fish_line_exit_section_1(b, l + 1);
+    exit_section_(b, m, FISH_LINE_EXIT_SECTION, r);
+    return r;
+  }
+
+  // tk_comment?
+  private static boolean fish_line_exit_section_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_exit_section_1")) return false;
+    tk_comment(b, l + 1);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // expr tk_comment?
+  public static boolean fish_line_expr(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_expr")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, FISH_LINE_EXPR, "<fish line expr>");
+    r = expr(b, l + 1);
+    r = r && fish_line_expr_1(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // tk_comment?
+  private static boolean fish_line_expr_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_expr_1")) return false;
+    tk_comment(b, l + 1);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // kw_else tk_comment?
+  public static boolean fish_line_if_block_else(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_if_block_else")) return false;
+    if (!nextTokenIs(b, ELSE)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = kw_else(b, l + 1);
+    r = r && fish_line_if_block_else_1(b, l + 1);
+    exit_section_(b, m, FISH_LINE_IF_BLOCK_ELSE, r);
+    return r;
+  }
+
+  // tk_comment?
+  private static boolean fish_line_if_block_else_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_if_block_else_1")) return false;
+    tk_comment(b, l + 1);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // kw_else_if expr kw_then? tk_comment?
+  public static boolean fish_line_if_block_else_if(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_if_block_else_if")) return false;
+    if (!nextTokenIs(b, "<fish line if block else if>", ELSE, ELSEIF)) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, FISH_LINE_IF_BLOCK_ELSE_IF, "<fish line if block else if>");
+    r = kw_else_if(b, l + 1);
+    r = r && expr(b, l + 1);
+    r = r && fish_line_if_block_else_if_2(b, l + 1);
+    r = r && fish_line_if_block_else_if_3(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // kw_then?
+  private static boolean fish_line_if_block_else_if_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_if_block_else_if_2")) return false;
+    kw_then(b, l + 1);
+    return true;
+  }
+
+  // tk_comment?
+  private static boolean fish_line_if_block_else_if_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_if_block_else_if_3")) return false;
+    tk_comment(b, l + 1);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // kw_end_if tk_comment?
+  public static boolean fish_line_if_block_footer(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_if_block_footer")) return false;
+    if (!nextTokenIs(b, ENDIF)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = kw_end_if(b, l + 1);
+    r = r && fish_line_if_block_footer_1(b, l + 1);
+    exit_section_(b, m, FISH_LINE_IF_BLOCK_FOOTER, r);
+    return r;
+  }
+
+  // tk_comment?
+  private static boolean fish_line_if_block_footer_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_if_block_footer_1")) return false;
+    tk_comment(b, l + 1);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // kw_if expr kw_then? tk_comment?
+  public static boolean fish_line_if_block_header(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_if_block_header")) return false;
+    if (!nextTokenIs(b, IF)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = kw_if(b, l + 1);
+    r = r && expr(b, l + 1);
+    r = r && fish_line_if_block_header_2(b, l + 1);
+    r = r && fish_line_if_block_header_3(b, l + 1);
+    exit_section_(b, m, FISH_LINE_IF_BLOCK_HEADER, r);
+    return r;
+  }
+
+  // kw_then?
+  private static boolean fish_line_if_block_header_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_if_block_header_2")) return false;
+    kw_then(b, l + 1);
+    return true;
+  }
+
+  // tk_comment?
+  private static boolean fish_line_if_block_header_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_if_block_header_3")) return false;
+    tk_comment(b, l + 1);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // kw_endloop tk_comment?
+  public static boolean fish_line_loop_block_footer(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_loop_block_footer")) return false;
+    if (!nextTokenIs(b, ENDLOOP)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = kw_endloop(b, l + 1);
+    r = r && fish_line_loop_block_footer_1(b, l + 1);
+    exit_section_(b, m, FISH_LINE_LOOP_BLOCK_FOOTER, r);
+    return r;
+  }
+
+  // tk_comment?
+  private static boolean fish_line_loop_block_footer_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_loop_block_footer_1")) return false;
+    tk_comment(b, l + 1);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // kw_loop (loop_each | fish_expr_loop_indexed | loop_for | loop_while) tk_comment?
+  public static boolean fish_line_loop_block_header(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_loop_block_header")) return false;
+    if (!nextTokenIs(b, LOOP)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = kw_loop(b, l + 1);
+    r = r && fish_line_loop_block_header_1(b, l + 1);
+    r = r && fish_line_loop_block_header_2(b, l + 1);
+    exit_section_(b, m, FISH_LINE_LOOP_BLOCK_HEADER, r);
+    return r;
+  }
+
+  // loop_each | fish_expr_loop_indexed | loop_for | loop_while
+  private static boolean fish_line_loop_block_header_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_loop_block_header_1")) return false;
+    boolean r;
+    r = loop_each(b, l + 1);
+    if (!r) r = fish_expr_loop_indexed(b, l + 1);
+    if (!r) r = loop_for(b, l + 1);
+    if (!r) r = loop_while(b, l + 1);
+    return r;
+  }
+
+  // tk_comment?
+  private static boolean fish_line_loop_block_header_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_loop_block_header_2")) return false;
+    tk_comment(b, l + 1);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // kw_return expr? tk_comment?
+  public static boolean fish_line_return(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_return")) return false;
+    if (!nextTokenIs(b, RETURN)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = kw_return(b, l + 1);
+    r = r && fish_line_return_1(b, l + 1);
+    r = r && fish_line_return_2(b, l + 1);
+    exit_section_(b, m, FISH_LINE_RETURN, r);
+    return r;
+  }
+
+  // expr?
+  private static boolean fish_line_return_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_return_1")) return false;
+    expr(b, l + 1);
+    return true;
+  }
+
+  // tk_comment?
+  private static boolean fish_line_return_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_return_2")) return false;
+    tk_comment(b, l + 1);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // kw_end_section tk_comment?
+  public static boolean fish_line_section_footer(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_section_footer")) return false;
+    if (!nextTokenIs(b, ENDSECTION)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = kw_end_section(b, l + 1);
+    r = r && fish_line_section_footer_1(b, l + 1);
+    exit_section_(b, m, FISH_LINE_SECTION_FOOTER, r);
+    return r;
+  }
+
+  // tk_comment?
+  private static boolean fish_line_section_footer_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_section_footer_1")) return false;
+    tk_comment(b, l + 1);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // kw_section tk_comment?
+  public static boolean fish_line_section_header(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_section_header")) return false;
+    if (!nextTokenIs(b, SECTION)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = kw_section(b, l + 1);
+    r = r && fish_line_section_header_1(b, l + 1);
+    exit_section_(b, m, FISH_LINE_SECTION_HEADER, r);
+    return r;
+  }
+
+  // tk_comment?
+  private static boolean fish_line_section_header_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_line_section_header_1")) return false;
+    tk_comment(b, l + 1);
     return true;
   }
 
@@ -1327,22 +1860,22 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // kw_foreach assign_left_for_loop expr
-  static boolean loop_each(PsiBuilder b, int l) {
+  // kw_foreach fish_expr_assign_left_for_loop expr
+  public static boolean loop_each(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "loop_each")) return false;
     if (!nextTokenIs(b, FOREACH)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = kw_foreach(b, l + 1);
-    r = r && assign_left_for_loop(b, l + 1);
+    r = r && fish_expr_assign_left_for_loop(b, l + 1);
     r = r && expr(b, l + 1);
-    exit_section_(b, m, null, r);
+    exit_section_(b, m, LOOP_EACH, r);
     return r;
   }
 
   /* ********************************************************** */
   // kw_for paren_l kw_local? expr op_comma expr op_comma expr paren_r
-  static boolean loop_for(PsiBuilder b, int l) {
+  public static boolean loop_for(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "loop_for")) return false;
     if (!nextTokenIs(b, FOR)) return false;
     boolean r;
@@ -1356,7 +1889,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     r = r && op_comma(b, l + 1);
     r = r && expr(b, l + 1);
     r = r && paren_r(b, l + 1);
-    exit_section_(b, m, null, r);
+    exit_section_(b, m, LOOP_FOR, r);
     return r;
   }
 
@@ -1368,64 +1901,15 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // assign_left_for_loop loop_indexed_range
-  static boolean loop_indexed(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "loop_indexed")) return false;
-    if (!nextTokenIs(b, "", IDENTIFIER, LOCAL)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = assign_left_for_loop(b, l + 1);
-    r = r && loop_indexed_range(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // paren_l expr op_comma
-  //     expr (op_comma expr)? paren_r
-  public static boolean loop_indexed_range(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "loop_indexed_range")) return false;
-    if (!nextTokenIs(b, LEFT_PARENTHESIS)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = paren_l(b, l + 1);
-    r = r && expr(b, l + 1);
-    r = r && op_comma(b, l + 1);
-    r = r && expr(b, l + 1);
-    r = r && loop_indexed_range_4(b, l + 1);
-    r = r && paren_r(b, l + 1);
-    exit_section_(b, m, LOOP_INDEXED_RANGE, r);
-    return r;
-  }
-
-  // (op_comma expr)?
-  private static boolean loop_indexed_range_4(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "loop_indexed_range_4")) return false;
-    loop_indexed_range_4_0(b, l + 1);
-    return true;
-  }
-
-  // op_comma expr
-  private static boolean loop_indexed_range_4_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "loop_indexed_range_4_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = op_comma(b, l + 1);
-    r = r && expr(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  /* ********************************************************** */
   // kw_while expr
-  static boolean loop_while(PsiBuilder b, int l) {
+  public static boolean loop_while(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "loop_while")) return false;
     if (!nextTokenIs(b, WHILE)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = kw_while(b, l + 1);
     r = r && expr(b, l + 1);
-    exit_section_(b, m, null, r);
+    exit_section_(b, m, LOOP_WHILE, r);
     return r;
   }
 
@@ -1488,12 +1972,12 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // cmd_block*
+  // command_block*
   static boolean simpleFile(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "simpleFile")) return false;
     while (true) {
       int c = current_position_(b);
-      if (!cmd_block(b, l + 1)) break;
+      if (!command_block(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "simpleFile", c)) break;
     }
     return true;
@@ -1509,111 +1993,6 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   // RIGHT_SQUARE_BRACKET
   static boolean square_r(PsiBuilder b, int l) {
     return consumeToken(b, RIGHT_SQUARE_BRACKET);
-  }
-
-  /* ********************************************************** */
-  // kw_array tk_identifier paren_l literal_number paren_r
-  static boolean stat_array_declare(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "stat_array_declare")) return false;
-    if (!nextTokenIs(b, ARRAY)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = kw_array(b, l + 1);
-    r = r && tk_identifier(b, l + 1);
-    r = r && paren_l(b, l + 1);
-    r = r && literal_number(b, l + 1);
-    r = r && paren_r(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // (kw_local | kw_global)? expr_assign (op_comma expr_assign)*
-  public static boolean stat_assign(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "stat_assign")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, STAT_ASSIGN, "<stat assign>");
-    r = stat_assign_0(b, l + 1);
-    r = r && expr_assign(b, l + 1);
-    r = r && stat_assign_2(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // (kw_local | kw_global)?
-  private static boolean stat_assign_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "stat_assign_0")) return false;
-    stat_assign_0_0(b, l + 1);
-    return true;
-  }
-
-  // kw_local | kw_global
-  private static boolean stat_assign_0_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "stat_assign_0_0")) return false;
-    boolean r;
-    r = kw_local(b, l + 1);
-    if (!r) r = kw_global(b, l + 1);
-    return r;
-  }
-
-  // (op_comma expr_assign)*
-  private static boolean stat_assign_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "stat_assign_2")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!stat_assign_2_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "stat_assign_2", c)) break;
-    }
-    return true;
-  }
-
-  // op_comma expr_assign
-  private static boolean stat_assign_2_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "stat_assign_2_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = op_comma(b, l + 1);
-    r = r && expr_assign(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // kw_break |
-  //     kw_continue |
-  //     kw_exit_section |
-  //     kw_exit_loop |
-  //     kw_exit |
-  //     stat_array_declare |
-  //     stat_assign |
-  //     kw_return expr |
-  //     expr
-  public static boolean stat_fish(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "stat_fish")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, STAT_FISH, "<stat fish>");
-    r = kw_break(b, l + 1);
-    if (!r) r = kw_continue(b, l + 1);
-    if (!r) r = kw_exit_section(b, l + 1);
-    if (!r) r = kw_exit_loop(b, l + 1);
-    if (!r) r = kw_exit(b, l + 1);
-    if (!r) r = stat_array_declare(b, l + 1);
-    if (!r) r = stat_assign(b, l + 1);
-    if (!r) r = stat_fish_7(b, l + 1);
-    if (!r) r = expr(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // kw_return expr
-  private static boolean stat_fish_7(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "stat_fish_7")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = kw_return(b, l + 1);
-    r = r && expr(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
   }
 
   /* ********************************************************** */

@@ -5,7 +5,7 @@ package org.intellij.sdk.language;
 import com.intellij.icons.AllIcons;
 import com.intellij.ide.navigationToolbar.StructureAwareNavBarModelExtension;
 import com.intellij.lang.Language;
-import org.intellij.sdk.language.psi.SimpleBlockDefine;
+import org.intellij.sdk.language.psi.SimpleCommandBlockDefine;
 import org.intellij.sdk.language.psi.SimpleFile;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -25,7 +25,7 @@ final class SimpleStructureAwareNavbar extends StructureAwareNavBarModelExtensio
         if (object instanceof SimpleFile file) {
             return file.getName();
         }
-        if (object instanceof SimpleBlockDefine blockDefine) {
+        if (object instanceof SimpleCommandBlockDefine blockDefine) {
             return blockDefine.getText();
         }
 
@@ -35,7 +35,7 @@ final class SimpleStructureAwareNavbar extends StructureAwareNavBarModelExtensio
     @Override
     @Nullable
     public Icon getIcon(Object object) {
-        if (object instanceof SimpleBlockDefine) {
+        if (object instanceof SimpleCommandBlockDefine) {
             return AllIcons.Nodes.Function;
         }
 

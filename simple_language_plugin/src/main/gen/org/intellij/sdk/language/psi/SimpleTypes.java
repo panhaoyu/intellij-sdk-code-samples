@@ -8,35 +8,62 @@ import org.intellij.sdk.language.psi.impl.*;
 
 public interface SimpleTypes {
 
-  IElementType ASSIGN_LEFT_FOR_LOOP = new SimpleElementType("ASSIGN_LEFT_FOR_LOOP");
-  IElementType BLOCK_CASE_OF = new SimpleElementType("BLOCK_CASE_OF");
-  IElementType BLOCK_CASE_OPTION = new SimpleElementType("BLOCK_CASE_OPTION");
-  IElementType BLOCK_CMD = new SimpleElementType("BLOCK_CMD");
-  IElementType BLOCK_DEFINE = new SimpleElementType("BLOCK_DEFINE");
-  IElementType BLOCK_ELSE = new SimpleElementType("BLOCK_ELSE");
-  IElementType BLOCK_ELSE_IF = new SimpleElementType("BLOCK_ELSE_IF");
-  IElementType BLOCK_FISH = new SimpleElementType("BLOCK_FISH");
-  IElementType BLOCK_HEADER_LOOP = new SimpleElementType("BLOCK_HEADER_LOOP");
-  IElementType BLOCK_IF = new SimpleElementType("BLOCK_IF");
-  IElementType BLOCK_LOOP = new SimpleElementType("BLOCK_LOOP");
-  IElementType BLOCK_SECTION = new SimpleElementType("BLOCK_SECTION");
   IElementType BLOCK_SINGLE_FISH = new SimpleElementType("BLOCK_SINGLE_FISH");
-  IElementType BODY_CASE_OF = new SimpleElementType("BODY_CASE_OF");
-  IElementType BODY_CMD = new SimpleElementType("BODY_CMD");
-  IElementType BODY_ELSE = new SimpleElementType("BODY_ELSE");
-  IElementType BODY_ELSE_IF = new SimpleElementType("BODY_ELSE_IF");
-  IElementType BODY_FISH_DEFINE = new SimpleElementType("BODY_FISH_DEFINE");
-  IElementType BODY_IF = new SimpleElementType("BODY_IF");
-  IElementType BODY_LOOP = new SimpleElementType("BODY_LOOP");
-  IElementType BODY_SECTION = new SimpleElementType("BODY_SECTION");
-  IElementType CMD_STAT_FUNC_CALL = new SimpleElementType("CMD_STAT_FUNC_CALL");
-  IElementType CMD_STAT_INLINE_FISH = new SimpleElementType("CMD_STAT_INLINE_FISH");
-  IElementType CMD_STAT_OTHER = new SimpleElementType("CMD_STAT_OTHER");
+  IElementType COMMAND_BLOCK = new SimpleElementType("COMMAND_BLOCK");
+  IElementType COMMAND_BLOCK_DEFINE = new SimpleElementType("COMMAND_BLOCK_DEFINE");
+  IElementType COMMAND_LINE = new SimpleElementType("COMMAND_LINE");
+  IElementType COMMAND_LINE_COMMENT = new SimpleElementType("COMMAND_LINE_COMMENT");
+  IElementType COMMAND_LINE_FUNC_CALL = new SimpleElementType("COMMAND_LINE_FUNC_CALL");
+  IElementType COMMAND_LINE_INLINE_FISH = new SimpleElementType("COMMAND_LINE_INLINE_FISH");
+  IElementType COMMAND_LINE_OTHER_WORDS = new SimpleElementType("COMMAND_LINE_OTHER_WORDS");
+  IElementType COMMAND_TOKEN_ALL = new SimpleElementType("COMMAND_TOKEN_ALL");
+  IElementType COMMAND_TOKEN_KEYWORD_ALL = new SimpleElementType("COMMAND_TOKEN_KEYWORD_ALL");
   IElementType EOL = new SimpleElementType("EOL");
-  IElementType FISH_DEFINE_HEADER = new SimpleElementType("FISH_DEFINE_HEADER");
-  IElementType LOOP_INDEXED_RANGE = new SimpleElementType("LOOP_INDEXED_RANGE");
-  IElementType STAT_ASSIGN = new SimpleElementType("STAT_ASSIGN");
-  IElementType STAT_FISH = new SimpleElementType("STAT_FISH");
+  IElementType FISH_BLOCK = new SimpleElementType("FISH_BLOCK");
+  IElementType FISH_BLOCK_BODY_CASE_OF = new SimpleElementType("FISH_BLOCK_BODY_CASE_OF");
+  IElementType FISH_BLOCK_BODY_ELSE = new SimpleElementType("FISH_BLOCK_BODY_ELSE");
+  IElementType FISH_BLOCK_BODY_ELSE_IF = new SimpleElementType("FISH_BLOCK_BODY_ELSE_IF");
+  IElementType FISH_BLOCK_BODY_IF = new SimpleElementType("FISH_BLOCK_BODY_IF");
+  IElementType FISH_BLOCK_BODY_LOOP = new SimpleElementType("FISH_BLOCK_BODY_LOOP");
+  IElementType FISH_BLOCK_BODY_SECTION = new SimpleElementType("FISH_BLOCK_BODY_SECTION");
+  IElementType FISH_BLOCK_CASE_OF = new SimpleElementType("FISH_BLOCK_CASE_OF");
+  IElementType FISH_BLOCK_COMMAND = new SimpleElementType("FISH_BLOCK_COMMAND");
+  IElementType FISH_BLOCK_COMMAND_BODY = new SimpleElementType("FISH_BLOCK_COMMAND_BODY");
+  IElementType FISH_BLOCK_DEFINE_BODY = new SimpleElementType("FISH_BLOCK_DEFINE_BODY");
+  IElementType FISH_BLOCK_IF = new SimpleElementType("FISH_BLOCK_IF");
+  IElementType FISH_BLOCK_LOOP = new SimpleElementType("FISH_BLOCK_LOOP");
+  IElementType FISH_BLOCK_SECTION = new SimpleElementType("FISH_BLOCK_SECTION");
+  IElementType FISH_EXPR_ASSIGN = new SimpleElementType("FISH_EXPR_ASSIGN");
+  IElementType FISH_EXPR_ASSIGN_LEFT_FOR_LOOP = new SimpleElementType("FISH_EXPR_ASSIGN_LEFT_FOR_LOOP");
+  IElementType FISH_EXPR_ASSIGN_RIGHT = new SimpleElementType("FISH_EXPR_ASSIGN_RIGHT");
+  IElementType FISH_EXPR_ASSIGN_TARGET = new SimpleElementType("FISH_EXPR_ASSIGN_TARGET");
+  IElementType FISH_EXPR_LOOP_INDEXED = new SimpleElementType("FISH_EXPR_LOOP_INDEXED");
+  IElementType FISH_LINE = new SimpleElementType("FISH_LINE");
+  IElementType FISH_LINE_ARRAY_DECLARE = new SimpleElementType("FISH_LINE_ARRAY_DECLARE");
+  IElementType FISH_LINE_ASSIGN = new SimpleElementType("FISH_LINE_ASSIGN");
+  IElementType FISH_LINE_BREAK = new SimpleElementType("FISH_LINE_BREAK");
+  IElementType FISH_LINE_CASE_OF_BLOCK_FOOTER = new SimpleElementType("FISH_LINE_CASE_OF_BLOCK_FOOTER");
+  IElementType FISH_LINE_CASE_OF_BLOCK_HEADER = new SimpleElementType("FISH_LINE_CASE_OF_BLOCK_HEADER");
+  IElementType FISH_LINE_CASE_OF_BLOCK_OPTION = new SimpleElementType("FISH_LINE_CASE_OF_BLOCK_OPTION");
+  IElementType FISH_LINE_COMMAND_FOOTER = new SimpleElementType("FISH_LINE_COMMAND_FOOTER");
+  IElementType FISH_LINE_COMMAND_HEADER = new SimpleElementType("FISH_LINE_COMMAND_HEADER");
+  IElementType FISH_LINE_CONTINUE = new SimpleElementType("FISH_LINE_CONTINUE");
+  IElementType FISH_LINE_EXIT = new SimpleElementType("FISH_LINE_EXIT");
+  IElementType FISH_LINE_EXIT_LOOP = new SimpleElementType("FISH_LINE_EXIT_LOOP");
+  IElementType FISH_LINE_EXIT_SECTION = new SimpleElementType("FISH_LINE_EXIT_SECTION");
+  IElementType FISH_LINE_EXPR = new SimpleElementType("FISH_LINE_EXPR");
+  IElementType FISH_LINE_IF_BLOCK_ELSE = new SimpleElementType("FISH_LINE_IF_BLOCK_ELSE");
+  IElementType FISH_LINE_IF_BLOCK_ELSE_IF = new SimpleElementType("FISH_LINE_IF_BLOCK_ELSE_IF");
+  IElementType FISH_LINE_IF_BLOCK_FOOTER = new SimpleElementType("FISH_LINE_IF_BLOCK_FOOTER");
+  IElementType FISH_LINE_IF_BLOCK_HEADER = new SimpleElementType("FISH_LINE_IF_BLOCK_HEADER");
+  IElementType FISH_LINE_LOOP_BLOCK_FOOTER = new SimpleElementType("FISH_LINE_LOOP_BLOCK_FOOTER");
+  IElementType FISH_LINE_LOOP_BLOCK_HEADER = new SimpleElementType("FISH_LINE_LOOP_BLOCK_HEADER");
+  IElementType FISH_LINE_RETURN = new SimpleElementType("FISH_LINE_RETURN");
+  IElementType FISH_LINE_SECTION_FOOTER = new SimpleElementType("FISH_LINE_SECTION_FOOTER");
+  IElementType FISH_LINE_SECTION_HEADER = new SimpleElementType("FISH_LINE_SECTION_HEADER");
+  IElementType LOOP_EACH = new SimpleElementType("LOOP_EACH");
+  IElementType LOOP_FOR = new SimpleElementType("LOOP_FOR");
+  IElementType LOOP_WHILE = new SimpleElementType("LOOP_WHILE");
   IElementType TK_COMMENT = new SimpleElementType("TK_COMMENT");
   IElementType TK_IDENTIFIER = new SimpleElementType("TK_IDENTIFIER");
   IElementType TK_LITERAL = new SimpleElementType("TK_LITERAL");
@@ -96,92 +123,173 @@ public interface SimpleTypes {
   class Factory {
     public static PsiElement createElement(ASTNode node) {
       IElementType type = node.getElementType();
-      if (type == ASSIGN_LEFT_FOR_LOOP) {
-        return new SimpleAssignLeftForLoopImpl(node);
-      }
-      else if (type == BLOCK_CASE_OF) {
-        return new SimpleBlockCaseOfImpl(node);
-      }
-      else if (type == BLOCK_CASE_OPTION) {
-        return new SimpleBlockCaseOptionImpl(node);
-      }
-      else if (type == BLOCK_CMD) {
-        return new SimpleBlockCmdImpl(node);
-      }
-      else if (type == BLOCK_DEFINE) {
-        return new SimpleBlockDefineImpl(node);
-      }
-      else if (type == BLOCK_ELSE) {
-        return new SimpleBlockElseImpl(node);
-      }
-      else if (type == BLOCK_ELSE_IF) {
-        return new SimpleBlockElseIfImpl(node);
-      }
-      else if (type == BLOCK_FISH) {
-        return new SimpleBlockFishImpl(node);
-      }
-      else if (type == BLOCK_HEADER_LOOP) {
-        return new SimpleBlockHeaderLoopImpl(node);
-      }
-      else if (type == BLOCK_IF) {
-        return new SimpleBlockIfImpl(node);
-      }
-      else if (type == BLOCK_LOOP) {
-        return new SimpleBlockLoopImpl(node);
-      }
-      else if (type == BLOCK_SECTION) {
-        return new SimpleBlockSectionImpl(node);
-      }
-      else if (type == BLOCK_SINGLE_FISH) {
+      if (type == BLOCK_SINGLE_FISH) {
         return new SimpleBlockSingleFishImpl(node);
       }
-      else if (type == BODY_CASE_OF) {
-        return new SimpleBodyCaseOfImpl(node);
+      else if (type == COMMAND_BLOCK) {
+        return new SimpleCommandBlockImpl(node);
       }
-      else if (type == BODY_CMD) {
-        return new SimpleBodyCmdImpl(node);
+      else if (type == COMMAND_BLOCK_DEFINE) {
+        return new SimpleCommandBlockDefineImpl(node);
       }
-      else if (type == BODY_ELSE) {
-        return new SimpleBodyElseImpl(node);
+      else if (type == COMMAND_LINE) {
+        return new SimpleCommandLineImpl(node);
       }
-      else if (type == BODY_ELSE_IF) {
-        return new SimpleBodyElseIfImpl(node);
+      else if (type == COMMAND_LINE_COMMENT) {
+        return new SimpleCommandLineCommentImpl(node);
       }
-      else if (type == BODY_FISH_DEFINE) {
-        return new SimpleBodyFishDefineImpl(node);
+      else if (type == COMMAND_LINE_FUNC_CALL) {
+        return new SimpleCommandLineFuncCallImpl(node);
       }
-      else if (type == BODY_IF) {
-        return new SimpleBodyIfImpl(node);
+      else if (type == COMMAND_LINE_INLINE_FISH) {
+        return new SimpleCommandLineInlineFishImpl(node);
       }
-      else if (type == BODY_LOOP) {
-        return new SimpleBodyLoopImpl(node);
+      else if (type == COMMAND_LINE_OTHER_WORDS) {
+        return new SimpleCommandLineOtherWordsImpl(node);
       }
-      else if (type == BODY_SECTION) {
-        return new SimpleBodySectionImpl(node);
+      else if (type == COMMAND_TOKEN_ALL) {
+        return new SimpleCommandTokenAllImpl(node);
       }
-      else if (type == CMD_STAT_FUNC_CALL) {
-        return new SimpleCmdStatFuncCallImpl(node);
-      }
-      else if (type == CMD_STAT_INLINE_FISH) {
-        return new SimpleCmdStatInlineFishImpl(node);
-      }
-      else if (type == CMD_STAT_OTHER) {
-        return new SimpleCmdStatOtherImpl(node);
+      else if (type == COMMAND_TOKEN_KEYWORD_ALL) {
+        return new SimpleCommandTokenKeywordAllImpl(node);
       }
       else if (type == EOL) {
         return new SimpleEolImpl(node);
       }
-      else if (type == FISH_DEFINE_HEADER) {
-        return new SimpleFishDefineHeaderImpl(node);
+      else if (type == FISH_BLOCK) {
+        return new SimpleFishBlockImpl(node);
       }
-      else if (type == LOOP_INDEXED_RANGE) {
-        return new SimpleLoopIndexedRangeImpl(node);
+      else if (type == FISH_BLOCK_BODY_CASE_OF) {
+        return new SimpleFishBlockBodyCaseOfImpl(node);
       }
-      else if (type == STAT_ASSIGN) {
-        return new SimpleStatAssignImpl(node);
+      else if (type == FISH_BLOCK_BODY_ELSE) {
+        return new SimpleFishBlockBodyElseImpl(node);
       }
-      else if (type == STAT_FISH) {
-        return new SimpleStatFishImpl(node);
+      else if (type == FISH_BLOCK_BODY_ELSE_IF) {
+        return new SimpleFishBlockBodyElseIfImpl(node);
+      }
+      else if (type == FISH_BLOCK_BODY_IF) {
+        return new SimpleFishBlockBodyIfImpl(node);
+      }
+      else if (type == FISH_BLOCK_BODY_LOOP) {
+        return new SimpleFishBlockBodyLoopImpl(node);
+      }
+      else if (type == FISH_BLOCK_BODY_SECTION) {
+        return new SimpleFishBlockBodySectionImpl(node);
+      }
+      else if (type == FISH_BLOCK_CASE_OF) {
+        return new SimpleFishBlockCaseOfImpl(node);
+      }
+      else if (type == FISH_BLOCK_COMMAND) {
+        return new SimpleFishBlockCommandImpl(node);
+      }
+      else if (type == FISH_BLOCK_COMMAND_BODY) {
+        return new SimpleFishBlockCommandBodyImpl(node);
+      }
+      else if (type == FISH_BLOCK_DEFINE_BODY) {
+        return new SimpleFishBlockDefineBodyImpl(node);
+      }
+      else if (type == FISH_BLOCK_IF) {
+        return new SimpleFishBlockIfImpl(node);
+      }
+      else if (type == FISH_BLOCK_LOOP) {
+        return new SimpleFishBlockLoopImpl(node);
+      }
+      else if (type == FISH_BLOCK_SECTION) {
+        return new SimpleFishBlockSectionImpl(node);
+      }
+      else if (type == FISH_EXPR_ASSIGN) {
+        return new SimpleFishExprAssignImpl(node);
+      }
+      else if (type == FISH_EXPR_ASSIGN_LEFT_FOR_LOOP) {
+        return new SimpleFishExprAssignLeftForLoopImpl(node);
+      }
+      else if (type == FISH_EXPR_ASSIGN_RIGHT) {
+        return new SimpleFishExprAssignRightImpl(node);
+      }
+      else if (type == FISH_EXPR_ASSIGN_TARGET) {
+        return new SimpleFishExprAssignTargetImpl(node);
+      }
+      else if (type == FISH_EXPR_LOOP_INDEXED) {
+        return new SimpleFishExprLoopIndexedImpl(node);
+      }
+      else if (type == FISH_LINE) {
+        return new SimpleFishLineImpl(node);
+      }
+      else if (type == FISH_LINE_ARRAY_DECLARE) {
+        return new SimpleFishLineArrayDeclareImpl(node);
+      }
+      else if (type == FISH_LINE_ASSIGN) {
+        return new SimpleFishLineAssignImpl(node);
+      }
+      else if (type == FISH_LINE_BREAK) {
+        return new SimpleFishLineBreakImpl(node);
+      }
+      else if (type == FISH_LINE_CASE_OF_BLOCK_FOOTER) {
+        return new SimpleFishLineCaseOfBlockFooterImpl(node);
+      }
+      else if (type == FISH_LINE_CASE_OF_BLOCK_HEADER) {
+        return new SimpleFishLineCaseOfBlockHeaderImpl(node);
+      }
+      else if (type == FISH_LINE_CASE_OF_BLOCK_OPTION) {
+        return new SimpleFishLineCaseOfBlockOptionImpl(node);
+      }
+      else if (type == FISH_LINE_COMMAND_FOOTER) {
+        return new SimpleFishLineCommandFooterImpl(node);
+      }
+      else if (type == FISH_LINE_COMMAND_HEADER) {
+        return new SimpleFishLineCommandHeaderImpl(node);
+      }
+      else if (type == FISH_LINE_CONTINUE) {
+        return new SimpleFishLineContinueImpl(node);
+      }
+      else if (type == FISH_LINE_EXIT) {
+        return new SimpleFishLineExitImpl(node);
+      }
+      else if (type == FISH_LINE_EXIT_LOOP) {
+        return new SimpleFishLineExitLoopImpl(node);
+      }
+      else if (type == FISH_LINE_EXIT_SECTION) {
+        return new SimpleFishLineExitSectionImpl(node);
+      }
+      else if (type == FISH_LINE_EXPR) {
+        return new SimpleFishLineExprImpl(node);
+      }
+      else if (type == FISH_LINE_IF_BLOCK_ELSE) {
+        return new SimpleFishLineIfBlockElseImpl(node);
+      }
+      else if (type == FISH_LINE_IF_BLOCK_ELSE_IF) {
+        return new SimpleFishLineIfBlockElseIfImpl(node);
+      }
+      else if (type == FISH_LINE_IF_BLOCK_FOOTER) {
+        return new SimpleFishLineIfBlockFooterImpl(node);
+      }
+      else if (type == FISH_LINE_IF_BLOCK_HEADER) {
+        return new SimpleFishLineIfBlockHeaderImpl(node);
+      }
+      else if (type == FISH_LINE_LOOP_BLOCK_FOOTER) {
+        return new SimpleFishLineLoopBlockFooterImpl(node);
+      }
+      else if (type == FISH_LINE_LOOP_BLOCK_HEADER) {
+        return new SimpleFishLineLoopBlockHeaderImpl(node);
+      }
+      else if (type == FISH_LINE_RETURN) {
+        return new SimpleFishLineReturnImpl(node);
+      }
+      else if (type == FISH_LINE_SECTION_FOOTER) {
+        return new SimpleFishLineSectionFooterImpl(node);
+      }
+      else if (type == FISH_LINE_SECTION_HEADER) {
+        return new SimpleFishLineSectionHeaderImpl(node);
+      }
+      else if (type == LOOP_EACH) {
+        return new SimpleLoopEachImpl(node);
+      }
+      else if (type == LOOP_FOR) {
+        return new SimpleLoopForImpl(node);
+      }
+      else if (type == LOOP_WHILE) {
+        return new SimpleLoopWhileImpl(node);
       }
       else if (type == TK_COMMENT) {
         return new SimpleTkCommentImpl(node);
