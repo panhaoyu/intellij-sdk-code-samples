@@ -2106,13 +2106,13 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // eol* command_block eol*
+  // eol* command_block? eol*
   static boolean simpleFile(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "simpleFile")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = simpleFile_0(b, l + 1);
-    r = r && command_block(b, l + 1);
+    r = r && simpleFile_1(b, l + 1);
     r = r && simpleFile_2(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
@@ -2126,6 +2126,13 @@ public class SimpleParser implements PsiParser, LightPsiParser {
       if (!eol(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "simpleFile_0", c)) break;
     }
+    return true;
+  }
+
+  // command_block?
+  private static boolean simpleFile_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "simpleFile_1")) return false;
+    command_block(b, l + 1);
     return true;
   }
 
