@@ -1,0 +1,7 @@
+fish define a
+if b then
+c
+d
+e
+end_if
+end
