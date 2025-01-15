@@ -1,7 +1,18 @@
 ; comment
 ; comment
 ; comment
-abc
+abc daslkfj
+fish define a
+    ldksajalksdj
+    asdlkfjalskdj
+    asdlkgjalkdsj  ; adslfkjasdj
+    command
+        aslkdfkjl
+        asdlkfaklsd
+    end_command
+end
+
+
 ; comment
 ; comment
 ; comment

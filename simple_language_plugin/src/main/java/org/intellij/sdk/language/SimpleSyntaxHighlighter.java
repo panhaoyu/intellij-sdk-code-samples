@@ -78,7 +78,7 @@ public class SimpleSyntaxHighlighter extends SyntaxHighlighterBase {
 
         put(SimpleTypes.NUMBER_LITERAL, NUMBER_LITERAL_KEYS);
         put(SimpleTypes.IDENTIFIER, IDENTIFIER_KEYS);
-        put(SimpleTypes.COMMENT, COMMENT_KEYS);
+        put(SimpleTypes.COMMENT_EXPR, COMMENT_KEYS);
         put(SimpleTypes.NEWLINE, COMMENT_KEYS);
         put(SimpleTypes.STRING_LITERAL, STRING_LITERAL_KEYS);
 

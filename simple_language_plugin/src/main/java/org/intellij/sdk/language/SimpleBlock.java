@@ -35,7 +35,7 @@ public class SimpleBlock extends AbstractBlock {
                 child = child.getTreeNext();
                 continue;
             }
-            Block block = new SimpleBlock(child, Wrap.createWrap(WrapType.NONE, false), Alignment.createAlignment(), spacingBuilder);
+            Block block = new SimpleBlock(child, Wrap.createWrap(WrapType.NONE, false), null, spacingBuilder);
             blocks.add(block);  // 将新创建的块添加到列表中
             child = child.getTreeNext();  // 移动到下一个兄弟节点
         }

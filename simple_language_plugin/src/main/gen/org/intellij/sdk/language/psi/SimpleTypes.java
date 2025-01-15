@@ -86,7 +86,7 @@ public interface SimpleTypes {
   IElementType CASEOF = new SimpleTokenType("CASEOF");
   IElementType COMMAND = new SimpleTokenType("COMMAND");
   IElementType COMMA_OPERATOR = new SimpleTokenType("COMMA_OPERATOR");
-  IElementType COMMENT = new SimpleTokenType("COMMENT");
+  IElementType COMMENT_EXPR = new SimpleTokenType("COMMENT_EXPR");
   IElementType CONTINUE = new SimpleTokenType("CONTINUE");
   IElementType DOT_OPERATOR = new SimpleTokenType("DOT_OPERATOR");
   IElementType ELSE = new SimpleTokenType("ELSE");

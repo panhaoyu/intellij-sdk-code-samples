@@ -12,7 +12,7 @@ public interface SimpleTokenSets {
             SimpleTypes.TK_IDENTIFIER
     );
     TokenSet COMMENTS = TokenSet.create(
-            SimpleTypes.COMMENT
+            SimpleTypes.COMMENT_EXPR
     );
 
     TokenSet STRING_LITERALS = TokenSet.create(SimpleTypes.STRING_LITERAL);
