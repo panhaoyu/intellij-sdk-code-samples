@@ -932,7 +932,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // fish_line_loop_block_header (eol fish_block_body_loop)? fish_line_loop_block_footer
+  // fish_line_loop_block_header (eol fish_block_body_loop)? eol fish_line_loop_block_footer
   public static boolean fish_block_loop(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "fish_block_loop")) return false;
     if (!nextTokenIs(b, LOOP)) return false;
@@ -940,6 +940,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b);
     r = fish_line_loop_block_header(b, l + 1);
     r = r && fish_block_loop_1(b, l + 1);
+    r = r && eol(b, l + 1);
     r = r && fish_line_loop_block_footer(b, l + 1);
     exit_section_(b, m, FISH_BLOCK_LOOP, r);
     return r;
