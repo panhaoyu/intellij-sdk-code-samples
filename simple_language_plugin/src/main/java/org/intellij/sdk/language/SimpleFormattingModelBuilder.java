@@ -57,6 +57,8 @@ final class SimpleFormattingModelBuilder implements FormattingModelBuilder {
                 .before(SimpleTypes.OP_COMMA).none()
                 // a = b                    赋值的前后都要有一个空格
                 .around(SimpleTypes.OP_ASSIGN).spaces(1)
+                .between(SimpleTypes.FISH_EXPR_ASSIGN_TARGET, SimpleTypes.FISH_EXPR_ASSIGN_RIGHT).spaces(1)
+                .after(SimpleTypes.OP_ASSIGN).spaces(1)
 
                 // a = b - c                在 Fish 中，减号两侧也加一个空格
                 .aroundInside(SimpleTypes.OP_MINUS, SimpleTypes.FISH_LINE).spaces(1)  // 运算符前后有空格
@@ -66,7 +68,7 @@ final class SimpleFormattingModelBuilder implements FormattingModelBuilder {
                 // 两个标识符或者字面量之间只有一个空格
                 .between(SimpleTokenSets.IDENTIFIERS_AND_LITERALS, SimpleTokenSets.IDENTIFIERS_AND_LITERALS).spaces(1)  // 标识符前后有一个空格
 
-                .after(SimpleTypes.FISH_LINE_ASSIGN_SCOPE).spaces(1)
+                .after(SimpleTypes.FISH_ASSIGN_SCOPE).spaces(1)
                 ;
     }
 

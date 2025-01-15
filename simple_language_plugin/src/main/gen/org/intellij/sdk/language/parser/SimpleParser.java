@@ -170,31 +170,16 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (kw_local | kw_global)? fish_expr_assign (op_comma fish_expr_assign)*
+  // fish_assign_scope fish_expr_assign (op_comma fish_expr_assign)*
   public static boolean command_inline_fish_line_assign(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "command_inline_fish_line_assign")) return false;
+    if (!nextTokenIs(b, "<command inline fish line assign>", GLOBAL, LOCAL)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, COMMAND_INLINE_FISH_LINE_ASSIGN, "<command inline fish line assign>");
-    r = command_inline_fish_line_assign_0(b, l + 1);
+    r = fish_assign_scope(b, l + 1);
     r = r && fish_expr_assign(b, l + 1);
     r = r && command_inline_fish_line_assign_2(b, l + 1);
     exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // (kw_local | kw_global)?
-  private static boolean command_inline_fish_line_assign_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "command_inline_fish_line_assign_0")) return false;
-    command_inline_fish_line_assign_0_0(b, l + 1);
-    return true;
-  }
-
-  // kw_local | kw_global
-  private static boolean command_inline_fish_line_assign_0_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "command_inline_fish_line_assign_0_0")) return false;
-    boolean r;
-    r = kw_local(b, l + 1);
-    if (!r) r = kw_global(b, l + 1);
     return r;
   }
 
@@ -232,7 +217,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // command_token_all* tk_comment?
+  // command_token_all+ tk_comment?
   public static boolean command_line(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "command_line")) return false;
     boolean r;
@@ -243,15 +228,19 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // command_token_all*
+  // command_token_all+
   private static boolean command_line_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "command_line_0")) return false;
-    while (true) {
+    boolean r;
+    Marker m = enter_section_(b);
+    r = command_token_all(b, l + 1);
+    while (r) {
       int c = current_position_(b);
       if (!command_token_all(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "command_line_0", c)) break;
     }
-    return true;
+    exit_section_(b, m, null, r);
+    return r;
   }
 
   // tk_comment?
@@ -524,6 +513,19 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     r = op_unary(b, l + 1);
     r = r && fish_expr(b, l + 1);
     exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // kw_local | kw_global
+  public static boolean fish_assign_scope(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_assign_scope")) return false;
+    if (!nextTokenIs(b, "<fish assign scope>", GLOBAL, LOCAL)) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, FISH_ASSIGN_SCOPE, "<fish assign scope>");
+    r = kw_local(b, l + 1);
+    if (!r) r = kw_global(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
@@ -929,21 +931,21 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // fish_block_if |
+  // fish_block_command |
+  //     fish_block_if |
   //     fish_block_loop |
   //     fish_block_case_of |
   //     fish_block_section |
-  //     fish_block_command |
   //     fish_line
   public static boolean fish_block_single(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "fish_block_single")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, FISH_BLOCK_SINGLE, "<fish block single>");
-    r = fish_block_if(b, l + 1);
+    r = fish_block_command(b, l + 1);
+    if (!r) r = fish_block_if(b, l + 1);
     if (!r) r = fish_block_loop(b, l + 1);
     if (!r) r = fish_block_case_of(b, l + 1);
     if (!r) r = fish_block_section(b, l + 1);
-    if (!r) r = fish_block_command(b, l + 1);
     if (!r) r = fish_line(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
@@ -1212,7 +1214,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // fish_line_assign_scope? fish_expr_assign (op_comma fish_expr_assign)* tk_comment?
+  // fish_assign_scope? fish_expr_assign (op_comma fish_expr_assign)* tk_comment?
   public static boolean fish_line_assign(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "fish_line_assign")) return false;
     boolean r;
@@ -1225,10 +1227,10 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // fish_line_assign_scope?
+  // fish_assign_scope?
   private static boolean fish_line_assign_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "fish_line_assign_0")) return false;
-    fish_line_assign_scope(b, l + 1);
+    fish_assign_scope(b, l + 1);
     return true;
   }
 
@@ -1259,19 +1261,6 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     if (!recursion_guard_(b, l, "fish_line_assign_3")) return false;
     tk_comment(b, l + 1);
     return true;
-  }
-
-  /* ********************************************************** */
-  // kw_local | kw_global
-  public static boolean fish_line_assign_scope(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "fish_line_assign_scope")) return false;
-    if (!nextTokenIs(b, "<fish line assign scope>", GLOBAL, LOCAL)) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, FISH_LINE_ASSIGN_SCOPE, "<fish line assign scope>");
-    r = kw_local(b, l + 1);
-    if (!r) r = kw_global(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
   }
 
   /* ********************************************************** */

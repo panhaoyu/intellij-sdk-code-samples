@@ -30,7 +30,7 @@ command_block_single ::= (
     command_block_define |
     command_line
 )
-command_line ::= command_token_all* tk_comment?
+command_line ::= command_token_all+ tk_comment?
 command_token_all ::= (
     command_token_connected_with_minus |
     command_token_inline_fish |
@@ -68,11 +68,11 @@ fish_expr_define_params ::= (paren_l tk_identifier (op_comma tk_identifier)* par
 // 全部的可能的 Fish 语句块
 fish_block ::= fish_block_single (eol fish_block_single)*
 fish_block_single ::= (
+    fish_block_command |
     fish_block_if |
     fish_block_loop |
     fish_block_case_of |
     fish_block_section |
-    fish_block_command |
     fish_line
 )
 
@@ -146,8 +146,7 @@ fish_line_exit_section ::= kw_exit_section tk_comment?
 fish_line_exit_loop ::= kw_exit_loop tk_comment?
 fish_line_return ::= kw_return fish_expr? tk_comment?
 fish_line_array_declare ::= kw_array tk_identifier paren_l literal_number paren_r tk_comment?
-fish_line_assign ::= fish_line_assign_scope? fish_expr_assign (op_comma fish_expr_assign)* tk_comment?
-fish_line_assign_scope ::= kw_local | kw_global
+fish_line_assign ::= fish_assign_scope? fish_expr_assign (op_comma fish_expr_assign)* tk_comment?
 fish_line_expr ::= fish_expr tk_comment?
 fish_line_comment ::= tk_comment
 
@@ -158,13 +157,15 @@ command_inline_fish_line ::= (
     command_inline_fish_line_expr
 )
 command_inline_fish_line_array_declare ::= kw_array tk_identifier paren_l literal_number paren_r
-command_inline_fish_line_assign ::= (kw_local | kw_global)? fish_expr_assign (op_comma fish_expr_assign)*
+command_inline_fish_line_assign ::= fish_assign_scope fish_expr_assign (op_comma fish_expr_assign)*
 command_inline_fish_line_expr ::= fish_expr
 
 fish_expr_assign ::= fish_expr_assign_target fish_expr_assign_right?
 fish_expr_assign_target ::= tk_identifier expr_paren_csv?
 fish_expr_assign_right ::= op_assign fish_expr
 fish_expr_assign_left_for_loop ::= kw_local? tk_identifier
+
+fish_assign_scope ::= kw_local | kw_global
 
 
 fish_expr ::= (square_l expr_binary square_r) |  expr_binary
