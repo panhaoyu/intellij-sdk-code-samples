@@ -11,44 +11,20 @@ import static org.intellij.sdk.language.psi.SimpleTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import org.intellij.sdk.language.psi.*;
 
-public class SimpleCmdBlockImpl extends ASTWrapperPsiElement implements SimpleCmdBlock {
+public class SimpleTkCommentImpl extends ASTWrapperPsiElement implements SimpleTkComment {
 
-  public SimpleCmdBlockImpl(@NotNull ASTNode node) {
+  public SimpleTkCommentImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull SimpleVisitor visitor) {
-    visitor.visitCmdBlock(this);
+    visitor.visitTkComment(this);
   }
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof SimpleVisitor) accept((SimpleVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @Nullable
-  public SimpleBlockDefine getBlockDefine() {
-    return findChildByClass(SimpleBlockDefine.class);
-  }
-
-  @Override
-  @Nullable
-  public SimpleCmdStatFuncCall getCmdStatFuncCall() {
-    return findChildByClass(SimpleCmdStatFuncCall.class);
-  }
-
-  @Override
-  @Nullable
-  public SimpleCmdStatInlineFish getCmdStatInlineFish() {
-    return findChildByClass(SimpleCmdStatInlineFish.class);
-  }
-
-  @Override
-  @Nullable
-  public SimpleCmdStatOther getCmdStatOther() {
-    return findChildByClass(SimpleCmdStatOther.class);
   }
 
 }

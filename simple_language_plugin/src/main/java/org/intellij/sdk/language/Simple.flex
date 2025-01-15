@@ -40,10 +40,10 @@ import com.intellij.psi.TokenType;
 // 定义标记的模式。
 
 // 新行模式，可能带有缩进（空格或制表符）。
-NewLine = (\R( \t)*)
+NewlineIndent = (\R( \t)*)
 
 // 空白模式（空格、制表符、垂直制表符、换页符）。
-WhiteSpace = [ \t\x0B\f]+
+Whitespace = [ \t\x0B\f]+
 
 // 省略号模式 ("...")。
 Ellipsis = "..."
@@ -165,8 +165,8 @@ String = {StringA} | {StringB}
     {BinaryOperator} {return SimpleTypes.BINARY_OPERATOR;}
     {AssignmentOperator} {return SimpleTypes.ASSIGNMENT_OPERATOR;}
     {UnaryOperator} {return SimpleTypes.UNARY_OPERATOR;}
-    {WhiteSpace} {return TokenType.WHITE_SPACE;}
-    {NewLine} {return SimpleTypes.NEWLINE;}
+    {Whitespace} {return TokenType.WHITE_SPACE;}
+    {NewlineIndent} {return SimpleTypes.NEWLINE;}
     {Comment} {return SimpleTypes.COMMENT;}
     \} {return SimpleTypes.LEFT_CURLY_BRACKET; }
     \{ {return SimpleTypes.RIGHT_CURLY_BRACKET; }
@@ -178,7 +178,7 @@ String = {StringA} | {StringB}
     \. {return SimpleTypes.DOT_OPERATOR; }
     \, {return SimpleTypes.COMMA_OPERATOR; }
     \- {return SimpleTypes.MINUS_OPERATOR;}
-    {Ellipsis} {WhiteSpace}* {NewLine} {return TokenType.WHITE_SPACE; }
+    {Ellipsis} {Whitespace}* {NewlineIndent} {return TokenType.WHITE_SPACE; }
     {Ellipsis} {return TokenType.WHITE_SPACE; }
 }
 

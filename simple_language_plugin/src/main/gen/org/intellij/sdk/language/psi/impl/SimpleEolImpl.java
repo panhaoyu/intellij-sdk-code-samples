@@ -27,4 +27,16 @@ public class SimpleEolImpl extends ASTWrapperPsiElement implements SimpleEol {
     else super.accept(visitor);
   }
 
+  @Override
+  @NotNull
+  public List<SimpleTkComment> getTkCommentList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleTkComment.class);
+  }
+
+  @Override
+  @NotNull
+  public List<SimpleTkNewline> getTkNewlineList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleTkNewline.class);
+  }
+
 }

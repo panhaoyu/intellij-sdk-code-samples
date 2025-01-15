@@ -5,12 +5,6 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface SimpleEol extends PsiElement {
-
-  @NotNull
-  List<SimpleTkComment> getTkCommentList();
-
-  @NotNull
-  List<SimpleTkNewline> getTkNewlineList();
+public interface SimpleTkComment extends PsiElement {
 
 }

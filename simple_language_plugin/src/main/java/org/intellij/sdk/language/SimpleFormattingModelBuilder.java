@@ -15,7 +15,6 @@ final class SimpleFormattingModelBuilder implements FormattingModelBuilder {
                 // 处理的过程是自下向上的
                 .between(SimpleTypes.ASSIGN_LEFT_FOR_LOOP, SimpleTypes.LOOP_INDEXED_RANGE).spaces(1)
 
-                .between(SimpleTokenSets.EndOfLine, SimpleTypes.CMD_BLOCK).spaces(0)
                 .between(SimpleTokenSets.EndOfLine, SimpleTypes.CMD_STAT_INLINE_FISH).spaces(0)
                 .between(SimpleTokenSets.EndOfLine, SimpleTypes.FISH_DEFINE).spaces(0)
 

@@ -69,7 +69,7 @@ public interface SimpleTokenSets {
             SimpleTypes.LEFT_SQUARE_BRACKET
     );
     TokenSet NewLine = TokenSet.create(
-            SimpleTypes.NEWLINE
+            TokenType.NEW_LINE_INDENT
     );
 
     TokenSet EndOfLine = TokenSet.create(
@@ -119,7 +119,8 @@ public interface SimpleTokenSets {
     );
 
     TokenSet BlockSkip = TokenSet.create(
-            SimpleTypes.EOL,
-            TokenType.WHITE_SPACE
+            TokenType.NEW_LINE_INDENT,
+            TokenType.WHITE_SPACE,
+            SimpleTypes.NEWLINE
     );
 }

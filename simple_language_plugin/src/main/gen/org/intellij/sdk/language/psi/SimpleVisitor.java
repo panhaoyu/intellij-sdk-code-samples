@@ -91,10 +91,6 @@ public class SimpleVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitCmdBlock(@NotNull SimpleCmdBlock o) {
-    visitPsiElement(o);
-  }
-
   public void visitCmdStatFuncCall(@NotNull SimpleCmdStatFuncCall o) {
     visitPsiElement(o);
   }
@@ -127,11 +123,19 @@ public class SimpleVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitTkComment(@NotNull SimpleTkComment o) {
+    visitPsiElement(o);
+  }
+
   public void visitTkIdentifier(@NotNull SimpleTkIdentifier o) {
     visitNamedElement(o);
   }
 
   public void visitTkLiteral(@NotNull SimpleTkLiteral o) {
+    visitPsiElement(o);
+  }
+
+  public void visitTkNewline(@NotNull SimpleTkNewline o) {
     visitPsiElement(o);
   }
 

@@ -128,7 +128,9 @@ public class SimpleSyntaxHighlighter extends SyntaxHighlighterBase {
 
     @Override
     public TextAttributesKey @NotNull [] getTokenHighlights(IElementType tokenType) {
-        return highlightingMap.getOrDefault(tokenType, BAD_CHARACTER_KEYS);
+        return highlightingMap.getOrDefault(tokenType
+
+                , BAD_CHARACTER_KEYS);
     }
 
 }

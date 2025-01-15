@@ -15,16 +15,23 @@
   tokenTypeClass="org.intellij.sdk.language.psi.SimpleTokenType"
 
   psiImplUtilClass="org.intellij.sdk.language.psi.impl.SimplePsiImplUtil"
+
+  tokens=[
+    WHITESPACE="regexp: +"
+    NEWLINE="(\R( \t)*)"
+  ]
 }
 
-simpleFile ::= (eol? cmd_block)* eol?
+simpleFile ::= cmd_block*
 
 //前缀为cmd的均表示作用于command作用域中
-cmd_block ::= (
+private cmd_block ::= (
     cmd_stat_inline_fish |
     block_define |
     cmd_stat_func_call |
-    cmd_stat_other
+    cmd_stat_other |
+    tk_comment |
+    eol
 )
 cmd_stat_inline_fish ::= cmd_expr_inline_fish
 cmd_stat_other ::= cmd_tk_all+
@@ -81,7 +88,7 @@ body_section ::= block_fish
 
 block_cmd ::= kw_command (eol body_cmd)? eol kw_end_command
 body_cmd ::= cmd_stat_other (eol cmd_stat_other)*
-
+    
 stat_fish ::= (
     kw_break |
     kw_continue |
@@ -118,6 +125,8 @@ private expr_unary ::= op_unary expr
 ////词汇之间的组合
 tk_value ::= tk_identifier | tk_literal
 tk_literal ::= literal_string | literal_number
+tk_comment ::= COMMENT
+tk_newline ::= NEWLINE
 tk_identifier ::= IDENTIFIER {
 ////  pin=3
 //  recoverWhile="recover_property"
@@ -144,7 +153,7 @@ private literal_number ::= NUMBER_LITERAL
 private op_binary ::= BINARY_OPERATOR | MINUS_OPERATOR | ASSIGNMENT_OPERATOR
 private op_unary ::= UNARY_OPERATOR | MINUS_OPERATOR
 private op_assign ::= ASSIGNMENT_OPERATOR
-eol ::= (COMMENT? NEWLINE)+
+eol ::= (tk_comment? tk_newline)+
 
 private op_at ::= FUNCTION_CALL_OPERATOR
 private op_comma ::= COMMA_OPERATOR

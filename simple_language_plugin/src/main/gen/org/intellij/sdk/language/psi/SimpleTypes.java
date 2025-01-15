@@ -29,7 +29,6 @@ public interface SimpleTypes {
   IElementType BODY_IF = new SimpleElementType("BODY_IF");
   IElementType BODY_LOOP = new SimpleElementType("BODY_LOOP");
   IElementType BODY_SECTION = new SimpleElementType("BODY_SECTION");
-  IElementType CMD_BLOCK = new SimpleElementType("CMD_BLOCK");
   IElementType CMD_STAT_FUNC_CALL = new SimpleElementType("CMD_STAT_FUNC_CALL");
   IElementType CMD_STAT_INLINE_FISH = new SimpleElementType("CMD_STAT_INLINE_FISH");
   IElementType CMD_STAT_OTHER = new SimpleElementType("CMD_STAT_OTHER");
@@ -38,8 +37,10 @@ public interface SimpleTypes {
   IElementType LOOP_INDEXED_RANGE = new SimpleElementType("LOOP_INDEXED_RANGE");
   IElementType STAT_ASSIGN = new SimpleElementType("STAT_ASSIGN");
   IElementType STAT_FISH = new SimpleElementType("STAT_FISH");
+  IElementType TK_COMMENT = new SimpleElementType("TK_COMMENT");
   IElementType TK_IDENTIFIER = new SimpleElementType("TK_IDENTIFIER");
   IElementType TK_LITERAL = new SimpleElementType("TK_LITERAL");
+  IElementType TK_NEWLINE = new SimpleElementType("TK_NEWLINE");
   IElementType TK_VALUE = new SimpleElementType("TK_VALUE");
 
   IElementType ARRAY = new SimpleTokenType("ARRAY");
@@ -79,7 +80,7 @@ public interface SimpleTypes {
   IElementType LOCK = new SimpleTokenType("LOCK");
   IElementType LOOP = new SimpleTokenType("LOOP");
   IElementType MINUS_OPERATOR = new SimpleTokenType("MINUS_OPERATOR");
-  IElementType NEWLINE = new SimpleTokenType("NEWLINE");
+  IElementType NEWLINE = new SimpleTokenType("(\\R( \\t)*)");
   IElementType NUMBER_LITERAL = new SimpleTokenType("NUMBER_LITERAL");
   IElementType RETURN = new SimpleTokenType("RETURN");
   IElementType RIGHT_CURLY_BRACKET = new SimpleTokenType("RIGHT_CURLY_BRACKET");
@@ -158,9 +159,6 @@ public interface SimpleTypes {
       else if (type == BODY_SECTION) {
         return new SimpleBodySectionImpl(node);
       }
-      else if (type == CMD_BLOCK) {
-        return new SimpleCmdBlockImpl(node);
-      }
       else if (type == CMD_STAT_FUNC_CALL) {
         return new SimpleCmdStatFuncCallImpl(node);
       }
@@ -185,11 +183,17 @@ public interface SimpleTypes {
       else if (type == STAT_FISH) {
         return new SimpleStatFishImpl(node);
       }
+      else if (type == TK_COMMENT) {
+        return new SimpleTkCommentImpl(node);
+      }
       else if (type == TK_IDENTIFIER) {
         return new SimpleTkIdentifierImpl(node);
       }
       else if (type == TK_LITERAL) {
         return new SimpleTkLiteralImpl(node);
+      }
+      else if (type == TK_NEWLINE) {
+        return new SimpleTkNewlineImpl(node);
       }
       else if (type == TK_VALUE) {
         return new SimpleTkValueImpl(node);
