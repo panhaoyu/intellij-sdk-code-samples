@@ -11,6 +11,12 @@ public interface SimpleFishLineDefineHeader extends PsiElement {
   SimpleFishExprDefineParams getFishExprDefineParams();
 
   @Nullable
+  SimpleKwFishDefine getKwFishDefine();
+
+  @Nullable
+  SimpleKwFishOperator getKwFishOperator();
+
+  @Nullable
   SimpleTkComment getTkComment();
 
   @NotNull

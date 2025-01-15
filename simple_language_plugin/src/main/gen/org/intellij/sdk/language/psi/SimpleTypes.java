@@ -78,6 +78,36 @@ public interface SimpleTypes {
   IElementType FISH_LINE_RETURN = new SimpleElementType("FISH_LINE_RETURN");
   IElementType FISH_LINE_SECTION_FOOTER = new SimpleElementType("FISH_LINE_SECTION_FOOTER");
   IElementType FISH_LINE_SECTION_HEADER = new SimpleElementType("FISH_LINE_SECTION_HEADER");
+  IElementType KW_ARRAY = new SimpleElementType("KW_ARRAY");
+  IElementType KW_BREAK = new SimpleElementType("KW_BREAK");
+  IElementType KW_CASE = new SimpleElementType("KW_CASE");
+  IElementType KW_CASE_OF = new SimpleElementType("KW_CASE_OF");
+  IElementType KW_COMMAND = new SimpleElementType("KW_COMMAND");
+  IElementType KW_CONTINUE = new SimpleElementType("KW_CONTINUE");
+  IElementType KW_ELSE = new SimpleElementType("KW_ELSE");
+  IElementType KW_ELSE_IF = new SimpleElementType("KW_ELSE_IF");
+  IElementType KW_END = new SimpleElementType("KW_END");
+  IElementType KW_ENDLOOP = new SimpleElementType("KW_ENDLOOP");
+  IElementType KW_END_CASE = new SimpleElementType("KW_END_CASE");
+  IElementType KW_END_COMMAND = new SimpleElementType("KW_END_COMMAND");
+  IElementType KW_END_IF = new SimpleElementType("KW_END_IF");
+  IElementType KW_END_SECTION = new SimpleElementType("KW_END_SECTION");
+  IElementType KW_EXIT = new SimpleElementType("KW_EXIT");
+  IElementType KW_EXIT_LOOP = new SimpleElementType("KW_EXIT_LOOP");
+  IElementType KW_EXIT_SECTION = new SimpleElementType("KW_EXIT_SECTION");
+  IElementType KW_FISH_DEFINE = new SimpleElementType("KW_FISH_DEFINE");
+  IElementType KW_FISH_OPERATOR = new SimpleElementType("KW_FISH_OPERATOR");
+  IElementType KW_FOR = new SimpleElementType("KW_FOR");
+  IElementType KW_FOREACH = new SimpleElementType("KW_FOREACH");
+  IElementType KW_GLOBAL = new SimpleElementType("KW_GLOBAL");
+  IElementType KW_IF = new SimpleElementType("KW_IF");
+  IElementType KW_LOCAL = new SimpleElementType("KW_LOCAL");
+  IElementType KW_LOOP = new SimpleElementType("KW_LOOP");
+  IElementType KW_RETURN = new SimpleElementType("KW_RETURN");
+  IElementType KW_SECTION = new SimpleElementType("KW_SECTION");
+  IElementType KW_STRUCT = new SimpleElementType("KW_STRUCT");
+  IElementType KW_THEN = new SimpleElementType("KW_THEN");
+  IElementType KW_WHILE = new SimpleElementType("KW_WHILE");
   IElementType LITERAL_NUMBER = new SimpleElementType("LITERAL_NUMBER");
   IElementType LITERAL_STRING = new SimpleElementType("LITERAL_STRING");
   IElementType LOOP_EACH = new SimpleElementType("LOOP_EACH");
@@ -365,6 +395,96 @@ public interface SimpleTypes {
       }
       else if (type == FISH_LINE_SECTION_HEADER) {
         return new SimpleFishLineSectionHeaderImpl(node);
+      }
+      else if (type == KW_ARRAY) {
+        return new SimpleKwArrayImpl(node);
+      }
+      else if (type == KW_BREAK) {
+        return new SimpleKwBreakImpl(node);
+      }
+      else if (type == KW_CASE) {
+        return new SimpleKwCaseImpl(node);
+      }
+      else if (type == KW_CASE_OF) {
+        return new SimpleKwCaseOfImpl(node);
+      }
+      else if (type == KW_COMMAND) {
+        return new SimpleKwCommandImpl(node);
+      }
+      else if (type == KW_CONTINUE) {
+        return new SimpleKwContinueImpl(node);
+      }
+      else if (type == KW_ELSE) {
+        return new SimpleKwElseImpl(node);
+      }
+      else if (type == KW_ELSE_IF) {
+        return new SimpleKwElseIfImpl(node);
+      }
+      else if (type == KW_END) {
+        return new SimpleKwEndImpl(node);
+      }
+      else if (type == KW_ENDLOOP) {
+        return new SimpleKwEndloopImpl(node);
+      }
+      else if (type == KW_END_CASE) {
+        return new SimpleKwEndCaseImpl(node);
+      }
+      else if (type == KW_END_COMMAND) {
+        return new SimpleKwEndCommandImpl(node);
+      }
+      else if (type == KW_END_IF) {
+        return new SimpleKwEndIfImpl(node);
+      }
+      else if (type == KW_END_SECTION) {
+        return new SimpleKwEndSectionImpl(node);
+      }
+      else if (type == KW_EXIT) {
+        return new SimpleKwExitImpl(node);
+      }
+      else if (type == KW_EXIT_LOOP) {
+        return new SimpleKwExitLoopImpl(node);
+      }
+      else if (type == KW_EXIT_SECTION) {
+        return new SimpleKwExitSectionImpl(node);
+      }
+      else if (type == KW_FISH_DEFINE) {
+        return new SimpleKwFishDefineImpl(node);
+      }
+      else if (type == KW_FISH_OPERATOR) {
+        return new SimpleKwFishOperatorImpl(node);
+      }
+      else if (type == KW_FOR) {
+        return new SimpleKwForImpl(node);
+      }
+      else if (type == KW_FOREACH) {
+        return new SimpleKwForeachImpl(node);
+      }
+      else if (type == KW_GLOBAL) {
+        return new SimpleKwGlobalImpl(node);
+      }
+      else if (type == KW_IF) {
+        return new SimpleKwIfImpl(node);
+      }
+      else if (type == KW_LOCAL) {
+        return new SimpleKwLocalImpl(node);
+      }
+      else if (type == KW_LOOP) {
+        return new SimpleKwLoopImpl(node);
+      }
+      else if (type == KW_RETURN) {
+        return new SimpleKwReturnImpl(node);
+      }
+      else if (type == KW_SECTION) {
+        return new SimpleKwSectionImpl(node);
+      }
+      else if (type == KW_STRUCT) {
+        return new SimpleKwStructImpl(node);
+      }
+      else if (type == KW_THEN) {
+        return new SimpleKwThenImpl(node);
+      }
+      else if (type == KW_WHILE) {
+        return new SimpleKwWhileImpl(node);
       }
       else if (type == LITERAL_NUMBER) {
         return new SimpleLiteralNumberImpl(node);

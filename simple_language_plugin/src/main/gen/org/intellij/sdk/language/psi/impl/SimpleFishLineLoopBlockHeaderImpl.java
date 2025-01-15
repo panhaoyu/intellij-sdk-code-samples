@@ -34,6 +34,12 @@ public class SimpleFishLineLoopBlockHeaderImpl extends ASTWrapperPsiElement impl
   }
 
   @Override
+  @NotNull
+  public SimpleKwLoop getKwLoop() {
+    return findNotNullChildByClass(SimpleKwLoop.class);
+  }
+
+  @Override
   @Nullable
   public SimpleLoopEach getLoopEach() {
     return findChildByClass(SimpleLoopEach.class);

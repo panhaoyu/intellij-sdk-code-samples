@@ -1,0 +1,9 @@
+fish define a
+if  global.dim  == 3  then
+mvs_BCz = 0     ; todo 缩进需要调整为前一级+4空格
+mvs_BCzVal = math.sgn(e_incr )   *   (0.5 * ct_eRate * mv_H)
+else        ; 2D model
+mvs_BCy   =  0
+mvs_BCyVal  =   math.sgn(e_incr)*(0.5*ct_eRate * mv_H)
+end_if
+end

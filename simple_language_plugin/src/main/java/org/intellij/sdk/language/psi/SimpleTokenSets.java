@@ -60,12 +60,18 @@ public interface SimpleTokenSets {
     TokenSet RIGHT_BRACKETS = TokenSet.create(
             SimpleTypes.RIGHT_CURLY_BRACKET,
             SimpleTypes.RIGHT_PARENTHESIS,
-            SimpleTypes.RIGHT_SQUARE_BRACKET
+            SimpleTypes.RIGHT_SQUARE_BRACKET,
+            SimpleTypes.CURLY_R,
+            SimpleTypes.PAREN_R,
+            SimpleTypes.SQUARE_R
     );
     TokenSet LEFT_BRACKETS = TokenSet.create(
             SimpleTypes.LEFT_CURLY_BRACKET,
             SimpleTypes.LEFT_PARENTHESIS,
-            SimpleTypes.LEFT_SQUARE_BRACKET
+            SimpleTypes.LEFT_SQUARE_BRACKET,
+            SimpleTypes.CURLY_L,
+            SimpleTypes.PAREN_L,
+            SimpleTypes.SQUARE_L
     );
 
     TokenSet BRACKETS = TokenSet.create(

@@ -28,6 +28,12 @@ public class SimpleFishLineContinueImpl extends ASTWrapperPsiElement implements 
   }
 
   @Override
+  @NotNull
+  public SimpleKwContinue getKwContinue() {
+    return findNotNullChildByClass(SimpleKwContinue.class);
+  }
+
+  @Override
   @Nullable
   public SimpleTkComment getTkComment() {
     return findChildByClass(SimpleTkComment.class);

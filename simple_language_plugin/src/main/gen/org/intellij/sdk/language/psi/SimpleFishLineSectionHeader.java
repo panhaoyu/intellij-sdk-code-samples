@@ -7,6 +7,9 @@ import com.intellij.psi.PsiElement;
 
 public interface SimpleFishLineSectionHeader extends PsiElement {
 
+  @NotNull
+  SimpleKwSection getKwSection();
+
   @Nullable
   SimpleTkComment getTkComment();
 

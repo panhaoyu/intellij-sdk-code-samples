@@ -34,6 +34,12 @@ public class SimpleFishLineReturnImpl extends ASTWrapperPsiElement implements Si
   }
 
   @Override
+  @NotNull
+  public SimpleKwReturn getKwReturn() {
+    return findNotNullChildByClass(SimpleKwReturn.class);
+  }
+
+  @Override
   @Nullable
   public SimpleTkComment getTkComment() {
     return findChildByClass(SimpleTkComment.class);

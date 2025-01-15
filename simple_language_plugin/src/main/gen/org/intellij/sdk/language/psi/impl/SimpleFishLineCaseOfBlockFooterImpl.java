@@ -28,6 +28,12 @@ public class SimpleFishLineCaseOfBlockFooterImpl extends ASTWrapperPsiElement im
   }
 
   @Override
+  @NotNull
+  public SimpleKwEndCase getKwEndCase() {
+    return findNotNullChildByClass(SimpleKwEndCase.class);
+  }
+
+  @Override
   @Nullable
   public SimpleTkComment getTkComment() {
     return findChildByClass(SimpleTkComment.class);

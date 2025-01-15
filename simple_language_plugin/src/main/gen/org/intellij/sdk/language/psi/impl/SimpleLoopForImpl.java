@@ -35,6 +35,18 @@ public class SimpleLoopForImpl extends ASTWrapperPsiElement implements SimpleLoo
 
   @Override
   @NotNull
+  public SimpleKwFor getKwFor() {
+    return findNotNullChildByClass(SimpleKwFor.class);
+  }
+
+  @Override
+  @Nullable
+  public SimpleKwLocal getKwLocal() {
+    return findChildByClass(SimpleKwLocal.class);
+  }
+
+  @Override
+  @NotNull
   public List<SimpleOpComma> getOpCommaList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleOpComma.class);
   }

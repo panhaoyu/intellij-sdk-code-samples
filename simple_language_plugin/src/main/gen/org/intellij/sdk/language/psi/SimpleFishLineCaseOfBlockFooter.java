@@ -7,6 +7,9 @@ import com.intellij.psi.PsiElement;
 
 public interface SimpleFishLineCaseOfBlockFooter extends PsiElement {
 
+  @NotNull
+  SimpleKwEndCase getKwEndCase();
+
   @Nullable
   SimpleTkComment getTkComment();
 

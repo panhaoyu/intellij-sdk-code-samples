@@ -30,7 +30,7 @@ command_block_single ::= (
     command_block_define |
     command_line
 )
-command_line ::= command_token_all+ tk_comment?
+command_line ::= (command_token_all+ tk_comment?) | tk_comment
 command_token_all ::= (
     command_token_connected_with_minus |
     command_token_inline_fish |
@@ -187,13 +187,14 @@ tk_newline ::= NEWLINE
 op_comment ::= COMMENT_OPERATOR
 tk_comment_text ::= COMMENT_TEXT
 tk_comment ::= op_comment tk_comment_text?
-tk_identifier ::= IDENTIFIER {
+private tk_identifier_internal ::= IDENTIFIER {
 ////  pin=3
 //  recoverWhile="recover_property"
   mixin="org.intellij.sdk.language.psi.impl.SimpleNamedElementImpl"
   implements="org.intellij.sdk.language.psi.SimpleNamedElement"
   methods=[getName setName getNameIdentifier getPresentation getReference getReferences getTextOffset]
 }
+tk_identifier ::= tk_identifier_internal | (kw_global op_dot tk_identifier_internal)
 //
 //property ::= (tk_identifier) {
 ////  pin=3
@@ -229,44 +230,44 @@ curly_l ::= LEFT_CURLY_BRACKET
 curly_r ::= RIGHT_CURLY_BRACKET
 
 //keywords
-private kw_fish_define ::= FISH_DEFINE
-private kw_fish_operator ::= FISH_OPERATOR
-private kw_end ::= END
+kw_fish_define ::= FISH_DEFINE
+kw_fish_operator ::= FISH_OPERATOR
+kw_end ::= END
 
-private kw_case_of ::= CASEOF
-private kw_case ::= CASE
-private kw_end_case ::= ENDCASE
+kw_case_of ::= CASEOF
+kw_case ::= CASE
+kw_end_case ::= ENDCASE
 
-private kw_command ::= COMMAND
-private kw_end_command ::= ENDCOMMAND
+kw_command ::= COMMAND
+kw_end_command ::= ENDCOMMAND
 
-private kw_exit ::= EXIT
+kw_exit ::= EXIT
 
-private kw_global ::= GLOBAL
-private kw_local ::= LOCAL
+kw_global ::= GLOBAL
+kw_local ::= LOCAL
 
-private kw_if ::= IF
-private kw_then ::= THEN
-private kw_else_if ::= ELSEIF | (kw_else kw_if)
-private kw_else ::= ELSE
-private kw_end_if ::= ENDIF
+kw_if ::= IF
+kw_then ::= THEN
+kw_else_if ::= ELSEIF | (kw_else kw_if)
+kw_else ::= ELSE
+kw_end_if ::= ENDIF
 
 private kw_lock ::= LOCK
 
-private kw_loop ::= LOOP
-private kw_foreach ::= FOREACH
-private kw_endloop ::= ENDLOOP
-private kw_exit_loop ::= EXITLOOP
-private kw_continue ::= CONTINUE
-private kw_break ::= BREAK | (kw_exit kw_loop)
-private kw_while ::= WHILE
-private kw_for ::= FOR
+kw_loop ::= LOOP
+kw_foreach ::= FOREACH
+kw_endloop ::= ENDLOOP
+kw_exit_loop ::= EXITLOOP
+kw_continue ::= CONTINUE
+kw_break ::= BREAK | (kw_exit kw_loop)
+kw_while ::= WHILE
+kw_for ::= FOR
 
-private kw_return ::= RETURN
+kw_return ::= RETURN
 
-private kw_section ::= SECTION
-private kw_end_section ::= ENDSECTION
-private kw_exit_section ::= EXITSECTION
+kw_section ::= SECTION
+kw_end_section ::= ENDSECTION
+kw_exit_section ::= EXITSECTION
 
-private kw_struct ::= STRUCT
-private kw_array ::= ARRAY
+kw_struct ::= STRUCT
+kw_array ::= ARRAY

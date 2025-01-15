@@ -28,6 +28,12 @@ public class SimpleFishLineIfBlockElseImpl extends ASTWrapperPsiElement implemen
   }
 
   @Override
+  @NotNull
+  public SimpleKwElse getKwElse() {
+    return findNotNullChildByClass(SimpleKwElse.class);
+  }
+
+  @Override
   @Nullable
   public SimpleTkComment getTkComment() {
     return findChildByClass(SimpleTkComment.class);

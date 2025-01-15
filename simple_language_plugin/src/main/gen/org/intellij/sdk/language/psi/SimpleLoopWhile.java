@@ -10,4 +10,7 @@ public interface SimpleLoopWhile extends PsiElement {
   @NotNull
   SimpleFishExpr getFishExpr();
 
+  @NotNull
+  SimpleKwWhile getKwWhile();
+
 }

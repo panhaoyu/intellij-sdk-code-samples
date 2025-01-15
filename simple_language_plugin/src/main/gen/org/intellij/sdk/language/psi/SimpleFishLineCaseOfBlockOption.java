@@ -10,6 +10,9 @@ public interface SimpleFishLineCaseOfBlockOption extends PsiElement {
   @NotNull
   SimpleFishExpr getFishExpr();
 
+  @NotNull
+  SimpleKwCase getKwCase();
+
   @Nullable
   SimpleTkComment getTkComment();
 

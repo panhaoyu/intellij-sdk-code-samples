@@ -287,6 +287,126 @@ public class SimpleVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitKwArray(@NotNull SimpleKwArray o) {
+    visitPsiElement(o);
+  }
+
+  public void visitKwBreak(@NotNull SimpleKwBreak o) {
+    visitPsiElement(o);
+  }
+
+  public void visitKwCase(@NotNull SimpleKwCase o) {
+    visitPsiElement(o);
+  }
+
+  public void visitKwCaseOf(@NotNull SimpleKwCaseOf o) {
+    visitPsiElement(o);
+  }
+
+  public void visitKwCommand(@NotNull SimpleKwCommand o) {
+    visitPsiElement(o);
+  }
+
+  public void visitKwContinue(@NotNull SimpleKwContinue o) {
+    visitPsiElement(o);
+  }
+
+  public void visitKwElse(@NotNull SimpleKwElse o) {
+    visitPsiElement(o);
+  }
+
+  public void visitKwElseIf(@NotNull SimpleKwElseIf o) {
+    visitPsiElement(o);
+  }
+
+  public void visitKwEnd(@NotNull SimpleKwEnd o) {
+    visitPsiElement(o);
+  }
+
+  public void visitKwEndCase(@NotNull SimpleKwEndCase o) {
+    visitPsiElement(o);
+  }
+
+  public void visitKwEndCommand(@NotNull SimpleKwEndCommand o) {
+    visitPsiElement(o);
+  }
+
+  public void visitKwEndIf(@NotNull SimpleKwEndIf o) {
+    visitPsiElement(o);
+  }
+
+  public void visitKwEndSection(@NotNull SimpleKwEndSection o) {
+    visitPsiElement(o);
+  }
+
+  public void visitKwEndloop(@NotNull SimpleKwEndloop o) {
+    visitPsiElement(o);
+  }
+
+  public void visitKwExit(@NotNull SimpleKwExit o) {
+    visitPsiElement(o);
+  }
+
+  public void visitKwExitLoop(@NotNull SimpleKwExitLoop o) {
+    visitPsiElement(o);
+  }
+
+  public void visitKwExitSection(@NotNull SimpleKwExitSection o) {
+    visitPsiElement(o);
+  }
+
+  public void visitKwFishDefine(@NotNull SimpleKwFishDefine o) {
+    visitPsiElement(o);
+  }
+
+  public void visitKwFishOperator(@NotNull SimpleKwFishOperator o) {
+    visitPsiElement(o);
+  }
+
+  public void visitKwFor(@NotNull SimpleKwFor o) {
+    visitPsiElement(o);
+  }
+
+  public void visitKwForeach(@NotNull SimpleKwForeach o) {
+    visitPsiElement(o);
+  }
+
+  public void visitKwGlobal(@NotNull SimpleKwGlobal o) {
+    visitPsiElement(o);
+  }
+
+  public void visitKwIf(@NotNull SimpleKwIf o) {
+    visitPsiElement(o);
+  }
+
+  public void visitKwLocal(@NotNull SimpleKwLocal o) {
+    visitPsiElement(o);
+  }
+
+  public void visitKwLoop(@NotNull SimpleKwLoop o) {
+    visitPsiElement(o);
+  }
+
+  public void visitKwReturn(@NotNull SimpleKwReturn o) {
+    visitPsiElement(o);
+  }
+
+  public void visitKwSection(@NotNull SimpleKwSection o) {
+    visitPsiElement(o);
+  }
+
+  public void visitKwStruct(@NotNull SimpleKwStruct o) {
+    visitPsiElement(o);
+  }
+
+  public void visitKwThen(@NotNull SimpleKwThen o) {
+    visitPsiElement(o);
+  }
+
+  public void visitKwWhile(@NotNull SimpleKwWhile o) {
+    visitPsiElement(o);
+  }
+
   public void visitLiteralNumber(@NotNull SimpleLiteralNumber o) {
     visitPsiElement(o);
   }

@@ -35,12 +35,17 @@ final class SimpleFormattingModelBuilder implements FormattingModelBuilder {
                 // 换行符前面不要有空格
                 .before(SimpleTokenSets.NEW_LINE).none()
 
-                // 关键词
-                .between(SimpleTokenSets.IDENTIFIERS_AND_LITERALS, SimpleTokenSets.KEYWORDS).spaces(1)  // 关键词与标识符之间只有一个空格
-                .between(SimpleTokenSets.KEYWORDS, SimpleTokenSets.IDENTIFIERS_AND_LITERALS).spaces(1)  // 关键词与标识符之间只有一个空格
+                // 关键词与标签符之间的间距调整
+                .after(SimpleTypes.KW_IF).spaces(1)
+                .after(SimpleTypes.KW_ELSE_IF).spaces(1)
+                .before(SimpleTypes.KW_THEN).spaces(1)
+                .after(SimpleTypes.KW_FISH_DEFINE).spaces(1)
+                .after(SimpleTypes.KW_FISH_OPERATOR).spaces(1)
 
                 // xxx),                    这种括号后面有一个逗号的，中间不要加空格
                 .between(SimpleTokenSets.RIGHT_BRACKETS, SimpleTypes.OP_COMMA).none()
+                // ,                        逗号后面的全部情况都可以加一个空格
+                .after(SimpleTypes.OP_COMMA).spaces(1)
                 // name (xxx                括号外侧与名称之间要有一个空格
                 // xxx) name
                 .between(SimpleTokenSets.IDENTIFIERS_AND_LITERALS, SimpleTokenSets.LEFT_BRACKETS).spaces(1)
@@ -61,10 +66,11 @@ final class SimpleFormattingModelBuilder implements FormattingModelBuilder {
                 .after(SimpleTypes.OP_ASSIGN).spaces(1)
 
                 // a = b - c                在 Fish 中，减号两侧也加一个空格
-                .aroundInside(SimpleTypes.OP_MINUS, SimpleTypes.FISH_LINE).spaces(1)  // 运算符前后有空格
                 // 二元运算符的两侧均加一个空格，不过不处理减号
-                // fish-halt                不能在这个两侧加上空格
-                .around(SimpleTokenSets.OPERATORS_WITHOUT_MINUS).spaces(1)
+                .around(SimpleTypes.OP_BINARY).spaces(1)
+                .around(SimpleTypes.OP_ASSIGN).spaces(1)
+                // fish-halt                减号要进行特殊处理，仅对于 Fish 里面可以加空格，而不能在 Command 里面加上空格
+                .aroundInside(SimpleTypes.OP_MINUS, SimpleTypes.FISH_EXPR).spaces(1)
                 // 两个标识符或者字面量之间只有一个空格
                 .between(SimpleTokenSets.IDENTIFIERS_AND_LITERALS, SimpleTokenSets.IDENTIFIERS_AND_LITERALS).spaces(1)  // 标识符前后有一个空格
 

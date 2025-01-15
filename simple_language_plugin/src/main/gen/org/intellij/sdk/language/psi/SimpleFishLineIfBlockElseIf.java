@@ -10,6 +10,12 @@ public interface SimpleFishLineIfBlockElseIf extends PsiElement {
   @NotNull
   SimpleFishExpr getFishExpr();
 
+  @NotNull
+  SimpleKwElseIf getKwElseIf();
+
+  @Nullable
+  SimpleKwThen getKwThen();
+
   @Nullable
   SimpleTkComment getTkComment();
 

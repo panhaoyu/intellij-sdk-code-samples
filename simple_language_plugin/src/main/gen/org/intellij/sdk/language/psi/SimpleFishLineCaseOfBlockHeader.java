@@ -10,6 +10,9 @@ public interface SimpleFishLineCaseOfBlockHeader extends PsiElement {
   @NotNull
   SimpleFishExpr getFishExpr();
 
+  @NotNull
+  SimpleKwCaseOf getKwCaseOf();
+
   @Nullable
   SimpleTkComment getTkComment();
 

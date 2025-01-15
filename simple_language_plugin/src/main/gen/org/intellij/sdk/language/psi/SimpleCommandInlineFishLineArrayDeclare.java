@@ -8,6 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface SimpleCommandInlineFishLineArrayDeclare extends PsiElement {
 
   @NotNull
+  SimpleKwArray getKwArray();
+
+  @NotNull
   SimpleLiteralNumber getLiteralNumber();
 
   @NotNull

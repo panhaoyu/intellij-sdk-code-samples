@@ -13,4 +13,7 @@ public interface SimpleLoopEach extends PsiElement {
   @NotNull
   SimpleFishExprAssignLeftForLoop getFishExprAssignLeftForLoop();
 
+  @NotNull
+  SimpleKwForeach getKwForeach();
+
 }

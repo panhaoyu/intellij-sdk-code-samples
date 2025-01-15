@@ -34,6 +34,18 @@ public class SimpleFishLineIfBlockHeaderImpl extends ASTWrapperPsiElement implem
   }
 
   @Override
+  @NotNull
+  public SimpleKwIf getKwIf() {
+    return findNotNullChildByClass(SimpleKwIf.class);
+  }
+
+  @Override
+  @Nullable
+  public SimpleKwThen getKwThen() {
+    return findChildByClass(SimpleKwThen.class);
+  }
+
+  @Override
   @Nullable
   public SimpleTkComment getTkComment() {
     return findChildByClass(SimpleTkComment.class);

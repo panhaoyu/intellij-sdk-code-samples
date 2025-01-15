@@ -28,6 +28,12 @@ public class SimpleFishLineBreakImpl extends ASTWrapperPsiElement implements Sim
   }
 
   @Override
+  @NotNull
+  public SimpleKwBreak getKwBreak() {
+    return findNotNullChildByClass(SimpleKwBreak.class);
+  }
+
+  @Override
   @Nullable
   public SimpleTkComment getTkComment() {
     return findChildByClass(SimpleTkComment.class);

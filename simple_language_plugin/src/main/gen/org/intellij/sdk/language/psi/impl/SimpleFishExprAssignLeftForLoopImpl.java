@@ -28,6 +28,12 @@ public class SimpleFishExprAssignLeftForLoopImpl extends ASTWrapperPsiElement im
   }
 
   @Override
+  @Nullable
+  public SimpleKwLocal getKwLocal() {
+    return findChildByClass(SimpleKwLocal.class);
+  }
+
+  @Override
   @NotNull
   public SimpleTkIdentifier getTkIdentifier() {
     return findNotNullChildByClass(SimpleTkIdentifier.class);

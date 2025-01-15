@@ -7,6 +7,9 @@ import com.intellij.psi.PsiElement;
 
 public interface SimpleFishLineLoopBlockFooter extends PsiElement {
 
+  @NotNull
+  SimpleKwEndloop getKwEndloop();
+
   @Nullable
   SimpleTkComment getTkComment();
 

@@ -217,35 +217,46 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // command_token_all+ tk_comment?
+  // (command_token_all+ tk_comment?) | tk_comment
   public static boolean command_line(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "command_line")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, COMMAND_LINE, "<command line>");
     r = command_line_0(b, l + 1);
-    r = r && command_line_1(b, l + 1);
+    if (!r) r = tk_comment(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
-  // command_token_all+
+  // command_token_all+ tk_comment?
   private static boolean command_line_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "command_line_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = command_line_0_0(b, l + 1);
+    r = r && command_line_0_1(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // command_token_all+
+  private static boolean command_line_0_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "command_line_0_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = command_token_all(b, l + 1);
     while (r) {
       int c = current_position_(b);
       if (!command_token_all(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "command_line_0", c)) break;
+      if (!empty_element_parsed_guard_(b, "command_line_0_0", c)) break;
     }
     exit_section_(b, m, null, r);
     return r;
   }
 
   // tk_comment?
-  private static boolean command_line_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "command_line_1")) return false;
+  private static boolean command_line_0_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "command_line_0_1")) return false;
     tk_comment(b, l + 1);
     return true;
   }
@@ -1774,20 +1785,26 @@ public class SimpleParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // ARRAY
-  static boolean kw_array(PsiBuilder b, int l) {
-    return consumeToken(b, ARRAY);
+  public static boolean kw_array(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "kw_array")) return false;
+    if (!nextTokenIs(b, ARRAY)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, ARRAY);
+    exit_section_(b, m, KW_ARRAY, r);
+    return r;
   }
 
   /* ********************************************************** */
   // BREAK | (kw_exit kw_loop)
-  static boolean kw_break(PsiBuilder b, int l) {
+  public static boolean kw_break(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "kw_break")) return false;
-    if (!nextTokenIs(b, "", BREAK, EXIT)) return false;
+    if (!nextTokenIs(b, "<kw break>", BREAK, EXIT)) return false;
     boolean r;
-    Marker m = enter_section_(b);
+    Marker m = enter_section_(b, l, _NONE_, KW_BREAK, "<kw break>");
     r = consumeToken(b, BREAK);
     if (!r) r = kw_break_1(b, l + 1);
-    exit_section_(b, m, null, r);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
@@ -1804,44 +1821,74 @@ public class SimpleParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // CASE
-  static boolean kw_case(PsiBuilder b, int l) {
-    return consumeToken(b, CASE);
+  public static boolean kw_case(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "kw_case")) return false;
+    if (!nextTokenIs(b, CASE)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, CASE);
+    exit_section_(b, m, KW_CASE, r);
+    return r;
   }
 
   /* ********************************************************** */
   // CASEOF
-  static boolean kw_case_of(PsiBuilder b, int l) {
-    return consumeToken(b, CASEOF);
+  public static boolean kw_case_of(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "kw_case_of")) return false;
+    if (!nextTokenIs(b, CASEOF)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, CASEOF);
+    exit_section_(b, m, KW_CASE_OF, r);
+    return r;
   }
 
   /* ********************************************************** */
   // COMMAND
-  static boolean kw_command(PsiBuilder b, int l) {
-    return consumeToken(b, COMMAND);
+  public static boolean kw_command(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "kw_command")) return false;
+    if (!nextTokenIs(b, COMMAND)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, COMMAND);
+    exit_section_(b, m, KW_COMMAND, r);
+    return r;
   }
 
   /* ********************************************************** */
   // CONTINUE
-  static boolean kw_continue(PsiBuilder b, int l) {
-    return consumeToken(b, CONTINUE);
+  public static boolean kw_continue(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "kw_continue")) return false;
+    if (!nextTokenIs(b, CONTINUE)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, CONTINUE);
+    exit_section_(b, m, KW_CONTINUE, r);
+    return r;
   }
 
   /* ********************************************************** */
   // ELSE
-  static boolean kw_else(PsiBuilder b, int l) {
-    return consumeToken(b, ELSE);
+  public static boolean kw_else(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "kw_else")) return false;
+    if (!nextTokenIs(b, ELSE)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, ELSE);
+    exit_section_(b, m, KW_ELSE, r);
+    return r;
   }
 
   /* ********************************************************** */
   // ELSEIF | (kw_else kw_if)
-  static boolean kw_else_if(PsiBuilder b, int l) {
+  public static boolean kw_else_if(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "kw_else_if")) return false;
-    if (!nextTokenIs(b, "", ELSE, ELSEIF)) return false;
+    if (!nextTokenIs(b, "<kw else if>", ELSE, ELSEIF)) return false;
     boolean r;
-    Marker m = enter_section_(b);
+    Marker m = enter_section_(b, l, _NONE_, KW_ELSE_IF, "<kw else if>");
     r = consumeToken(b, ELSEIF);
     if (!r) r = kw_else_if_1(b, l + 1);
-    exit_section_(b, m, null, r);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
@@ -1858,98 +1905,194 @@ public class SimpleParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // END
-  static boolean kw_end(PsiBuilder b, int l) {
-    return consumeToken(b, END);
+  public static boolean kw_end(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "kw_end")) return false;
+    if (!nextTokenIs(b, END)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, END);
+    exit_section_(b, m, KW_END, r);
+    return r;
   }
 
   /* ********************************************************** */
   // ENDCASE
-  static boolean kw_end_case(PsiBuilder b, int l) {
-    return consumeToken(b, ENDCASE);
+  public static boolean kw_end_case(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "kw_end_case")) return false;
+    if (!nextTokenIs(b, ENDCASE)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, ENDCASE);
+    exit_section_(b, m, KW_END_CASE, r);
+    return r;
   }
 
   /* ********************************************************** */
   // ENDCOMMAND
-  static boolean kw_end_command(PsiBuilder b, int l) {
-    return consumeToken(b, ENDCOMMAND);
+  public static boolean kw_end_command(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "kw_end_command")) return false;
+    if (!nextTokenIs(b, ENDCOMMAND)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, ENDCOMMAND);
+    exit_section_(b, m, KW_END_COMMAND, r);
+    return r;
   }
 
   /* ********************************************************** */
   // ENDIF
-  static boolean kw_end_if(PsiBuilder b, int l) {
-    return consumeToken(b, ENDIF);
+  public static boolean kw_end_if(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "kw_end_if")) return false;
+    if (!nextTokenIs(b, ENDIF)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, ENDIF);
+    exit_section_(b, m, KW_END_IF, r);
+    return r;
   }
 
   /* ********************************************************** */
   // ENDSECTION
-  static boolean kw_end_section(PsiBuilder b, int l) {
-    return consumeToken(b, ENDSECTION);
+  public static boolean kw_end_section(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "kw_end_section")) return false;
+    if (!nextTokenIs(b, ENDSECTION)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, ENDSECTION);
+    exit_section_(b, m, KW_END_SECTION, r);
+    return r;
   }
 
   /* ********************************************************** */
   // ENDLOOP
-  static boolean kw_endloop(PsiBuilder b, int l) {
-    return consumeToken(b, ENDLOOP);
+  public static boolean kw_endloop(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "kw_endloop")) return false;
+    if (!nextTokenIs(b, ENDLOOP)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, ENDLOOP);
+    exit_section_(b, m, KW_ENDLOOP, r);
+    return r;
   }
 
   /* ********************************************************** */
   // EXIT
-  static boolean kw_exit(PsiBuilder b, int l) {
-    return consumeToken(b, EXIT);
+  public static boolean kw_exit(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "kw_exit")) return false;
+    if (!nextTokenIs(b, EXIT)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, EXIT);
+    exit_section_(b, m, KW_EXIT, r);
+    return r;
   }
 
   /* ********************************************************** */
   // EXITLOOP
-  static boolean kw_exit_loop(PsiBuilder b, int l) {
-    return consumeToken(b, EXITLOOP);
+  public static boolean kw_exit_loop(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "kw_exit_loop")) return false;
+    if (!nextTokenIs(b, EXITLOOP)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, EXITLOOP);
+    exit_section_(b, m, KW_EXIT_LOOP, r);
+    return r;
   }
 
   /* ********************************************************** */
   // EXITSECTION
-  static boolean kw_exit_section(PsiBuilder b, int l) {
-    return consumeToken(b, EXITSECTION);
+  public static boolean kw_exit_section(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "kw_exit_section")) return false;
+    if (!nextTokenIs(b, EXITSECTION)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, EXITSECTION);
+    exit_section_(b, m, KW_EXIT_SECTION, r);
+    return r;
   }
 
   /* ********************************************************** */
   // FISH_DEFINE
-  static boolean kw_fish_define(PsiBuilder b, int l) {
-    return consumeToken(b, FISH_DEFINE);
+  public static boolean kw_fish_define(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "kw_fish_define")) return false;
+    if (!nextTokenIs(b, FISH_DEFINE)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, FISH_DEFINE);
+    exit_section_(b, m, KW_FISH_DEFINE, r);
+    return r;
   }
 
   /* ********************************************************** */
   // FISH_OPERATOR
-  static boolean kw_fish_operator(PsiBuilder b, int l) {
-    return consumeToken(b, FISH_OPERATOR);
+  public static boolean kw_fish_operator(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "kw_fish_operator")) return false;
+    if (!nextTokenIs(b, FISH_OPERATOR)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, FISH_OPERATOR);
+    exit_section_(b, m, KW_FISH_OPERATOR, r);
+    return r;
   }
 
   /* ********************************************************** */
   // FOR
-  static boolean kw_for(PsiBuilder b, int l) {
-    return consumeToken(b, FOR);
+  public static boolean kw_for(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "kw_for")) return false;
+    if (!nextTokenIs(b, FOR)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, FOR);
+    exit_section_(b, m, KW_FOR, r);
+    return r;
   }
 
   /* ********************************************************** */
   // FOREACH
-  static boolean kw_foreach(PsiBuilder b, int l) {
-    return consumeToken(b, FOREACH);
+  public static boolean kw_foreach(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "kw_foreach")) return false;
+    if (!nextTokenIs(b, FOREACH)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, FOREACH);
+    exit_section_(b, m, KW_FOREACH, r);
+    return r;
   }
 
   /* ********************************************************** */
   // GLOBAL
-  static boolean kw_global(PsiBuilder b, int l) {
-    return consumeToken(b, GLOBAL);
+  public static boolean kw_global(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "kw_global")) return false;
+    if (!nextTokenIs(b, GLOBAL)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, GLOBAL);
+    exit_section_(b, m, KW_GLOBAL, r);
+    return r;
   }
 
   /* ********************************************************** */
   // IF
-  static boolean kw_if(PsiBuilder b, int l) {
-    return consumeToken(b, IF);
+  public static boolean kw_if(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "kw_if")) return false;
+    if (!nextTokenIs(b, IF)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, IF);
+    exit_section_(b, m, KW_IF, r);
+    return r;
   }
 
   /* ********************************************************** */
   // LOCAL
-  static boolean kw_local(PsiBuilder b, int l) {
-    return consumeToken(b, LOCAL);
+  public static boolean kw_local(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "kw_local")) return false;
+    if (!nextTokenIs(b, LOCAL)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, LOCAL);
+    exit_section_(b, m, KW_LOCAL, r);
+    return r;
   }
 
   /* ********************************************************** */
@@ -1960,38 +2103,74 @@ public class SimpleParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // LOOP
-  static boolean kw_loop(PsiBuilder b, int l) {
-    return consumeToken(b, LOOP);
+  public static boolean kw_loop(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "kw_loop")) return false;
+    if (!nextTokenIs(b, LOOP)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, LOOP);
+    exit_section_(b, m, KW_LOOP, r);
+    return r;
   }
 
   /* ********************************************************** */
   // RETURN
-  static boolean kw_return(PsiBuilder b, int l) {
-    return consumeToken(b, RETURN);
+  public static boolean kw_return(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "kw_return")) return false;
+    if (!nextTokenIs(b, RETURN)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, RETURN);
+    exit_section_(b, m, KW_RETURN, r);
+    return r;
   }
 
   /* ********************************************************** */
   // SECTION
-  static boolean kw_section(PsiBuilder b, int l) {
-    return consumeToken(b, SECTION);
+  public static boolean kw_section(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "kw_section")) return false;
+    if (!nextTokenIs(b, SECTION)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, SECTION);
+    exit_section_(b, m, KW_SECTION, r);
+    return r;
   }
 
   /* ********************************************************** */
   // STRUCT
-  static boolean kw_struct(PsiBuilder b, int l) {
-    return consumeToken(b, STRUCT);
+  public static boolean kw_struct(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "kw_struct")) return false;
+    if (!nextTokenIs(b, STRUCT)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, STRUCT);
+    exit_section_(b, m, KW_STRUCT, r);
+    return r;
   }
 
   /* ********************************************************** */
   // THEN
-  static boolean kw_then(PsiBuilder b, int l) {
-    return consumeToken(b, THEN);
+  public static boolean kw_then(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "kw_then")) return false;
+    if (!nextTokenIs(b, THEN)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, THEN);
+    exit_section_(b, m, KW_THEN, r);
+    return r;
   }
 
   /* ********************************************************** */
   // WHILE
-  static boolean kw_while(PsiBuilder b, int l) {
-    return consumeToken(b, WHILE);
+  public static boolean kw_while(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "kw_while")) return false;
+    if (!nextTokenIs(b, WHILE)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, WHILE);
+    exit_section_(b, m, KW_WHILE, r);
+    return r;
   }
 
   /* ********************************************************** */

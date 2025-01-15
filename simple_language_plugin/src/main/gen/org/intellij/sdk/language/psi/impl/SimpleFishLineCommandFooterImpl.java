@@ -28,6 +28,12 @@ public class SimpleFishLineCommandFooterImpl extends ASTWrapperPsiElement implem
   }
 
   @Override
+  @NotNull
+  public SimpleKwEndCommand getKwEndCommand() {
+    return findNotNullChildByClass(SimpleKwEndCommand.class);
+  }
+
+  @Override
   @Nullable
   public SimpleTkComment getTkComment() {
     return findChildByClass(SimpleTkComment.class);

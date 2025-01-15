@@ -7,6 +7,9 @@ import com.intellij.psi.PsiElement;
 
 public interface SimpleFishLineCommandHeader extends PsiElement {
 
+  @NotNull
+  SimpleKwCommand getKwCommand();
+
   @Nullable
   SimpleTkComment getTkComment();
 

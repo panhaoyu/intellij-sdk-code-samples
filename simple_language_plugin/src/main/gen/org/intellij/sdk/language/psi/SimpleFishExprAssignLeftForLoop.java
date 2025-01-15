@@ -7,6 +7,9 @@ import com.intellij.psi.PsiElement;
 
 public interface SimpleFishExprAssignLeftForLoop extends PsiElement {
 
+  @Nullable
+  SimpleKwLocal getKwLocal();
+
   @NotNull
   SimpleTkIdentifier getTkIdentifier();
 

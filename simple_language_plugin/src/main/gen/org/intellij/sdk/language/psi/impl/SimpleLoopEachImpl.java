@@ -39,4 +39,10 @@ public class SimpleLoopEachImpl extends ASTWrapperPsiElement implements SimpleLo
     return findNotNullChildByClass(SimpleFishExprAssignLeftForLoop.class);
   }
 
+  @Override
+  @NotNull
+  public SimpleKwForeach getKwForeach() {
+    return findNotNullChildByClass(SimpleKwForeach.class);
+  }
+
 }

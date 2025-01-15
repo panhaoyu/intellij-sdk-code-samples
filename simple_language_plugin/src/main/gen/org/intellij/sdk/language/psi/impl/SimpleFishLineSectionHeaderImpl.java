@@ -28,6 +28,12 @@ public class SimpleFishLineSectionHeaderImpl extends ASTWrapperPsiElement implem
   }
 
   @Override
+  @NotNull
+  public SimpleKwSection getKwSection() {
+    return findNotNullChildByClass(SimpleKwSection.class);
+  }
+
+  @Override
   @Nullable
   public SimpleTkComment getTkComment() {
     return findChildByClass(SimpleTkComment.class);

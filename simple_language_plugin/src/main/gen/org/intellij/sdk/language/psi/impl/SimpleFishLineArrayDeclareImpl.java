@@ -29,6 +29,12 @@ public class SimpleFishLineArrayDeclareImpl extends ASTWrapperPsiElement impleme
 
   @Override
   @NotNull
+  public SimpleKwArray getKwArray() {
+    return findNotNullChildByClass(SimpleKwArray.class);
+  }
+
+  @Override
+  @NotNull
   public SimpleLiteralNumber getLiteralNumber() {
     return findNotNullChildByClass(SimpleLiteralNumber.class);
   }

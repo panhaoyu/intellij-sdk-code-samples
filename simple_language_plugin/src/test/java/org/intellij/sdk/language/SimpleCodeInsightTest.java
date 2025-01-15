@@ -65,6 +65,10 @@ public class SimpleCodeInsightTest extends LightJavaCodeInsightFixtureTestCase {
         校验一组文件("两个函数及注释");
     }
 
+    public void test_If() {
+        校验一组文件("If");
+    }
+
     public void test_Fish命令() {
         校验一组文件("Fish命令");
     }

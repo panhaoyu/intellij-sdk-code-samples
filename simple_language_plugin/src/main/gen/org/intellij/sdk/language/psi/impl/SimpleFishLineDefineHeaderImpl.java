@@ -35,6 +35,18 @@ public class SimpleFishLineDefineHeaderImpl extends ASTWrapperPsiElement impleme
 
   @Override
   @Nullable
+  public SimpleKwFishDefine getKwFishDefine() {
+    return findChildByClass(SimpleKwFishDefine.class);
+  }
+
+  @Override
+  @Nullable
+  public SimpleKwFishOperator getKwFishOperator() {
+    return findChildByClass(SimpleKwFishOperator.class);
+  }
+
+  @Override
+  @Nullable
   public SimpleTkComment getTkComment() {
     return findChildByClass(SimpleTkComment.class);
   }

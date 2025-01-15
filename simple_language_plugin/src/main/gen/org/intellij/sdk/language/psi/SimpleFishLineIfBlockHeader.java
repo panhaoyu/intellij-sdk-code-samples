@@ -10,6 +10,12 @@ public interface SimpleFishLineIfBlockHeader extends PsiElement {
   @NotNull
   SimpleFishExpr getFishExpr();
 
+  @NotNull
+  SimpleKwIf getKwIf();
+
+  @Nullable
+  SimpleKwThen getKwThen();
+
   @Nullable
   SimpleTkComment getTkComment();
 

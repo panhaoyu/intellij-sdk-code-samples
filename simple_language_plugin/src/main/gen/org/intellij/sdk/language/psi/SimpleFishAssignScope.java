@@ -7,4 +7,10 @@ import com.intellij.psi.PsiElement;
 
 public interface SimpleFishAssignScope extends PsiElement {
 
+  @Nullable
+  SimpleKwGlobal getKwGlobal();
+
+  @Nullable
+  SimpleKwLocal getKwLocal();
+
 }

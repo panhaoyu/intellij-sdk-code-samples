@@ -10,6 +10,9 @@ public interface SimpleFishLineReturn extends PsiElement {
   @Nullable
   SimpleFishExpr getFishExpr();
 
+  @NotNull
+  SimpleKwReturn getKwReturn();
+
   @Nullable
   SimpleTkComment getTkComment();
 

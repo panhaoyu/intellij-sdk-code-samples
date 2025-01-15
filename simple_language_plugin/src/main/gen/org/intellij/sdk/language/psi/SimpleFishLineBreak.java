@@ -7,6 +7,9 @@ import com.intellij.psi.PsiElement;
 
 public interface SimpleFishLineBreak extends PsiElement {
 
+  @NotNull
+  SimpleKwBreak getKwBreak();
+
   @Nullable
   SimpleTkComment getTkComment();
 

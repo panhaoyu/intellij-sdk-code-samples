@@ -10,6 +10,9 @@ public interface SimpleFishLineLoopBlockHeader extends PsiElement {
   @Nullable
   SimpleFishExprLoopIndexed getFishExprLoopIndexed();
 
+  @NotNull
+  SimpleKwLoop getKwLoop();
+
   @Nullable
   SimpleLoopEach getLoopEach();
 

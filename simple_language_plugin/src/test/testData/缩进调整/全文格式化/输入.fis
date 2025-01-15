@@ -52,4 +52,9 @@ a(b ,  c)  ; todo 删除逗号前面的空格
 a(b(4) ,  c)  ; todo 删除逗号前面的空格
 io.out(  '** _ctApplyAxialStrain (exiting).'    )
 end_loop
+
+; todo 下面这个不应该被格式化
+command
+global.dim   fish-halt     @   func.call
+end_command
 end

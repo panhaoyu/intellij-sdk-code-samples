@@ -28,6 +28,12 @@ public class SimpleFishLineLoopBlockFooterImpl extends ASTWrapperPsiElement impl
   }
 
   @Override
+  @NotNull
+  public SimpleKwEndloop getKwEndloop() {
+    return findNotNullChildByClass(SimpleKwEndloop.class);
+  }
+
+  @Override
   @Nullable
   public SimpleTkComment getTkComment() {
     return findChildByClass(SimpleTkComment.class);

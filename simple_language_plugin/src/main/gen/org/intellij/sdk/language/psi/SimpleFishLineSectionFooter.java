@@ -7,6 +7,9 @@ import com.intellij.psi.PsiElement;
 
 public interface SimpleFishLineSectionFooter extends PsiElement {
 
+  @NotNull
+  SimpleKwEndSection getKwEndSection();
+
   @Nullable
   SimpleTkComment getTkComment();
 

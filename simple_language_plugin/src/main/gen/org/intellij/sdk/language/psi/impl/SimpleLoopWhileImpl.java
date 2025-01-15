@@ -33,4 +33,10 @@ public class SimpleLoopWhileImpl extends ASTWrapperPsiElement implements SimpleL
     return findNotNullChildByClass(SimpleFishExpr.class);
   }
 
+  @Override
+  @NotNull
+  public SimpleKwWhile getKwWhile() {
+    return findNotNullChildByClass(SimpleKwWhile.class);
+  }
+
 }

@@ -28,6 +28,12 @@ public class SimpleFishLineExitImpl extends ASTWrapperPsiElement implements Simp
   }
 
   @Override
+  @NotNull
+  public SimpleKwExit getKwExit() {
+    return findNotNullChildByClass(SimpleKwExit.class);
+  }
+
+  @Override
   @Nullable
   public SimpleTkComment getTkComment() {
     return findChildByClass(SimpleTkComment.class);

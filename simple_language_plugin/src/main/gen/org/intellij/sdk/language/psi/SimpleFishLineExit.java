@@ -7,6 +7,9 @@ import com.intellij.psi.PsiElement;
 
 public interface SimpleFishLineExit extends PsiElement {
 
+  @NotNull
+  SimpleKwExit getKwExit();
+
   @Nullable
   SimpleTkComment getTkComment();
 

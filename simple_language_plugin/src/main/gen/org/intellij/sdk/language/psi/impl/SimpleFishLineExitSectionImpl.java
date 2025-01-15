@@ -28,6 +28,12 @@ public class SimpleFishLineExitSectionImpl extends ASTWrapperPsiElement implemen
   }
 
   @Override
+  @NotNull
+  public SimpleKwExitSection getKwExitSection() {
+    return findNotNullChildByClass(SimpleKwExitSection.class);
+  }
+
+  @Override
   @Nullable
   public SimpleTkComment getTkComment() {
     return findChildByClass(SimpleTkComment.class);

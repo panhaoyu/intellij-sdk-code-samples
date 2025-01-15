@@ -27,4 +27,16 @@ public class SimpleFishAssignScopeImpl extends ASTWrapperPsiElement implements S
     else super.accept(visitor);
   }
 
+  @Override
+  @Nullable
+  public SimpleKwGlobal getKwGlobal() {
+    return findChildByClass(SimpleKwGlobal.class);
+  }
+
+  @Override
+  @Nullable
+  public SimpleKwLocal getKwLocal() {
+    return findChildByClass(SimpleKwLocal.class);
+  }
+
 }

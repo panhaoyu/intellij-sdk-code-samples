@@ -16,7 +16,7 @@ fish define _ctApplyAxialStrain(e_incr)
     io.out('** _ctApplyAxialStrain (entering) with')
     ; todo 需要被格式化，以使得加号、减号左右有空格
     io.out('     v = ' + string(ct_loadCode))
-    io.out('     v = '-string(ct_loadCode))
+    io.out('     v = ' - string(ct_loadCode))
     ; todo 删除 then 前面的空格
     if global.dim == 3 then
         mvs_BCz = 0  ;    todo 缩进需要调整为前一级+4空格
@@ -52,4 +52,9 @@ fish define _ctApplyAxialStrain(e_incr)
         a(b(4), c)  ; todo 删除逗号前面的空格
         io.out('** _ctApplyAxialStrain (exiting).')
     end_loop
+
+    ; todo 下面这个不应该被格式化
+    command
+        global.dim fish-halt @func.call
+    end_command
 end

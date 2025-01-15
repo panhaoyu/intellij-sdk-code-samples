@@ -34,6 +34,12 @@ public class SimpleFishLineCaseOfBlockHeaderImpl extends ASTWrapperPsiElement im
   }
 
   @Override
+  @NotNull
+  public SimpleKwCaseOf getKwCaseOf() {
+    return findNotNullChildByClass(SimpleKwCaseOf.class);
+  }
+
+  @Override
   @Nullable
   public SimpleTkComment getTkComment() {
     return findChildByClass(SimpleTkComment.class);

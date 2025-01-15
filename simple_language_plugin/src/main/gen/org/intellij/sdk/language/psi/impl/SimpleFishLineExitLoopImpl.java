@@ -28,6 +28,12 @@ public class SimpleFishLineExitLoopImpl extends ASTWrapperPsiElement implements 
   }
 
   @Override
+  @NotNull
+  public SimpleKwExitLoop getKwExitLoop() {
+    return findNotNullChildByClass(SimpleKwExitLoop.class);
+  }
+
+  @Override
   @Nullable
   public SimpleTkComment getTkComment() {
     return findChildByClass(SimpleTkComment.class);

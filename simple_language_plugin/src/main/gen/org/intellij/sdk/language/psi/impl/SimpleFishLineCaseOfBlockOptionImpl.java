@@ -34,6 +34,12 @@ public class SimpleFishLineCaseOfBlockOptionImpl extends ASTWrapperPsiElement im
   }
 
   @Override
+  @NotNull
+  public SimpleKwCase getKwCase() {
+    return findNotNullChildByClass(SimpleKwCase.class);
+  }
+
+  @Override
   @Nullable
   public SimpleTkComment getTkComment() {
     return findChildByClass(SimpleTkComment.class);
