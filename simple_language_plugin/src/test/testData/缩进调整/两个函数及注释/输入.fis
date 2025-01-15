@@ -1,0 +1,22 @@
+; comment
+; comment
+
+; comment
+fish define func1  ; comment
+fish_statement  ; comment
+end  ; comment
+
+; comment
+; comment
+
+; comment
+
+fish define func2  ; comment 
+fish_statement  ; comment
+end  ; comment
+
+; comment
+
+; comment
+; comment
+; comment

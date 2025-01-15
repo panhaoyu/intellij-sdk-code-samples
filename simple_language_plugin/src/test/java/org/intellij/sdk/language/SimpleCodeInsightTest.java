@@ -61,6 +61,10 @@ public class SimpleCodeInsightTest extends LightJavaCodeInsightFixtureTestCase {
         校验一组文件("条件分支");
     }
 
+    public void test_两个函数及注释() {
+        校验一组文件("两个函数及注释");
+    }
+
 //    public void testRename() {
 //        myFixture.configureByFiles("RenameTestData.java", "RenameTestData.fis");
 //        myFixture.renameElementAtCaret("websiteUrl");
