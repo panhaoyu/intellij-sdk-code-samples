@@ -123,6 +123,7 @@ public interface SimpleTokenSets {
             TokenType.NEW_LINE_INDENT,
             TokenType.WHITE_SPACE,
             SimpleTypes.NEWLINE,
+            SimpleTypes.TK_NEWLINE,
             SimpleTypes.EOL
     );
 }
