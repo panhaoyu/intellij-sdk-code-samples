@@ -265,7 +265,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   // command_token_connected_with_minus |
   //     command_token_inline_fish |
   //     command_expr_func_call |
-  //     square_l | square_r | paren_l | paren_r | op_comma | op_assign | op_unary | op_binary| op_dot | op_at |
+  //     square_l | square_r | paren_l | paren_r | op_comma | op_assign | op_unary | op_binary_without_minus | op_dot |
   //     tk_literal | command_token_keyword_all | tk_value
   public static boolean command_token_all(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "command_token_all")) return false;
@@ -281,9 +281,8 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     if (!r) r = op_comma(b, l + 1);
     if (!r) r = op_assign(b, l + 1);
     if (!r) r = op_unary(b, l + 1);
-    if (!r) r = op_binary(b, l + 1);
+    if (!r) r = op_binary_without_minus(b, l + 1);
     if (!r) r = op_dot(b, l + 1);
-    if (!r) r = op_at(b, l + 1);
     if (!r) r = tk_literal(b, l + 1);
     if (!r) r = command_token_keyword_all(b, l + 1);
     if (!r) r = tk_value(b, l + 1);
@@ -292,19 +291,18 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // tk_identifier (op_minus tk_identifier)+
+  // command_token_identifier (op_minus (command_token_identifier | literal_number))+
   public static boolean command_token_connected_with_minus(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "command_token_connected_with_minus")) return false;
-    if (!nextTokenIs(b, IDENTIFIER)) return false;
     boolean r;
-    Marker m = enter_section_(b);
-    r = tk_identifier(b, l + 1);
+    Marker m = enter_section_(b, l, _NONE_, COMMAND_TOKEN_CONNECTED_WITH_MINUS, "<command token connected with minus>");
+    r = command_token_identifier(b, l + 1);
     r = r && command_token_connected_with_minus_1(b, l + 1);
-    exit_section_(b, m, COMMAND_TOKEN_CONNECTED_WITH_MINUS, r);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
-  // (op_minus tk_identifier)+
+  // (op_minus (command_token_identifier | literal_number))+
   private static boolean command_token_connected_with_minus_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "command_token_connected_with_minus_1")) return false;
     boolean r;
@@ -319,14 +317,35 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // op_minus tk_identifier
+  // op_minus (command_token_identifier | literal_number)
   private static boolean command_token_connected_with_minus_1_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "command_token_connected_with_minus_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = op_minus(b, l + 1);
-    r = r && tk_identifier(b, l + 1);
+    r = r && command_token_connected_with_minus_1_0_1(b, l + 1);
     exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // command_token_identifier | literal_number
+  private static boolean command_token_connected_with_minus_1_0_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "command_token_connected_with_minus_1_0_1")) return false;
+    boolean r;
+    r = command_token_identifier(b, l + 1);
+    if (!r) r = literal_number(b, l + 1);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // command_token_keyword_all | tk_identifier
+  public static boolean command_token_identifier(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "command_token_identifier")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, COMMAND_TOKEN_IDENTIFIER, "<command token identifier>");
+    r = command_token_keyword_all(b, l + 1);
+    if (!r) r = tk_identifier(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
@@ -345,7 +364,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // kw_return |
+  // kw_end | kw_return |
   //     kw_case_of | kw_case | kw_end_case |
   //     kw_exit | kw_global |  kw_local |
   //     kw_if | kw_then | kw_else_if | kw_else | kw_end_if |
@@ -356,7 +375,8 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     if (!recursion_guard_(b, l, "command_token_keyword_all")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, COMMAND_TOKEN_KEYWORD_ALL, "<command token keyword all>");
-    r = kw_return(b, l + 1);
+    r = kw_end(b, l + 1);
+    if (!r) r = kw_return(b, l + 1);
     if (!r) r = kw_case_of(b, l + 1);
     if (!r) r = kw_case(b, l + 1);
     if (!r) r = kw_end_case(b, l + 1);
@@ -990,12 +1010,12 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   // fish_expr_assign_target fish_expr_assign_right?
   public static boolean fish_expr_assign(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "fish_expr_assign")) return false;
-    if (!nextTokenIs(b, IDENTIFIER)) return false;
+    if (!nextTokenIs(b, "<fish expr assign>", GLOBAL, IDENTIFIER)) return false;
     boolean r;
-    Marker m = enter_section_(b);
+    Marker m = enter_section_(b, l, _NONE_, FISH_EXPR_ASSIGN, "<fish expr assign>");
     r = fish_expr_assign_target(b, l + 1);
     r = r && fish_expr_assign_1(b, l + 1);
-    exit_section_(b, m, FISH_EXPR_ASSIGN, r);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
@@ -1010,7 +1030,6 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   // kw_local? tk_identifier
   public static boolean fish_expr_assign_left_for_loop(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "fish_expr_assign_left_for_loop")) return false;
-    if (!nextTokenIs(b, "<fish expr assign left for loop>", IDENTIFIER, LOCAL)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, FISH_EXPR_ASSIGN_LEFT_FOR_LOOP, "<fish expr assign left for loop>");
     r = fish_expr_assign_left_for_loop_0(b, l + 1);
@@ -1043,12 +1062,12 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   // tk_identifier expr_paren_csv?
   public static boolean fish_expr_assign_target(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "fish_expr_assign_target")) return false;
-    if (!nextTokenIs(b, IDENTIFIER)) return false;
+    if (!nextTokenIs(b, "<fish expr assign target>", GLOBAL, IDENTIFIER)) return false;
     boolean r;
-    Marker m = enter_section_(b);
+    Marker m = enter_section_(b, l, _NONE_, FISH_EXPR_ASSIGN_TARGET, "<fish expr assign target>");
     r = tk_identifier(b, l + 1);
     r = r && fish_expr_assign_target_1(b, l + 1);
-    exit_section_(b, m, FISH_EXPR_ASSIGN_TARGET, r);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
@@ -1100,12 +1119,12 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   // fish_expr_func_call_func_name expr_paren_csv
   public static boolean fish_expr_func_call(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "fish_expr_func_call")) return false;
-    if (!nextTokenIs(b, IDENTIFIER)) return false;
+    if (!nextTokenIs(b, "<fish expr func call>", GLOBAL, IDENTIFIER)) return false;
     boolean r;
-    Marker m = enter_section_(b);
+    Marker m = enter_section_(b, l, _NONE_, FISH_EXPR_FUNC_CALL, "<fish expr func call>");
     r = fish_expr_func_call_func_name(b, l + 1);
     r = r && expr_paren_csv(b, l + 1);
-    exit_section_(b, m, FISH_EXPR_FUNC_CALL, r);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
@@ -1113,11 +1132,11 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   // tk_identifier
   public static boolean fish_expr_func_call_func_name(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "fish_expr_func_call_func_name")) return false;
-    if (!nextTokenIs(b, IDENTIFIER)) return false;
+    if (!nextTokenIs(b, "<fish expr func call func name>", GLOBAL, IDENTIFIER)) return false;
     boolean r;
-    Marker m = enter_section_(b);
+    Marker m = enter_section_(b, l, _NONE_, FISH_EXPR_FUNC_CALL_FUNC_NAME, "<fish expr func call func name>");
     r = tk_identifier(b, l + 1);
-    exit_section_(b, m, FISH_EXPR_FUNC_CALL_FUNC_NAME, r);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
@@ -1125,7 +1144,6 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   // fish_expr_assign_left_for_loop paren_l fish_expr op_comma fish_expr (op_comma fish_expr)? paren_r
   public static boolean fish_expr_loop_indexed(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "fish_expr_loop_indexed")) return false;
-    if (!nextTokenIs(b, "<fish expr loop indexed>", IDENTIFIER, LOCAL)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, FISH_EXPR_LOOP_INDEXED, "<fish expr loop indexed>");
     r = fish_expr_assign_left_for_loop(b, l + 1);
@@ -2276,13 +2294,25 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // BINARY_OPERATOR | op_minus | ASSIGNMENT_OPERATOR
+  // op_binary_without_minus | op_minus
   public static boolean op_binary(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "op_binary")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, OP_BINARY, "<op binary>");
-    r = consumeToken(b, BINARY_OPERATOR);
+    r = op_binary_without_minus(b, l + 1);
     if (!r) r = op_minus(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // BINARY_OPERATOR | ASSIGNMENT_OPERATOR
+  public static boolean op_binary_without_minus(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "op_binary_without_minus")) return false;
+    if (!nextTokenIs(b, "<op binary without minus>", ASSIGNMENT_OPERATOR, BINARY_OPERATOR)) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, OP_BINARY_WITHOUT_MINUS, "<op binary without minus>");
+    r = consumeToken(b, BINARY_OPERATOR);
     if (!r) r = consumeToken(b, ASSIGNMENT_OPERATOR);
     exit_section_(b, l, m, r, false, null);
     return r;
@@ -2472,14 +2502,39 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // IDENTIFIER
+  // tk_identifier_raw | (kw_global op_dot tk_identifier_raw)
   public static boolean tk_identifier(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "tk_identifier")) return false;
+    if (!nextTokenIs(b, "<tk identifier>", GLOBAL, IDENTIFIER)) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, TK_IDENTIFIER, "<tk identifier>");
+    r = tk_identifier_raw(b, l + 1);
+    if (!r) r = tk_identifier_1(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // kw_global op_dot tk_identifier_raw
+  private static boolean tk_identifier_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "tk_identifier_1")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = kw_global(b, l + 1);
+    r = r && op_dot(b, l + 1);
+    r = r && tk_identifier_raw(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // IDENTIFIER
+  public static boolean tk_identifier_raw(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "tk_identifier_raw")) return false;
     if (!nextTokenIs(b, IDENTIFIER)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, IDENTIFIER);
-    exit_section_(b, m, TK_IDENTIFIER, r);
+    exit_section_(b, m, TK_IDENTIFIER_RAW, r);
     return r;
   }
 

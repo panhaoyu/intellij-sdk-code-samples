@@ -8,7 +8,7 @@ import com.intellij.navigation.ItemPresentation;
 import com.intellij.psi.PsiReference;
 import org.intellij.sdk.language.SimpleReference;
 
-public interface SimpleTkIdentifier extends SimpleNamedElement {
+public interface SimpleTkIdentifierRaw extends SimpleNamedElement {
 
   String getName();
 

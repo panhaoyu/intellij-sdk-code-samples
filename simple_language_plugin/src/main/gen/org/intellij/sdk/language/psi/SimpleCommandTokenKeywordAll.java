@@ -23,6 +23,9 @@ public interface SimpleCommandTokenKeywordAll extends PsiElement {
   SimpleKwElseIf getKwElseIf();
 
   @Nullable
+  SimpleKwEnd getKwEnd();
+
+  @Nullable
   SimpleKwEndCase getKwEndCase();
 
   @Nullable

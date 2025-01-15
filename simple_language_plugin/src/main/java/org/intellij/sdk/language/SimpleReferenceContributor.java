@@ -5,7 +5,7 @@ import com.intellij.openapi.util.TextRange;
 import com.intellij.patterns.PlatformPatterns;
 import com.intellij.psi.*;
 import com.intellij.util.ProcessingContext;
-import org.intellij.sdk.language.psi.SimpleTkIdentifier;
+import org.intellij.sdk.language.psi.SimpleTkIdentifierRaw;
 import org.jetbrains.annotations.NotNull;
 
 // 定义SimpleReferenceContributor类，继承自PsiReferenceContributor
@@ -21,7 +21,7 @@ final class SimpleReferenceContributor extends PsiReferenceContributor {
                     @Override
                     public PsiReference @NotNull [] getReferencesByElement(@NotNull PsiElement element, @NotNull ProcessingContext context) {
 
-                        if (!(element instanceof SimpleTkIdentifier identifier)){
+                        if (!(element instanceof SimpleTkIdentifierRaw identifier)){
                             return PsiReference.EMPTY_ARRAY;
                         }
                         String value = identifier.getName();

@@ -19,6 +19,7 @@ public interface SimpleTypes {
   IElementType COMMAND_LINE = new SimpleElementType("COMMAND_LINE");
   IElementType COMMAND_TOKEN_ALL = new SimpleElementType("COMMAND_TOKEN_ALL");
   IElementType COMMAND_TOKEN_CONNECTED_WITH_MINUS = new SimpleElementType("COMMAND_TOKEN_CONNECTED_WITH_MINUS");
+  IElementType COMMAND_TOKEN_IDENTIFIER = new SimpleElementType("COMMAND_TOKEN_IDENTIFIER");
   IElementType COMMAND_TOKEN_INLINE_FISH = new SimpleElementType("COMMAND_TOKEN_INLINE_FISH");
   IElementType COMMAND_TOKEN_KEYWORD_ALL = new SimpleElementType("COMMAND_TOKEN_KEYWORD_ALL");
   IElementType CURLY_L = new SimpleElementType("CURLY_L");
@@ -116,6 +117,7 @@ public interface SimpleTypes {
   IElementType OP_ASSIGN = new SimpleElementType("OP_ASSIGN");
   IElementType OP_AT = new SimpleElementType("OP_AT");
   IElementType OP_BINARY = new SimpleElementType("OP_BINARY");
+  IElementType OP_BINARY_WITHOUT_MINUS = new SimpleElementType("OP_BINARY_WITHOUT_MINUS");
   IElementType OP_COMMA = new SimpleElementType("OP_COMMA");
   IElementType OP_COMMENT = new SimpleElementType("OP_COMMENT");
   IElementType OP_DOT = new SimpleElementType("OP_DOT");
@@ -128,6 +130,7 @@ public interface SimpleTypes {
   IElementType TK_COMMENT = new SimpleElementType("TK_COMMENT");
   IElementType TK_COMMENT_TEXT = new SimpleElementType("TK_COMMENT_TEXT");
   IElementType TK_IDENTIFIER = new SimpleElementType("TK_IDENTIFIER");
+  IElementType TK_IDENTIFIER_RAW = new SimpleElementType("TK_IDENTIFIER_RAW");
   IElementType TK_LITERAL = new SimpleElementType("TK_LITERAL");
   IElementType TK_NEWLINE = new SimpleElementType("TK_NEWLINE");
   IElementType TK_VALUE = new SimpleElementType("TK_VALUE");
@@ -218,6 +221,9 @@ public interface SimpleTypes {
       }
       else if (type == COMMAND_TOKEN_CONNECTED_WITH_MINUS) {
         return new SimpleCommandTokenConnectedWithMinusImpl(node);
+      }
+      else if (type == COMMAND_TOKEN_IDENTIFIER) {
+        return new SimpleCommandTokenIdentifierImpl(node);
       }
       else if (type == COMMAND_TOKEN_INLINE_FISH) {
         return new SimpleCommandTokenInlineFishImpl(node);
@@ -510,6 +516,9 @@ public interface SimpleTypes {
       else if (type == OP_BINARY) {
         return new SimpleOpBinaryImpl(node);
       }
+      else if (type == OP_BINARY_WITHOUT_MINUS) {
+        return new SimpleOpBinaryWithoutMinusImpl(node);
+      }
       else if (type == OP_COMMA) {
         return new SimpleOpCommaImpl(node);
       }
@@ -545,6 +554,9 @@ public interface SimpleTypes {
       }
       else if (type == TK_IDENTIFIER) {
         return new SimpleTkIdentifierImpl(node);
+      }
+      else if (type == TK_IDENTIFIER_RAW) {
+        return new SimpleTkIdentifierRawImpl(node);
       }
       else if (type == TK_LITERAL) {
         return new SimpleTkLiteralImpl(node);

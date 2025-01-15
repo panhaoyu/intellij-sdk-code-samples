@@ -4,7 +4,7 @@ package org.intellij.sdk.language;
 
 import com.intellij.ide.IconProvider;
 import com.intellij.psi.PsiElement;
-import org.intellij.sdk.language.psi.SimpleTkIdentifier;
+import org.intellij.sdk.language.psi.SimpleTkIdentifierRaw;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -14,7 +14,7 @@ final class SimplePropertyIconProvider extends IconProvider {
 
     @Override
     public @Nullable Icon getIcon(@NotNull PsiElement element, int flags) {
-        return element instanceof SimpleTkIdentifier ? SimpleIcons.FILE : null;
+        return element instanceof SimpleTkIdentifierRaw ? SimpleIcons.FILE : null;
     }
 
 }

@@ -5,12 +5,12 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface SimpleOpBinary extends PsiElement {
+public interface SimpleKwBreak extends PsiElement {
 
   @Nullable
-  SimpleOpBinaryWithoutMinus getOpBinaryWithoutMinus();
+  SimpleKwExit getKwExit();
 
   @Nullable
-  SimpleOpMinus getOpMinus();
+  SimpleKwLoop getKwLoop();
 
 }

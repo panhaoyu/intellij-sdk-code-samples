@@ -13,14 +13,14 @@ import com.intellij.navigation.ItemPresentation;
 import com.intellij.psi.PsiReference;
 import org.intellij.sdk.language.SimpleReference;
 
-public class SimpleTkIdentifierImpl extends SimpleNamedElementImpl implements SimpleTkIdentifier {
+public class SimpleTkIdentifierRawImpl extends SimpleNamedElementImpl implements SimpleTkIdentifierRaw {
 
-  public SimpleTkIdentifierImpl(@NotNull ASTNode node) {
+  public SimpleTkIdentifierRawImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull SimpleVisitor visitor) {
-    visitor.visitTkIdentifier(this);
+    visitor.visitTkIdentifierRaw(this);
   }
 
   @Override

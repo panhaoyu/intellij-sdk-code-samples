@@ -9,12 +9,12 @@ import org.intellij.sdk.language.SimpleFileType;
 
 public class SimpleElementFactory {
 
-    public static SimpleTkIdentifier createIdentifier(Project project, String name) {
+    public static SimpleTkIdentifierRaw createIdentifier(Project project, String name) {
         PsiElement element = createFile(project, "@" + name);
-        while (!(element instanceof SimpleTkIdentifier)) {
+        while (!(element instanceof SimpleTkIdentifierRaw)) {
             element = element.getLastChild();
         }
-        return (SimpleTkIdentifier) element;
+        return (SimpleTkIdentifierRaw) element;
     }
 
     public static SimpleFile createFile(Project project, String text) {

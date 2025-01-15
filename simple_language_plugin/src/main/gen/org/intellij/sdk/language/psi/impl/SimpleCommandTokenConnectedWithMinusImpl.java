@@ -29,14 +29,20 @@ public class SimpleCommandTokenConnectedWithMinusImpl extends ASTWrapperPsiEleme
 
   @Override
   @NotNull
-  public List<SimpleOpMinus> getOpMinusList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleOpMinus.class);
+  public List<SimpleCommandTokenIdentifier> getCommandTokenIdentifierList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleCommandTokenIdentifier.class);
   }
 
   @Override
   @NotNull
-  public List<SimpleTkIdentifier> getTkIdentifierList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleTkIdentifier.class);
+  public List<SimpleLiteralNumber> getLiteralNumberList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleLiteralNumber.class);
+  }
+
+  @Override
+  @NotNull
+  public List<SimpleOpMinus> getOpMinusList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleOpMinus.class);
   }
 
 }

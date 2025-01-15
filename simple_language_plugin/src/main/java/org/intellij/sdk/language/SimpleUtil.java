@@ -14,7 +14,7 @@ import com.intellij.psi.util.CachedValuesManager;
 import com.intellij.psi.util.PsiModificationTracker;
 import com.intellij.psi.util.PsiTreeUtil;
 import org.intellij.sdk.language.psi.SimpleFile;
-import org.intellij.sdk.language.psi.SimpleTkIdentifier;
+import org.intellij.sdk.language.psi.SimpleTkIdentifierRaw;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -27,7 +27,7 @@ public class SimpleUtil {
      * @param identifier Simple属性
      * @return 组合后的文档注释
      */
-    public static @NotNull String findDocumentationComment(SimpleTkIdentifier identifier) {
+    public static @NotNull String findDocumentationComment(SimpleTkIdentifierRaw identifier) {
         List<String> result = new LinkedList<>();
         PsiElement element = identifier.getPrevSibling();
         while (element instanceof PsiComment || element instanceof PsiWhiteSpace) {
@@ -48,14 +48,14 @@ public class SimpleUtil {
      * @param project 当前项目
      * @return 找到的所有标识符元素的列表
      */
-    public static List<SimpleTkIdentifier> findIdentifiers(Project project) {
-        List<SimpleTkIdentifier> result = new ArrayList<>();
+    public static List<SimpleTkIdentifierRaw> findIdentifiers(Project project) {
+        List<SimpleTkIdentifierRaw> result = new ArrayList<>();
         Collection<VirtualFile> files = FileTypeIndex.getFiles(SimpleFileType.INSTANCE, GlobalSearchScope.projectScope(project));
 
         for (VirtualFile virtualFile : files) {
             PsiFile psiFile = PsiManager.getInstance(project).findFile(virtualFile);
             if (psiFile instanceof SimpleFile simpleFile) {
-                List<SimpleTkIdentifier> identifiers = getCachedIdentifiersForFile(simpleFile);
+                List<SimpleTkIdentifierRaw> identifiers = getCachedIdentifiersForFile(simpleFile);
                 result.addAll(identifiers);
             }
         }
@@ -68,10 +68,10 @@ public class SimpleUtil {
      * @param simpleFile 要处理的文件
      * @return 文件中的标识符元素列表
      */
-    private static List<SimpleTkIdentifier> getCachedIdentifiersForFile(SimpleFile simpleFile) {
+    private static List<SimpleTkIdentifierRaw> getCachedIdentifiersForFile(SimpleFile simpleFile) {
         return CachedValuesManager.getCachedValue(simpleFile, () -> {
-            Collection<SimpleTkIdentifier> identifiers = PsiTreeUtil.findChildrenOfType(simpleFile, SimpleTkIdentifier.class);
-            List<SimpleTkIdentifier> identifierList = new ArrayList<>(identifiers);
+            Collection<SimpleTkIdentifierRaw> identifiers = PsiTreeUtil.findChildrenOfType(simpleFile, SimpleTkIdentifierRaw.class);
+            List<SimpleTkIdentifierRaw> identifierList = new ArrayList<>(identifiers);
 
             return CachedValueProvider.Result.create(identifierList, simpleFile, PsiModificationTracker.MODIFICATION_COUNT);
         });
@@ -83,10 +83,10 @@ public class SimpleUtil {
      * @param project 当前项目
      * @return 找到的所有标识符元素的列表
      */
-    public static List<SimpleTkIdentifier> findIdentifiers(Project project, String key) {
-        final List<SimpleTkIdentifier> properties = findIdentifiers(project); // 查找与键值相关的属性列表
-        List<SimpleTkIdentifier> results = new ArrayList<>(); // 创建解析结果列表
-        for (SimpleTkIdentifier identifier : properties) { // 遍历找到的属性
+    public static List<SimpleTkIdentifierRaw> findIdentifiers(Project project, String key) {
+        final List<SimpleTkIdentifierRaw> properties = findIdentifiers(project); // 查找与键值相关的属性列表
+        List<SimpleTkIdentifierRaw> results = new ArrayList<>(); // 创建解析结果列表
+        for (SimpleTkIdentifierRaw identifier : properties) { // 遍历找到的属性
             if (Objects.equals(identifier.getName(), key)) {
                 results.add(identifier);
             }
@@ -100,11 +100,11 @@ public class SimpleUtil {
      * @param project the current project in which to search for declarations.
      * @return a list of SimpleNamedElement, each representing a declaration.
      */
-    public static List<SimpleTkIdentifier> findAllDeclarations(Project project) {
-        List<SimpleTkIdentifier> result = new ArrayList<>();
+    public static List<SimpleTkIdentifierRaw> findAllDeclarations(Project project) {
+        List<SimpleTkIdentifierRaw> result = new ArrayList<>();
         Set<String> seenNames = new HashSet<>();
 
-        for (SimpleTkIdentifier element : findIdentifiers(project)) {
+        for (SimpleTkIdentifierRaw element : findIdentifiers(project)) {
             if (!seenNames.contains(element.getName())) {
                 seenNames.add(element.getName());
                 result.add(element);

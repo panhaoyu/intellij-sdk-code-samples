@@ -8,9 +8,12 @@ import com.intellij.psi.PsiElement;
 public interface SimpleCommandTokenConnectedWithMinus extends PsiElement {
 
   @NotNull
-  List<SimpleOpMinus> getOpMinusList();
+  List<SimpleCommandTokenIdentifier> getCommandTokenIdentifierList();
 
   @NotNull
-  List<SimpleTkIdentifier> getTkIdentifierList();
+  List<SimpleLiteralNumber> getLiteralNumberList();
+
+  @NotNull
+  List<SimpleOpMinus> getOpMinusList();
 
 }

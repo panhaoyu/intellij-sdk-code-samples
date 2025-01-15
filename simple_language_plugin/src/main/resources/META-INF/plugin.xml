@@ -75,7 +75,7 @@
         <!-- 添加括号自动补全功能的 TypedHandler -->
         <typedHandler implementation="org.intellij.sdk.language.BraceTypedHandler"/>
         <!-- 重命名 -->
-        <psi.manipulator forClass="org.intellij.sdk.language.psi.impl.SimpleTkIdentifierImpl"
+        <psi.manipulator forClass="org.intellij.sdk.language.psi.impl.SimpleTkIdentifierRawImpl"
                          implementation="org.intellij.sdk.language.psi.SimpleTkIdentifierManipulator"/>
 
     </extensions>

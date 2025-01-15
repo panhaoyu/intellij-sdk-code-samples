@@ -23,10 +23,7 @@ public interface SimpleCommandTokenAll extends PsiElement {
   SimpleOpAssign getOpAssign();
 
   @Nullable
-  SimpleOpAt getOpAt();
-
-  @Nullable
-  SimpleOpBinary getOpBinary();
+  SimpleOpBinaryWithoutMinus getOpBinaryWithoutMinus();
 
   @Nullable
   SimpleOpComma getOpComma();

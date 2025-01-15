@@ -10,7 +10,7 @@ import com.intellij.util.Processor;
 import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.indexing.FindSymbolParameters;
 import com.intellij.util.indexing.IdFilter;
-import org.intellij.sdk.language.psi.SimpleTkIdentifier;
+import org.intellij.sdk.language.psi.SimpleTkIdentifierRaw;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -24,7 +24,7 @@ final class SimpleChooseByNameContributor implements ChooseByNameContributorEx {
                              @NotNull GlobalSearchScope scope,
                              @Nullable IdFilter filter) {
         Project project = Objects.requireNonNull(scope.getProject());
-        List<String> propertyKeys = ContainerUtil.map(SimpleUtil.findIdentifiers(project), SimpleTkIdentifier::getName);
+        List<String> propertyKeys = ContainerUtil.map(SimpleUtil.findIdentifiers(project), SimpleTkIdentifierRaw::getName);
         ContainerUtil.process(propertyKeys, processor);
     }
 

@@ -14,8 +14,7 @@ import com.intellij.psi.util.PsiTreeUtil;
 import org.intellij.sdk.language.SimpleReference;
 import org.intellij.sdk.language.psi.SimpleCommandBlockDefine;
 import org.intellij.sdk.language.psi.SimpleElementFactory;
-import org.intellij.sdk.language.psi.SimpleTkCommentText;
-import org.intellij.sdk.language.psi.SimpleTkIdentifier;
+import org.intellij.sdk.language.psi.SimpleTkIdentifierRaw;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -25,28 +24,28 @@ import java.util.Objects;
 
 public class SimplePsiImplUtil {
     public static String getName(SimpleCommandBlockDefine element) {
-        SimpleTkIdentifier child = PsiTreeUtil.findChildOfType(element, SimpleTkIdentifier.class);
+        SimpleTkIdentifierRaw child = PsiTreeUtil.findChildOfType(element, SimpleTkIdentifierRaw.class);
         return Objects.requireNonNull(child).getName();
     }
 
-    public static String getName(SimpleTkIdentifier element) {
+    public static String getName(SimpleTkIdentifierRaw element) {
         return element.getText();
     }
 
 
-    public static PsiElement setName(SimpleTkIdentifier element, String newName) {
+    public static PsiElement setName(SimpleTkIdentifierRaw element, String newName) {
         ASTNode node = element.getNode();
         ASTNode parent = node.getTreeParent();
-        SimpleTkIdentifier newElement = SimpleElementFactory.createIdentifier(element.getProject(), newName);
+        SimpleTkIdentifierRaw newElement = SimpleElementFactory.createIdentifier(element.getProject(), newName);
         parent.replaceChild(node, newElement.getNode());
         return newElement;
     }
 
-    public static PsiElement getNameIdentifier(SimpleTkIdentifier element) {
+    public static PsiElement getNameIdentifier(SimpleTkIdentifierRaw element) {
         return element;
     }
 
-    public static ItemPresentation getPresentation(final SimpleTkIdentifier element) {
+    public static ItemPresentation getPresentation(final SimpleTkIdentifierRaw element) {
         return new ItemPresentation() {
             @Nullable
             @Override
@@ -77,7 +76,7 @@ public class SimplePsiImplUtil {
 
     public static ItemPresentation getPresentation(final SimpleCommandBlockDefine element) {
         return new ItemPresentation() {
-            final SimpleTkIdentifier identifier = PsiTreeUtil.findChildOfType(element, SimpleTkIdentifier.class);
+            final SimpleTkIdentifierRaw identifier = PsiTreeUtil.findChildOfType(element, SimpleTkIdentifierRaw.class);
 
             @Nullable
             @Override
@@ -100,13 +99,13 @@ public class SimplePsiImplUtil {
     }
 
 
-    public static SimpleReference @NotNull [] getReferences(final SimpleTkIdentifier element) {
+    public static SimpleReference @NotNull [] getReferences(final SimpleTkIdentifierRaw element) {
         ArrayList<SimpleReference> references = new ArrayList<>();
         references.add(new SimpleReference(element, new TextRange(0, element.getTextLength())));
         return references.toArray(SimpleReference[]::new);
     }
 
-    public static PsiReference getReference(final SimpleTkIdentifier element) {
+    public static PsiReference getReference(final SimpleTkIdentifierRaw element) {
         SimpleReference[] references = getReferences(element);
         if (references.length == 1) {
             return references[0];
@@ -117,7 +116,7 @@ public class SimplePsiImplUtil {
         }
     }
 
-    public static int getTextOffset(final SimpleTkIdentifier element) {
+    public static int getTextOffset(final SimpleTkIdentifierRaw element) {
         return element.getTextRange().getStartOffset();
     }
 }

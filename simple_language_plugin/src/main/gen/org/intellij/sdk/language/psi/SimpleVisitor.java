@@ -51,6 +51,10 @@ public class SimpleVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitCommandTokenIdentifier(@NotNull SimpleCommandTokenIdentifier o) {
+    visitPsiElement(o);
+  }
+
   public void visitCommandTokenInlineFish(@NotNull SimpleCommandTokenInlineFish o) {
     visitPsiElement(o);
   }
@@ -439,6 +443,10 @@ public class SimpleVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitOpBinaryWithoutMinus(@NotNull SimpleOpBinaryWithoutMinus o) {
+    visitPsiElement(o);
+  }
+
   public void visitOpComma(@NotNull SimpleOpComma o) {
     visitPsiElement(o);
   }
@@ -484,6 +492,10 @@ public class SimpleVisitor extends PsiElementVisitor {
   }
 
   public void visitTkIdentifier(@NotNull SimpleTkIdentifier o) {
+    visitPsiElement(o);
+  }
+
+  public void visitTkIdentifierRaw(@NotNull SimpleTkIdentifierRaw o) {
     visitNamedElement(o);
   }
 

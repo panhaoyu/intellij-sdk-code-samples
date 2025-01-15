@@ -59,6 +59,12 @@ public class SimpleCommandTokenKeywordAllImpl extends ASTWrapperPsiElement imple
 
   @Override
   @Nullable
+  public SimpleKwEnd getKwEnd() {
+    return findChildByClass(SimpleKwEnd.class);
+  }
+
+  @Override
+  @Nullable
   public SimpleKwEndCase getKwEndCase() {
     return findChildByClass(SimpleKwEndCase.class);
   }

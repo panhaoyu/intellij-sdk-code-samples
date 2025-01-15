@@ -5,7 +5,7 @@ import com.intellij.lang.documentation.AbstractDocumentationProvider;
 import com.intellij.lang.documentation.DocumentationMarkup;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.presentation.java.SymbolPresentationUtil;
-import org.intellij.sdk.language.psi.SimpleTkIdentifier;
+import org.intellij.sdk.language.psi.SimpleTkIdentifierRaw;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -34,7 +34,7 @@ final class SimpleDocumentationProvider extends AbstractDocumentationProvider {
      */
     @Override
     public @Nullable String generateDoc(PsiElement element, @Nullable PsiElement originalElement) {
-        if (element instanceof SimpleTkIdentifier identifier) {
+        if (element instanceof SimpleTkIdentifierRaw identifier) {
             final String key = identifier.getName();
             final String value = identifier.getName();
             final String file = SymbolPresentationUtil.getFilePathPresentation(element.getContainingFile());
@@ -50,7 +50,7 @@ final class SimpleDocumentationProvider extends AbstractDocumentationProvider {
      */
     @Override
     public @Nullable String getQuickNavigateInfo(PsiElement element, PsiElement originalElement) {
-        if (element instanceof SimpleTkIdentifier) {
+        if (element instanceof SimpleTkIdentifierRaw) {
 //            final String key = ((SimpleProperty) element).getName();
 //            final String file = SymbolPresentationUtil.getFilePathPresentation(element.getContainingFile());
 //            return "\"" + key + "\" in " + file;

@@ -55,6 +55,6 @@ fish define _ctApplyAxialStrain(e_incr)
 
     ; todo 下面这个不应该被格式化
     command
-        global.dim fish-halt @func.call
+        global.dim fish-halt @func.call end-1 end-2
     end_command
 end

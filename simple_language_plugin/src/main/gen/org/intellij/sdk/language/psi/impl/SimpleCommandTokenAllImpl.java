@@ -59,14 +59,8 @@ public class SimpleCommandTokenAllImpl extends ASTWrapperPsiElement implements S
 
   @Override
   @Nullable
-  public SimpleOpAt getOpAt() {
-    return findChildByClass(SimpleOpAt.class);
-  }
-
-  @Override
-  @Nullable
-  public SimpleOpBinary getOpBinary() {
-    return findChildByClass(SimpleOpBinary.class);
+  public SimpleOpBinaryWithoutMinus getOpBinaryWithoutMinus() {
+    return findChildByClass(SimpleOpBinaryWithoutMinus.class);
   }
 
   @Override

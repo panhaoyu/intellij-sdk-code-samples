@@ -12,7 +12,7 @@ import com.intellij.spellchecker.inspections.PlainTextSplitter;
 import com.intellij.spellchecker.tokenizer.SpellcheckingStrategy;
 import com.intellij.spellchecker.tokenizer.TokenConsumer;
 import com.intellij.spellchecker.tokenizer.Tokenizer;
-import org.intellij.sdk.language.psi.SimpleTkIdentifier;
+import org.intellij.sdk.language.psi.SimpleTkIdentifierRaw;
 import org.intellij.sdk.language.psi.SimpleTypes;
 import org.jetbrains.annotations.NotNull;
 
@@ -24,7 +24,7 @@ final class SimpleSpellcheckingStrategy extends SpellcheckingStrategy {
             return new SimpleCommentTokenizer();
         }
 
-        if (element instanceof SimpleTkIdentifier) {
+        if (element instanceof SimpleTkIdentifierRaw) {
             return new SimpleIdentifierTokenizer();
         }
 
@@ -51,9 +51,9 @@ final class SimpleSpellcheckingStrategy extends SpellcheckingStrategy {
 
     }
 
-    private static class SimpleIdentifierTokenizer extends Tokenizer<SimpleTkIdentifier> {
+    private static class SimpleIdentifierTokenizer extends Tokenizer<SimpleTkIdentifierRaw> {
 
-        public void tokenize(@NotNull SimpleTkIdentifier element, @NotNull TokenConsumer consumer) {
+        public void tokenize(@NotNull SimpleTkIdentifierRaw element, @NotNull TokenConsumer consumer) {
             //Spell check the keys and values of properties with different splitters
             final ASTNode key = element.getNode().findChildByType(SimpleTypes.IF);
             if (key != null && key.getTextLength() > 0) {

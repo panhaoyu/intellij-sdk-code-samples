@@ -29,6 +29,12 @@ public class SimpleOpBinaryImpl extends ASTWrapperPsiElement implements SimpleOp
 
   @Override
   @Nullable
+  public SimpleOpBinaryWithoutMinus getOpBinaryWithoutMinus() {
+    return findChildByClass(SimpleOpBinaryWithoutMinus.class);
+  }
+
+  @Override
+  @Nullable
   public SimpleOpMinus getOpMinus() {
     return findChildByClass(SimpleOpMinus.class);
   }
