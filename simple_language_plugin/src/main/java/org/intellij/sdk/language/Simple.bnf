@@ -42,7 +42,7 @@ command_line_func_call ::= op_at tk_identifier expr_paren_csv? tk_comment?
 command_line_inline_fish ::= square_l fish_line square_r tk_comment?
 command_token_all ::= (
      square_l | square_r | paren_l | paren_r | op_comma | op_assign | op_unary | op_binary| op_dot | op_at |
-     tk_literal | command_token_keyword_all | tk_identifier
+     tk_literal | command_token_keyword_all | tk_value
  )
 command_token_keyword_all ::= (kw_fish_define | kw_fish_operator | kw_case_of | kw_case | kw_end_case | kw_end | kw_exit | kw_global | kw_if | kw_then |
     kw_else_if | kw_else | kw_end_if | kw_local | kw_lock | kw_loop | kw_endloop | kw_continue | kw_return | kw_section | kw_end_section | kw_struct )

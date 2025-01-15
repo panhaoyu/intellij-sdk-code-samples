@@ -224,7 +224,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // square_l | square_r | paren_l | paren_r | op_comma | op_assign | op_unary | op_binary| op_dot | op_at |
-  //      tk_literal | command_token_keyword_all | tk_identifier
+  //      tk_literal | command_token_keyword_all | tk_value
   public static boolean command_token_all(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "command_token_all")) return false;
     boolean r;
@@ -241,7 +241,7 @@ public class SimpleParser implements PsiParser, LightPsiParser {
     if (!r) r = op_at(b, l + 1);
     if (!r) r = tk_literal(b, l + 1);
     if (!r) r = command_token_keyword_all(b, l + 1);
-    if (!r) r = tk_identifier(b, l + 1);
+    if (!r) r = tk_value(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
