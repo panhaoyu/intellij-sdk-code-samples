@@ -22,7 +22,7 @@
   ]
 }
 
-simpleFile ::= eol* command_block eol*
+simpleFile ::= eol* command_block? eol*
 
 command_block ::= command_block_single (eol command_block_single)*
 //前缀为cmd的均表示作用于command作用域中
