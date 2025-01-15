@@ -18,7 +18,7 @@
 
   tokens=[
     WHITESPACE="regexp: +"
-    NEWLINE="regexp:(\R( \t)*)"
+    NEWLINE="regexp:(\R[ \t]*)"
   ]
 }
 

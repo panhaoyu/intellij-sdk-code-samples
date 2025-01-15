@@ -40,7 +40,7 @@ import com.intellij.psi.TokenType;
 // 定义标记的模式。
 
 // 新行模式，可能带有缩进（空格或制表符）。
-NewlineIndent = (\R( \t)*)
+NewlineIndent = \R[ \t]*
 
 // 空白模式（空格、制表符、垂直制表符、换页符）。
 Whitespace = [ \t\x0B\f]+
@@ -166,8 +166,8 @@ String = {StringA} | {StringB}
     {AssignmentOperator} {return SimpleTypes.ASSIGNMENT_OPERATOR;}
     {UnaryOperator} {return SimpleTypes.UNARY_OPERATOR;}
     {Whitespace} {return TokenType.WHITE_SPACE;}
-    {NewlineIndent} {return SimpleTypes.NEWLINE;}
     {Comment} {return SimpleTypes.COMMENT;}
+    {NewlineIndent} {return SimpleTypes.NEWLINE;}
     \{ {return SimpleTypes.LEFT_CURLY_BRACKET; }
     \} {return SimpleTypes.RIGHT_CURLY_BRACKET; }
     \( {return SimpleTypes.LEFT_PARENTHESIS; }
