@@ -34,6 +34,7 @@ final class SimpleParserDefinition implements ParserDefinition {
         // todo 这里本应使用 SimpleTokenSets.COMMENTS 来标记注释对象的，不过由于对框架的理解不够深入，标记后会导致格式化的时候出问题。
         //   标记后会导致注释被忽略掉，而不是作为PSI树的一部分，格式化的时候，注释会消失不见。
         //   不过，如果不指定为注释，就会导致注释里面的 TO DO 不会被自动标蓝了。
+        //   似乎还不仅仅是这里一个地方的问题，即使把这里改成 COMMENT 也不会恢复 to do 的高亮。
         return SimpleTokenSets.NOTHING;
     }
 
