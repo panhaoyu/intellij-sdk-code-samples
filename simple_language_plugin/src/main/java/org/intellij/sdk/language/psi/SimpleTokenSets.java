@@ -12,7 +12,7 @@ public interface SimpleTokenSets {
             SimpleTypes.TK_IDENTIFIER
     );
     TokenSet COMMENTS = TokenSet.create(
-            SimpleTypes.COMMENT_EXPR
+            SimpleTypes.COMMENT
     );
 
     TokenSet STRING_LITERALS = TokenSet.create(SimpleTypes.STRING_LITERAL);
@@ -29,7 +29,7 @@ public interface SimpleTokenSets {
     );
 
 
-    TokenSet OperatorsWithoutMinus = TokenSet.create(
+    TokenSet OPERATORS_WITHOUT_MINUS = TokenSet.create(
             SimpleTypes.ASSIGNMENT_OPERATOR,
             SimpleTypes.UNARY_OPERATOR,
             // SimpleTypes.MINUS_OPERATOR, // 注意，减号并不永远是减号。在command语句里面，减号是可以作为标识符的一部分存在的。
@@ -39,7 +39,7 @@ public interface SimpleTokenSets {
             SimpleTypes.DOT_OPERATOR
     );
 
-    TokenSet Operators = TokenSet.create(
+    TokenSet OPERATORS = TokenSet.create(
             SimpleTypes.ASSIGNMENT_OPERATOR,
             SimpleTypes.UNARY_OPERATOR,
             SimpleTypes.MINUS_OPERATOR, // 注意，减号并不永远是减号。在command语句里面，减号是可以作为标识符的一部分存在的。
@@ -49,18 +49,18 @@ public interface SimpleTokenSets {
             SimpleTypes.DOT_OPERATOR
     );
 
-    TokenSet RightBrackets = TokenSet.create(
+    TokenSet RIGHT_BRACKETS = TokenSet.create(
             SimpleTypes.RIGHT_CURLY_BRACKET,
             SimpleTypes.RIGHT_PARENTHESIS,
             SimpleTypes.RIGHT_SQUARE_BRACKET
     );
-    TokenSet LeftBrackets = TokenSet.create(
+    TokenSet LEFT_BRACKETS = TokenSet.create(
             SimpleTypes.LEFT_CURLY_BRACKET,
             SimpleTypes.LEFT_PARENTHESIS,
             SimpleTypes.LEFT_SQUARE_BRACKET
     );
 
-    TokenSet Brackets = TokenSet.create(
+    TokenSet BRACKETS = TokenSet.create(
             SimpleTypes.RIGHT_CURLY_BRACKET,
             SimpleTypes.RIGHT_PARENTHESIS,
             SimpleTypes.RIGHT_SQUARE_BRACKET,
@@ -68,15 +68,15 @@ public interface SimpleTokenSets {
             SimpleTypes.LEFT_PARENTHESIS,
             SimpleTypes.LEFT_SQUARE_BRACKET
     );
-    TokenSet NewLine = TokenSet.create(
+    TokenSet NEW_LINE = TokenSet.create(
             TokenType.NEW_LINE_INDENT
     );
 
-    TokenSet EndOfLine = TokenSet.create(
+    TokenSet END_OF_LINE = TokenSet.create(
             SimpleTypes.EOL
     );
 
-    TokenSet KeyWords = TokenSet.create(
+    TokenSet KEYWORDS = TokenSet.create(
             SimpleTypes.ARRAY,
             SimpleTypes.BREAK,
             SimpleTypes.CASE,
@@ -108,7 +108,8 @@ public interface SimpleTokenSets {
             SimpleTypes.WHILE
     );
 
-    TokenSet BlockBody = TokenSet.create(
+    // 用于进行缩进
+    TokenSet BLOCK_BODY = TokenSet.create(
             SimpleTypes.FISH_BLOCK_BODY_IF,
             SimpleTypes.FISH_BLOCK_BODY_ELSE_IF,
             SimpleTypes.FISH_BLOCK_BODY_ELSE,
@@ -119,11 +120,11 @@ public interface SimpleTokenSets {
             SimpleTypes.FISH_BLOCK_BODY_COMMAND
     );
 
-    TokenSet BlockSkip = TokenSet.create(
+    // 用于避免缩进
+    TokenSet BLOCK_SKIP = TokenSet.create(
             TokenType.NEW_LINE_INDENT,
             TokenType.WHITE_SPACE,
             SimpleTypes.NEWLINE,
-            SimpleTypes.TK_NEWLINE,
-            SimpleTypes.EOL
+            SimpleTypes.TK_NEWLINE
     );
 }

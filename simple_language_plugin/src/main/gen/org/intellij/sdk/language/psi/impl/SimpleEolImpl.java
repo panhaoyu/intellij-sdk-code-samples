@@ -29,8 +29,8 @@ public class SimpleEolImpl extends ASTWrapperPsiElement implements SimpleEol {
 
   @Override
   @NotNull
-  public List<SimpleTkNewline> getTkNewlineList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleTkNewline.class);
+  public SimpleTkNewline getTkNewline() {
+    return findNotNullChildByClass(SimpleTkNewline.class);
   }
 
 }

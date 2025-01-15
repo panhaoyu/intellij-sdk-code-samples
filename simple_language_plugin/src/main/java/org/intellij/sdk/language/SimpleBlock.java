@@ -31,7 +31,7 @@ public class SimpleBlock extends AbstractBlock {
         List<Block> blocks = new ArrayList<>();  // 创建一个列表用于存储子块
         ASTNode child = myNode.getFirstChildNode();  // 获取当前节点的第一个子节点
         while (child != null) {  // 遍历所有子节点
-            if (SimpleTokenSets.BlockSkip.contains(child.getElementType())) {  // 如果子节点不是空白节点
+            if (SimpleTokenSets.BLOCK_SKIP.contains(child.getElementType())) {  // 如果子节点不是空白节点
                 child = child.getTreeNext();
                 continue;
             }
@@ -46,7 +46,7 @@ public class SimpleBlock extends AbstractBlock {
     @Override
     public Indent getIndent() {
         IElementType elementType = myNode.getElementType();
-        if (SimpleTokenSets.BlockBody.contains(elementType)) {
+        if (SimpleTokenSets.BLOCK_BODY.contains(elementType)) {
             return Indent.getNormalIndent();
         }
         return Indent.getNoneIndent();

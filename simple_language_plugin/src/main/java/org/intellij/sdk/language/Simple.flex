@@ -166,7 +166,7 @@ String = {StringA} | {StringB}
     {AssignmentOperator} {return SimpleTypes.ASSIGNMENT_OPERATOR;}
     {UnaryOperator} {return SimpleTypes.UNARY_OPERATOR;}
     {Whitespace} {return TokenType.WHITE_SPACE;}
-    {Comment} {return SimpleTypes.COMMENT_EXPR;}
+    {Comment} {return SimpleTypes.COMMENT;}
     {NewlineIndent} {return SimpleTypes.NEWLINE;}
     \{ {return SimpleTypes.LEFT_CURLY_BRACKET; }
     \} {return SimpleTypes.RIGHT_CURLY_BRACKET; }

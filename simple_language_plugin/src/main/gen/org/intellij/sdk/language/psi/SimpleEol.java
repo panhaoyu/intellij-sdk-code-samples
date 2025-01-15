@@ -8,6 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface SimpleEol extends PsiElement {
 
   @NotNull
-  List<SimpleTkNewline> getTkNewlineList();
+  SimpleTkNewline getTkNewline();
 
 }

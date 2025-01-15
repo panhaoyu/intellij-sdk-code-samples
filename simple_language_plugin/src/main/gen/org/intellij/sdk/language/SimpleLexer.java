@@ -1148,7 +1148,7 @@ class SimpleLexer implements FlexLexer {
           // fall through
           case 62: break;
           case 12:
-            { return SimpleTypes.COMMENT_EXPR;
+            { return SimpleTypes.COMMENT;
             }
           // fall through
           case 63: break;

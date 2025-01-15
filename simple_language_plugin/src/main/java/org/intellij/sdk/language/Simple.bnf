@@ -180,8 +180,8 @@ private expr_unary ::= op_unary expr
 ////词汇之间的组合
 tk_value ::= tk_identifier | tk_literal
 tk_literal ::= literal_string | literal_number
-tk_newline ::= NEWLINE
-tk_comment ::= COMMENT_EXPR
+tk_newline ::= NEWLINE+
+tk_comment ::= COMMENT
 tk_identifier ::= IDENTIFIER {
 ////  pin=3
 //  recoverWhile="recover_property"
@@ -208,7 +208,7 @@ private literal_number ::= NUMBER_LITERAL
 private op_binary ::= BINARY_OPERATOR | MINUS_OPERATOR | ASSIGNMENT_OPERATOR
 private op_unary ::= UNARY_OPERATOR | MINUS_OPERATOR
 private op_assign ::= ASSIGNMENT_OPERATOR
-eol ::= tk_newline+
+eol ::= tk_newline
 
 private op_at ::= FUNCTION_CALL_OPERATOR
 private op_comma ::= COMMA_OPERATOR

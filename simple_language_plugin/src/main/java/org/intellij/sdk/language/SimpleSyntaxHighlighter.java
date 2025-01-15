@@ -11,10 +11,12 @@ import com.intellij.openapi.editor.markup.TextAttributes;
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase;
 import com.intellij.psi.TokenType;
 import com.intellij.psi.tree.IElementType;
+import org.intellij.sdk.language.psi.SimpleTokenSets;
 import org.intellij.sdk.language.psi.SimpleTypes;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAttributesKey;
@@ -78,8 +80,8 @@ public class SimpleSyntaxHighlighter extends SyntaxHighlighterBase {
 
         put(SimpleTypes.NUMBER_LITERAL, NUMBER_LITERAL_KEYS);
         put(SimpleTypes.IDENTIFIER, IDENTIFIER_KEYS);
-        put(SimpleTypes.COMMENT_EXPR, COMMENT_KEYS);
-        put(SimpleTypes.NEWLINE, COMMENT_KEYS);
+        Arrays.stream(SimpleTokenSets.COMMENTS.getTypes()).forEach(iElementType -> put(iElementType, COMMENT_KEYS));
+        put(SimpleTypes.NEWLINE, EMPTY_KEYS);
         put(SimpleTypes.STRING_LITERAL, STRING_LITERAL_KEYS);
 
         put(TokenType.WHITE_SPACE, EMPTY_KEYS);

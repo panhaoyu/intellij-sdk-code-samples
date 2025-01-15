@@ -27,10 +27,4 @@ public class SimpleTkNewlineImpl extends ASTWrapperPsiElement implements SimpleT
     else super.accept(visitor);
   }
 
-  @Override
-  @NotNull
-  public PsiElement getNewline() {
-    return findNotNullChildByType(NEWLINE);
-  }
-
 }
