@@ -31,7 +31,7 @@ final class SimpleParserDefinition implements ParserDefinition {
     @NotNull
     @Override
     public TokenSet getCommentTokens() {
-        return SimpleTokenSets.COMMENTS;
+        return SimpleTokenSets.NOTHING;
     }
 
     @NotNull

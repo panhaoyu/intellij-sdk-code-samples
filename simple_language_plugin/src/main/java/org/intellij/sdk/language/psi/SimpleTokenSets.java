@@ -11,8 +11,10 @@ public interface SimpleTokenSets {
             SimpleTypes.IDENTIFIER,
             SimpleTypes.TK_IDENTIFIER
     );
+    TokenSet NOTHING = TokenSet.create();
     TokenSet COMMENTS = TokenSet.create(
-            SimpleTypes.COMMENT
+            SimpleTypes.COMMENT,
+            SimpleTypes.TK_COMMENT
     );
 
     TokenSet STRING_LITERALS = TokenSet.create(SimpleTypes.STRING_LITERAL);
@@ -125,6 +127,7 @@ public interface SimpleTokenSets {
             TokenType.NEW_LINE_INDENT,
             TokenType.WHITE_SPACE,
             SimpleTypes.NEWLINE,
-            SimpleTypes.TK_NEWLINE
+            SimpleTypes.TK_NEWLINE,
+            SimpleTypes.EOL
     );
 }
