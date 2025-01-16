@@ -5,15 +5,12 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface SimpleExprParenCsv extends PsiElement {
+public interface SimpleFishExprCsv extends PsiElement {
 
   @NotNull
-  SimpleExprCsv getExprCsv();
+  List<SimpleFishExpr> getFishExprList();
 
   @NotNull
-  SimpleParenL getParenL();
-
-  @NotNull
-  SimpleParenR getParenR();
+  List<SimpleOpComma> getOpCommaList();
 
 }

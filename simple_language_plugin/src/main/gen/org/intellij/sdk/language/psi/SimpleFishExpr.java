@@ -7,28 +7,13 @@ import com.intellij.psi.PsiElement;
 
 public interface SimpleFishExpr extends PsiElement {
 
-  @NotNull
-  List<SimpleFishExpr> getFishExprList();
+  @Nullable
+  SimpleFishExpr getFishExpr();
 
   @NotNull
-  List<SimpleFishExprFuncCall> getFishExprFuncCallList();
-
-  @NotNull
-  List<SimpleFishExprParen> getFishExprParenList();
-
-  @NotNull
-  List<SimpleOpBinary> getOpBinaryList();
-
-  @NotNull
-  List<SimpleOpUnary> getOpUnaryList();
+  SimpleFishExprValue getFishExprValue();
 
   @Nullable
-  SimpleSquareL getSquareL();
-
-  @Nullable
-  SimpleSquareR getSquareR();
-
-  @NotNull
-  List<SimpleTkValue> getTkValueList();
+  SimpleOpBinary getOpBinary();
 
 }

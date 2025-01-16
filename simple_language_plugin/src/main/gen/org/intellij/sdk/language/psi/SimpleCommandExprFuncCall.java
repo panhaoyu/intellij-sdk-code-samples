@@ -7,13 +7,10 @@ import com.intellij.psi.PsiElement;
 
 public interface SimpleCommandExprFuncCall extends PsiElement {
 
-  @Nullable
-  SimpleExprParenCsv getExprParenCsv();
+  @NotNull
+  SimpleFishExprFuncCall getFishExprFuncCall();
 
   @NotNull
   SimpleOpAt getOpAt();
-
-  @NotNull
-  SimpleTkIdentifier getTkIdentifier();
 
 }

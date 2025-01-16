@@ -5,9 +5,12 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface SimpleFishExprAssignTarget extends PsiElement {
+public interface SimpleFishExprUnary extends PsiElement {
 
   @NotNull
-  SimpleFishExprFuncCall getFishExprFuncCall();
+  SimpleFishExpr getFishExpr();
+
+  @NotNull
+  SimpleOpUnary getOpUnary();
 
 }

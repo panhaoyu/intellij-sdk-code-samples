@@ -118,24 +118,16 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // op_at tk_identifier expr_paren_csv?
+  // op_at fish_expr_func_call
   public static boolean command_expr_func_call(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "command_expr_func_call")) return false;
     if (!nextTokenIs(b, FUNCTION_CALL_OPERATOR)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = op_at(b, l + 1);
-    r = r && tk_identifier(b, l + 1);
-    r = r && command_expr_func_call_2(b, l + 1);
+    r = r && fish_expr_func_call(b, l + 1);
     exit_section_(b, m, COMMAND_EXPR_FUNC_CALL, r);
     return r;
-  }
-
-  // expr_paren_csv?
-  private static boolean command_expr_func_call_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "command_expr_func_call_2")) return false;
-    expr_paren_csv(b, l + 1);
-    return true;
   }
 
   /* ********************************************************** */
@@ -593,113 +585,6 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // expr_non_binary (op_binary expr_non_binary)*
-  static boolean expr_binary(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "expr_binary")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = expr_non_binary(b, l + 1);
-    r = r && expr_binary_1(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // (op_binary expr_non_binary)*
-  private static boolean expr_binary_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "expr_binary_1")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!expr_binary_1_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "expr_binary_1", c)) break;
-    }
-    return true;
-  }
-
-  // op_binary expr_non_binary
-  private static boolean expr_binary_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "expr_binary_1_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = op_binary(b, l + 1);
-    r = r && expr_non_binary(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // fish_expr (op_comma fish_expr)*
-  public static boolean expr_csv(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "expr_csv")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, EXPR_CSV, "<expr csv>");
-    r = fish_expr(b, l + 1);
-    r = r && expr_csv_1(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // (op_comma fish_expr)*
-  private static boolean expr_csv_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "expr_csv_1")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!expr_csv_1_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "expr_csv_1", c)) break;
-    }
-    return true;
-  }
-
-  // op_comma fish_expr
-  private static boolean expr_csv_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "expr_csv_1_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = op_comma(b, l + 1);
-    r = r && fish_expr(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // fish_expr_paren | fish_expr_func_call | expr_unary | tk_value
-  static boolean expr_non_binary(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "expr_non_binary")) return false;
-    boolean r;
-    r = fish_expr_paren(b, l + 1);
-    if (!r) r = fish_expr_func_call(b, l + 1);
-    if (!r) r = expr_unary(b, l + 1);
-    if (!r) r = tk_value(b, l + 1);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // paren_l expr_csv paren_r
-  public static boolean expr_paren_csv(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "expr_paren_csv")) return false;
-    if (!nextTokenIs(b, LEFT_PARENTHESIS)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = paren_l(b, l + 1);
-    r = r && expr_csv(b, l + 1);
-    r = r && paren_r(b, l + 1);
-    exit_section_(b, m, EXPR_PAREN_CSV, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // op_unary fish_expr
-  static boolean expr_unary(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "expr_unary")) return false;
-    if (!nextTokenIs(b, "", MINUS_OPERATOR, UNARY_OPERATOR)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = op_unary(b, l + 1);
-    r = r && fish_expr(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  /* ********************************************************** */
   // kw_local | kw_global
   public static boolean fish_assign_scope(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "fish_assign_scope")) return false;
@@ -1135,25 +1020,31 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (square_l expr_binary square_r) |  expr_binary
+  // fish_expr_value (op_binary fish_expr)?
   public static boolean fish_expr(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "fish_expr")) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _COLLAPSE_, FISH_EXPR, "<fish expr>");
-    r = fish_expr_0(b, l + 1);
-    if (!r) r = expr_binary(b, l + 1);
+    Marker m = enter_section_(b, l, _NONE_, FISH_EXPR, "<fish expr>");
+    r = fish_expr_value(b, l + 1);
+    r = r && fish_expr_1(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
-  // square_l expr_binary square_r
-  private static boolean fish_expr_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "fish_expr_0")) return false;
+  // (op_binary fish_expr)?
+  private static boolean fish_expr_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_expr_1")) return false;
+    fish_expr_1_0(b, l + 1);
+    return true;
+  }
+
+  // op_binary fish_expr
+  private static boolean fish_expr_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_expr_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = square_l(b, l + 1);
-    r = r && expr_binary(b, l + 1);
-    r = r && square_r(b, l + 1);
+    r = op_binary(b, l + 1);
+    r = r && fish_expr(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
@@ -1211,23 +1102,49 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // tk_identifier expr_paren_csv?
+  // fish_expr_func_call
   public static boolean fish_expr_assign_target(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "fish_expr_assign_target")) return false;
     if (!nextTokenIs(b, "<fish expr assign target>", GLOBAL, IDENTIFIER)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, FISH_EXPR_ASSIGN_TARGET, "<fish expr assign target>");
-    r = tk_identifier(b, l + 1);
-    r = r && fish_expr_assign_target_1(b, l + 1);
+    r = fish_expr_func_call(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
-  // expr_paren_csv?
-  private static boolean fish_expr_assign_target_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "fish_expr_assign_target_1")) return false;
-    expr_paren_csv(b, l + 1);
+  /* ********************************************************** */
+  // fish_expr (op_comma fish_expr)*
+  public static boolean fish_expr_csv(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_expr_csv")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, FISH_EXPR_CSV, "<fish expr csv>");
+    r = fish_expr(b, l + 1);
+    r = r && fish_expr_csv_1(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // (op_comma fish_expr)*
+  private static boolean fish_expr_csv_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_expr_csv_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!fish_expr_csv_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "fish_expr_csv_1", c)) break;
+    }
     return true;
+  }
+
+  // op_comma fish_expr
+  private static boolean fish_expr_csv_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_expr_csv_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = op_comma(b, l + 1);
+    r = r && fish_expr(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
   }
 
   /* ********************************************************** */
@@ -1268,16 +1185,23 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // fish_expr_func_call_func_name expr_paren_csv
+  // fish_expr_func_call_func_name fish_expr_paren?
   public static boolean fish_expr_func_call(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "fish_expr_func_call")) return false;
     if (!nextTokenIs(b, "<fish expr func call>", GLOBAL, IDENTIFIER)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, FISH_EXPR_FUNC_CALL, "<fish expr func call>");
     r = fish_expr_func_call_func_name(b, l + 1);
-    r = r && expr_paren_csv(b, l + 1);
+    r = r && fish_expr_func_call_1(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
+  }
+
+  // fish_expr_paren?
+  private static boolean fish_expr_func_call_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_expr_func_call_1")) return false;
+    fish_expr_paren(b, l + 1);
+    return true;
   }
 
   /* ********************************************************** */
@@ -1328,16 +1252,62 @@ public class SimpleParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // paren_l fish_expr paren_r
+  // paren_l fish_expr_csv paren_r
   public static boolean fish_expr_paren(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "fish_expr_paren")) return false;
     if (!nextTokenIs(b, LEFT_PARENTHESIS)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = paren_l(b, l + 1);
-    r = r && fish_expr(b, l + 1);
+    r = r && fish_expr_csv(b, l + 1);
     r = r && paren_r(b, l + 1);
     exit_section_(b, m, FISH_EXPR_PAREN, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // square_l fish_expr_csv square_r
+  public static boolean fish_expr_square(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_expr_square")) return false;
+    if (!nextTokenIs(b, LEFT_SQUARE_BRACKET)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = square_l(b, l + 1);
+    r = r && fish_expr_csv(b, l + 1);
+    r = r && square_r(b, l + 1);
+    exit_section_(b, m, FISH_EXPR_SQUARE, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // op_unary fish_expr
+  public static boolean fish_expr_unary(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_expr_unary")) return false;
+    if (!nextTokenIs(b, "<fish expr unary>", MINUS_OPERATOR, UNARY_OPERATOR)) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, FISH_EXPR_UNARY, "<fish expr unary>");
+    r = op_unary(b, l + 1);
+    r = r && fish_expr(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // fish_expr_paren |
+  //     fish_expr_square |
+  //     fish_expr_func_call |
+  //     fish_expr_unary |
+  //     tk_value
+  public static boolean fish_expr_value(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fish_expr_value")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, FISH_EXPR_VALUE, "<fish expr value>");
+    r = fish_expr_paren(b, l + 1);
+    if (!r) r = fish_expr_square(b, l + 1);
+    if (!r) r = fish_expr_func_call(b, l + 1);
+    if (!r) r = fish_expr_unary(b, l + 1);
+    if (!r) r = tk_value(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 

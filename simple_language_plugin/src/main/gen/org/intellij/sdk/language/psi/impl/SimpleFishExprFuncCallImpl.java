@@ -29,14 +29,14 @@ public class SimpleFishExprFuncCallImpl extends ASTWrapperPsiElement implements 
 
   @Override
   @NotNull
-  public SimpleExprParenCsv getExprParenCsv() {
-    return findNotNullChildByClass(SimpleExprParenCsv.class);
+  public SimpleFishExprFuncCallFuncName getFishExprFuncCallFuncName() {
+    return findNotNullChildByClass(SimpleFishExprFuncCallFuncName.class);
   }
 
   @Override
-  @NotNull
-  public SimpleFishExprFuncCallFuncName getFishExprFuncCallFuncName() {
-    return findNotNullChildByClass(SimpleFishExprFuncCallFuncName.class);
+  @Nullable
+  public SimpleFishExprParen getFishExprParen() {
+    return findChildByClass(SimpleFishExprParen.class);
   }
 
 }

@@ -11,14 +11,14 @@ import static org.intellij.sdk.language.psi.SimpleTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import org.intellij.sdk.language.psi.*;
 
-public class SimpleExprCsvImpl extends ASTWrapperPsiElement implements SimpleExprCsv {
+public class SimpleFishExprSquareImpl extends ASTWrapperPsiElement implements SimpleFishExprSquare {
 
-  public SimpleExprCsvImpl(@NotNull ASTNode node) {
+  public SimpleFishExprSquareImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull SimpleVisitor visitor) {
-    visitor.visitExprCsv(this);
+    visitor.visitFishExprSquare(this);
   }
 
   @Override
@@ -29,14 +29,20 @@ public class SimpleExprCsvImpl extends ASTWrapperPsiElement implements SimpleExp
 
   @Override
   @NotNull
-  public List<SimpleFishExpr> getFishExprList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleFishExpr.class);
+  public SimpleFishExprCsv getFishExprCsv() {
+    return findNotNullChildByClass(SimpleFishExprCsv.class);
   }
 
   @Override
   @NotNull
-  public List<SimpleOpComma> getOpCommaList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleOpComma.class);
+  public SimpleSquareL getSquareL() {
+    return findNotNullChildByClass(SimpleSquareL.class);
+  }
+
+  @Override
+  @NotNull
+  public SimpleSquareR getSquareR() {
+    return findNotNullChildByClass(SimpleSquareR.class);
   }
 
 }

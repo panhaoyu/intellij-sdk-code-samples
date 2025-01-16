@@ -44,7 +44,7 @@ command_token_all ::= (
 command_token_inline_fish ::= square_l command_inline_fish_line square_r
 command_token_identifier ::= command_token_identifier_without_minus (op_minus (command_token_identifier_without_minus | literal_number))*
 command_token_identifier_without_minus ::= command_token_keyword_all | tk_identifier
-command_expr_func_call ::= op_at tk_identifier expr_paren_csv?
+command_expr_func_call ::= op_at fish_expr_func_call
 // 可以在 Command 空间中作为普通字符串使用的关键字
 command_token_keyword_all ::= (
     kw_end | kw_return |
@@ -165,24 +165,30 @@ command_inline_fish_line_assign ::= fish_assign_scope fish_expr_assign (op_comma
 command_inline_fish_line_expr ::= fish_expr
 
 fish_expr_assign ::= fish_expr_assign_target fish_expr_assign_right?
-fish_expr_assign_target ::= tk_identifier expr_paren_csv?
+// 赋值时的左值可能是变量，也可能是数组中取得的值，从数组中取值就是相当于是函数的调用写在了左值
+fish_expr_assign_target ::= fish_expr_func_call
 fish_expr_assign_right ::= op_assign fish_expr
 fish_expr_assign_left_for_loop ::= kw_local? tk_identifier
-
 fish_assign_scope ::= kw_local | kw_global
 
+// 最后再引入二元运算符，以避免触发左循环，且引入的时候，左值只允许是基本变量，不过右值支持使用运算符
+fish_expr ::=  fish_expr_value (op_binary fish_expr)?
+// 定义完全不会引发左循环的一些基本的变量，作为运算中可能使用的值，这些运算均将得到一个唯一的值作为结果
+fish_expr_value ::=  (
+    fish_expr_paren |
+    fish_expr_square |
+    fish_expr_func_call |
+    fish_expr_unary |
+    tk_value
+)
+fish_expr_unary ::= op_unary fish_expr
+fish_expr_func_call ::= fish_expr_func_call_func_name fish_expr_paren?
+fish_expr_func_call_func_name ::= tk_identifier // 独立出来，以用于代码格式
+// 括号里面支持使用csv格式
+fish_expr_paren ::= paren_l fish_expr_csv paren_r
+fish_expr_square ::= square_l fish_expr_csv square_r
+fish_expr_csv ::= fish_expr (op_comma fish_expr)*
 
-fish_expr ::= (square_l expr_binary square_r) |  expr_binary
-fish_expr_paren ::= paren_l fish_expr paren_r
-fish_expr_func_call ::= fish_expr_func_call_func_name expr_paren_csv
-fish_expr_func_call_func_name ::= tk_identifier
-expr_csv ::= fish_expr (op_comma fish_expr)*
-expr_paren_csv ::= paren_l expr_csv paren_r
-
-
-private expr_binary ::= expr_non_binary (op_binary expr_non_binary)*
-private expr_non_binary ::=  fish_expr_paren | fish_expr_func_call | expr_unary | tk_value
-private expr_unary ::= op_unary fish_expr
 
 ////词汇之间的组合
 tk_value ::= tk_identifier | tk_literal

@@ -11,14 +11,14 @@ import static org.intellij.sdk.language.psi.SimpleTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import org.intellij.sdk.language.psi.*;
 
-public class SimpleFishExprAssignTargetImpl extends ASTWrapperPsiElement implements SimpleFishExprAssignTarget {
+public class SimpleFishExprUnaryImpl extends ASTWrapperPsiElement implements SimpleFishExprUnary {
 
-  public SimpleFishExprAssignTargetImpl(@NotNull ASTNode node) {
+  public SimpleFishExprUnaryImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull SimpleVisitor visitor) {
-    visitor.visitFishExprAssignTarget(this);
+    visitor.visitFishExprUnary(this);
   }
 
   @Override
@@ -29,8 +29,14 @@ public class SimpleFishExprAssignTargetImpl extends ASTWrapperPsiElement impleme
 
   @Override
   @NotNull
-  public SimpleFishExprFuncCall getFishExprFuncCall() {
-    return findNotNullChildByClass(SimpleFishExprFuncCall.class);
+  public SimpleFishExpr getFishExpr() {
+    return findNotNullChildByClass(SimpleFishExpr.class);
+  }
+
+  @Override
+  @NotNull
+  public SimpleOpUnary getOpUnary() {
+    return findNotNullChildByClass(SimpleOpUnary.class);
   }
 
 }

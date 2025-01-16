@@ -28,51 +28,21 @@ public class SimpleFishExprImpl extends ASTWrapperPsiElement implements SimpleFi
   }
 
   @Override
-  @NotNull
-  public List<SimpleFishExpr> getFishExprList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleFishExpr.class);
+  @Nullable
+  public SimpleFishExpr getFishExpr() {
+    return findChildByClass(SimpleFishExpr.class);
   }
 
   @Override
   @NotNull
-  public List<SimpleFishExprFuncCall> getFishExprFuncCallList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleFishExprFuncCall.class);
-  }
-
-  @Override
-  @NotNull
-  public List<SimpleFishExprParen> getFishExprParenList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleFishExprParen.class);
-  }
-
-  @Override
-  @NotNull
-  public List<SimpleOpBinary> getOpBinaryList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleOpBinary.class);
-  }
-
-  @Override
-  @NotNull
-  public List<SimpleOpUnary> getOpUnaryList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleOpUnary.class);
+  public SimpleFishExprValue getFishExprValue() {
+    return findNotNullChildByClass(SimpleFishExprValue.class);
   }
 
   @Override
   @Nullable
-  public SimpleSquareL getSquareL() {
-    return findChildByClass(SimpleSquareL.class);
-  }
-
-  @Override
-  @Nullable
-  public SimpleSquareR getSquareR() {
-    return findChildByClass(SimpleSquareR.class);
-  }
-
-  @Override
-  @NotNull
-  public List<SimpleTkValue> getTkValueList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleTkValue.class);
+  public SimpleOpBinary getOpBinary() {
+    return findChildByClass(SimpleOpBinary.class);
   }
 
 }

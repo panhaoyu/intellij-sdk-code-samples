@@ -8,9 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface SimpleFishExprFuncCall extends PsiElement {
 
   @NotNull
-  SimpleExprParenCsv getExprParenCsv();
-
-  @NotNull
   SimpleFishExprFuncCallFuncName getFishExprFuncCallFuncName();
+
+  @Nullable
+  SimpleFishExprParen getFishExprParen();
 
 }

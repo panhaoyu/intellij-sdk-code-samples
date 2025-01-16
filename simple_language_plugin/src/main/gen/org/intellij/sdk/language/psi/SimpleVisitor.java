@@ -75,14 +75,6 @@ public class SimpleVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitExprCsv(@NotNull SimpleExprCsv o) {
-    visitPsiElement(o);
-  }
-
-  public void visitExprParenCsv(@NotNull SimpleExprParenCsv o) {
-    visitPsiElement(o);
-  }
-
   public void visitFishAssignScope(@NotNull SimpleFishAssignScope o) {
     visitPsiElement(o);
   }
@@ -167,6 +159,10 @@ public class SimpleVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitFishExprCsv(@NotNull SimpleFishExprCsv o) {
+    visitPsiElement(o);
+  }
+
   public void visitFishExprDefineParams(@NotNull SimpleFishExprDefineParams o) {
     visitPsiElement(o);
   }
@@ -184,6 +180,18 @@ public class SimpleVisitor extends PsiElementVisitor {
   }
 
   public void visitFishExprParen(@NotNull SimpleFishExprParen o) {
+    visitPsiElement(o);
+  }
+
+  public void visitFishExprSquare(@NotNull SimpleFishExprSquare o) {
+    visitPsiElement(o);
+  }
+
+  public void visitFishExprUnary(@NotNull SimpleFishExprUnary o) {
+    visitPsiElement(o);
+  }
+
+  public void visitFishExprValue(@NotNull SimpleFishExprValue o) {
     visitPsiElement(o);
   }
 

@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface SimpleFishExprParen extends PsiElement {
 
   @NotNull
-  SimpleFishExpr getFishExpr();
+  SimpleFishExprCsv getFishExprCsv();
 
   @NotNull
   SimpleParenL getParenL();

@@ -28,21 +28,15 @@ public class SimpleCommandExprFuncCallImpl extends ASTWrapperPsiElement implemen
   }
 
   @Override
-  @Nullable
-  public SimpleExprParenCsv getExprParenCsv() {
-    return findChildByClass(SimpleExprParenCsv.class);
+  @NotNull
+  public SimpleFishExprFuncCall getFishExprFuncCall() {
+    return findNotNullChildByClass(SimpleFishExprFuncCall.class);
   }
 
   @Override
   @NotNull
   public SimpleOpAt getOpAt() {
     return findNotNullChildByClass(SimpleOpAt.class);
-  }
-
-  @Override
-  @NotNull
-  public SimpleTkIdentifier getTkIdentifier() {
-    return findNotNullChildByClass(SimpleTkIdentifier.class);
   }
 
 }

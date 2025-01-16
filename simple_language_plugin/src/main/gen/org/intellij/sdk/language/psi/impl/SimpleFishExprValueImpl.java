@@ -11,14 +11,14 @@ import static org.intellij.sdk.language.psi.SimpleTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import org.intellij.sdk.language.psi.*;
 
-public class SimpleFishExprAssignTargetImpl extends ASTWrapperPsiElement implements SimpleFishExprAssignTarget {
+public class SimpleFishExprValueImpl extends ASTWrapperPsiElement implements SimpleFishExprValue {
 
-  public SimpleFishExprAssignTargetImpl(@NotNull ASTNode node) {
+  public SimpleFishExprValueImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull SimpleVisitor visitor) {
-    visitor.visitFishExprAssignTarget(this);
+    visitor.visitFishExprValue(this);
   }
 
   @Override
@@ -28,9 +28,33 @@ public class SimpleFishExprAssignTargetImpl extends ASTWrapperPsiElement impleme
   }
 
   @Override
-  @NotNull
+  @Nullable
   public SimpleFishExprFuncCall getFishExprFuncCall() {
-    return findNotNullChildByClass(SimpleFishExprFuncCall.class);
+    return findChildByClass(SimpleFishExprFuncCall.class);
+  }
+
+  @Override
+  @Nullable
+  public SimpleFishExprParen getFishExprParen() {
+    return findChildByClass(SimpleFishExprParen.class);
+  }
+
+  @Override
+  @Nullable
+  public SimpleFishExprSquare getFishExprSquare() {
+    return findChildByClass(SimpleFishExprSquare.class);
+  }
+
+  @Override
+  @Nullable
+  public SimpleFishExprUnary getFishExprUnary() {
+    return findChildByClass(SimpleFishExprUnary.class);
+  }
+
+  @Override
+  @Nullable
+  public SimpleTkValue getTkValue() {
+    return findChildByClass(SimpleTkValue.class);
   }
 
 }
