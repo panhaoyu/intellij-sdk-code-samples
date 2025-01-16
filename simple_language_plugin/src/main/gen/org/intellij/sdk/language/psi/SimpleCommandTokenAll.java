@@ -7,17 +7,23 @@ import com.intellij.psi.PsiElement;
 
 public interface SimpleCommandTokenAll extends PsiElement {
 
-  @Nullable
-  SimpleCommandExprFuncCall getCommandExprFuncCall();
-
   @NotNull
   List<SimpleCommandTokenAll> getCommandTokenAllList();
+
+  @Nullable
+  SimpleCommandTokenFuncCall getCommandTokenFuncCall();
 
   @Nullable
   SimpleCommandTokenIdentifier getCommandTokenIdentifier();
 
   @Nullable
   SimpleCommandTokenInlineFish getCommandTokenInlineFish();
+
+  @Nullable
+  SimpleCommandTokenNumberLiteral getCommandTokenNumberLiteral();
+
+  @Nullable
+  SimpleCommandTokenSimpleOperation getCommandTokenSimpleOperation();
 
   @Nullable
   SimpleCurlyL getCurlyL();

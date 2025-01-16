@@ -5,7 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface SimpleCommandExprFuncCall extends PsiElement {
+public interface SimpleCommandTokenFuncCall extends PsiElement {
 
   @NotNull
   SimpleFishExprFuncCall getFishExprFuncCall();

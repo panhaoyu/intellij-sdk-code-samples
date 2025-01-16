@@ -1,1 +1,3 @@
 fish add  fish-halt     @   _ctUpdate_wsdMax  [  42.11 ]
+fish  callback  add    @_mvsActive -1      ; beginning of the step
+fish  callback  add    @_mvsActive 5-1      ; beginning of the step

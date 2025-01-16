@@ -11,14 +11,14 @@ import static org.intellij.sdk.language.psi.SimpleTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import org.intellij.sdk.language.psi.*;
 
-public class SimpleCommandExprFuncCallImpl extends ASTWrapperPsiElement implements SimpleCommandExprFuncCall {
+public class SimpleCommandTokenNumberLiteralImpl extends ASTWrapperPsiElement implements SimpleCommandTokenNumberLiteral {
 
-  public SimpleCommandExprFuncCallImpl(@NotNull ASTNode node) {
+  public SimpleCommandTokenNumberLiteralImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull SimpleVisitor visitor) {
-    visitor.visitCommandExprFuncCall(this);
+    visitor.visitCommandTokenNumberLiteral(this);
   }
 
   @Override
@@ -28,15 +28,15 @@ public class SimpleCommandExprFuncCallImpl extends ASTWrapperPsiElement implemen
   }
 
   @Override
-  @NotNull
-  public SimpleFishExprFuncCall getFishExprFuncCall() {
-    return findNotNullChildByClass(SimpleFishExprFuncCall.class);
+  @Nullable
+  public SimpleOpMinus getOpMinus() {
+    return findChildByClass(SimpleOpMinus.class);
   }
 
   @Override
   @NotNull
-  public SimpleOpAt getOpAt() {
-    return findNotNullChildByClass(SimpleOpAt.class);
+  public SimpleTkNumberLiteral getTkNumberLiteral() {
+    return findNotNullChildByClass(SimpleTkNumberLiteral.class);
   }
 
 }

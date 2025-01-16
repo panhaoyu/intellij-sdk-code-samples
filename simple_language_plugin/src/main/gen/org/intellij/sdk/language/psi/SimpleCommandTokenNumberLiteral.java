@@ -5,12 +5,12 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface SimpleTkLiteral extends PsiElement {
+public interface SimpleCommandTokenNumberLiteral extends PsiElement {
 
   @Nullable
+  SimpleOpMinus getOpMinus();
+
+  @NotNull
   SimpleTkNumberLiteral getTkNumberLiteral();
-
-  @Nullable
-  SimpleTkStringLiteral getTkStringLiteral();
 
 }

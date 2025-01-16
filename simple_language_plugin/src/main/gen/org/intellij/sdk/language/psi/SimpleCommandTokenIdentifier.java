@@ -11,9 +11,9 @@ public interface SimpleCommandTokenIdentifier extends PsiElement {
   List<SimpleCommandTokenIdentifierWithoutMinus> getCommandTokenIdentifierWithoutMinusList();
 
   @NotNull
-  List<SimpleLiteralNumber> getLiteralNumberList();
+  List<SimpleOpMinus> getOpMinusList();
 
   @NotNull
-  List<SimpleOpMinus> getOpMinusList();
+  List<SimpleTkNumberLiteral> getTkNumberLiteralList();
 
 }

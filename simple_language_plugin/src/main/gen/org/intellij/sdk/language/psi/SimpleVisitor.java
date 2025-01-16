@@ -19,10 +19,6 @@ public class SimpleVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitCommandExprFuncCall(@NotNull SimpleCommandExprFuncCall o) {
-    visitPsiElement(o);
-  }
-
   public void visitCommandInlineFishLine(@NotNull SimpleCommandInlineFishLine o) {
     visitPsiElement(o);
   }
@@ -47,6 +43,10 @@ public class SimpleVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitCommandTokenFuncCall(@NotNull SimpleCommandTokenFuncCall o) {
+    visitPsiElement(o);
+  }
+
   public void visitCommandTokenIdentifier(@NotNull SimpleCommandTokenIdentifier o) {
     visitPsiElement(o);
   }
@@ -60,6 +60,14 @@ public class SimpleVisitor extends PsiElementVisitor {
   }
 
   public void visitCommandTokenKeywordAll(@NotNull SimpleCommandTokenKeywordAll o) {
+    visitPsiElement(o);
+  }
+
+  public void visitCommandTokenNumberLiteral(@NotNull SimpleCommandTokenNumberLiteral o) {
+    visitPsiElement(o);
+  }
+
+  public void visitCommandTokenSimpleOperation(@NotNull SimpleCommandTokenSimpleOperation o) {
     visitPsiElement(o);
   }
 
@@ -419,14 +427,6 @@ public class SimpleVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitLiteralNumber(@NotNull SimpleLiteralNumber o) {
-    visitPsiElement(o);
-  }
-
-  public void visitLiteralString(@NotNull SimpleLiteralString o) {
-    visitPsiElement(o);
-  }
-
   public void visitLoopEach(@NotNull SimpleLoopEach o) {
     visitPsiElement(o);
   }
@@ -512,6 +512,14 @@ public class SimpleVisitor extends PsiElementVisitor {
   }
 
   public void visitTkNewline(@NotNull SimpleTkNewline o) {
+    visitPsiElement(o);
+  }
+
+  public void visitTkNumberLiteral(@NotNull SimpleTkNumberLiteral o) {
+    visitPsiElement(o);
+  }
+
+  public void visitTkStringLiteral(@NotNull SimpleTkStringLiteral o) {
     visitPsiElement(o);
   }
 

@@ -11,32 +11,20 @@ import static org.intellij.sdk.language.psi.SimpleTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import org.intellij.sdk.language.psi.*;
 
-public class SimpleTkLiteralImpl extends ASTWrapperPsiElement implements SimpleTkLiteral {
+public class SimpleTkStringLiteralImpl extends ASTWrapperPsiElement implements SimpleTkStringLiteral {
 
-  public SimpleTkLiteralImpl(@NotNull ASTNode node) {
+  public SimpleTkStringLiteralImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull SimpleVisitor visitor) {
-    visitor.visitTkLiteral(this);
+    visitor.visitTkStringLiteral(this);
   }
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof SimpleVisitor) accept((SimpleVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @Nullable
-  public SimpleTkNumberLiteral getTkNumberLiteral() {
-    return findChildByClass(SimpleTkNumberLiteral.class);
-  }
-
-  @Override
-  @Nullable
-  public SimpleTkStringLiteral getTkStringLiteral() {
-    return findChildByClass(SimpleTkStringLiteral.class);
   }
 
 }

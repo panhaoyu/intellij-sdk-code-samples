@@ -11,14 +11,14 @@ import static org.intellij.sdk.language.psi.SimpleTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import org.intellij.sdk.language.psi.*;
 
-public class SimpleLiteralStringImpl extends ASTWrapperPsiElement implements SimpleLiteralString {
+public class SimpleTkNumberLiteralImpl extends ASTWrapperPsiElement implements SimpleTkNumberLiteral {
 
-  public SimpleLiteralStringImpl(@NotNull ASTNode node) {
+  public SimpleTkNumberLiteralImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull SimpleVisitor visitor) {
-    visitor.visitLiteralString(this);
+    visitor.visitTkNumberLiteral(this);
   }
 
   @Override

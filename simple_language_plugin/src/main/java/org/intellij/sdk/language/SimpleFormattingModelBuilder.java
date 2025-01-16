@@ -25,7 +25,7 @@ final class SimpleFormattingModelBuilder implements FormattingModelBuilder {
                 // abc fish-halt bcd        Command 里面，各个命令之间应当有一个空格
                 .betweenInside(SimpleTypes.COMMAND_TOKEN_ALL, SimpleTypes.COMMAND_TOKEN_ALL, SimpleTypes.COMMAND_LINE).spaces(1)
                 // @func                    Command 里面，函数调用的，前面有空格，后面没有空格
-                .afterInside(SimpleTypes.OP_AT, SimpleTypes.COMMAND_EXPR_FUNC_CALL).none()  // @函数调用的时候，@前面要有空格，但后面不要有空格
+                .afterInside(SimpleTypes.OP_AT, SimpleTypes.COMMAND_TOKEN_FUNC_CALL).none()  // @函数调用的时候，@前面要有空格，但后面不要有空格
                 // loop i (5, 5)            循环变量后面要有空格
                 .after(SimpleTypes.FISH_EXPR_ASSIGN_LEFT_FOR_LOOP).spaces(1)
                 // func(params)             Fish 里面，函数调用的，函数后面不要有空格

@@ -35,12 +35,6 @@ public class SimpleFishLineArrayDeclareImpl extends ASTWrapperPsiElement impleme
 
   @Override
   @NotNull
-  public SimpleLiteralNumber getLiteralNumber() {
-    return findNotNullChildByClass(SimpleLiteralNumber.class);
-  }
-
-  @Override
-  @NotNull
   public SimpleParenL getParenL() {
     return findNotNullChildByClass(SimpleParenL.class);
   }
@@ -61,6 +55,12 @@ public class SimpleFishLineArrayDeclareImpl extends ASTWrapperPsiElement impleme
   @NotNull
   public SimpleTkIdentifier getTkIdentifier() {
     return findNotNullChildByClass(SimpleTkIdentifier.class);
+  }
+
+  @Override
+  @NotNull
+  public SimpleTkNumberLiteral getTkNumberLiteral() {
+    return findNotNullChildByClass(SimpleTkNumberLiteral.class);
   }
 
 }

@@ -28,15 +28,15 @@ public class SimpleCommandTokenAllImpl extends ASTWrapperPsiElement implements S
   }
 
   @Override
-  @Nullable
-  public SimpleCommandExprFuncCall getCommandExprFuncCall() {
-    return findChildByClass(SimpleCommandExprFuncCall.class);
-  }
-
-  @Override
   @NotNull
   public List<SimpleCommandTokenAll> getCommandTokenAllList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, SimpleCommandTokenAll.class);
+  }
+
+  @Override
+  @Nullable
+  public SimpleCommandTokenFuncCall getCommandTokenFuncCall() {
+    return findChildByClass(SimpleCommandTokenFuncCall.class);
   }
 
   @Override
@@ -49,6 +49,18 @@ public class SimpleCommandTokenAllImpl extends ASTWrapperPsiElement implements S
   @Nullable
   public SimpleCommandTokenInlineFish getCommandTokenInlineFish() {
     return findChildByClass(SimpleCommandTokenInlineFish.class);
+  }
+
+  @Override
+  @Nullable
+  public SimpleCommandTokenNumberLiteral getCommandTokenNumberLiteral() {
+    return findChildByClass(SimpleCommandTokenNumberLiteral.class);
+  }
+
+  @Override
+  @Nullable
+  public SimpleCommandTokenSimpleOperation getCommandTokenSimpleOperation() {
+    return findChildByClass(SimpleCommandTokenSimpleOperation.class);
   }
 
   @Override

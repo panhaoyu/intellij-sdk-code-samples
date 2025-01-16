@@ -11,9 +11,6 @@ public interface SimpleCommandInlineFishLineArrayDeclare extends PsiElement {
   SimpleKwArray getKwArray();
 
   @NotNull
-  SimpleLiteralNumber getLiteralNumber();
-
-  @NotNull
   SimpleParenL getParenL();
 
   @NotNull
@@ -21,5 +18,8 @@ public interface SimpleCommandInlineFishLineArrayDeclare extends PsiElement {
 
   @NotNull
   SimpleTkIdentifier getTkIdentifier();
+
+  @NotNull
+  SimpleTkNumberLiteral getTkNumberLiteral();
 
 }

@@ -11,17 +11,19 @@ public interface SimpleTypes {
   IElementType COMMAND_BLOCK = new SimpleElementType("COMMAND_BLOCK");
   IElementType COMMAND_BLOCK_DEFINE = new SimpleElementType("COMMAND_BLOCK_DEFINE");
   IElementType COMMAND_BLOCK_SINGLE = new SimpleElementType("COMMAND_BLOCK_SINGLE");
-  IElementType COMMAND_EXPR_FUNC_CALL = new SimpleElementType("COMMAND_EXPR_FUNC_CALL");
   IElementType COMMAND_INLINE_FISH_LINE = new SimpleElementType("COMMAND_INLINE_FISH_LINE");
   IElementType COMMAND_INLINE_FISH_LINE_ARRAY_DECLARE = new SimpleElementType("COMMAND_INLINE_FISH_LINE_ARRAY_DECLARE");
   IElementType COMMAND_INLINE_FISH_LINE_ASSIGN = new SimpleElementType("COMMAND_INLINE_FISH_LINE_ASSIGN");
   IElementType COMMAND_INLINE_FISH_LINE_EXPR = new SimpleElementType("COMMAND_INLINE_FISH_LINE_EXPR");
   IElementType COMMAND_LINE = new SimpleElementType("COMMAND_LINE");
   IElementType COMMAND_TOKEN_ALL = new SimpleElementType("COMMAND_TOKEN_ALL");
+  IElementType COMMAND_TOKEN_FUNC_CALL = new SimpleElementType("COMMAND_TOKEN_FUNC_CALL");
   IElementType COMMAND_TOKEN_IDENTIFIER = new SimpleElementType("COMMAND_TOKEN_IDENTIFIER");
   IElementType COMMAND_TOKEN_IDENTIFIER_WITHOUT_MINUS = new SimpleElementType("COMMAND_TOKEN_IDENTIFIER_WITHOUT_MINUS");
   IElementType COMMAND_TOKEN_INLINE_FISH = new SimpleElementType("COMMAND_TOKEN_INLINE_FISH");
   IElementType COMMAND_TOKEN_KEYWORD_ALL = new SimpleElementType("COMMAND_TOKEN_KEYWORD_ALL");
+  IElementType COMMAND_TOKEN_NUMBER_LITERAL = new SimpleElementType("COMMAND_TOKEN_NUMBER_LITERAL");
+  IElementType COMMAND_TOKEN_SIMPLE_OPERATION = new SimpleElementType("COMMAND_TOKEN_SIMPLE_OPERATION");
   IElementType CURLY_L = new SimpleElementType("CURLY_L");
   IElementType CURLY_R = new SimpleElementType("CURLY_R");
   IElementType EOL = new SimpleElementType("EOL");
@@ -111,8 +113,6 @@ public interface SimpleTypes {
   IElementType KW_STRUCT = new SimpleElementType("KW_STRUCT");
   IElementType KW_THEN = new SimpleElementType("KW_THEN");
   IElementType KW_WHILE = new SimpleElementType("KW_WHILE");
-  IElementType LITERAL_NUMBER = new SimpleElementType("LITERAL_NUMBER");
-  IElementType LITERAL_STRING = new SimpleElementType("LITERAL_STRING");
   IElementType LOOP_EACH = new SimpleElementType("LOOP_EACH");
   IElementType LOOP_FOR = new SimpleElementType("LOOP_FOR");
   IElementType LOOP_WHILE = new SimpleElementType("LOOP_WHILE");
@@ -135,6 +135,8 @@ public interface SimpleTypes {
   IElementType TK_IDENTIFIER_RAW = new SimpleElementType("TK_IDENTIFIER_RAW");
   IElementType TK_LITERAL = new SimpleElementType("TK_LITERAL");
   IElementType TK_NEWLINE = new SimpleElementType("TK_NEWLINE");
+  IElementType TK_NUMBER_LITERAL = new SimpleElementType("TK_NUMBER_LITERAL");
+  IElementType TK_STRING_LITERAL = new SimpleElementType("TK_STRING_LITERAL");
   IElementType TK_VALUE = new SimpleElementType("TK_VALUE");
 
   IElementType ARRAY = new SimpleTokenType("ARRAY");
@@ -200,9 +202,6 @@ public interface SimpleTypes {
       else if (type == COMMAND_BLOCK_SINGLE) {
         return new SimpleCommandBlockSingleImpl(node);
       }
-      else if (type == COMMAND_EXPR_FUNC_CALL) {
-        return new SimpleCommandExprFuncCallImpl(node);
-      }
       else if (type == COMMAND_INLINE_FISH_LINE) {
         return new SimpleCommandInlineFishLineImpl(node);
       }
@@ -221,6 +220,9 @@ public interface SimpleTypes {
       else if (type == COMMAND_TOKEN_ALL) {
         return new SimpleCommandTokenAllImpl(node);
       }
+      else if (type == COMMAND_TOKEN_FUNC_CALL) {
+        return new SimpleCommandTokenFuncCallImpl(node);
+      }
       else if (type == COMMAND_TOKEN_IDENTIFIER) {
         return new SimpleCommandTokenIdentifierImpl(node);
       }
@@ -232,6 +234,12 @@ public interface SimpleTypes {
       }
       else if (type == COMMAND_TOKEN_KEYWORD_ALL) {
         return new SimpleCommandTokenKeywordAllImpl(node);
+      }
+      else if (type == COMMAND_TOKEN_NUMBER_LITERAL) {
+        return new SimpleCommandTokenNumberLiteralImpl(node);
+      }
+      else if (type == COMMAND_TOKEN_SIMPLE_OPERATION) {
+        return new SimpleCommandTokenSimpleOperationImpl(node);
       }
       else if (type == CURLY_L) {
         return new SimpleCurlyLImpl(node);
@@ -500,12 +508,6 @@ public interface SimpleTypes {
       else if (type == KW_WHILE) {
         return new SimpleKwWhileImpl(node);
       }
-      else if (type == LITERAL_NUMBER) {
-        return new SimpleLiteralNumberImpl(node);
-      }
-      else if (type == LITERAL_STRING) {
-        return new SimpleLiteralStringImpl(node);
-      }
       else if (type == LOOP_EACH) {
         return new SimpleLoopEachImpl(node);
       }
@@ -571,6 +573,12 @@ public interface SimpleTypes {
       }
       else if (type == TK_NEWLINE) {
         return new SimpleTkNewlineImpl(node);
+      }
+      else if (type == TK_NUMBER_LITERAL) {
+        return new SimpleTkNumberLiteralImpl(node);
+      }
+      else if (type == TK_STRING_LITERAL) {
+        return new SimpleTkStringLiteralImpl(node);
       }
       else if (type == TK_VALUE) {
         return new SimpleTkValueImpl(node);
