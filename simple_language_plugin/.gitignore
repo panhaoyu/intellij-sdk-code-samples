@@ -1,0 +1,22 @@
+# Gradle
+.gradle/
+build/
+!src/main/gen/
+
+# IDE
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+*.swp
+*.swo
+*~
+
+# JAR files
+*.jar
+
+# JFlex
+*~
