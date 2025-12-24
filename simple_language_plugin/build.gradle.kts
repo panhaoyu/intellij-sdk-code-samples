@@ -35,6 +35,13 @@ intellij {
     plugins.set(listOf("com.intellij.java"))
 }
 
+// 为IDE创建一个可以直接安装的JAR文件
+tasks.register<Copy>("copyPluginJar") {
+    from(tasks.jar)
+    into(layout.buildDirectory.dir("distributions"))
+    rename { "fish_language-2.0.0-installer.jar" }
+}
+
 tasks {
     buildSearchableOptions {
         enabled = false
@@ -51,13 +58,38 @@ tasks {
     }
 }
 
-// 定义复制任务
+// 定义复制任务 - 复制ZIP插件文件
 val copyToNetworkShare by tasks.registering(Copy::class) {
     from(layout.buildDirectory.dir("distributions"))
-    into("D:/局域网共享/pfc")
+    into("C:/Users/panhaoyu/OneDrive/1002-data/25032501-zhaogroup-share/pfc")
     include("*.zip")
+    dependsOn("copyPluginJar")  // 确保在copyPluginJar之后运行
 }
 
+// 定义复制JAR文件的任务
+val copyJarToNetworkShare by tasks.registering(Copy::class) {
+    from(layout.buildDirectory.dir("libs"))
+    into("C:/Users/panhaoyu/OneDrive/1002-data/25032501-zhaogroup-share/pfc")
+    include("*.jar")
+}
+
+// 定义复制插件JAR到网络共享的任务
+val copyPluginJarToNetworkShare by tasks.registering(Copy::class) {
+    from(tasks.named("copyPluginJar"))
+    into("C:/Users/panhaoyu/OneDrive/1002-data/25032501-zhaogroup-share/pfc")
+}
+
+// 同时复制ZIP和JAR文件
 tasks.named("buildPlugin") {
-    finalizedBy(copyToNetworkShare)
+    finalizedBy(copyToNetworkShare, copyJarToNetworkShare)
+}
+
+// 让buildPlugin任务也生成可安装的JAR文件
+tasks.buildPlugin {
+    finalizedBy("copyPluginJar")
+}
+
+// 确保插件JAR也复制到网络共享
+tasks.buildPlugin {
+    finalizedBy("copyPluginJarToNetworkShare")
 }
