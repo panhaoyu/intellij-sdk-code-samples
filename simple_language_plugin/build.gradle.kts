@@ -50,7 +50,7 @@ tasks {
     patchPluginXml {
         version.set("${project.version}")
         sinceBuild.set("241")
-        untilBuild.set("246.*")
+        untilBuild.set("")
     }
 
     withType<JavaCompile> {
